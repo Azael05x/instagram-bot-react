@@ -1,0 +1,7 @@
+.container {
+    color: rgba(243, 156, 18,1.0);
+    padding: 1em 3em;
+    text-align: left;
+    max-width: 450px;
+    font-family: "Montserrat", sans-serif;
+}

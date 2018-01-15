@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "target": "es5",
+        "allowJs": true,
+        "newLine": "CRLF",
+        "strictNullChecks": false,
+        "jsx": "react"
+    },
+    "include": [
+        "src",
+        "./defs.d.ts"
+    ],
+    "compileOnSave": false
+}
