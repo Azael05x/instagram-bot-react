@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { selectUser, User } from '../../ducks/common';
 
 import * as styles from "./Header.css";
+import { CaretIcon } from '../icons/Caret';
 
 export interface HeaderStateProps {
     user: User;
@@ -24,6 +25,7 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
                 activeClassName={styles.active}
             >
                 Welcome, {this.props.user.email}
+                <CaretIcon />
             </NavLink>
             )
             : (
