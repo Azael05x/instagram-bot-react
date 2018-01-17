@@ -1,0 +1,27 @@
+.container {
+    color: #e7e7e7;
+    font-size: 2rem;
+    padding: 2rem 5rem;
+    display: flex;
+    flex-direction: column;
+}
+.icon {
+    font-size: 8rem;
+}
+@media (max-width: 720px) {
+    .container {
+        font-size: 1.5rem;
+    }
+    .icon {
+        font-size: 5rem;
+    }
+}
+@media (max-width: 520px) {
+    .container {
+        font-size: 1.4rem;
+        padding: 0rem 1rem;
+    }
+    .icon {
+        font-size: 4rem;
+    }
+}

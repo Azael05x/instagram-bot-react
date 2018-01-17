@@ -2,10 +2,23 @@
     display: flex;
     height: 3em;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     background: transparent;
     border-bottom: 1px solid rgba(29, 34, 71, 0.1);
     padding: 1em 5em;
+}
+.innerContainer {
+    max-width: 75vw;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navigation {
+    display: flex;
+}
+.logo {
+
 }
 
 .link {

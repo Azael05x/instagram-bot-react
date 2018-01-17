@@ -5,9 +5,10 @@ import { connect } from "react-redux";
 import { HeaderConnected } from "../header/Header";
 import { User } from "../user/User";
 import { LoginConnected } from "../login/Login";
-import { Home } from "../home/Home";
-import { selectUser } from "../../ducks/common";
+import { DashboardConnected } from "../dashboard/Dashboard";
+import { selectUser } from "../../ducks/selectors";
 import { NoMatch } from "../no-match/NoMatch";
+import { LinkAccountConnected } from "../link-account/LinkAccount";
 
 export interface MainStateProps {
     logged_in: boolean;
@@ -21,12 +22,13 @@ export class Main extends React.PureComponent<MainProps, {}> {
             <div className={styles.container}>
                 <HeaderConnected />
                 <Switch>
-                    <Route exact path="/" component={Home} />
+                    <Route exact path="/" component={DashboardConnected} />
                     { this.props.logged_in
                         ? <Route path="/profile" component={User} />
                         : <Route path="/login" component={LoginConnected} />
                     }
-                    <Route path="*" component={NoMatch} />                    
+                    <Route path="/link-account" component={LinkAccountConnected} />
+                    <Route path="*" component={NoMatch} />
                 </Switch>
             </div>
         );
@@ -34,7 +36,7 @@ export class Main extends React.PureComponent<MainProps, {}> {
 }
 
 const mapStateToProps = (state: any): MainStateProps => ({
-    logged_in: selectUser(state).logged_in,
+    logged_in: !!selectUser(state).auth_token,
 });
 
 export const MainConnected = withRouter(connect<MainStateProps, {}>(

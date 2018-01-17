@@ -1,60 +1,53 @@
 import { Thunk } from "../types/types";
-
-export const USER_LOGIN = "user/USER_LOGIN";
-
-export const selectUser = (state: any): User => state.user;
-
-export interface UserLoginPayload {
-    email: string;
-}
-export interface LoginAction {
-    type: typeof USER_LOGIN;
-    payload: UserLoginPayload;
-}
-
-export function loginAction(payload: UserLoginPayload): LoginAction {
-    return {
-        type: USER_LOGIN,
-        payload,
-    };
-}
-export function loginActionCreator(payload: UserLoginPayload): Thunk {
-    return dispatch => {
-        dispatch(loginAction(payload));
-    };
-}
-
-export interface User {
-    logged_in: boolean;
-    email: string;
-}
-export interface State {
-    user: User;
-}
-
-// Initial state
-const initialState = {
-    user: {
-        email: localStorage.getItem("email"),
-        logged_in: localStorage.getItem("auth_token") ? true : false,
-    },
-} as State;
+import {
+    ACCOUNT_INIT,
+    ACCOUNT_LINK,
+    ACCOUNT_UNLINK,
+    USER_LOGIN,
+} from "./consts";
+import { initialState } from "./state";
+import {
+    selectAccounts,
+    selectUser,
+} from "./selectors";
+import {
+    InitAccountAction,
+    LoginAction,
+    LinkAccountAction,
+    UnlinkAccountAction,
+} from "./actions";
 
 export type ReducerActions =
     | LoginAction
+    | LinkAccountAction
+    | UnlinkAccountAction
+    | InitAccountAction
 ;
 
-// Reducer
 export function reducer(state = initialState, action: ReducerActions) {
     switch (action.type) {
         case USER_LOGIN: {
             return {
                 ...state,
                 user: {
-                    logged_in: true,
+                    auth_token: localStorage.getItem("auth_token"),
                     email: action.payload.email,
                 }
             }
+        }
+        case ACCOUNT_INIT: {
+            return { ...state, accounts: action.payload };
+        }
+        case ACCOUNT_LINK: {
+
+            return {
+                ...state,
+                accounts: [...state.accounts, action.payload],
+            };
+        }
+        case ACCOUNT_UNLINK: {
+            // TODO: Add unlinking
+            return state;
         }
         default:
             return state;

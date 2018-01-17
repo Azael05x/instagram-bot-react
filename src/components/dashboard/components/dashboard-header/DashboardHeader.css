@@ -1,0 +1,37 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+.button {
+    border-radius: 100px;
+    border: 1px solid;
+    align-self: center;
+    padding: .8rem 2rem;
+    cursor: pointer;
+    font-size: .9rem;
+    outline: none;
+    transition: .2s;
+    opacity: 1;
+    background-color: #E76B6B;
+    text-decoration: none;
+    border: 1px solid #e8e9ec;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.button:hover {
+    color: #fff;
+    opacity: .8;
+    background-color: #E01931;
+}
+
+@media (max-width: 720px) {
+    .button {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.8rem;
+    }
+}
+@media (max-width: 520px) {
+    .header {
+        flex-direction: column;
+    }
+}

@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Link, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { withRouter } from 'react-router-dom';
-import { selectUser, User } from '../../ducks/common';
+import { selectUser } from '../../ducks/selectors';
+import { User } from '../../ducks/state';
 
 import * as styles from "./Header.css";
 import { CaretIcon } from '../icons/Caret';
@@ -15,7 +16,7 @@ export type HeaderProps = HeaderStateProps;
 
 export class Header extends React.PureComponent<HeaderProps, {}> {
     render() {
-        const userComponent = this.props.user.logged_in
+        const userComponent = !!this.props.user.auth_token
             ? (
             <NavLink
                 className={styles.link}
@@ -40,16 +41,21 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
             );
         return (
             <div className={styles.container}>
-                <NavLink
-                    className={styles.link}
-                    to={"/"}
-                    exact
-                    about="Dashboard"
-                    activeClassName={styles.active}
-                >
-                    Dashboard
-                </NavLink>
-               {userComponent}
+                <div className={styles.innerContainer}>
+                    <div className={styles.logo}></div>
+                    <div className={styles.navigation}>
+                        <NavLink
+                            className={styles.link}
+                            to={"/"}
+                            exact
+                            about="Dashboard"
+                            activeClassName={styles.active}
+                        >
+                            Dashboard
+                        </NavLink>
+                        {userComponent}
+                    </div>
+                </div>
             </div>
         );
     }

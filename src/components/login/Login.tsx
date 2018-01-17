@@ -7,7 +7,7 @@ import { Redirect } from "react-router-dom";
 import { ErrorCode } from "./types";
 import { ErrorMessage } from "./components/ErrorMessage";
 import { LOGIN_URL } from "../../consts";
-import { loginActionCreator } from "../../ducks/common";
+import { loginActionCreator } from "../../ducks/actions";
 
 import * as styles from "./Login.css";
 import { withRouter } from "react-router-dom";
@@ -158,10 +158,8 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
                     redirect: true,
                 });
 
-                if (!localStorage.getItem("auth_token")) {
-                    localStorage.setItem("auth_token", response.data.auth_token);
-                    localStorage.setItem("email", response.data.user.email);
-                }
+                localStorage.setItem("auth_token", response.data.auth_token);
+                localStorage.setItem("email", response.data.user.email);
 
                this.props.onLogin({ email: data.email });
             })
