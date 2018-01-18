@@ -40,9 +40,9 @@
     opacity: 0;
     transform: scale(0);
     top: 0;
-    transform-origin: bottom left;
+    transform-origin: bottom center;
     left: 0;
-    bottom: 50%;
+    bottom: 10%;
     right: 0;
     transition: .2s;
 }
