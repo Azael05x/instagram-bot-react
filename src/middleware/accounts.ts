@@ -2,7 +2,7 @@ import {
     Middleware,
     MiddlewareAPI,
 } from "redux";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
     linkAccountActionCreator,
     unlinkAccountActionCreator,
@@ -22,6 +22,7 @@ import {
     LinkAccountMiddlewareActionCreator,
 } from "./actions";
 import { selectUser } from "../ducks/selectors";
+import { AccountLinkData } from "./types";
 
 // TODO: Add typings, bitch (ti pro sebja Roland???), da blja
 export interface PartialState {
@@ -42,8 +43,9 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                     },
                 };
                 axios.get(BASE_URL + LINK_ACCOUNT_URL, config)
-                    .then(response => {
-                        dispatch(initAccountActionCreator(response.data as UserAccount[]))
+                    .then((response: AxiosResponse<AccountLinkData[]>) => {
+                        console.log(response.data)
+                        dispatch(initAccountActionCreator(response.data as any))
                     })
                     .catch(error => {
                         // TODO: Handle error with message
@@ -64,8 +66,8 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                 };
 
                 axios.post(BASE_URL + LINK_ACCOUNT_URL, data, config)
-                    .then(response => {
-                        dispatch(linkAccountActionCreator(createNewAccount(action.payload.username)))
+                    .then((response: AxiosResponse<AccountLinkData>) => {
+                        dispatch(linkAccountActionCreator(createNewAccount(response.data.username, response.data.id)))
                     })
                     .catch(error => {
                         // TODO: Handle error with message

@@ -7,6 +7,7 @@ import {
 } from "./consts";
 import { UserAccount } from "../components/dashboard/components/account/Account";
 import { initAccountMiddlewareActionCreator } from "../middleware/actions";
+import { AccountLinkData } from "../middleware/types";
 
 export interface UserLoginPayload {
     email: string;
@@ -14,15 +15,15 @@ export interface UserLoginPayload {
 
 export interface InitAccountAction {
     type: typeof ACCOUNT_INIT;
-    payload: UserAccount[];
+    payload: AccountLinkData[];
 }
-export function initAccountAction(payload: UserAccount[]): InitAccountAction {
+export function initAccountAction(payload: AccountLinkData[]): InitAccountAction {
     return {
         type: ACCOUNT_INIT,
         payload,
     };
 }
-export function initAccountActionCreator(payload: UserAccount[]): Thunk {
+export function initAccountActionCreator(payload: AccountLinkData[]): Thunk {
     return dispatch => {
         dispatch(initAccountAction(payload));
     };

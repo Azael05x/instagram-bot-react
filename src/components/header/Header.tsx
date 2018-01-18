@@ -44,15 +44,17 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
                 <div className={styles.innerContainer}>
                     <div className={styles.logo}></div>
                     <div className={styles.navigation}>
-                        <NavLink
-                            className={styles.link}
-                            to={"/"}
-                            exact
-                            about="Dashboard"
-                            activeClassName={styles.active}
-                        >
-                            Dashboard
-                        </NavLink>
+                        { this.props.user.auth_token && (
+                            <NavLink
+                                className={styles.link}
+                                to={"/accounts"}
+                                exact
+                                about="Dashboard"
+                                activeClassName={styles.active}
+                            >
+                                Dashboard
+                            </NavLink>
+                        )}
                         {userComponent}
                     </div>
                 </div>

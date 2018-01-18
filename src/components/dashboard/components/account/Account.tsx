@@ -1,7 +1,10 @@
 import * as React from "react";
 import * as styles from "./Account.css";
+import { Redirect, Link } from "react-router-dom";
+import { CheckIcon } from "../../../icons/Check";
 
 export interface UserAccount {
+    id: number;
     username: string;
     settings?: {
         likes: boolean;
@@ -12,20 +15,47 @@ export interface UserAccount {
     active?: boolean;
 }
 
+export interface AccountItemState {
+    redirect: boolean;
+}
 export interface AccountItemProps {
     account: UserAccount;
 }
 
 export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
-    render() {
+    // TODO: Remove after testing, use account.isActive
+    private statusActive = !!Math.round(Math.random());
+    public render() {
         const {
             account,
         } = this.props;
 
         return (
             <div className={styles.container}>
-                <i className={`fa fa-instagram ${styles.icon}`} aria-hidden="true"></i> {account.username}
+                <Link className={styles.link} to={`/accounts/${account.id}`}>
+                    <div className={styles.username}>
+                        @{account.username}
+                    </div>
+                    <div className={styles.status}>
+                        <span style={{ marginRight: ".2rem"}}>Status:</span>
+                        {this.isActive(this.statusActive)}
+                    </div>
+                </Link>
+                <div className={styles.buttons}>
+                    <div className={`${styles.button} ${this.statusActive ? styles.pauseButton : styles.startButton}`}>
+                        {this.statusActive ? "Pause" : "Start"}
+                    </div>
+                    <div className={styles.settingsButton}>
+                        <i className={`fa fa-cog ${styles.icon}`} aria-hidden="true"></i>
+                    </div>
+                </div>
             </div>
         );
+    }
+    private isActive = (active: boolean) => {
+        return this.statusActive
+            // ? <CheckIcon />
+            ? <i className={`fa fa-check ${styles.active} ${styles.icon}`} aria-hidden="true" />
+            : <i className={`fa fa-times ${styles.inactive} ${styles.icon}`} aria-hidden="true" />
     }
 }

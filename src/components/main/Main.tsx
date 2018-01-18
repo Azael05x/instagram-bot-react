@@ -9,6 +9,7 @@ import { DashboardConnected } from "../dashboard/Dashboard";
 import { selectUser } from "../../ducks/selectors";
 import { NoMatch } from "../no-match/NoMatch";
 import { LinkAccountConnected } from "../link-account/LinkAccount";
+import { AccountPage } from "../account-page/AccountPage";
 
 export interface MainStateProps {
     logged_in: boolean;
@@ -22,12 +23,17 @@ export class Main extends React.PureComponent<MainProps, {}> {
             <div className={styles.container}>
                 <HeaderConnected />
                 <Switch>
-                    <Route exact path="/" component={DashboardConnected} />
                     { this.props.logged_in
-                        ? <Route path="/profile" component={User} />
+                        ? (
+                            <>
+                                <Route path="/profile" component={User} />
+                                <Route path="/link-account" component={LinkAccountConnected} />
+                                <Route exact path="/accounts" component={DashboardConnected} />
+                                <Route path="/accounts/:username" component={AccountPage} />
+                            </>
+                        )
                         : <Route path="/login" component={LoginConnected} />
                     }
-                    <Route path="/link-account" component={LinkAccountConnected} />
                     <Route path="*" component={NoMatch} />
                 </Switch>
             </div>

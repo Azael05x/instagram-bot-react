@@ -18,7 +18,7 @@ const store = createStore(
     ),
 );
 
-// Get UserAccount settings
+// Get UserAccount listings
 if (selectUser(store.getState()).auth_token) {
     store.dispatch(initAccountMiddlewareActionCreator());
 }

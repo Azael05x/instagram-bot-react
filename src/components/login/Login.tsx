@@ -63,7 +63,7 @@ export class Login extends React.PureComponent<LoginProps, LoginState> {
     }
     public render() {
         if (this.state.redirect) {
-            return <Redirect exact to="/" />
+            return <Redirect exact to="/accounts" />
         }
 
         return (
