@@ -1,10 +1,12 @@
+import { UserAccount } from "../components/dashboard/components/account/Account";
+
 export interface User {
     auth_token: string;
     email: string;
 }
 export interface State {
     user: User;
-    accounts: Account[];
+    accounts: UserAccount[];
 }
 // Initial state
 export const initialState = {

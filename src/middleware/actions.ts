@@ -25,6 +25,22 @@ export function linkAccountMiddlewareActionCreator(payload: AccountLinking): Thu
     };
 }
 
+export interface UnlinkAccountMiddlewareActionCreator {
+    type: typeof ACCOUNT_UNLINK;
+    payload: number;
+}
+export function unlinkAccountMiddlewareAction(id: number): UnlinkAccountMiddlewareActionCreator {
+    return {
+        type: ACCOUNT_UNLINK,
+        payload: id,
+    }
+};
+export function unlinkAccountMiddlewareActionCreator(id: number): Thunk {
+    return (dispatch) => {
+        dispatch(unlinkAccountMiddlewareAction(id));
+    };
+}
+
 export interface InitAccountMiddlewareAction {
     type: typeof ACCOUNT_INIT;
 }

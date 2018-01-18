@@ -39,15 +39,17 @@ export function reducer(state = initialState, action: ReducerActions) {
             return { ...state, accounts: action.payload };
         }
         case ACCOUNT_LINK: {
-
             return {
                 ...state,
                 accounts: [...state.accounts, action.payload],
             };
         }
         case ACCOUNT_UNLINK: {
-            // TODO: Add unlinking
-            return state;
+            const filteredAccounts = state.accounts.filter(account => account.id !== action.payload);
+            return {
+                ...state,
+                accounts: filteredAccounts,
+            };
         }
         default:
             return state;

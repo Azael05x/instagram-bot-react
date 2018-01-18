@@ -11,6 +11,7 @@
     flex-direction: column;
     justify-content: space-between;
     position: relative;
+    border-radius: 5px;
 }
 .container::before {
     content: "";
