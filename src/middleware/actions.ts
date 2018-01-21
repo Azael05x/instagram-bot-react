@@ -4,22 +4,23 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
 } from "./consts";
+import { AccountData } from "./types";
 
-export interface AccountLinking  {
-    username: string;
-    password: string;
-}
+// export interface AccountLinking  {
+//     username: string;
+//     password: string;
+// }
 export interface LinkAccountMiddlewareActionCreator {
     type: typeof ACCOUNT_LINK;
-    payload: AccountLinking;
+    payload: AccountData;
 }
-export function linkAccountMiddlewareAction(payload: AccountLinking): LinkAccountMiddlewareActionCreator {
+export function linkAccountMiddlewareAction(payload: AccountData): LinkAccountMiddlewareActionCreator {
     return {
         type: ACCOUNT_LINK,
         payload,
     }
 };
-export function linkAccountMiddlewareActionCreator(payload: AccountLinking): Thunk {
+export function linkAccountMiddlewareActionCreator(payload: AccountData): Thunk {
     return (dispatch) => {
         dispatch(linkAccountMiddlewareAction(payload));
     };

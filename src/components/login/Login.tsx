@@ -3,17 +3,12 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
 
-import { ErrorCode } from "./types";
-import { ErrorMessage } from "./components/ErrorMessage";
+import { ErrorCode } from "../error-message/types";
+import { ErrorMessage } from "../error-message/ErrorMessage";
 import { LOGIN_URL } from "../../consts";
 import { loginActionCreator } from "../../ducks/actions";
 
 import * as styles from "./Login.css";
-
-const data: { email: string, password: string } = {
-    email: "",
-    password: "",
-};
 
 export interface LoginDispatchProps {
     onLogin: typeof loginActionCreator;
@@ -126,30 +121,15 @@ export class Login extends React.Component<LoginProps, LoginState> {
             errorMessage: undefined,
         });
     }
-    private onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        for (let i = 0; i < event.currentTarget.elements.length; i++) {
-            const element = event.currentTarget.elements[i] as HTMLInputElement;
-            const elementDataRole = element.attributes.getNamedItem("data-role");
-
-            if (elementDataRole) {
-                const dataRole = element.attributes.getNamedItem("data-role").value;
-
-                switch(dataRole) {
-                    case FormInput.Email: {
-                        data.email = element.value;
-                        break;
-                    }
-                    case FormInput.Password: {
-                        data.password = element.value
-                        break;
-                    }
-                    default:
-                }
-            }
+    private onSubmit = () => {
+        if (!this.state.email && !this.state.password) {
+            return;
         }
 
-
-        axios.post(LOGIN_URL, data)
+        axios.post(LOGIN_URL, {
+            email: this.state.email,
+            password: this.state.password,
+        })
             .then((response) => {
                 this.setState({
                     errorMessage: undefined,
@@ -159,7 +139,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                 localStorage.setItem("auth_token", response.data.auth_token);
                 localStorage.setItem("email", response.data.user.email);
 
-               this.props.onLogin({ email: data.email });
+               this.props.onLogin({ email: this.state.email });
             })
             .catch((error) => {
                 this.setState({

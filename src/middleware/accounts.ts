@@ -2,7 +2,7 @@ import {
     Middleware,
     MiddlewareAPI,
 } from "redux";
-import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
+import { AxiosResponse, AxiosRequestConfig } from "axios";
 import {
     linkAccountActionCreator,
     unlinkAccountActionCreator,
@@ -13,15 +13,19 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
 } from "./consts";
-import { BASE_URL, LINK_ACCOUNT_URL } from "../consts";
-import { createNewAccount } from "./utils";
+// import { createNewAccount } from "./utils";
 import {
     InitAccountMiddlewareAction,
     LinkAccountMiddlewareActionCreator,
     UnlinkAccountMiddlewareActionCreator,
 } from "./actions";
 import { selectUser } from "../ducks/selectors";
-import { AccountLinkData } from "./types";
+import { AccountData } from "./types";
+import {
+    getInitAccountData,
+    // postAccount,
+    deleteAccount,
+} from "../utils/requests";
 
 // TODO: Add typings, bitch (ti pro sebja Roland???), da blja
 export interface PartialState {
@@ -42,8 +46,8 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                         "Authorization": selectUser(getState()).auth_token,
                     },
                 };
-                axios.get(BASE_URL + LINK_ACCOUNT_URL, config)
-                    .then((response: AxiosResponse<AccountLinkData[]>) => {
+                getInitAccountData(config)
+                    .then((response: AxiosResponse<AccountData[]>) => {
                         dispatch(initAccountActionCreator(response.data as any))
                     })
                     .catch(error => {
@@ -53,24 +57,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                 break;
             }
             case  ACCOUNT_LINK: {
-                const data = {
-                    username: action.payload.username,
-                    password: action.payload.password,
-                };
-                const config = {
-                    headers: {
-                        "Authorization": selectUser(getState()).auth_token,
-                    }
-                };
-
-                axios.post(BASE_URL + LINK_ACCOUNT_URL, data, config)
-                    .then((response: AxiosResponse<AccountLinkData>) => {
-                        dispatch(linkAccountActionCreator(createNewAccount(response.data.username, response.data.id)))
-                    })
-                    .catch(error => {
-                        // TODO: Handle error with message
-                        console.log("NO SUCH ACCOUNT", error)
-                    });
+                dispatch(linkAccountActionCreator(action.payload));  
                 break;
             }
             case ACCOUNT_UNLINK: {
@@ -80,7 +67,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                     }
                 };
 
-                axios.delete(BASE_URL + LINK_ACCOUNT_URL + `/${action.payload}`, config)
+                deleteAccount(action.payload, config)
                     .then(() => {
                         dispatch(unlinkAccountActionCreator(action.payload))
                     })

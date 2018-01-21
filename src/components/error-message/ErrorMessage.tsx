@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as styles from "./ErrorMessage.css";
-import { getErrorMessage } from "../utils";
-import { ErrorCode } from "../types";
+import { getErrorMessage } from "./utils";
+import { ErrorCode } from "./types";
 
 export interface ErrorMessageProps {
     errorCode?: ErrorCode;

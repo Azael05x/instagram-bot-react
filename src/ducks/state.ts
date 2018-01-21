@@ -1,4 +1,5 @@
-import { UserAccount } from "../components/dashboard/components/account/Account";
+// import { UserAccount } from "../components/dashboard/components/account/Account";
+import { AccountData } from "../middleware/types";
 
 export interface User {
     auth_token: string;
@@ -6,7 +7,7 @@ export interface User {
 }
 export interface State {
     user: User;
-    accounts: UserAccount[];
+    accounts: AccountData[];
 }
 // Initial state
 export const initialState = {

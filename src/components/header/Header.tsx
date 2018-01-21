@@ -17,16 +17,16 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
     render() {
         const userComponent = !!this.props.user.auth_token
             ? (
-            <NavLink
-                className={styles.link}
-                to={"/profile"}
-                exact
-                about="Profile"
-                activeClassName={styles.active}
-            >
-                Welcome, {this.props.user.email}
-                <CaretIcon />
-            </NavLink>
+                <NavLink
+                    className={styles.link}
+                    to={"/profile"}
+                    exact
+                    about="Profile"
+                    activeClassName={styles.active}
+                >
+                    Welcome, {this.props.user.email}
+                    <CaretIcon />
+                </NavLink>
             )
             : (
                 <NavLink
@@ -38,6 +38,7 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
                     Login
                 </NavLink>
             );
+
         return (
             <div className={styles.container}>
                 <div className={styles.innerContainer}>

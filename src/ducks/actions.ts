@@ -5,9 +5,9 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
 } from "./consts";
-import { UserAccount } from "../components/dashboard/components/account/Account";
+// import { UserAccount } from "../components/dashboard/components/account/Account";
 import { initAccountMiddlewareActionCreator } from "../middleware/actions";
-import { AccountLinkData } from "../middleware/types";
+import { AccountData } from "../middleware/types";
 
 export interface UserLoginPayload {
     email: string;
@@ -15,15 +15,15 @@ export interface UserLoginPayload {
 
 export interface InitAccountAction {
     type: typeof ACCOUNT_INIT;
-    payload: AccountLinkData[];
+    payload: AccountData[];
 }
-export function initAccountAction(payload: AccountLinkData[]): InitAccountAction {
+export function initAccountAction(payload: AccountData[]): InitAccountAction {
     return {
         type: ACCOUNT_INIT,
         payload,
     };
 }
-export function initAccountActionCreator(payload: AccountLinkData[]): Thunk {
+export function initAccountActionCreator(payload: AccountData[]): Thunk {
     return dispatch => {
         dispatch(initAccountAction(payload));
     };
@@ -52,15 +52,15 @@ export function loginActionCreator(payload: UserLoginPayload): Thunk {
 
 export interface LinkAccountAction {
     type: typeof ACCOUNT_LINK;
-    payload: UserAccount;
+    payload: AccountData;
 }
-export function linkAccountAction(payload: UserAccount): LinkAccountAction {
+export function linkAccountAction(payload: AccountData): LinkAccountAction {
     return {
         type: ACCOUNT_LINK,
         payload,
     };
 }
-export function linkAccountActionCreator(payload: UserAccount): Thunk {
+export function linkAccountActionCreator(payload: AccountData): Thunk {
     return dispatch => {
         dispatch(linkAccountAction(payload));
     };
