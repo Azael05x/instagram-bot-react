@@ -15,7 +15,6 @@ export type HeaderProps = HeaderStateProps & RouteComponentProps<{}>;
 
 export class Header extends React.PureComponent<HeaderProps, {}> {
     render() {
-        console.log("header", this.props)
         const userComponent = !!this.props.user.auth_token
             ? (
             <NavLink
