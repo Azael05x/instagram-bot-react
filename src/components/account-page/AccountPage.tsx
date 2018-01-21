@@ -1,18 +1,18 @@
 import * as React from "react";
-import { MatchProps } from "../../types/router";
-import { unlinkAccountMiddlewareActionCreator } from "../../middleware/actions";
 import { connect } from "react-redux";
-
+import { RouteComponentProps, withRouter } from "react-router-dom";
+import { unlinkAccountMiddlewareActionCreator } from "../../middleware/actions";
 export interface AccountPageDispatchProps {
     onDelete: typeof unlinkAccountMiddlewareActionCreator;
 }
-export type AccountPageProps = AccountPageDispatchProps & MatchProps<{ id: number }>;
+export type AccountPageProps = AccountPageDispatchProps & RouteComponentProps<{ id: number }>;
 
-export class AccountPage extends React.PureComponent<AccountPageProps, {}> {
+export class AccountPage extends React.Component<AccountPageProps, {}> {
     public render() {
         const {
             match
         } = this.props;
+
         return (
             <div>
                 {match.params.id}
@@ -23,7 +23,7 @@ export class AccountPage extends React.PureComponent<AccountPageProps, {}> {
         );
     }
     private onDelete = () => {
-        this.props.onDelete(this.props.match.params.id);
+        this.props.onDelete(+this.props.match.params.id);
     }
 }
 
@@ -31,7 +31,7 @@ const mapDispatchToProps = {
     onDelete: unlinkAccountMiddlewareActionCreator,
 }
 
-export const AccountPageConnected = connect<{}, AccountPageDispatchProps>(
+export const AccountPageConnected = withRouter(connect<{}, AccountPageDispatchProps>(
     undefined,
     mapDispatchToProps,
-)(AccountPage);
+)(AccountPage));

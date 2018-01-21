@@ -15,4 +15,6 @@ export interface ThunkDispatch<S> {
  * @param action
  * @returns {action is Function}
  */
+
+ // @ts-ignore
 export const isAsyncAction = (action: any): action is Function => false;

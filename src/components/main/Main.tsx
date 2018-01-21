@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as styles from "./Main.css";
-import { Switch, Route, withRouter } from "react-router-dom";
+import { Switch, Route, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { HeaderConnected } from "../header/Header";
 import { User } from "../user/User";
@@ -16,7 +16,7 @@ export interface MainStateProps {
     logged_in: boolean;
 }
 
-export type MainProps = MainStateProps;
+export type MainProps = MainStateProps & RouteComponentProps<{}>;
 
 export class Main extends React.PureComponent<MainProps, {}> {
     render() {
@@ -50,4 +50,4 @@ const mapStateToProps = (state: any): MainStateProps => ({
 export const MainConnected = withRouter(connect<MainStateProps, {}>(
     mapStateToProps,
     undefined,
-)(Main) as any);
+)(Main));

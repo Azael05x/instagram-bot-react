@@ -1,7 +1,6 @@
 import * as React from 'react';
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
-import { withRouter } from 'react-router-dom';
 import { selectUser } from '../../ducks/selectors';
 import { User } from '../../ducks/state';
 
@@ -12,10 +11,11 @@ export interface HeaderStateProps {
     user: User;
 }
 
-export type HeaderProps = HeaderStateProps;
+export type HeaderProps = HeaderStateProps & RouteComponentProps<{}>;
 
 export class Header extends React.PureComponent<HeaderProps, {}> {
     render() {
+        console.log("header", this.props)
         const userComponent = !!this.props.user.auth_token
             ? (
             <NavLink
@@ -79,4 +79,4 @@ const mapStateToProps = (state: any): HeaderStateProps => ({
 export const HeaderConnected = withRouter(connect<HeaderStateProps, {}>(
     mapStateToProps,
     {},
-)(Header) as any);
+)(Header));

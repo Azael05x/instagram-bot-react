@@ -7,11 +7,18 @@
         "allowJs": true,
         "newLine": "CRLF",
         "strictNullChecks": false,
-        "jsx": "react"
+        "jsx": "react",
+        "allowUnreachableCode": false,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true
     },
     "include": [
         "src",
         "./defs.d.ts"
+    ],
+    "exclude": [
+        "build",
+        "node_modules"
     ],
     "compileOnSave": false
 }

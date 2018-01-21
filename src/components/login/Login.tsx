@@ -1,8 +1,7 @@
 import * as React from "react";
-import { FormEvent } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { Redirect } from "react-router-dom";
+import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
 
 import { ErrorCode } from "./types";
 import { ErrorMessage } from "./components/ErrorMessage";
@@ -10,7 +9,6 @@ import { LOGIN_URL } from "../../consts";
 import { loginActionCreator } from "../../ducks/actions";
 
 import * as styles from "./Login.css";
-import { withRouter } from "react-router-dom";
 
 const data: { email: string, password: string } = {
     email: "",
@@ -21,7 +19,7 @@ export interface LoginDispatchProps {
     onLogin: typeof loginActionCreator;
 }
 
-export type LoginProps = LoginDispatchProps;
+export type LoginProps = LoginDispatchProps & RouteComponentProps<{}>;
 
 export interface LoginState {
     email: string;
@@ -34,7 +32,7 @@ export enum FormInput {
     Password = "password",
 }
 
-export class Login extends React.PureComponent<LoginProps, LoginState> {
+export class Login extends React.Component<LoginProps, LoginState> {
     private titleFontSize: string = document.body.clientWidth < 900
         ? "calc(100vw / 10)"
         : "5em";
@@ -178,4 +176,4 @@ const mapDispatchToProps: LoginDispatchProps = {
 export const LoginConnected = withRouter(connect<{}, LoginDispatchProps>(
     undefined,
     mapDispatchToProps,
-)(Login) as any); // TODO: Add React Router extend props
+)(Login));

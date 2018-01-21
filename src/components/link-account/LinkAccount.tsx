@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from "react-redux";
-import { withRouter } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { linkAccountMiddlewareActionCreator } from '../../middleware/actions';
 
 export interface LinkAccountState {
@@ -10,9 +10,9 @@ export interface LinkAccountState {
 export interface LinkAccountDispatchProps {
     addAccount: typeof linkAccountMiddlewareActionCreator;
 }
-export type LinkAccountProps = LinkAccountDispatchProps;
+export type LinkAccountProps = LinkAccountDispatchProps & RouteComponentProps<{}>;
 
-export class LinkAccount extends React.PureComponent<LinkAccountProps, LinkAccountState> {
+export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountState> {
     public constructor(props: LinkAccountProps) {
         super(props);
 
@@ -21,7 +21,14 @@ export class LinkAccount extends React.PureComponent<LinkAccountProps, LinkAccou
             password: "goodPass",
         }
     }
-    render() {
+    public shouldComponentUpdate(nextProps: LinkAccountProps, nextState: LinkAccountState) {
+        return false
+            || nextProps.addAccount !== this.props.addAccount
+            || nextState.username !== this.state.username
+            || nextState.password !== this.state.password
+        ;
+    }
+    public render() {
         return (
             <div>
                 Link account
@@ -41,5 +48,5 @@ const mapDispatchToProps = {
 export const LinkAccountConnected = withRouter(connect<{}, LinkAccountDispatchProps>(
     undefined,
     mapDispatchToProps,
-)(LinkAccount) as any);
+)(LinkAccount));
 

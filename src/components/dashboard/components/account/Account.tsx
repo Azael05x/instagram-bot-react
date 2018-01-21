@@ -1,7 +1,6 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import * as styles from "./Account.css";
-import { Redirect, Link } from "react-router-dom";
-import { CheckIcon } from "../../../icons/Check";
 
 export interface UserAccount {
     id: number;
@@ -23,8 +22,6 @@ export interface AccountItemProps {
 }
 
 export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
-    // TODO: Remove after testing, use account.isActive
-    private statusActive = !!Math.round(Math.random());
     public render() {
         const {
             account,
@@ -38,12 +35,12 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
                     </div>
                     <div className={styles.status}>
                         <span style={{ marginRight: ".2rem"}}>Status:</span>
-                        {this.isActive(this.statusActive)}
+                        {this.isActive(account.active)}
                     </div>
                 </Link>
                 <div className={styles.buttons}>
-                    <div className={`${styles.button} ${this.statusActive ? styles.pauseButton : styles.startButton}`}>
-                        {this.statusActive ? "Pause" : "Start"}
+                    <div className={`${styles.button} ${account.active ? styles.pauseButton : styles.startButton}`}>
+                        {account.active ? "Pause" : "Start"}
                     </div>
                     <div className={styles.settingsButton}>
                         <i className={`fa fa-cog ${styles.icon}`} aria-hidden="true"></i>
@@ -53,8 +50,7 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
         );
     }
     private isActive = (active: boolean) => {
-        return this.statusActive
-            // ? <CheckIcon />
+        return active
             ? <i className={`fa fa-check ${styles.active} ${styles.icon}`} aria-hidden="true" />
             : <i className={`fa fa-times ${styles.inactive} ${styles.icon}`} aria-hidden="true" />
     }

@@ -13,8 +13,6 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
 } from "./consts";
-import { Thunk } from '../types/types';
-import { UserAccount } from "../components/dashboard/components/account/Account";
 import { BASE_URL, LINK_ACCOUNT_URL } from "../consts";
 import { createNewAccount } from "./utils";
 import {
@@ -83,7 +81,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                 };
 
                 axios.delete(BASE_URL + LINK_ACCOUNT_URL + `/${action.payload}`, config)
-                    .then((response) => {
+                    .then(() => {
                         dispatch(unlinkAccountActionCreator(action.payload))
                     })
                     .catch(error => {

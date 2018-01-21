@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 import * as styles from "./Dashboard.css";
-import { withRouter } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router';
 import { DashboardHeader } from "./components/dashboard-header/DashboardHeader";
 import { Divider } from '../divider/Divider';
 import { EmptyList } from './components/empty-list/EmptyList';
@@ -12,14 +12,17 @@ export interface DashboardStateProps {
     accounts: UserAccount[];
 }
 
-export type DashboardProps = DashboardStateProps;
+export type DashboardProps = DashboardStateProps & RouteComponentProps<{}>;
 
-export class Dashboard extends React.PureComponent<DashboardProps, {}> {
-    render() {
+export class Dashboard extends React.Component<DashboardProps, {}> {
+    public shouldComponentUpdate(nextProps: DashboardProps) {
+        return this.props.accounts.length !== nextProps.accounts.length;
+    }
+    public render() {
         const bodyComponent = this.props.accounts.length
             ? <div className={styles.accountsContainer}>{this.renderAccounts()}</div>
             : <EmptyList />
-        
+
         return (
             <div className={styles.container}>
                 <div className={styles.innerContainer}>
@@ -42,4 +45,4 @@ const mapStateToProps = (state: any): DashboardStateProps=> ({
 export const DashboardConnected = withRouter(connect<DashboardStateProps, {}>(
     mapStateToProps,
     {},
-)(Dashboard) as any);
+)(Dashboard));

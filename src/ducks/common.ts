@@ -1,4 +1,3 @@
-import { Thunk } from "../types/types";
 import {
     ACCOUNT_INIT,
     ACCOUNT_LINK,
@@ -6,10 +5,6 @@ import {
     USER_LOGIN,
 } from "./consts";
 import { initialState } from "./state";
-import {
-    selectAccounts,
-    selectUser,
-} from "./selectors";
 import {
     InitAccountAction,
     LoginAction,
@@ -45,10 +40,9 @@ export function reducer(state = initialState, action: ReducerActions) {
             };
         }
         case ACCOUNT_UNLINK: {
-            const filteredAccounts = state.accounts.filter(account => account.id !== action.payload);
             return {
                 ...state,
-                accounts: filteredAccounts,
+                accounts: state.accounts.filter(account => account.id !== action.payload),
             };
         }
         default:

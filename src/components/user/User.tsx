@@ -1,14 +1,9 @@
 import * as React from "react";
-import { Switch, Route } from "react-router-dom";
+import { /*Switch, Route, */ RouteComponentProps } from "react-router-dom";
 
-export interface UserProps {
-    match: {
-        params: { [key: string]: any };
-    };
-}
+export type UserProps = RouteComponentProps<{}>;
 
-
-export class User extends React.PureComponent<UserProps, {}> {
+export class User extends React.Component<UserProps, {}> {
     render() {
         return (
             <div>
