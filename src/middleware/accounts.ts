@@ -64,7 +64,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                 const config: AxiosRequestConfig = {
                     headers: {
                         "Authorization": selectUser(getState()).auth_token,
-                    }
+                    },
                 };
 
                 deleteAccount(action.payload, config)

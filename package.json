@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack ./webpack.config.js",
-    "start": "webpack-dev-server ./webpack.config.js --content-base ./public"
+    "start": "webpack-dev-server ./webpack.config.js --content-base ./public",
+    "docker": "webpack-dev-server ./webpack.config.js --content-base ./public --host=0.0.0.0"
   },
   "author": "",
   "license": "ISC",
