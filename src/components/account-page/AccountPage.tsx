@@ -2,13 +2,31 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+
 import { unlinkAccountMiddlewareActionCreator } from "../../middleware/actions";
 import { getAccountData } from "../../utils/requests";
 import { selectUser } from "../../ducks/selectors";
 import { AccountData } from "../../middleware/types";
+import { Badge, BadgeType } from "../badge/Badge";
+import { Divider } from "../divider/Divider";
+import { CaretIcon } from "../icons/Caret";
+import { AccountSettings } from "../account-settings/AccountSettings";
+
+import * as styles from "./AccountPage.css";
+
+export enum ScreenDataRole {
+    Settings = "settings",
+    Statistics = "statistics",
+    ActivityReview = "activity_review",
+}
+export interface Screen {
+    label: string;
+    component: JSX.Element;
+}
 
 export interface AccountPageState {
     account: AccountData;
+    activeScreen: ScreenDataRole;
 }
 
 export interface AccountPageStateProps {
@@ -29,6 +47,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
 
         this.state = {
             account: {} as AccountData,
+            activeScreen: ScreenDataRole.Statistics,
         }
     }
     public componentWillMount() {
@@ -45,20 +64,93 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     }
     public render() {
         const { account } = this.state;
+        const activityButtonClassname = `${styles.button} ${account.is_active ? styles.buttonStop : styles.buttonStart}`;
+        const activityButtonLabel = account.is_active ? "Pause" : "Start"
+
+        const currentScreen = this.renderScreen();
 
         return (
-            <div>
-                {account.username}
-                {account.id}
-                {""+account.is_active}
-                <button onClick={this.onDelete}>
-                    Delete
-                </button>
+            <div className={styles.container}>
+                <div className={styles.innerContainer}>
+                    <div className={styles.header}>
+                        <div className={styles.usernameContainer}>
+                            <span className={styles.username}>@{account.username}</span>
+                            <Badge
+                                label={account.is_active ? "Active" : "Paused"}
+                                type={account.is_active ? BadgeType.Default : BadgeType.Danger}
+                            />
+                        </div>
+                        <div className={styles.navigation}>
+                            {currentScreen.label}
+                            <span className={styles.caret}>
+                                <CaretIcon />
+                            </span>
+                            <div className={styles.navigationOptionsContainer}>
+                                <span
+                                    className={styles.navigationOption}
+                                    data-role={ScreenDataRole.Settings}
+                                    onClick={this.onNavigate}
+                                >
+                                    Settings
+                                </span>
+                                <span
+                                    className={styles.navigationOption}
+                                    data-role={ScreenDataRole.Statistics}
+                                    onClick={this.onNavigate}
+                                >
+                                    Statistics
+                                </span>
+                                <span
+                                    className={styles.navigationOption}
+                                    data-role={ScreenDataRole.ActivityReview}
+                                    onClick={this.onNavigate}
+                                >
+                                    Activity Review
+                                </span>
+                            </div>
+                        </div>
+                        <div className={styles.buttons}>
+                            <button className={activityButtonClassname}>{activityButtonLabel}</button>
+                            <button className={`${styles.button} ${styles.buttonDelete}`} onClick={this.onDelete}>
+                                Delete <i className="fa fa-trash-o" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <Divider />
+                    <div className={styles.body}>
+                        {currentScreen.component}
+                    </div>
+                </div>
             </div>
         );
     }
     private onDelete = () => {
         this.props.onDelete(+this.props.match.params.id);
+    }
+    private onNavigate = (event: React.MouseEvent<HTMLElement>) => {
+        const chosenScreen = event.currentTarget.getAttribute("data-role") as ScreenDataRole;
+        if (this.state.activeScreen !== chosenScreen) {
+            this.setState({
+                activeScreen: chosenScreen,
+            });
+        }
+    }
+    // TODO: Possibly move to a util function. Make map function component agnostic
+    private renderScreen = (): Screen => {
+        return {
+            [ScreenDataRole.Settings]: {
+                component: <AccountSettings username={this.state.account.username} />,
+                label: "Settings",
+            },
+            [ScreenDataRole.Statistics]: {
+                component: <AccountSettings username={this.state.account.username} />,
+                label: "Statistics",
+            },
+            [ScreenDataRole.ActivityReview]: {
+                component: <AccountSettings username={this.state.account.username} />,
+                label: "Activity Review",
+            },
+        }[this.state.activeScreen];
     }
 }
 

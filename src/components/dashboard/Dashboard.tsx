@@ -4,8 +4,8 @@ import * as styles from "./Dashboard.css";
 import { withRouter, RouteComponentProps } from 'react-router';
 import { DashboardHeader } from "./components/dashboard-header/DashboardHeader";
 import { Divider } from '../divider/Divider';
-import { EmptyList } from './components/empty-list/EmptyList';
-import { AccountItem, UserAccount} from "./components/account/Account";
+import { EmptyList } from '../empty-list/EmptyList';
+import { AccountItem, UserAccount} from "../account/Account";
 import { selectAccounts } from '../../ducks/selectors';
 
 export interface DashboardStateProps {
