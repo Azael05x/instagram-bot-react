@@ -1,0 +1,10 @@
+.usernameContainer {
+    display: flex;
+    align-items: flex-end;
+    line-height: 1;
+    justify-self: start;
+}
+.username {
+    font-size: 2rem;
+    margin-right: .5rem;
+}

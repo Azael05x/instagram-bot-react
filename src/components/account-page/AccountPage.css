@@ -19,16 +19,7 @@
     justify-items: center;
     align-items: center;
 }
-.usernameContainer {
-    display: flex;
-    align-items: flex-end;
-    line-height: 1;
-    justify-self: start;
-}
-.username {
-    font-size: 2rem;
-    margin-right: .5rem;
-}
+
 .buttons {
     justify-self: end;
 }
@@ -65,58 +56,6 @@
     background-color: #E01931;
 }
 
-.navigation {
-    border: 1px solid #e8e9ec;
-    outline: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 0 .5rem;
-    padding: 1rem 3rem;
-    position: relative;
-    display: flex;
-    align-items: center;
-    background-color: #fff;
-    width: 10rem;
-    justify-content: center;
-}
-.navigation:hover {
-    background-color: #fafafa;
-}
-.caret {
-    transition: .2s;
-}
-.navigation:hover .caret {
-    transform: rotate(180deg);
-}
-.navigationOptionsContainer {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    background-color: #e8e9ec;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    border-radius: 2px;
-    opacity: 0;
-    transition: .2s;
-    pointer-events: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-.navigation:hover .navigationOptionsContainer {
-    opacity: 1;
-    top: 100%;
-    pointer-events: all;    
-}
-.navigationOption {
-    padding: .5rem;
-    border-radius: 2px;
-    transition: .2s;
-    border: 1px solid #e8e9ec;
-    cursor: pointer;
-}
-.navigationOption:hover {
-    background-color: #fff;
-}
 .ellipsis {
     display: flex;
     justify-content: space-between;
@@ -139,5 +78,6 @@
 }
 .body {
     border: 1px solid;
+    display: flex;
     flex: 1;
 }

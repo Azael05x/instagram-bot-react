@@ -1,0 +1,10 @@
+.navigationOption {
+    padding: .5rem;
+    border-radius: 2px;
+    transition: .2s;
+    border: 1px solid #e8e9ec;
+    cursor: pointer;
+}
+.navigationOption:hover {
+    background-color: #fff;
+}

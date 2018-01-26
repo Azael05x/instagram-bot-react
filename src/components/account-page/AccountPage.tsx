@@ -11,10 +11,10 @@ import { unlinkAccountMiddlewareActionCreator } from "../../middleware/actions";
 import { getAccountData } from "../../utils/requests";
 import { selectUser } from "../../ducks/selectors";
 import { AccountData } from "../../middleware/types";
-import { Badge, BadgeType } from "../badge/Badge";
 import { Divider } from "../divider/Divider";
-import { CaretIcon } from "../icons/Caret";
 import { AccountSettings } from "../account-settings/AccountSettings";
+import { Select, SelectOption } from "../select/Select";
+import { Username } from "./components/Username";
 
 import * as styles from "./AccountPage.css";
 
@@ -89,46 +89,30 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         const activityButtonLabel = account.is_active ? "Pause" : "Start"
         const currentScreen = this.renderScreen();
 
+        const selectOptions: SelectOption[] = [
+            {
+                dataRole: ScreenDataRole.Settings,
+                label: "Settings",
+            },
+            {
+                dataRole: ScreenDataRole.Statistics,
+                label: "Statistics",
+            },
+            {
+                dataRole: ScreenDataRole.ActivityReview,
+                label: "Activity Review",
+            },
+        ];
+
         return (
             <div className={styles.container}>
                 <div className={styles.innerContainer}>
                     <div className={styles.header}>
-                        <div className={styles.usernameContainer}>
-                            <span className={styles.username}>@{account.username}</span>
-                            <Badge
-                                label={account.is_active ? "Active" : "Paused"}
-                                type={account.is_active ? BadgeType.Default : BadgeType.Danger}
-                            />
-                        </div>
-                        <div className={styles.navigation}>
-                            {currentScreen.label}
-                            <span className={styles.caret}>
-                                <CaretIcon />
-                            </span>
-                            <div className={styles.navigationOptionsContainer}>
-                                <span
-                                    className={styles.navigationOption}
-                                    data-role={ScreenDataRole.Settings}
-                                    onClick={this.onNavigate}
-                                >
-                                    Settings
-                                </span>
-                                <span
-                                    className={styles.navigationOption}
-                                    data-role={ScreenDataRole.Statistics}
-                                    onClick={this.onNavigate}
-                                >
-                                    Statistics
-                                </span>
-                                <span
-                                    className={styles.navigationOption}
-                                    data-role={ScreenDataRole.ActivityReview}
-                                    onClick={this.onNavigate}
-                                >
-                                    Activity Review
-                                </span>
-                            </div>
-                        </div>
+                        <Username isActive={account.is_active} username={account.username} />
+                        <Select
+                            onSelectOption={this.onNavigate}
+                            selectOptions={selectOptions}
+                        />
                         <div className={styles.buttons}>
                             <button className={activityButtonClassname}>{activityButtonLabel}</button>
                             <button className={`${styles.button} ${styles.buttonDelete}`} onClick={this.onDelete}>
