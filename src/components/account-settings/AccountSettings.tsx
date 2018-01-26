@@ -1,14 +1,17 @@
 import * as React from "react";
+import { AccountData } from "../../middleware/types";
 
 export interface AccountSettingsProps {
-    username: string;
+    account: AccountData;
 }
 
 export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
     render() {
         return (
             <div>
-                {this.props.username}
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
         );
     }

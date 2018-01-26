@@ -1,7 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-import { RouteComponentProps, withRouter } from "react-router-dom";
+import {
+    RouteComponentProps,
+    withRouter,
+    Redirect,
+} from "react-router-dom";
 
 import { unlinkAccountMiddlewareActionCreator } from "../../middleware/actions";
 import { getAccountData } from "../../utils/requests";
@@ -27,6 +31,7 @@ export interface Screen {
 export interface AccountPageState {
     account: AccountData;
     activeScreen: ScreenDataRole;
+    redirectByError: boolean,
 }
 
 export interface AccountPageStateProps {
@@ -48,6 +53,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         this.state = {
             account: {} as AccountData,
             activeScreen: ScreenDataRole.Statistics,
+            redirectByError: false,
         }
     }
     public componentWillMount() {
@@ -60,13 +66,27 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         getAccountData(this.props.match.params.id, config)
             .then((response: AxiosResponse<AccountData>) => {
                 this.setState({ account: response.data });
+            })
+            .catch(() => {
+                /*
+                    Current solution for redirecting user if the accounts page
+                    is unavailable or the user is not found.
+
+                    TODO: Investigate possibility to handle this with React Router
+                 */
+                this.setState({
+                    redirectByError: true,
+                });
             });
     }
     public render() {
+        if (this.state.redirectByError) {
+            return <Redirect exact to="/accounts" />;
+        }
+
         const { account } = this.state;
         const activityButtonClassname = `${styles.button} ${account.is_active ? styles.buttonStop : styles.buttonStart}`;
         const activityButtonLabel = account.is_active ? "Pause" : "Start"
-
         const currentScreen = this.renderScreen();
 
         return (
@@ -139,15 +159,15 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     private renderScreen = (): Screen => {
         return {
             [ScreenDataRole.Settings]: {
-                component: <AccountSettings username={this.state.account.username} />,
+                component: <AccountSettings account={this.state.account} />,
                 label: "Settings",
             },
             [ScreenDataRole.Statistics]: {
-                component: <AccountSettings username={this.state.account.username} />,
+                component: <AccountSettings account={this.state.account} />,
                 label: "Statistics",
             },
             [ScreenDataRole.ActivityReview]: {
-                component: <AccountSettings username={this.state.account.username} />,
+                component: <AccountSettings account={this.state.account} />,
                 label: "Activity Review",
             },
         }[this.state.activeScreen];

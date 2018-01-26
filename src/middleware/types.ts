@@ -18,11 +18,17 @@ export interface Comments extends CommentsLikesGeneral {
 };
 export type Likes = CommentsLikesGeneral;
 
+export enum ActivitySpeed {
+    Slow = 1,
+    Medium = 2,
+    Fast = 3,
+}
+
 export interface Activities {
-    speed: 1,
-    enabled_likes: false,
-    enabled_follows: false,
-    enabled_unfollows: false,
+    speed: ActivitySpeed,
+    enabled_likes: boolean,
+    enabled_follows: boolean,
+    enabled_unfollows: boolean,
 };
 export interface Follows  {
     maximum_followers: number;
