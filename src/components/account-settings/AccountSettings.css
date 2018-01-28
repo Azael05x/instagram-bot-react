@@ -5,5 +5,22 @@
     flex: 1;
 }
 .settingsArea {
-    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    box-shadow: 0 0px 4px rgba(0, 0, 0, 0.3);
+    margin: .5rem;
+}
+.settingsAreaRow {
+    margin: 1rem .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        grid-template-columns: 2fr 3fr;
+    }
 }

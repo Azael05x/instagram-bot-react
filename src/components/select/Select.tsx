@@ -8,6 +8,10 @@ export interface SelectState {
     currentOption: string;
 }
 
+export enum SelectTheme {
+    Regular = "regular",
+    Small = "small",
+}
 export interface SelectOption {
     dataRole: string;
     label: string;
@@ -15,6 +19,7 @@ export interface SelectOption {
 export interface SelectProps {
     selectOptions: SelectOption[];
     onSelectOption: (event: React.MouseEvent<HTMLDivElement>) => void;
+    theme?: SelectTheme;
 }
 
 /**
@@ -23,6 +28,9 @@ export interface SelectProps {
     Options defined within caller component as SelectOption[]
  */
 export class Select extends React.PureComponent<SelectProps, SelectState> {
+    public static defaultProps = {
+        theme: SelectTheme.Regular,
+    };
     public constructor(props: SelectProps) {
         super(props);
 
@@ -32,7 +40,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
     }
     public render() {
         return (
-            <div className={styles.navigation}>
+            <div className={`${styles.navigation} ${styles[this.props.theme]}`}>
                {this.state.currentOption}
                 <span className={styles.caret}>
                     <CaretIcon />

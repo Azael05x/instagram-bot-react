@@ -147,11 +147,11 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                 label: "Settings",
             },
             [ScreenDataRole.Statistics]: {
-                component: <AccountSettings account={this.state.account} />,
+                component: <div />,
                 label: "Statistics",
             },
             [ScreenDataRole.ActivityReview]: {
-                component: <AccountSettings account={this.state.account} />,
+                component: <div />,
                 label: "Activity Review",
             },
         }[this.state.activeScreen];

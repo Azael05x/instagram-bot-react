@@ -10,6 +10,7 @@
     background-color: #fff;
     width: 10rem;
     justify-content: center;
+    border-radius: 2px;
 }
 .navigation:hover {
     background-color: #fafafa;
@@ -39,4 +40,18 @@
     opacity: 1;
     top: 100%;
     pointer-events: all;    
+}
+
+
+/* Themes */
+.regular {
+    margin: 0 .5rem;
+    padding: 1rem 3rem;
+    width: 10rem;
+}
+.small {
+    margin: 0 .5rem;
+    padding: .5rem 1.5rem;
+    width: 5rem;
+    font-size: .9rem;
 }

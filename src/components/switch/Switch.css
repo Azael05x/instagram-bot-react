@@ -1,0 +1,34 @@
+.container {
+    margin-left: .5rem;
+    border: 1px solid rgba(29, 34, 71, 0.2);
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 100px;
+    background-color: #ffffff;
+    position: relative;
+    transition: .2s;
+}
+.container.active {
+    background-color: #2DCC70;
+}
+.slider {
+    border-radius: 100px;
+    width: calc(1.5rem - 2px);
+    border: 1px solid rgba(232, 233, 236, 0.3);
+    position: absolute;
+    left: calc(100% - 1.5rem);
+    background-color: #fff;
+    transition: .2s;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+    transform: translateX(-100%);
+    cursor: pointer;
+}
+.slider:hover {
+    background-color: #fafafa;
+}
+.slider.active {
+    transform: translateX(0);
+}
