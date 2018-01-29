@@ -52,7 +52,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
 
         this.state = {
             account: {} as AccountData,
-            activeScreen: ScreenDataRole.Statistics,
+            activeScreen: ScreenDataRole.Settings, // TODO: Make navigation listen to active screen
             redirectByError: false,
         }
     }

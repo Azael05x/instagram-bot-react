@@ -1,0 +1,19 @@
+.tag {
+    margin: .2rem;
+    border: 1px solid rgba(29, 34, 71, .2);
+    padding: 0.15rem 0.6rem 0.15rem 0.8rem;
+    border-radius: 2px;
+    background-color: #e8e9ec;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+    line-height: 1.5;
+    color: #000;
+}
+.closeIcon {
+    font-size: 80%;
+    margin-left: .6rem;
+    cursor: pointer;
+    opacity: .5;
+}

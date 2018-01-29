@@ -22,7 +22,7 @@
 }
 .label {
     position: absolute;
-    color: #e7e7e7;
+    color: #e8e9ec;
     top: 50%;
     left: 1.5em;
     transform: translateY(-50%);
@@ -31,7 +31,7 @@
 .input {
     padding: .5em 1em;
     border-radius: 2px;
-    border: 1px solid #e7e7e7;
+    border: 1px solid #e8e9ec;
     font-size: 1em;
     line-height: 1.5;
     align-self: normal;
