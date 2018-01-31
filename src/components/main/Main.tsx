@@ -11,6 +11,7 @@ import { NoMatch } from "../no-match/NoMatch";
 import { LinkAccountConnected } from "../link-account/LinkAccount";
 import { AccountPageConnected } from "../account-page/AccountPage";
 import { Landing } from "../landing/Landing";
+import { Footer } from "../footer/Footer";
 
 export interface MainStateProps {
     logged_in: boolean;
@@ -23,21 +24,24 @@ export class Main extends React.PureComponent<MainProps, {}> {
         return (
             <div className={styles.container}>
                 <HeaderConnected />
-                <Switch>
-                    <Route exact path="/" component={Landing} />
-                    { this.props.logged_in
-                        ? (
-                            <>
-                                <Route path="/profile" component={User} />
-                                <Route path="/link-account" component={LinkAccountConnected} />
-                                <Route exact path="/accounts" component={DashboardConnected} />
-                                <Route path="/accounts/:id" component={AccountPageConnected} />
-                            </>
-                        )
-                        : <Route path="/login" component={LoginConnected} />
-                    }
-                    <Route path="*" component={NoMatch} />
-                </Switch>
+                <div className={styles.bodyContainer}>
+                    <Switch>
+                        <Route exact path="/" component={Landing} />
+                        { this.props.logged_in
+                            ? (
+                                <>
+                                    <Route path="/profile" component={User} />
+                                    <Route path="/link-account" component={LinkAccountConnected} />
+                                    <Route exact path="/accounts" component={DashboardConnected} />
+                                    <Route path="/accounts/:id" component={AccountPageConnected} />
+                                </>
+                            )
+                            : <Route path="/login" component={LoginConnected} />
+                        }
+                        <Route path="*" component={NoMatch} />
+                    </Switch>
+                </div>
+                <Footer />
             </div>
         );
     }

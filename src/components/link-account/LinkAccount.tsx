@@ -2,10 +2,10 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps, Redirect } from "react-router-dom";
 import { AxiosResponse } from "axios";
-import { linkAccountMiddlewareActionCreator } from "../../middleware/actions";
 import { postAccount } from "../../utils/requests";
 import { AccountData } from "../../middleware/types";
 import { selectUser } from "../../ducks/selectors";
+import { linkAccountActionCreator } from "../../ducks/actions";
 import { ErrorCode } from "../error-message/types";
 import { ErrorMessage } from "../error-message/ErrorMessage";
 import * as styles from "./LinkAccount.css";
@@ -21,7 +21,7 @@ export interface LinkAccountStateProps {
     auth_token: string;
 }
 export interface LinkAccountDispatchProps {
-    addAccount: typeof linkAccountMiddlewareActionCreator;
+    addAccount: typeof linkAccountActionCreator;
 }
 export type LinkAccountProps = LinkAccountDispatchProps & LinkAccountStateProps & RouteComponentProps<{}>;
 
@@ -155,7 +155,7 @@ const mapStateToProps = (state: any) => ({
 })
 
 const mapDispatchToProps = {
-    addAccount: linkAccountMiddlewareActionCreator,
+    addAccount: linkAccountActionCreator,
 };
 
 export const LinkAccountConnected = withRouter(connect<LinkAccountStateProps, LinkAccountDispatchProps>(

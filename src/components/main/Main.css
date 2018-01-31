@@ -5,3 +5,9 @@
     text-align: center;
     min-height: 100vh;
 }
+.bodyContainer {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}

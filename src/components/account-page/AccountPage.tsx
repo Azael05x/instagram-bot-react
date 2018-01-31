@@ -31,7 +31,7 @@ export interface Screen {
 export interface AccountPageState {
     account: AccountData;
     activeScreen: ScreenDataRole;
-    redirectByError: boolean,
+    redirect: boolean,
 }
 
 export interface AccountPageStateProps {
@@ -53,7 +53,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         this.state = {
             account: {} as AccountData,
             activeScreen: ScreenDataRole.Settings, // TODO: Make navigation listen to active screen
-            redirectByError: false,
+            redirect: false,
         }
     }
     public componentWillMount() {
@@ -75,12 +75,12 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                     TODO: Investigate possibility to handle this with React Router
                  */
                 this.setState({
-                    redirectByError: true,
+                    redirect: true,
                 });
             });
     }
     public render() {
-        if (this.state.redirectByError) {
+        if (this.state.redirect) {
             return <Redirect exact to="/accounts" />;
         }
 
@@ -114,7 +114,9 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                             selectOptions={selectOptions}
                         />
                         <div className={styles.buttons}>
-                            <button className={activityButtonClassname}>{activityButtonLabel}</button>
+                            <button className={activityButtonClassname}>
+                                {activityButtonLabel} <i className="fa fa-play" aria-hidden="true"></i>
+                            </button>
                             <button className={`${styles.button} ${styles.buttonDelete}`} onClick={this.onDelete}>
                                 Delete <i className="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
@@ -130,6 +132,9 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     }
     private onDelete = () => {
         this.props.onDelete(+this.props.match.params.id);
+        this.setState({
+            redirect: true,
+        });
     }
     private onNavigate = (event: React.MouseEvent<HTMLElement>) => {
         const chosenScreen = event.currentTarget.getAttribute("data-role") as ScreenDataRole;
