@@ -5,14 +5,15 @@ export interface SwitchState {
     isActive: boolean;
 }
 export interface SwitchProps {
-    onToggle?: () => void;
+    value: boolean;
+    onToggle?: (value: boolean) => void;
 }
 export class Switch extends React.PureComponent<SwitchProps, SwitchState> {
     public constructor(props: SwitchProps) {
         super(props);
 
         this.state = {
-            isActive: false,
+            isActive: !!props.value,
         }
     }
     public render() {
@@ -25,10 +26,8 @@ export class Switch extends React.PureComponent<SwitchProps, SwitchState> {
         );
     }
     private onToggle = () => {
-        this.setState({
-            isActive: !this.state.isActive,
-        });
-        // TODO: uncomment when actual callbacks will be passed
-        // this.props.onToggle();
+        const isActive = !this.state.isActive;
+        this.setState({ isActive });
+        this.props.onToggle(isActive);
     }
 }

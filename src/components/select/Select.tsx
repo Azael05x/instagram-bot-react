@@ -18,6 +18,7 @@ export interface SelectOption {
 }
 export interface SelectProps {
     selectOptions: SelectOption[];
+    currentOption?: SelectOption;
     onSelectOption: (event: React.MouseEvent<HTMLDivElement>) => void;
     theme?: SelectTheme;
 }
@@ -30,12 +31,13 @@ export interface SelectProps {
 export class Select extends React.PureComponent<SelectProps, SelectState> {
     public static defaultProps = {
         theme: SelectTheme.Regular,
+        currentOption: {},
     };
     public constructor(props: SelectProps) {
         super(props);
 
         this.state = {
-            currentOption: props.selectOptions[0].label,
+            currentOption: props.currentOption.label || props.selectOptions[0].label,
         }
     }
     public render() {

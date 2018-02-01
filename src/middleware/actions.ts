@@ -3,18 +3,20 @@ import {
     ACCOUNT_INIT,
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
+    ACCOUNT_UPDATE_ACTIVITIES,
 } from "./consts";
 import { AccountData } from "./types";
+import { UpdateAccountActivitiesPayload } from "../ducks/actions";
 
 // export interface AccountLinking  {
 //     username: string;
 //     password: string;
 // }
-export interface LinkAccountMiddlewareActionCreator {
+export interface LinkAccountMiddlewareAction {
     type: typeof ACCOUNT_LINK;
     payload: AccountData;
 }
-export function linkAccountMiddlewareAction(payload: AccountData): LinkAccountMiddlewareActionCreator {
+export function linkAccountMiddlewareAction(payload: AccountData): LinkAccountMiddlewareAction {
     return {
         type: ACCOUNT_LINK,
         payload,
@@ -26,11 +28,11 @@ export function linkAccountMiddlewareActionCreator(payload: AccountData): Thunk 
     };
 }
 
-export interface UnlinkAccountMiddlewareActionCreator {
+export interface UnlinkAccountMiddlewareAction {
     type: typeof ACCOUNT_UNLINK;
     payload: number;
 }
-export function unlinkAccountMiddlewareAction(id: number): UnlinkAccountMiddlewareActionCreator {
+export function unlinkAccountMiddlewareAction(id: number): UnlinkAccountMiddlewareAction {
     return {
         type: ACCOUNT_UNLINK,
         payload: id,
@@ -55,3 +57,20 @@ export function initAccountMiddlewareActionCreator(): Thunk {
         dispatch(initAccountMiddlewareAction());
     };
 }
+
+export interface UpdateAccountActivitiesMiddlewareAction {
+    type: typeof ACCOUNT_UPDATE_ACTIVITIES;
+    payload: UpdateAccountActivitiesPayload;
+}
+export function updateAccountActivitiesMiddlewareAction(payload: UpdateAccountActivitiesPayload): UpdateAccountActivitiesMiddlewareAction {
+    return {
+        type: ACCOUNT_UPDATE_ACTIVITIES,
+        payload,
+    };
+}
+export function updateAccountActivitiesActionMiddlewareCreator(payload: UpdateAccountActivitiesPayload): Thunk {
+    return dispatch => {
+        dispatch(updateAccountActivitiesMiddlewareAction(payload));
+    };
+}
+

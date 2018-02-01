@@ -12,7 +12,7 @@ import { getAccountData } from "../../utils/requests";
 import { selectUser } from "../../ducks/selectors";
 import { AccountData } from "../../middleware/types";
 import { Divider } from "../divider/Divider";
-import { AccountSettings } from "../account-settings/AccountSettings";
+import { AccountSettingsConnected } from "../account-settings/AccountSettings";
 import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
 
@@ -148,7 +148,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     private renderScreen = (): Screen => {
         return {
             [ScreenDataRole.Settings]: {
-                component: <AccountSettings account={this.state.account} />,
+                component: <AccountSettingsConnected account={this.state.account} />,
                 label: "Settings",
             },
             [ScreenDataRole.Statistics]: {

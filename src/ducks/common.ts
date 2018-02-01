@@ -3,6 +3,7 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
     USER_LOGIN,
+    ACCOUNT_ACTIVITY_UPDATE,
 } from "./consts";
 import { initialState } from "./state";
 import {
@@ -10,6 +11,7 @@ import {
     LoginAction,
     LinkAccountAction,
     UnlinkAccountAction,
+    UpdateAccountActivitiesAction,
 } from "./actions";
 
 export type ReducerActions =
@@ -17,6 +19,7 @@ export type ReducerActions =
     | LinkAccountAction
     | UnlinkAccountAction
     | InitAccountAction
+    | UpdateAccountActivitiesAction
 ;
 
 export function reducer(state = initialState, action: ReducerActions) {
@@ -43,6 +46,29 @@ export function reducer(state = initialState, action: ReducerActions) {
             return {
                 ...state,
                 accounts: state.accounts.filter(account => account.id !== action.payload),
+            };
+        }
+        case ACCOUNT_ACTIVITY_UPDATE: {
+            const {
+                activities,
+                id,
+            } = action.payload;
+
+            return {
+                ...state,
+                accounts: state.accounts.map(account => {
+                    if (account.id === id) {
+                        return {
+                            ...account,
+                            settings: {
+                                ...account.settings,
+                                activities,
+                            }
+                        };
+                    }
+
+                    return account;
+                }),
             };
         }
         default:

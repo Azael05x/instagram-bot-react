@@ -7,8 +7,8 @@ export type MediaType = "all" | "photo" | "video";
 export interface CommentsLikesGeneral {
     maximum_comments: number;
     maximum_likes: number;
-    minimum_comments: number;
     minimum_likes: number;
+    minimum_comments: number;
     media_age: number;
     media_type: MediaType;
 }
@@ -18,17 +18,18 @@ export interface Comments extends CommentsLikesGeneral {
 };
 export type Likes = CommentsLikesGeneral;
 
-export enum ActivitySpeed {
+export enum ActivitySpeedType {
     Slow = 1,
     Medium = 2,
     Fast = 3,
 }
 
 export interface Activities {
-    speed: ActivitySpeed,
+    speed: ActivitySpeedType,
     enabled_likes: boolean,
     enabled_follows: boolean,
     enabled_unfollows: boolean,
+    enabled_comments: boolean,
 };
 export interface Follows  {
     maximum_followers: number;

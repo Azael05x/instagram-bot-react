@@ -6,25 +6,28 @@ import { AxiosResponse, AxiosRequestConfig } from "axios";
 import {
     linkAccountActionCreator,
     unlinkAccountActionCreator,
-    initAccountActionCreator
+    initAccountActionCreator,
+    updateAccountActionCreator,
 } from "../ducks/actions";
 import {
     ACCOUNT_INIT,
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
+    ACCOUNT_UPDATE_ACTIVITIES,
 } from "./consts";
 // import { createNewAccount } from "./utils";
 import {
     InitAccountMiddlewareAction,
-    LinkAccountMiddlewareActionCreator,
-    UnlinkAccountMiddlewareActionCreator,
+    LinkAccountMiddlewareAction,
+    UnlinkAccountMiddlewareAction,
+    UpdateAccountActivitiesMiddlewareAction,
 } from "./actions";
 import { selectUser } from "../ducks/selectors";
-import { AccountData } from "./types";
+import { AccountData, Activities } from "./types";
 import {
     getInitAccountData,
-    // postAccount,
     deleteAccount,
+    updateActivities,
 } from "../utils/requests";
 
 // TODO: Add typings, bitch (ti pro sebja Roland???), da blja
@@ -32,9 +35,10 @@ export interface PartialState {
 }
 
 export type AccountMiddlewareAction =
-    | LinkAccountMiddlewareActionCreator
-    | UnlinkAccountMiddlewareActionCreator
+    | LinkAccountMiddlewareAction
+    | UnlinkAccountMiddlewareAction
     | InitAccountMiddlewareAction
+    | UpdateAccountActivitiesMiddlewareAction
 ;
 
 export const accountMiddleware = (<S extends PartialState>({ dispatch, getState }: MiddlewareAPI<S>) => (next: any) => {
@@ -75,6 +79,26 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                         // TODO: Handle error with message
                         console.log("NO SUCH ACCOUNT", error)
                     });
+                break;
+            }
+            case ACCOUNT_UPDATE_ACTIVITIES: {
+                const data: { settings: Partial<Activities> } = {
+                    settings: action.payload.activities,
+                };
+                const config = {
+                    headers: {
+                        "Authorization": selectUser(getState()).auth_token,
+                    }
+                };
+        
+                updateActivities(action.payload.id, data, config)
+                    .then(response => {
+                        dispatch(updateAccountActionCreator(response.data));
+                    })
+                    .catch(error => {
+                        console.error("UPDATE FAILED", error)
+                    });
+
                 break;
             }
             default:
