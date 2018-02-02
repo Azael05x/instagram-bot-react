@@ -46,6 +46,13 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             || nextState.errorMessage !== this.state.errorMessage
         ;
     }
+    public componentWillMount() {
+        window.addEventListener("keyup", (event: KeyboardEvent) => {
+            if (event.keyCode === 13) {
+                this.onLinkAccount();
+            }
+        });
+    }
     public render() {
         if (this.state.redirect) {
             return <Redirect exact to={"/accounts"} />

@@ -3,6 +3,7 @@ import { ENTER_KEY } from "../../consts";
 import { Tag } from "./components/Tag";
 
 import * as styles from "./InputSelect.css";
+import { cleanTag } from "../../utils/cleanTag";
 
 export interface InputSelectState {
     tag: string;
@@ -61,11 +62,12 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
     }
     private onSubmit = () => {
         const { tag, tags } = this.state;
+        const newTag = cleanTag(tag);
 
-        if (!tags.includes(tag)) {
+        if (!tags.includes(newTag)) {
             this.setState({
                 tag: "",
-                tags: [...tags, tag],
+                tags: [...tags, newTag],
             });
         }
     }
