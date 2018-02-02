@@ -3,3 +3,4 @@ export const ACCOUNT_UNLINK = "middleware/account/ACCOUNT_UNLINK";
 export const ACCOUNT_INIT = "middleware/account/ACCOUNT_INIT";
 export const ACCOUNT_UPDATE_ACTIVITIES = "middleware/account/ACCOUNT_UPDATE_ACTIVITIES";
 export const ACCOUNT_UPDATE_GENERAL = "middleware/account/ACCOUNT_UPDATE_GENERAL";
+export const ACCOUNT_UPDATE_COMMENTS = "middleware/account/ACCOUNT_UPDATE_COMMENTS";

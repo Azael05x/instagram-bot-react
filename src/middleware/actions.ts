@@ -5,8 +5,9 @@ import {
     ACCOUNT_UNLINK,
     ACCOUNT_UPDATE_ACTIVITIES,
     ACCOUNT_UPDATE_GENERAL,
+    ACCOUNT_UPDATE_COMMENTS,
 } from "./consts";
-import { AccountData, Activities, General } from "./types";
+import { AccountData, Activities, General, Comments } from "./types";
 
 export interface LinkAccountMiddlewareAction {
     type: typeof ACCOUNT_LINK;
@@ -91,6 +92,26 @@ export function updateAccountGeneralMiddlewareAction(payload: UpdateAccountGener
 export function updateAccountGeneralMiddlewareActionCreator(payload: UpdateAccountGeneralPayload): Thunk {
     return dispatch => {
         dispatch(updateAccountGeneralMiddlewareAction(payload));
+    };
+}
+
+export interface UpdateAccountCommentsPayload {
+    id: number;
+    comments: Partial<Comments>;
+}
+export interface UpdateAccountCommentsMiddlewareAction {
+    type: typeof ACCOUNT_UPDATE_COMMENTS;
+    payload: UpdateAccountCommentsPayload;
+}
+export function updateAccountCommentsMiddlewareAction(payload: UpdateAccountCommentsPayload): UpdateAccountCommentsMiddlewareAction {
+    return {
+        type: ACCOUNT_UPDATE_COMMENTS,
+        payload,
+    };
+}
+export function updateAccountCommentsMiddlewareActionCreator(payload: UpdateAccountCommentsPayload): Thunk {
+    return dispatch => {
+        dispatch(updateAccountCommentsMiddlewareAction(payload));
     };
 }
 

@@ -14,6 +14,7 @@ import {
     ACCOUNT_UNLINK,
     ACCOUNT_UPDATE_ACTIVITIES,
     ACCOUNT_UPDATE_GENERAL,
+    ACCOUNT_UPDATE_COMMENTS,
 } from "./consts";
 // import { createNewAccount } from "./utils";
 import {
@@ -22,18 +23,21 @@ import {
     UnlinkAccountMiddlewareAction,
     UpdateAccountActivitiesMiddlewareAction,
     UpdateAccountGeneralMiddlewareAction,
+    UpdateAccountCommentsMiddlewareAction,
 } from "./actions";
 import { selectUser } from "../ducks/selectors";
 import {
     AccountData,
     Activities,
     General,
+    Comments,
 } from "./types";
 import {
     getInitAccountData,
     deleteAccount,
     updateActivities,
     updateGeneral,
+    updateComments,
 } from "../utils/requests";
 
 // TODO: Add typings, bitch (ti pro sebja Roland???), da blja
@@ -46,6 +50,7 @@ export type AccountMiddlewareAction =
     | InitAccountMiddlewareAction
     | UpdateAccountActivitiesMiddlewareAction
     | UpdateAccountGeneralMiddlewareAction
+    | UpdateAccountCommentsMiddlewareAction
 ;
 
 export const accountMiddleware = (<S extends PartialState>({ dispatch, getState }: MiddlewareAPI<S>) => (next: any) => {
@@ -67,7 +72,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                     });
                 break;
             }
-            case  ACCOUNT_LINK: {
+            case ACCOUNT_LINK: {
                 dispatch(linkAccountActionCreator(action.payload));  
                 break;
             }
@@ -116,6 +121,23 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                 };
         
                 updateGeneral(action.payload.id, data, config)
+                    .catch(error => {
+                        console.error("UPDATE FAILED", error)
+                    });
+
+                break;
+            }
+            case ACCOUNT_UPDATE_COMMENTS: {
+                const data: { settings: Partial<Comments> } = {
+                    settings: action.payload.comments,
+                };
+                const config = {
+                    headers: {
+                        "Authorization": selectUser(getState()).auth_token,
+                    }
+                };
+        
+                updateComments(action.payload.id, data, config)
                     .catch(error => {
                         console.error("UPDATE FAILED", error)
                     });

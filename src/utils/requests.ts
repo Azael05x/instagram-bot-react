@@ -4,6 +4,7 @@ import {
     ACCOUNT_URL,
     ACTIVITY_URL,
     GENERAL_URL,
+    COMMENT_URL,
 } from "../consts";
 
 export function getInitAccountData(config: AxiosRequestConfig) {
@@ -28,6 +29,13 @@ export function updateActivities(id: number, data: any, config: AxiosRequestConf
 export function updateGeneral(id: number, data: any, config: AxiosRequestConfig) {
     return axios.patch(
         `${BASE_URL}${ACCOUNT_URL}/${id}${GENERAL_URL}`,
+        data,
+        config,
+    )
+};
+export function updateComments(id: number, data: any, config: AxiosRequestConfig) {
+    return axios.patch(
+        `${BASE_URL}${ACCOUNT_URL}/${id}${COMMENT_URL}`,
         data,
         config,
     )

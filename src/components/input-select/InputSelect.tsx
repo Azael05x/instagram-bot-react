@@ -4,7 +4,12 @@ import { Tag } from "./components/Tag";
 
 import * as styles from "./InputSelect.css";
 import { cleanTag } from "../../utils/cleanTag";
+import { Divider, DividerTheme } from "../divider/Divider";
 
+export enum InputType {
+    TextField,
+    SingleLine,
+}
 export interface InputSelectState {
     tag: string;
     tags: string[];
@@ -15,9 +20,13 @@ export interface InputSelectProps {
     onChange: (value: string[]) => void;
     icon?: JSX.Element;
     tags?: string[]; // Tags that could already be associated with the account
+    type?: InputType;
 }
 
 export class InputSelect extends React.PureComponent<InputSelectProps, InputSelectState> {
+    public static defaultProps = {
+        type: InputType.SingleLine,
+    }
     public constructor(props: InputSelectProps) {
         super(props);
 
@@ -26,7 +35,29 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
             tags: props.tags || [],
         };
     }
+    private isSingleLine = this.props.type === InputType.SingleLine;
     public render() {
+        const inputComponent = this.isSingleLine
+            ? (
+                <input
+                    value={this.state.tag}
+                    onChange={this.onInput}
+                    className={styles.input}
+                    placeholder={this.props.placeholder}
+                    onKeyUp={this.onEnterKey}
+                />
+            )
+            : (
+                <textarea
+                    cols={40}
+                    rows={5}
+                    value={this.state.tag}
+                    onChange={this.onInput}
+                    className={styles.input}
+                    placeholder={this.props.placeholder}
+                    onKeyUp={this.onEnterKey}
+                />
+            );
         return (
             <div className={styles.container}>
                 <div className={styles.inputWrapper}>
@@ -35,14 +66,9 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
                             {this.props.icon}
                         </div>
                     )}
-                    <input
-                        value={this.state.tag}
-                        onChange={this.onInput}
-                        className={styles.input}
-                        placeholder={this.props.placeholder}
-                        onKeyUp={this.onEnterKey}
-                    />
+                    {inputComponent}
                 </div>
+                <Divider theme={DividerTheme.Small} />
                 <div className={styles.tagField}>
                     {this.state.tags.length
                         ? this.rendertags()
@@ -52,19 +78,19 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
             </div>
         );
     }
-    private onInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    private onInput = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         this.setState({
             tag: event.currentTarget.value,
         });
     }
-    private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement>) => {
+    private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (key.keyCode === ENTER_KEY && this.state.tag) {
             this.onSubmit();
         }
     }
     private onSubmit = () => {
         const { tag, tags } = this.state;
-        const newTag = cleanTag(tag);
+        const newTag = this.isSingleLine ? cleanTag(tag) : tag;
 
         if (!tags.includes(newTag)) {
             const newTags = [...tags, newTag];

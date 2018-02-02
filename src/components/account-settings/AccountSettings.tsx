@@ -5,10 +5,11 @@ import { AccountData, ActivitySpeedType } from "../../middleware/types";
 import { Divider, DividerTheme } from "../divider/Divider";
 import { ActivitySpeed } from "./components/activity-speed/ActivitySpeed";
 import { General } from "./components/general/General";
-import { InputSelect } from "../input-select/InputSelect";
+import { InputSelect, InputType } from "../input-select/InputSelect";
 import {
     updateAccountActivitiesActionMiddlewareCreator,
     updateAccountGeneralMiddlewareActionCreator,
+    updateAccountCommentsMiddlewareActionCreator,
 } from "../../middleware/actions";
 
 import * as styles from "./AccountSettings.css";
@@ -19,6 +20,7 @@ export interface AccountSettingsOwnProps {
 export interface AccountSettingsDispatchProps {
     updateAccountActivities: typeof updateAccountActivitiesActionMiddlewareCreator;
     updateAccountGeneral: typeof updateAccountGeneralMiddlewareActionCreator;
+    updateAccountComments: typeof updateAccountCommentsMiddlewareActionCreator;
 }
 
 export type AccountSettingsProps =
@@ -89,6 +91,27 @@ export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
                         tags={settings.general.blacklisted_users}
                     />
                 </div>
+                <Divider />
+                <div className={styles.settingsArea}>
+                    <InputSelect
+                        placeholder="Enter a list of comments that you want to leave for the liked images. These will be used only for posts with images."
+                        bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
+                        icon={<i className="fa fa-photo" aria-hidden="true"></i>}
+                        onChange={this.onImageCommentsChange}
+                        tags={settings.comments.image_comments}
+                        type={InputType.TextField}
+                    />
+                </div>
+                <div className={styles.settingsArea}>
+                    <InputSelect
+                        placeholder="Enter a list of comments that you want to leave for the liked videos. These will be used only for posts with videos."
+                        bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
+                        icon={<i className="fa fa-play" aria-hidden="true"></i>}
+                        onChange={this.onVideoCommentsChange}
+                        tags={settings.comments.video_comments}
+                        type={InputType.TextField}
+                    />
+                </div>
             </div>
         );
     }
@@ -154,11 +177,28 @@ export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
             },
         })
     }
+    private onImageCommentsChange = (value: string[]) => {
+        this.props.updateAccountComments({
+            id: this.props.account.id,
+            comments: {
+                image_comments: value,
+            },
+        })
+    }
+    private onVideoCommentsChange = (value: string[]) => {
+        this.props.updateAccountComments({
+            id: this.props.account.id,
+            comments: {
+                video_comments: value,
+            },
+        })
+    }
 }
 
 const mapDispatchToProps: AccountSettingsDispatchProps = {
     updateAccountActivities: updateAccountActivitiesActionMiddlewareCreator,
     updateAccountGeneral: updateAccountGeneralMiddlewareActionCreator,
+    updateAccountComments: updateAccountCommentsMiddlewareActionCreator,
 };
 
 export const AccountSettingsConnected = withRouter(connect<{}, AccountSettingsDispatchProps>(
