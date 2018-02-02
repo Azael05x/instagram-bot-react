@@ -12,7 +12,9 @@ export interface InputSelectState {
 export interface InputSelectProps {
     placeholder: string;
     bodyPlaceholder: string;
+    onChange: (value: string[]) => void;
     icon?: JSX.Element;
+    tags?: string[]; // Tags that could already be associated with the account
 }
 
 export class InputSelect extends React.PureComponent<InputSelectProps, InputSelectState> {
@@ -21,7 +23,7 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
 
         this.state = {
             tag: "",
-            tags: [],
+            tags: props.tags || [],
         };
     }
     public render() {
@@ -65,9 +67,12 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
         const newTag = cleanTag(tag);
 
         if (!tags.includes(newTag)) {
+            const newTags = [...tags, newTag];
+
+            this.props.onChange(newTags);
             this.setState({
                 tag: "",
-                tags: [...tags, newTag],
+                tags: newTags,
             });
         }
     }
@@ -76,6 +81,8 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
         return () => {
             const newTags = [...this.state.tags];
             newTags.splice(i, 1);
+
+            this.props.onChange(newTags);
 
             this.setState({
                 tags: newTags,

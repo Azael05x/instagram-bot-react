@@ -4,14 +4,10 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
     ACCOUNT_UPDATE_ACTIVITIES,
+    ACCOUNT_UPDATE_GENERAL,
 } from "./consts";
-import { AccountData } from "./types";
-import { UpdateAccountActivitiesPayload } from "../ducks/actions";
+import { AccountData, Activities, General } from "./types";
 
-// export interface AccountLinking  {
-//     username: string;
-//     password: string;
-// }
 export interface LinkAccountMiddlewareAction {
     type: typeof ACCOUNT_LINK;
     payload: AccountData;
@@ -58,6 +54,10 @@ export function initAccountMiddlewareActionCreator(): Thunk {
     };
 }
 
+export interface UpdateAccountActivitiesPayload {
+    id: number;
+    activities: Partial<Activities>;
+}
 export interface UpdateAccountActivitiesMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_ACTIVITIES;
     payload: UpdateAccountActivitiesPayload;
@@ -71,6 +71,26 @@ export function updateAccountActivitiesMiddlewareAction(payload: UpdateAccountAc
 export function updateAccountActivitiesActionMiddlewareCreator(payload: UpdateAccountActivitiesPayload): Thunk {
     return dispatch => {
         dispatch(updateAccountActivitiesMiddlewareAction(payload));
+    };
+}
+
+export interface UpdateAccountGeneralPayload {
+    id: number;
+    general: Partial<General>;
+}
+export interface UpdateAccountGeneralMiddlewareAction {
+    type: typeof ACCOUNT_UPDATE_GENERAL;
+    payload: UpdateAccountGeneralPayload;
+}
+export function updateAccountGeneralMiddlewareAction(payload: UpdateAccountGeneralPayload): UpdateAccountGeneralMiddlewareAction {
+    return {
+        type: ACCOUNT_UPDATE_GENERAL,
+        payload,
+    };
+}
+export function updateAccountGeneralMiddlewareActionCreator(payload: UpdateAccountGeneralPayload): Thunk {
+    return dispatch => {
+        dispatch(updateAccountGeneralMiddlewareAction(payload));
     };
 }
 

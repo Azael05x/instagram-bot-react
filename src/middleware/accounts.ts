@@ -7,13 +7,13 @@ import {
     linkAccountActionCreator,
     unlinkAccountActionCreator,
     initAccountActionCreator,
-    updateAccountActionCreator,
 } from "../ducks/actions";
 import {
     ACCOUNT_INIT,
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
     ACCOUNT_UPDATE_ACTIVITIES,
+    ACCOUNT_UPDATE_GENERAL,
 } from "./consts";
 // import { createNewAccount } from "./utils";
 import {
@@ -21,13 +21,19 @@ import {
     LinkAccountMiddlewareAction,
     UnlinkAccountMiddlewareAction,
     UpdateAccountActivitiesMiddlewareAction,
+    UpdateAccountGeneralMiddlewareAction,
 } from "./actions";
 import { selectUser } from "../ducks/selectors";
-import { AccountData, Activities } from "./types";
+import {
+    AccountData,
+    Activities,
+    General,
+} from "./types";
 import {
     getInitAccountData,
     deleteAccount,
     updateActivities,
+    updateGeneral,
 } from "../utils/requests";
 
 // TODO: Add typings, bitch (ti pro sebja Roland???), da blja
@@ -39,6 +45,7 @@ export type AccountMiddlewareAction =
     | UnlinkAccountMiddlewareAction
     | InitAccountMiddlewareAction
     | UpdateAccountActivitiesMiddlewareAction
+    | UpdateAccountGeneralMiddlewareAction
 ;
 
 export const accountMiddleware = (<S extends PartialState>({ dispatch, getState }: MiddlewareAPI<S>) => (next: any) => {
@@ -92,9 +99,23 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                 };
         
                 updateActivities(action.payload.id, data, config)
-                    .then(response => {
-                        dispatch(updateAccountActionCreator(response.data));
-                    })
+                    .catch(error => {
+                        console.error("UPDATE FAILED", error)
+                    });
+
+                break;
+            }
+            case ACCOUNT_UPDATE_GENERAL: {
+                const data: { settings: Partial<General> } = {
+                    settings: action.payload.general,
+                };
+                const config = {
+                    headers: {
+                        "Authorization": selectUser(getState()).auth_token,
+                    }
+                };
+        
+                updateGeneral(action.payload.id, data, config)
                     .catch(error => {
                         console.error("UPDATE FAILED", error)
                     });
