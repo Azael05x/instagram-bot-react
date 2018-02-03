@@ -14,7 +14,7 @@ export function getAccountData(id: number, config: AxiosRequestConfig) {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}`, config);
 };
 export function postAccount(data: any, config: AxiosRequestConfig) {
-    return axios.post(BASE_URL + ACCOUNT_URL, data, config);
+    return axios.post(`${BASE_URL}${ACCOUNT_URL}`, data, config);
 };
 export function deleteAccount(id: number, config: AxiosRequestConfig) {
     return axios.delete(`${BASE_URL}${ACCOUNT_URL}/${id}`, config)
@@ -36,6 +36,13 @@ export function updateGeneral(id: number, data: any, config: AxiosRequestConfig)
 export function updateComments(id: number, data: any, config: AxiosRequestConfig) {
     return axios.patch(
         `${BASE_URL}${ACCOUNT_URL}/${id}${COMMENT_URL}`,
+        data,
+        config,
+    )
+};
+export function setAccountStatus(id: number, data: any, config: AxiosRequestConfig) {
+    return axios.patch(
+        `${BASE_URL}${ACCOUNT_URL}/${id}`,
         data,
         config,
     )

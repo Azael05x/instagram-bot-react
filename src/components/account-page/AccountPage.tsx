@@ -7,7 +7,10 @@ import {
     Redirect,
 } from "react-router-dom";
 
-import { unlinkAccountMiddlewareActionCreator } from "../../middleware/actions";
+import {
+    unlinkAccountMiddlewareActionCreator,
+    setAccountStatusMiddlewareActionCreator,
+} from "../../middleware/actions";
 import { getAccountData } from "../../utils/requests";
 import { selectUser } from "../../ducks/selectors";
 import { AccountData } from "../../middleware/types";
@@ -39,6 +42,7 @@ export interface AccountPageStateProps {
 }
 export interface AccountPageDispatchProps {
     onDelete: typeof unlinkAccountMiddlewareActionCreator;
+    onStatusChange: typeof setAccountStatusMiddlewareActionCreator;
 }
 export type AccountPageProps =
     & AccountPageDispatchProps
@@ -83,10 +87,12 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         if (this.state.redirect) {
             return <Redirect exact to="/accounts" />;
         }
-
         const { account } = this.state;
         const activityButtonClassname = `${styles.button} ${account.is_active ? styles.buttonStop : styles.buttonStart}`;
         const activityButtonLabel = account.is_active ? "Pause" : "Start"
+        const activityButtonIcon = account.is_active
+            ? <i className="fa fa-pause" aria-hidden="true" />
+            : <i className="fa fa-play" aria-hidden="true" />;
         const currentScreen = this.renderScreen();
 
         const selectOptions: SelectOption[] = [
@@ -114,8 +120,11 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                             selectOptions={selectOptions}
                         />
                         <div className={styles.buttons}>
-                            <button className={activityButtonClassname}>
-                                {activityButtonLabel} <i className="fa fa-play" aria-hidden="true"></i>
+                            <button
+                                className={activityButtonClassname}
+                                onClick={this.onStatusChange}
+                            >
+                                {activityButtonLabel} {activityButtonIcon}
                             </button>
                             <button className={`${styles.button} ${styles.buttonDelete}`} onClick={this.onDelete}>
                                 Delete <i className="fa fa-trash-o" aria-hidden="true"></i>
@@ -135,6 +144,19 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         this.setState({
             redirect: true,
         });
+    }
+    private onStatusChange = () => {
+        this.setState({
+            account: {
+                ...this.state.account,
+                is_active: !this.state.account.is_active
+            },
+        }, () => {
+            this.props.onStatusChange({
+                id: this.state.account.id,
+                data: this.state.account,
+            });
+        })
     }
     private onNavigate = (event: React.MouseEvent<HTMLElement>) => {
         const chosenScreen = event.currentTarget.getAttribute("data-role") as ScreenDataRole;
@@ -169,6 +191,7 @@ const mapStateToProps = (state: any): AccountPageStateProps => ({
 
 const mapDispatchToProps = {
     onDelete: unlinkAccountMiddlewareActionCreator,
+    onStatusChange: setAccountStatusMiddlewareActionCreator,
 }
 
 export const AccountPageConnected = withRouter(connect<AccountPageStateProps, AccountPageDispatchProps>(

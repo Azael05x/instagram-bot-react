@@ -5,8 +5,11 @@ export interface TagProps {
     value: string;
     onRemove: () => void;
 }
-export class Tag extends React.PureComponent<TagProps> {
-    render() {
+export class Tag extends React.Component<TagProps> {
+    public shouldComponentUpdate(nextProps: TagProps) {
+        return nextProps.value !== this.props.value;
+    }
+   public render() {
         return (
             <div className={styles.tag}>
                 {this.props.value}

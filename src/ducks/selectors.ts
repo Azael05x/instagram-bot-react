@@ -1,5 +1,5 @@
 import { User } from "./state";
-import { UserAccount } from "../components/account/Account";
+import { AccountData } from "../middleware/types";
 
 export const selectUser = (state: any): User => state.user;
-export const selectAccounts = (state: any): UserAccount[] => state.accounts;
+export const selectAccounts = (state: any): AccountData[] => state.accounts;

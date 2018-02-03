@@ -28,13 +28,14 @@ export type AccountSettingsProps =
     & AccountSettingsDispatchProps
     & RouteComponentProps<{}>;
 
-export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
+export class AccountSettings extends React.Component<AccountSettingsProps> {
     public render() {
         if (!this.props.account.id) {
             return null;
         }
 
         const { settings } = this.props.account;
+
         return (
             <div className={styles.container}>
                 <div className={styles.settingsArea}>
@@ -118,37 +119,37 @@ export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
     private onLikesToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            activities: { enabled_likes: value },
+            data: { enabled_likes: value },
         });
     }
     private onFollowsToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            activities: { enabled_follows: value },
+            data: { enabled_follows: value },
         });
     }
     private onUnfollowsToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            activities: { enabled_unfollows: value },
+            data: { enabled_unfollows: value },
         });
     }
     private onCommentsToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            activities: { enabled_comments: value },
+            data: { enabled_comments: value },
         });
     }
     private onSpeedChange = (value: ActivitySpeedType) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            activities: { speed: value },
+            data: { speed: value },
         });
     }
     private onFollowTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
             id: this.props.account.id,
-            general: {
+            data: {
                 tags: value,
             },
         })
@@ -156,7 +157,7 @@ export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
     private onUserTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
             id: this.props.account.id,
-            general: {
+            data: {
                 users: value,
             },
         })
@@ -164,7 +165,7 @@ export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
     private onBlacklistedFollowTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
             id: this.props.account.id,
-            general: {
+            data: {
                 blacklisted_tags: value,
             },
         })
@@ -172,7 +173,7 @@ export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
     private onBlacklistedUserTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
             id: this.props.account.id,
-            general: {
+            data: {
                 blacklisted_users: value,
             },
         })
@@ -180,7 +181,7 @@ export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
     private onImageCommentsChange = (value: string[]) => {
         this.props.updateAccountComments({
             id: this.props.account.id,
-            comments: {
+            data: {
                 image_comments: value,
             },
         })
@@ -188,7 +189,7 @@ export class AccountSettings extends React.PureComponent<AccountSettingsProps> {
     private onVideoCommentsChange = (value: string[]) => {
         this.props.updateAccountComments({
             id: this.props.account.id,
-            comments: {
+            data: {
                 video_comments: value,
             },
         })

@@ -3,6 +3,7 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
     USER_LOGIN,
+    ACCOUNT_UPDATE,
 } from "./consts";
 import { initialState } from "./state";
 import {
@@ -10,6 +11,7 @@ import {
     LoginAction,
     LinkAccountAction,
     UnlinkAccountAction,
+    UpdateAccountAction,
 } from "./actions";
 
 export type ReducerActions =
@@ -17,6 +19,7 @@ export type ReducerActions =
     | LinkAccountAction
     | UnlinkAccountAction
     | InitAccountAction
+    | UpdateAccountAction
 ;
 
 export function reducer(state = initialState, action: ReducerActions) {
@@ -43,6 +46,19 @@ export function reducer(state = initialState, action: ReducerActions) {
             return {
                 ...state,
                 accounts: state.accounts.filter(account => account.id !== action.payload),
+            };
+        }
+        case ACCOUNT_UPDATE: {
+            const updatedAccounts = state.accounts.map(account => {
+                if (account.id === action.payload.id) {
+                    return action.payload.data;
+                }
+                return account;
+            });
+
+            return {
+                ...state,
+                accounts: updatedAccounts,
             };
         }
         default:

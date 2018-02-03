@@ -23,7 +23,7 @@ export interface InputSelectProps {
     type?: InputType;
 }
 
-export class InputSelect extends React.PureComponent<InputSelectProps, InputSelectState> {
+export class InputSelect extends React.Component<InputSelectProps, InputSelectState> {
     public static defaultProps = {
         type: InputType.SingleLine,
     }
@@ -95,10 +95,11 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
         if (!tags.includes(newTag)) {
             const newTags = [...tags, newTag];
 
-            this.props.onChange(newTags);
             this.setState({
                 tag: "",
                 tags: newTags,
+            }, () => {
+                this.props.onChange(newTags);
             });
         }
     }
@@ -108,10 +109,10 @@ export class InputSelect extends React.PureComponent<InputSelectProps, InputSele
             const newTags = [...this.state.tags];
             newTags.splice(i, 1);
 
-            this.props.onChange(newTags);
-
             this.setState({
                 tags: newTags,
+            }, () => {
+                this.props.onChange(newTags);
             })
         }
     }
