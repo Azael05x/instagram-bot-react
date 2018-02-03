@@ -38,80 +38,92 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
 
         return (
             <div className={styles.container}>
-                <div className={styles.settingsArea}>
-                    <div className={styles.settingsAreaRow}>
-                        <ActivitySpeed
-                            speed={settings.activities.speed}
-                            onChange={this.onSpeedChange}
-                        />
+                <div className={styles.section}>
+                    <h2>General Activity</h2>
+                    <div className={styles.settingsArea}>
+                        <div className={styles.settingsAreaRow}>
+                            <ActivitySpeed
+                                speed={settings.activities.speed}
+                                onChange={this.onSpeedChange}
+                            />
+                        </div>
+                        <Divider theme={DividerTheme.Small} />
+                        <div className={styles.settingsAreaRow}>
+                            <General
+                                values={settings.activities}
+                                onLikesToggle={this.onLikesToggle}
+                                onCommentsToggle={this.onCommentsToggle}
+                                onFollowsToggle={this.onFollowsToggle}
+                                onUnfollowsToggle={this.onUnfollowsToggle}
+                            />
+                        </div>
                     </div>
-                    <Divider theme={DividerTheme.Small} />
-                    <div className={styles.settingsAreaRow}>
-                        <General
-                            values={settings.activities}
-                            onLikesToggle={this.onLikesToggle}
-                            onCommentsToggle={this.onCommentsToggle}
-                            onFollowsToggle={this.onFollowsToggle}
-                            onUnfollowsToggle={this.onUnfollowsToggle}
-                        />
+                </div>
+                <div className={styles.section}>
+                    <h2>#Hashtags & @Users</h2>
+                    <div className={styles.tagsArea}>
+                        <div className={styles.settingsArea}>
+                            <InputSelect
+                                placeholder="Enter the hashtags you wish to follow"
+                                bodyPlaceholder="No hashtags yet. Posts with at least one of these hashtags will be targeted for your activities"
+                                icon={<i className="fa fa-tags" aria-hidden="true" />}
+                                onChange={this.onFollowTagsChange}
+                                tags={settings.general.tags}
+                            />
+                        </div>
+                        <div className={styles.settingsArea}>
+                            <InputSelect
+                                placeholder="Enter favourite users you wish to follow"
+                                bodyPlaceholder="No favourite users yet. These users posts will have a priority in the system"
+                                icon={<i className="fa fa-user" aria-hidden="true" />}
+                                onChange={this.onUserTagsChange}
+                                tags={settings.general.users}
+                            />
+                        </div>
+                        <div className={styles.settingsArea}>
+                            <InputSelect
+                                placeholder="Enter blacklisted hashtags"
+                                bodyPlaceholder="No blacklisted hashtags yet. We will not like any post with this hashtag"
+                                icon={<i className="fa fa-ban" aria-hidden="true"></i>}
+                                onChange={this.onBlacklistedFollowTagsChange}
+                                tags={settings.general.blacklisted_tags}
+                            />
+                        </div>
+                        <div className={styles.settingsArea}>
+                            <InputSelect
+                                placeholder="Enter blacklisted users"
+                                bodyPlaceholder="No blacklisted users yet. We will not like any post directly related to this user"
+                                icon={<i className="fa fa-user-times" aria-hidden="true"></i>}
+                                onChange={this.onBlacklistedUserTagsChange}
+                                tags={settings.general.blacklisted_users}
+                            />
+                        </div>
                     </div>
                 </div>
-                <div className={styles.settingsArea}>
-                    <InputSelect
-                        placeholder="Enter the hashtags you wish to follow"
-                        bodyPlaceholder="No hashtags yet. Posts with at least one of these hashtags will be targeted for your activities"
-                        icon={<i className="fa fa-tags" aria-hidden="true" />}
-                        onChange={this.onFollowTagsChange}
-                        tags={settings.general.tags}
-                    />
-                </div>
-                <div className={styles.settingsArea}>
-                    <InputSelect
-                        placeholder="Enter favourite users you wish to follow"
-                        bodyPlaceholder="No favourite users yet. These users posts will have a priority in the system"
-                        icon={<i className="fa fa-user" aria-hidden="true" />}
-                        onChange={this.onUserTagsChange}
-                        tags={settings.general.users}
-                    />
-                </div>
-                <div className={styles.settingsArea}>
-                    <InputSelect
-                        placeholder="Enter blacklisted hashtags"
-                        bodyPlaceholder="No blacklisted hashtags yet. We will not like any post with this hashtag"
-                        icon={<i className="fa fa-ban" aria-hidden="true"></i>}
-                        onChange={this.onBlacklistedFollowTagsChange}
-                        tags={settings.general.blacklisted_tags}
-                    />
-                </div>
-                <div className={styles.settingsArea}>
-                    <InputSelect
-                        placeholder="Enter blacklisted users"
-                        bodyPlaceholder="No blacklisted users yet. We will not like any post directly related to this user"
-                        icon={<i className="fa fa-user-times" aria-hidden="true"></i>}
-                        onChange={this.onBlacklistedUserTagsChange}
-                        tags={settings.general.blacklisted_users}
-                    />
-                </div>
-                <Divider />
-                <div className={styles.settingsArea}>
-                    <InputSelect
-                        placeholder="Enter a list of comments that you want to leave for the liked images. These will be used only for posts with images."
-                        bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
-                        icon={<i className="fa fa-photo" aria-hidden="true"></i>}
-                        onChange={this.onImageCommentsChange}
-                        tags={settings.comments.image_comments}
-                        type={InputType.TextField}
-                    />
-                </div>
-                <div className={styles.settingsArea}>
-                    <InputSelect
-                        placeholder="Enter a list of comments that you want to leave for the liked videos. These will be used only for posts with videos."
-                        bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
-                        icon={<i className="fa fa-play" aria-hidden="true"></i>}
-                        onChange={this.onVideoCommentsChange}
-                        tags={settings.comments.video_comments}
-                        type={InputType.TextField}
-                    />
+                <div className={styles.section}>
+                    <h2>Image & Video Comments</h2>
+                    <div className={styles.commentsArea}>
+                        <div className={styles.settingsArea}>
+                            <InputSelect
+                                placeholder="Enter a list of comments that you want to leave for the liked images. These will be used only for posts with images."
+                                bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
+                                icon={<i className="fa fa-photo" aria-hidden="true"></i>}
+                                onChange={this.onImageCommentsChange}
+                                tags={settings.comments.image_comments}
+                                type={InputType.TextField}
+                                />
+                        </div>
+                        <div className={styles.settingsArea}>
+                            <InputSelect
+                                placeholder="Enter a list of comments that you want to leave for the liked videos. These will be used only for posts with videos."
+                                bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
+                                icon={<i className="fa fa-play" aria-hidden="true"></i>}
+                                onChange={this.onVideoCommentsChange}
+                                tags={settings.comments.video_comments}
+                                type={InputType.TextField}
+                                />
+                        </div>
+                    </div>
                 </div>
             </div>
         );

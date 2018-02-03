@@ -93,7 +93,6 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         const activityButtonIcon = account.is_active
             ? <i className="fa fa-pause" aria-hidden="true" />
             : <i className="fa fa-play" aria-hidden="true" />;
-        const currentScreen = this.renderScreen();
 
         const selectOptions: SelectOption[] = [
             {
@@ -133,7 +132,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                     </div>
                     <Divider />
                     <div className={styles.body}>
-                        {currentScreen.component}
+                        {this.renderScreen().component}
                     </div>
                 </div>
             </div>

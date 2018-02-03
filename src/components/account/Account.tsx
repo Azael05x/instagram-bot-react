@@ -3,18 +3,6 @@ import { Link } from "react-router-dom";
 import * as styles from "./Account.css";
 import { AccountData } from "../../middleware/types";
 
-// export interface UserAccount {
-//     id: number;
-//     username: string;
-//     settings?: {
-//         likes: boolean;
-//         follows: boolean;
-//         unfollows: boolean;
-//         comments: boolean;
-//     };
-//     is_active?: boolean;
-// }
-
 export interface AccountItemState {
     redirect: boolean;
 }
@@ -26,9 +14,7 @@ export interface AccountItemProps {
 export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
     private isAccountActive = this.props.account.is_active;
     public render() {
-        const {
-            account,
-        } = this.props;
+        const { account } = this.props;
 
         return (
             <div className={styles.container}>
@@ -48,9 +34,9 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
                     >
                         {this.isAccountActive ? "Pause" : "Start"}
                     </div>
-                    <div className={styles.settingsButton}>
+                    <Link className={styles.settingsButton} to={`/accounts/${account.id}`}>
                         <i className={`fa fa-cog ${styles.icon}`} aria-hidden="true"></i>
-                    </div>
+                    </Link>
                 </div>
             </div>
         );

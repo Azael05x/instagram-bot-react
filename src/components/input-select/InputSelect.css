@@ -27,6 +27,7 @@
 .tagField {
     display: flex;
     flex-wrap: wrap;
+    margin-top: .5rem;
 }
 .iconContainer {
     border: 1px solid #e8e9ec;

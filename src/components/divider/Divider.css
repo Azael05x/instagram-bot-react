@@ -3,6 +3,7 @@
     background-color: rgba(29, 34, 71, 0.1);
     position: relative;
     margin: 1.5rem 0;
+    align-self: center;
     border-radius: 100px;
 }
 

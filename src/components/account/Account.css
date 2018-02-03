@@ -81,6 +81,7 @@
     background-color: rgba(232, 233, 236, .4);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: .2s;
+    color: #1d1d1d;
 }
 .settingsButton:hover {
     background-color: #fff;
