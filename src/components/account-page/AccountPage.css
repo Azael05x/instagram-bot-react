@@ -78,4 +78,16 @@
 .body {
     display: flex;
     flex: 1;
+    flex-direction: column;
+}
+
+@media (max-width: 720px) {
+    .header {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+        grid-gap: 1rem;
+    }
+    .buttons {
+        justify-self: center;
+    }
 }

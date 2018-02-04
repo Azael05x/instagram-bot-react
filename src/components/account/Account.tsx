@@ -52,7 +52,7 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
     }
     private setIcon = (isActive: boolean) => {
         return isActive
-            ? <i className={`fa fa-check ${styles.active} ${styles.icon}`} aria-hidden="true" />
-            : <i className={`fa fa-times ${styles.inactive} ${styles.icon}`} aria-hidden="true" />
+            ? <i className={`fas fa-check ${styles.active} ${styles.icon}`} />
+            : <i className={`fas fa-times ${styles.inactive} ${styles.icon}`} />;
     }
 }

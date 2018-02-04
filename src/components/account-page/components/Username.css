@@ -8,3 +8,9 @@
     font-size: 2rem;
     margin-right: .5rem;
 }
+
+@media (max-width: 720px) {
+    .usernameContainer {
+        justify-self: center;
+    }
+}

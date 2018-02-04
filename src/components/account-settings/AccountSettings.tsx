@@ -107,7 +107,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                             <InputSelect
                                 placeholder="Enter a list of comments that you want to leave for the liked images. These will be used only for posts with images."
                                 bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
-                                icon={<i className="fa fa-photo" aria-hidden="true"></i>}
+                                icon={<i className="far fa-image" />}
                                 onChange={this.onImageCommentsChange}
                                 tags={settings.comments.image_comments}
                                 type={InputType.TextField}

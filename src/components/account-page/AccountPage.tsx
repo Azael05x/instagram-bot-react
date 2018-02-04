@@ -20,6 +20,7 @@ import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
 
 import * as styles from "./AccountPage.css";
+import { ActivitiesConnected } from "../activities/Activities";
 
 export enum ScreenDataRole {
     Settings = "settings",
@@ -56,7 +57,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
 
         this.state = {
             account: {} as AccountData,
-            activeScreen: ScreenDataRole.Settings, // TODO: Make navigation listen to active screen
+            activeScreen: ScreenDataRole.ActivityReview, // TODO: Make navigation listen to active screen
             redirect: false,
         }
     }
@@ -87,7 +88,12 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         if (this.state.redirect) {
             return <Redirect exact to="/accounts" />;
         }
+
         const { account } = this.state;
+        if (!account.id) {
+            return null;
+        }
+
         const activityButtonClassname = `${styles.button} ${account.is_active ? styles.buttonStop : styles.buttonStart}`;
         const activityButtonLabel = account.is_active ? "Pause" : "Start"
         const activityButtonIcon = account.is_active
@@ -126,7 +132,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                                 {activityButtonLabel} {activityButtonIcon}
                             </button>
                             <button className={`${styles.button} ${styles.buttonDelete}`} onClick={this.onDelete}>
-                                Delete <i className="fa fa-trash-o" aria-hidden="true"></i>
+                                Delete <i className="far fa-trash-alt" />
                             </button>
                         </div>
                     </div>
@@ -177,7 +183,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                 label: "Statistics",
             },
             [ScreenDataRole.ActivityReview]: {
-                component: <div />,
+                component: <ActivitiesConnected accountId={this.state.account.id} />,
                 label: "Activity Review",
             },
         }[this.state.activeScreen];

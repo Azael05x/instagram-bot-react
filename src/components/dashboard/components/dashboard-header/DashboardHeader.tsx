@@ -11,6 +11,8 @@ export class DashboardHeader extends React.PureComponent {
                     className={styles.button}
                     to={"/link-account"}
                 >
+                    <i className="fas fa-plus"></i>
+                    {" "}
                     Link Instagram account
                 </Link>
             </div>

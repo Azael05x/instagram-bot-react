@@ -5,6 +5,7 @@ import {
     ACTIVITY_URL,
     GENERAL_URL,
     COMMENT_URL,
+    ACTIVITIES_ALL,
 } from "../consts";
 
 export function getInitAccountData(config: AxiosRequestConfig) {
@@ -46,4 +47,7 @@ export function setAccountStatus(id: number, data: any, config: AxiosRequestConf
         data,
         config,
     )
+};
+export function getActivities(id: number, config: AxiosRequestConfig) {
+    return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITIES_ALL}`, config)
 };
