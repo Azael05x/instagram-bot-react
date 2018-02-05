@@ -72,6 +72,7 @@ export class ActivityItem extends React.PureComponent<ActivityProps> {
         return (
             <div className={styles.column}>
                {titlePhrase}
+               {activity.activity === ActivityType.Comment && <q className={styles.comment}>{activity.text}</q>}
                 {activity.asset_url
                     ? (
                         <a

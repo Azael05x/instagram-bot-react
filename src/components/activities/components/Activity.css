@@ -56,15 +56,18 @@
 .username::before {
     content: "";
     position: absolute;
-    box-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    height: 1px;
     bottom: -5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.9);
     transition: .2s;
-    opacity: 0;
+    left: 0;
+    right: 0;
+    transform: scale(0);
+    transition: .2s;
+    transform-origin: bottom center;
+    border-radius: 100px;
 }
 .user:hover .username::before {
-    opacity: 1;
+    transform: scale(1);
 }
 .link {
     color: #E76B6B;
