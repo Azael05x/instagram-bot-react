@@ -57,7 +57,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
 
         this.state = {
             account: {} as AccountData,
-            activeScreen: ScreenDataRole.ActivityReview, // TODO: Make navigation listen to active screen
+            activeScreen: ScreenDataRole.Settings,
             redirect: false,
         }
     }
@@ -99,6 +99,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         const activityButtonIcon = account.is_active
             ? <i className="fa fa-pause" aria-hidden="true" />
             : <i className="fa fa-play" aria-hidden="true" />;
+        const currentScreen = this.renderScreen();
 
         const selectOptions: SelectOption[] = [
             {
@@ -115,6 +116,14 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             },
         ];
 
+        
+        let currentOption: SelectOption;
+        for (let option of selectOptions){
+            if (currentScreen.label === option.label) {
+                currentOption = option;
+            }
+        }
+
         return (
             <div className={styles.container}>
                 <div className={styles.innerContainer}>
@@ -123,6 +132,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                         <Select
                             onSelectOption={this.onNavigate}
                             selectOptions={selectOptions}
+                            currentOption={currentOption}
                         />
                         <div className={styles.buttons}>
                             <button
@@ -138,7 +148,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                     </div>
                     <Divider />
                     <div className={styles.body}>
-                        {this.renderScreen().component}
+                        {currentScreen.component}
                     </div>
                 </div>
             </div>
