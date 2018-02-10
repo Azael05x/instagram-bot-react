@@ -19,7 +19,7 @@ export class ActivityItem extends React.PureComponent<ActivityProps> {
     public render() {
         const { activityItem } = this.props;
 
-        const createdAt = new Date(activityItem.created_at);
+        const createdAt = new Date(activityItem.created_at_ms);
 
         return (
             <div className={styles.container}>

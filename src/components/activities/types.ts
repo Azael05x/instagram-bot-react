@@ -8,6 +8,7 @@ export interface GeneralActivity {
     id: number
     instagram_id: number;
     created_at: string;
+    created_at_ms: string;
     reverted_at: string;
     updated_at: string;
 }
