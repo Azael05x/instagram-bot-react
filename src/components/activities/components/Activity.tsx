@@ -41,7 +41,6 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
             this.setState({ loaded: true });
         };
         activityMedia.onerror = () => {
-            console.log("MEDIA FAILED: ", this.props.activityItem)
             this.setState({ failedLoaded: true });
         }
         activityMedia.classList.add(styles.mediaObject)
