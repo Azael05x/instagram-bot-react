@@ -60,7 +60,6 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         return  <>{this.renderActivity()}</>;
     }
     private renderActivity = () => {
-        // TODO: Add sorting by created_at
         return this.state.activities
             .map((activity, i) => <ActivityItem key={i} activityItem={activity} />);
     }

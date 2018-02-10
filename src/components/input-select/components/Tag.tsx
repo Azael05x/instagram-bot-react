@@ -14,7 +14,9 @@ export class Tag extends React.Component<TagProps> {
             <div className={styles.tag}>
                 {this.props.value}
                 {" "}
-                <i className={`${styles.closeIcon} fa fa-times`} aria-hidden="true" onClick={this.props.onRemove} />
+                <div onClick={this.props.onRemove} >
+                    <i className={`${styles.closeIcon} fas fa-times`} />
+                </div>
             </div>
         );
     }

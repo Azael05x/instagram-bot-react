@@ -12,11 +12,43 @@ import {
 import * as styles from "./Activity.css";
 import axios from "axios";
 
-export interface ActivityProps {
+const placeholderImg = require("../../../assets/placeholder.png");
+const userPlaceholderImg = require("../../../assets/user_placeholder.png");
+
+interface ActivityProps {
     activityItem: FollowActivity | CommentActivity | LikeActivity;
 }
+interface ActivityState {
+    loaded: boolean;
+    failedLoaded: boolean;
+}
 
-export class ActivityItem extends React.PureComponent<ActivityProps> {
+function hasAssetUrl(activity: any): activity is CommentActivity | LikeActivity {
+    return activity.asset_url;
+}
+
+export class ActivityItem extends React.PureComponent<ActivityProps, ActivityState> {
+    public constructor(props: ActivityProps) {
+        super(props);
+
+        this.state = {
+            loaded: false,
+            failedLoaded: false,
+        }
+    }
+    public componentDidMount() {
+        const activityMedia = new Image();
+        activityMedia.onload = () => {
+            this.setState({ loaded: true });
+        };
+        activityMedia.onerror = () => {
+            this.setState({ failedLoaded: true });
+        }
+        activityMedia.classList.add(styles.mediaObject)
+        activityMedia.src = hasAssetUrl(this.props.activityItem)
+            ? this.props.activityItem.asset_url
+            : this.props.activityItem.avatar_url;
+    }
     public render() {
         const { activityItem } = this.props;
 
@@ -69,7 +101,10 @@ export class ActivityItem extends React.PureComponent<ActivityProps> {
                     <div className={styles.row}>
                         <span>You followed</span>
                         <a className={styles.user} href={`https://instagram.com/${activity.username}`} target="_blank">
-                            <div style={{ backgroundImage: `url(${activity.avatar_url})` }} className={styles.avatar} />
+                            <div
+                                style={{ backgroundImage: `url(${!this.state.failedLoaded ? activity.avatar_url : userPlaceholderImg})` }}
+                                className={styles.avatar}
+                            />
                             <span className={styles.username}>
                                 {activity.username}
                             </span>
@@ -82,25 +117,28 @@ export class ActivityItem extends React.PureComponent<ActivityProps> {
         }
     }
     private renderLikesCommentsActivity = (activity: CommentActivity | LikeActivity) => {
+        const {
+            failedLoaded,
+            loaded,
+        } = this.state;
         const titlePhrase = activity.activity === ActivityType.Comment
-            ? `You commented ${!activity.asset_url ? "on a post" : ""}`
-            : `You liked ${!activity.asset_url ? "a post" : ""}`
+            ? `You commented ${!activity.asset_url || failedLoaded ? "on a post" : ""}`
+            : `You liked ${!activity.asset_url || failedLoaded ? "a post" : ""}`
 
         return (
             <div className={styles.column}>
                {titlePhrase}
                {activity.activity === ActivityType.Comment && <q className={styles.comment}>{activity.text}</q>}
-                {activity.asset_url
-                    ? (
-                        <a
-                            href={`https://instagram.com/p/${activity.shortcode}`}
-                            target="_blank"
-                            style={{ backgroundImage: `url(${activity.asset_url})` }}
-                            className={styles.media}
-                        />
-                    )
-                    : <a className={styles.link} href={`https://instagram.com/p/${activity.shortcode}`} target="_blank">View post</a>
-                }
+                <a
+                    href={`https://instagram.com/p/${activity.shortcode}`}
+                    target="_blank"
+                    className={activity.asset_url && !failedLoaded ? styles.media : styles.link}
+                >
+                    {!activity.asset_url || failedLoaded
+                        ? "View post"
+                        : <img className={styles.mediaObject} src={loaded && !failedLoaded ? activity.asset_url : placeholderImg as string} />
+                    }
+                </a>
             </div>
         );
     }
