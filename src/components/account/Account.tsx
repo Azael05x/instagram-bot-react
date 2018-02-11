@@ -51,8 +51,13 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
         });
     }
     private setIcon = (isActive: boolean) => {
-        return isActive
-            ? <i className={`fas fa-check ${styles.active} ${styles.icon}`} />
-            : <i className={`fas fa-times ${styles.inactive} ${styles.icon}`} />;
+        return <>
+            <div style={{ display: `${isActive ? "block" : "none"}`}}>
+                <i className={`fas fa-check ${styles.active} ${styles.icon}`} />
+            </div>
+            <div style={{ display: `${!isActive ? "block" : "none"}`}}>
+                <i className={`fas fa-times ${styles.inactive} ${styles.icon}`} />;
+            </div>
+        </>;
     }
 }

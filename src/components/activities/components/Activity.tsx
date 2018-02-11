@@ -11,6 +11,7 @@ import {
 } from "../../../utils/formatDate";
 import * as styles from "./Activity.css";
 import { revertAccountActivity } from "../../../utils/requests";
+import { AxiosResponse } from "axios";
 
 const placeholderImg = require("../../../assets/placeholder.png");
 const userPlaceholderImg = require("../../../assets/user_placeholder.png");
@@ -19,6 +20,7 @@ interface ActivityState {
     loaded: boolean;
     failedLoaded: boolean;
     revertInProgress: boolean;
+    revertError: boolean;
     unmount: boolean;
 }
 interface ActivityProps {
@@ -37,6 +39,7 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
             loaded: false,
             failedLoaded: false,
             revertInProgress: false,
+            revertError: false,
             unmount: false,
         }
     }
@@ -79,10 +82,10 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
                     className={`${styles.sideBox} ${styles.button} ${this.state.revertInProgress ? styles.blink : ""}`}
                     onClick={this.onRevert}
                 >
-                    {!this.state.revertInProgress
-                        ? "Revert"
-                        : <i className="fas fa-cog fa-spin" style={{ fontSize: "1.5rem" }} />
-                    }
+                    {!this.state.revertInProgress && "Revert"}
+                    <div style={{ display: `${this.state.revertInProgress ? "block" : "none"}`}}>
+                        <i className="fas fa-cog fa-spin" style={{ fontSize: "1.5rem" }} />
+                    </div>
                 </div>
             </div>
         );
@@ -154,10 +157,17 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
                 },
             }
         )
-        .then(() => {
-            this.setState({
-                unmount: true,
-            });
+        .then((response: AxiosResponse<{ success: boolean, error: string }>) => {
+            if (response.data.success) {
+                this.setState({
+                    unmount: true,
+                });
+            } else {
+                this.setState({
+                    revertInProgress: false,
+                    revertError: true, // Used to display error tooltip. Will be implemented later 11.02.18 @RJ
+                });
+            }
         })
         .catch(error => {
             this.setState({
