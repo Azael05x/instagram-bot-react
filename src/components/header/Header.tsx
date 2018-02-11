@@ -18,14 +18,24 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
         const userComponent = !!this.props.user.auth_token
             ? (
                 <NavLink
-                    className={styles.link}
+                    className={`${styles.link} ${styles.parentLink}`}
                     to={"/profile"}
                     exact
                     about="Profile"
                     activeClassName={styles.active}
                 >
                     Welcome, {this.props.user.email}
-                    <CaretIcon />
+                    <span className={styles.caret}>
+                        <CaretIcon />
+                    </span>
+                    <div className={styles.dropdown}>
+                        <div
+                            className={styles.link}
+                            onClick={this.onLogout}
+                        >
+                            Logout
+                        </div>
+                    </div>
                 </NavLink>
             )
             : (
@@ -69,6 +79,10 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
                 </div>
             </div>
         );
+    }
+    private onLogout = () => {
+        localStorage.removeItem("auth_token");
+        window.location.href = "/"
     }
 }
 

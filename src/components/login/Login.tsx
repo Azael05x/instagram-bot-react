@@ -5,7 +5,7 @@ import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
 
 import { ErrorCode } from "../error-message/types";
 import { ErrorMessage } from "../error-message/ErrorMessage";
-import { LOGIN_URL } from "../../consts";
+import { LOGIN_URL, ENTER_KEY } from "../../consts";
 import { loginActionCreator } from "../../ducks/actions";
 
 import * as styles from "./Login.css";
@@ -62,10 +62,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         return (
             <div className={styles.container}>
                 <h1 style={{ fontSize: this.titleFontSize}} className={styles.title}>Welcome</h1>
-                <form
-                    className={styles.form}
-                    onSubmit={this.onSubmit}
-                >
+                <div className={styles.form}>
                     <div className={styles.formGroup}>
                         <label
                             htmlFor="email"
@@ -81,6 +78,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                             value={this.state.email}
                             className={styles.input}
                             data-role="email"
+                            onKeyUp={this.onEnterKey}
                         />
                     </div>
                     <div className={styles.formGroup}>
@@ -98,12 +96,13 @@ export class Login extends React.Component<LoginProps, LoginState> {
                             value={this.state.password}
                             className={styles.input}
                             data-role="password"
+                            onKeyUp={this.onEnterKey}
                         />
                     </div>
                     <div className={styles.formGroup}>
-                        <button type="submit" className={styles.button}>Log In</button>
+                        <button type="submit" className={styles.button} onClick={this.onSubmit}>Log In</button>
                     </div>
-                </form>
+                </div>
                 <hr />
                 <ErrorMessage errorCode={this.state.errorMessage} />
             </div>
@@ -131,21 +130,26 @@ export class Login extends React.Component<LoginProps, LoginState> {
             password: this.state.password,
         })
             .then((response) => {
-                this.setState({
-                    errorMessage: undefined,
-                    redirect: true,
-                });
-
                 localStorage.setItem("auth_token", response.data.auth_token);
                 localStorage.setItem("email", response.data.user.email);
 
-               this.props.onLogin({ email: this.state.email });
+                this.setState({
+                    errorMessage: undefined,
+                    redirect: true,
+                }, () => {
+                    this.props.onLogin({ email: this.state.email });
+                });
             })
             .catch((error) => {
                 this.setState({
                     errorMessage: `${error.response.status}` as ErrorCode,
                 });
             });
+    }
+    private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement>) => {
+        if (key.keyCode === ENTER_KEY && this.state.email && this.state.password) {
+            this.onSubmit();
+        }
     }
 }
 
