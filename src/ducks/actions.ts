@@ -8,7 +8,7 @@ import {
 } from "./consts";
 import { initAccountMiddlewareActionCreator } from "../middleware/actions";
 import { AccountData } from "../middleware/types";
-import { UpdateAccountSettingsPayload } from "../utils/updateAccountTypes";
+import { UpdateAccountPayload } from "../utils/updateAccountTypes";
 
 export interface UserLoginPayload {
     email: string;
@@ -85,15 +85,15 @@ export function unlinkAccountActionCreator(payload: number): Thunk {
 
 export interface UpdateAccountAction {
     type: typeof ACCOUNT_UPDATE;
-    payload: UpdateAccountSettingsPayload<AccountData>;
+    payload: UpdateAccountPayload<AccountData>;
 }
-export function updateAccountActionCreator(payload: UpdateAccountSettingsPayload<AccountData>): UpdateAccountAction {
+export function updateAccountActionCreator(payload: UpdateAccountPayload<AccountData>): UpdateAccountAction {
     return {
         type: ACCOUNT_UPDATE,
         payload,
     };
 }
-export function updateAccountActionCreatorCreator(payload: UpdateAccountSettingsPayload<AccountData>): Thunk {
+export function updateAccountActionCreatorCreator(payload: UpdateAccountPayload<AccountData>): Thunk {
     return dispatch => {
         dispatch(updateAccountActionCreator(payload));
     };

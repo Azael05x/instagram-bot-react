@@ -4,7 +4,6 @@ import { withRouter, RouteComponentProps, Redirect } from "react-router-dom";
 import { AxiosResponse } from "axios";
 import { postAccount } from "../../utils/requests";
 import { AccountData } from "../../middleware/types";
-import { selectUser } from "../../ducks/selectors";
 import { linkAccountActionCreator } from "../../ducks/actions";
 import { ErrorCode } from "../error-message/types";
 import { ErrorMessage } from "../error-message/ErrorMessage";
@@ -17,13 +16,11 @@ export interface LinkAccountState {
     redirect: boolean;
     errorMessage: ErrorCode | undefined;
 }
-export interface LinkAccountStateProps {
-    auth_token: string;
-}
+
 export interface LinkAccountDispatchProps {
     addAccount: typeof linkAccountActionCreator;
 }
-export type LinkAccountProps = LinkAccountDispatchProps & LinkAccountStateProps & RouteComponentProps<{}>;
+export type LinkAccountProps = LinkAccountDispatchProps & RouteComponentProps<{}>;
 
 export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountState> {
     public constructor(props: LinkAccountProps) {
@@ -126,13 +123,8 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             username: this.state.username,
             password: this.state.password,
         };
-        const config = {
-            headers: {
-                "Authorization": this.props.auth_token,
-            }
-        };
 
-        postAccount(data, config)
+        postAccount(data)
             .then((response: AxiosResponse<AccountData>) => {
                 this.setState({
                     loading: false,
@@ -162,16 +154,12 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
     }
 }
 
-const mapStateToProps = (state: any) => ({
-    auth_token: selectUser(state).auth_token,
-})
-
 const mapDispatchToProps = {
     addAccount: linkAccountActionCreator,
 };
 
-export const LinkAccountConnected = withRouter(connect<LinkAccountStateProps, LinkAccountDispatchProps>(
-    mapStateToProps,
+export const LinkAccountConnected = withRouter(connect<{}, LinkAccountDispatchProps>(
+    undefined,
     mapDispatchToProps,
 )(LinkAccount));
 

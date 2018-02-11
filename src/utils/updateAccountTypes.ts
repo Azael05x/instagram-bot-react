@@ -1,4 +1,4 @@
-export interface UpdateAccountSettingsPayload<P> {
+export interface UpdateAccountPayload<P> {
     id: number;
     data: Partial<P>;
 }
