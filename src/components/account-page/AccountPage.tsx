@@ -19,7 +19,7 @@ import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
 
 import * as styles from "./AccountPage.css";
-import { ActivitiesConnected } from "../activities/Activities";
+import { Activities } from "../activities/Activities";
 
 export enum ScreenDataRole {
     Settings = "settings",
@@ -179,7 +179,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                 label: "Statistics",
             },
             [ScreenDataRole.ActivityReview]: {
-                component: <ActivitiesConnected accountId={this.state.account.id} />,
+                component: <Activities accountId={this.state.account.id} />,
                 label: "Activity Review",
             },
         }[this.state.activeScreen];

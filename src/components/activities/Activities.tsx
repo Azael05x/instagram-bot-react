@@ -1,28 +1,17 @@
 import * as React from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
-import { connect } from "react-redux";
-import { getActivities } from "../../utils/requests";
 import { AxiosResponse } from "axios";
+
+import { getActivities } from "../../utils/requests";
 import { CommentActivity, FollowActivity, LikeActivity } from "./types";
 import { ActivityItem } from "./components/Activity";
 import { EmptyList, EmptyListType } from "../empty-list/EmptyList";
-import { revertAccountActivityMiddlewareActionCreator } from "../../middleware/actions";
 
 export interface ActivitiesState {
     activities: (CommentActivity & FollowActivity & LikeActivity)[];
 }
-export interface ActivitiesOwnProps {
+export interface ActivitiesProps {
     accountId: number;
 }
-
-export interface ActivitiesDispatchProps {
-    onRevert: typeof revertAccountActivityMiddlewareActionCreator;
-}
-export type ActivitiesProps =
-    & ActivitiesOwnProps
-    & ActivitiesDispatchProps
-    & RouteComponentProps<{}>
-;
 
 export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesState> {
     public constructor(props: ActivitiesProps) {
@@ -52,20 +41,6 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
     }
     private renderActivity = () => {
         return this.state.activities
-            .map((activity, i) => <ActivityItem key={i} activityItem={activity} onRevert={this.onRevert} />);
-    }
-    private onRevert = () => {
-        console.log("ON REVERT")
-        // this.props.onRevert();
+            .map((activity, i) => <ActivityItem key={i} activityItem={activity} />);
     }
 }
-
-const mapDispatchToProps = {
-    onRevert: revertAccountActivityMiddlewareActionCreator,
-};
-
-export const ActivitiesConnected = withRouter(connect<{}, ActivitiesDispatchProps>(
-    undefined,
-    mapDispatchToProps,
-)(Activities));
-

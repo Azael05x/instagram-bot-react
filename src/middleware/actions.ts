@@ -7,7 +7,6 @@ import {
     ACCOUNT_UPDATE_GENERAL,
     ACCOUNT_UPDATE_COMMENTS,
     ACCOUNT_SET_STATUS,
-    ACCOUNT_ACTIVITY_REVERT,
 } from "./consts";
 import {
     AccountData,
@@ -16,7 +15,6 @@ import {
     Comments,
 } from "./types";
 import { UpdateAccountPayload } from "../utils/updateAccountTypes";
-import { ActivityItem } from "../components/activities/components/Activity";
 
 export interface LinkAccountMiddlewareAction {
     type: typeof ACCOUNT_LINK;
@@ -127,20 +125,3 @@ export function updateAccountCommentsMiddlewareActionCreator(payload: UpdateAcco
         dispatch(updateAccountCommentsMiddlewareAction(payload));
     };
 }
-
-export interface RevertAccountActivityMiddlewareAction {
-    type: typeof ACCOUNT_ACTIVITY_REVERT;
-    payload: UpdateAccountPayload<ActivityItem>;
-}
-export function revertAccountActivityMiddlewareAction(payload: UpdateAccountPayload<ActivityItem>): RevertAccountActivityMiddlewareAction {
-    return {
-        type: ACCOUNT_ACTIVITY_REVERT,
-        payload,
-    };
-}
-export function revertAccountActivityMiddlewareActionCreator(payload: UpdateAccountPayload<ActivityItem>): Thunk {
-    return dispatch => {
-        dispatch(revertAccountActivityMiddlewareAction(payload));
-    };
-}
-

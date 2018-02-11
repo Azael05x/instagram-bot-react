@@ -17,7 +17,7 @@ import {
     ACCOUNT_UPDATE_GENERAL,
     ACCOUNT_UPDATE_COMMENTS,
     ACCOUNT_SET_STATUS,
-    ACCOUNT_ACTIVITY_REVERT,
+    // ACCOUNT_ACTIVITY_REVERT,
 } from "./consts";
 
 import {
@@ -28,7 +28,6 @@ import {
     UpdateAccountGeneralMiddlewareAction,
     UpdateAccountCommentsMiddlewareAction,
     SetAccountStatusMiddlewareAction,
-    RevertAccountActivityMiddlewareAction,
 } from "./actions";
 import {
     AccountData,
@@ -43,9 +42,8 @@ import {
     updateGeneral,
     updateComments,
     setAccountStatus,
-    revertAccountActivity,
+    // revertAccountActivity,
 } from "../utils/requests";
-import { ActivityItem } from "../components/activities/components/Activity";
 
 export interface PartialState {
 }
@@ -58,7 +56,6 @@ export type AccountMiddlewareAction =
     | UpdateAccountGeneralMiddlewareAction
     | UpdateAccountCommentsMiddlewareAction
     | SetAccountStatusMiddlewareAction
-    | RevertAccountActivityMiddlewareAction
 ;
 
 export const accountMiddleware = (<S extends PartialState>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
@@ -145,17 +142,6 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch }: Middlew
                         console.error("UPDATE FAILED", error)
                     });
                 
-                break;
-            }
-            case ACCOUNT_ACTIVITY_REVERT: {
-                const data = { activity: action.payload.data };
-                revertAccountActivity(action.payload.id, data)
-                    .then((response: AxiosResponse<ActivityItem>) => {
-                        console.log("REVERT", response);
-                    })
-                    .catch(error => {
-                        console.error("REVERT ERROR", error);
-                    });
                 break;
             }
             default:

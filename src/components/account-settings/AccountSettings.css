@@ -36,3 +36,13 @@
         grid-template-columns: 2fr 2fr;
     }
 }
+@media (max-width: 720px) {
+    .tagsArea {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 1000px) {
+    .commentsArea {
+        grid-template-columns: 1fr;
+    }
+}

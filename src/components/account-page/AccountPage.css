@@ -21,6 +21,8 @@
 
 .buttons {
     justify-self: end;
+    display: flex;
+    align-items: center;
 }
 .button {
     border-radius: 100px;
@@ -34,6 +36,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 0 .5rem;
     font-weight: 100;
+    white-space: nowrap;
 }
 .buttonStop {
     background-color: rgba(232, 233, 236, .4);
@@ -81,7 +84,7 @@
     flex-direction: column;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 800px) {
     .header {
         grid-template-columns: 1fr;
         grid-template-rows: repeat(3, 1fr);

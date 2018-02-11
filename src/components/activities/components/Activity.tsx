@@ -10,17 +10,19 @@ import {
     parseTime,
 } from "../../../utils/formatDate";
 import * as styles from "./Activity.css";
+import { revertAccountActivity } from "../../../utils/requests";
 
 const placeholderImg = require("../../../assets/placeholder.png");
 const userPlaceholderImg = require("../../../assets/user_placeholder.png");
 
-interface ActivityProps {
-    activityItem: FollowActivity | CommentActivity | LikeActivity;
-    onRevert: () => void;
-}
 interface ActivityState {
     loaded: boolean;
     failedLoaded: boolean;
+    revertInProgress: boolean;
+    unmount: boolean;
+}
+interface ActivityProps {
+    activityItem: FollowActivity | CommentActivity | LikeActivity;
 }
 
 function hasAssetUrl(activity: any): activity is CommentActivity | LikeActivity {
@@ -34,6 +36,8 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
         this.state = {
             loaded: false,
             failedLoaded: false,
+            revertInProgress: false,
+            unmount: false,
         }
     }
     public componentDidMount() {
@@ -50,6 +54,10 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
             : this.props.activityItem.avatar_url;
     }
     public render() {
+        if (this.state.unmount) {
+            return null;
+        }
+
         const { activityItem } = this.props;
 
         const createdAt = new Date(activityItem.created_at_ms);
@@ -67,9 +75,14 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
                 <div className={styles.body}>
                     {this.renderActivity(activityItem)}
                 </div>
-                <div className={`${styles.sideBox} ${styles.button}`} onClick={this.props.onRevert}>
-                    Revert
-                    <i className="fas fa-redo-alt" />
+                <div
+                    className={`${styles.sideBox} ${styles.button} ${this.state.revertInProgress ? styles.blink : ""}`}
+                    onClick={this.onRevert}
+                >
+                    {!this.state.revertInProgress
+                        ? "Revert"
+                        : <i className="fas fa-cog fa-spin" style={{ fontSize: "1.5rem" }} />
+                    }
                 </div>
             </div>
         );
@@ -126,4 +139,32 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
             </div>
         );
     }
+    private onRevert = () => {
+        this.setState({
+            revertInProgress: true,
+        });
+        const { activityItem } = this.props;
+
+        revertAccountActivity(
+            activityItem.instagram_id,
+            {
+                activity: {
+                    id: activityItem.id,
+                    activity: activityItem.activity,
+                },
+            }
+        )
+        .then(() => {
+            this.setState({
+                unmount: true,
+            });
+        })
+        .catch(error => {
+            this.setState({
+                revertInProgress: false,
+            });
+            console.error("REVERT ERROR", error);
+        });
+    }
 }
+
