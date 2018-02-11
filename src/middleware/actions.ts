@@ -7,6 +7,7 @@ import {
     ACCOUNT_UPDATE_GENERAL,
     ACCOUNT_UPDATE_COMMENTS,
     ACCOUNT_SET_STATUS,
+    ACCOUNT_ACTIVITY_REVERT,
 } from "./consts";
 import {
     AccountData,
@@ -14,7 +15,8 @@ import {
     General,
     Comments,
 } from "./types";
-import { UpdateAccountSettingsPayload } from "../utils/updateAccountTypes";
+import { UpdateAccountPayload } from "../utils/updateAccountTypes";
+import { ActivityItem } from "../components/activities/components/Activity";
 
 export interface LinkAccountMiddlewareAction {
     type: typeof ACCOUNT_LINK;
@@ -50,15 +52,15 @@ export function unlinkAccountMiddlewareActionCreator(id: number): Thunk {
 
 export interface SetAccountStatusMiddlewareAction {
     type: typeof ACCOUNT_SET_STATUS;
-    payload: UpdateAccountSettingsPayload<AccountData>;
+    payload: UpdateAccountPayload<AccountData>;
 }
-export function setAccountStatusMiddlewareAction(payload: UpdateAccountSettingsPayload<AccountData>): SetAccountStatusMiddlewareAction {
+export function setAccountStatusMiddlewareAction(payload: UpdateAccountPayload<AccountData>): SetAccountStatusMiddlewareAction {
     return {
         type: ACCOUNT_SET_STATUS,
         payload,
     }
 };
-export function setAccountStatusMiddlewareActionCreator(payload: UpdateAccountSettingsPayload<AccountData>): Thunk {
+export function setAccountStatusMiddlewareActionCreator(payload: UpdateAccountPayload<AccountData>): Thunk {
     return (dispatch) => {
         dispatch(setAccountStatusMiddlewareAction(payload));
     };
@@ -80,15 +82,15 @@ export function initAccountMiddlewareActionCreator(): Thunk {
 
 export interface UpdateAccountActivitiesMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_ACTIVITIES;
-    payload: UpdateAccountSettingsPayload<Activities>;
+    payload: UpdateAccountPayload<Activities>;
 }
-export function updateAccountActivitiesMiddlewareAction(payload: UpdateAccountSettingsPayload<Activities>): UpdateAccountActivitiesMiddlewareAction {
+export function updateAccountActivitiesMiddlewareAction(payload: UpdateAccountPayload<Activities>): UpdateAccountActivitiesMiddlewareAction {
     return {
         type: ACCOUNT_UPDATE_ACTIVITIES,
         payload,
     };
 }
-export function updateAccountActivitiesActionMiddlewareCreator(payload: UpdateAccountSettingsPayload<Activities>): Thunk {
+export function updateAccountActivitiesActionMiddlewareCreator(payload: UpdateAccountPayload<Activities>): Thunk {
     return dispatch => {
         dispatch(updateAccountActivitiesMiddlewareAction(payload));
     };
@@ -96,15 +98,15 @@ export function updateAccountActivitiesActionMiddlewareCreator(payload: UpdateAc
 
 export interface UpdateAccountGeneralMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_GENERAL;
-    payload: UpdateAccountSettingsPayload<General>;
+    payload: UpdateAccountPayload<General>;
 }
-export function updateAccountGeneralMiddlewareAction(payload: UpdateAccountSettingsPayload<General>): UpdateAccountGeneralMiddlewareAction {
+export function updateAccountGeneralMiddlewareAction(payload: UpdateAccountPayload<General>): UpdateAccountGeneralMiddlewareAction {
     return {
         type: ACCOUNT_UPDATE_GENERAL,
         payload,
     };
 }
-export function updateAccountGeneralMiddlewareActionCreator(payload: UpdateAccountSettingsPayload<General>): Thunk {
+export function updateAccountGeneralMiddlewareActionCreator(payload: UpdateAccountPayload<General>): Thunk {
     return dispatch => {
         dispatch(updateAccountGeneralMiddlewareAction(payload));
     };
@@ -112,17 +114,33 @@ export function updateAccountGeneralMiddlewareActionCreator(payload: UpdateAccou
 
 export interface UpdateAccountCommentsMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_COMMENTS;
-    payload: UpdateAccountSettingsPayload<Comments>;
+    payload: UpdateAccountPayload<Comments>;
 }
-export function updateAccountCommentsMiddlewareAction(payload: UpdateAccountSettingsPayload<Comments>): UpdateAccountCommentsMiddlewareAction {
+export function updateAccountCommentsMiddlewareAction(payload: UpdateAccountPayload<Comments>): UpdateAccountCommentsMiddlewareAction {
     return {
         type: ACCOUNT_UPDATE_COMMENTS,
         payload,
     };
 }
-export function updateAccountCommentsMiddlewareActionCreator(payload: UpdateAccountSettingsPayload<Comments>): Thunk {
+export function updateAccountCommentsMiddlewareActionCreator(payload: UpdateAccountPayload<Comments>): Thunk {
     return dispatch => {
         dispatch(updateAccountCommentsMiddlewareAction(payload));
+    };
+}
+
+export interface RevertAccountActivityMiddlewareAction {
+    type: typeof ACCOUNT_ACTIVITY_REVERT;
+    payload: UpdateAccountPayload<ActivityItem>;
+}
+export function revertAccountActivityMiddlewareAction(payload: UpdateAccountPayload<ActivityItem>): RevertAccountActivityMiddlewareAction {
+    return {
+        type: ACCOUNT_ACTIVITY_REVERT,
+        payload,
+    };
+}
+export function revertAccountActivityMiddlewareActionCreator(payload: UpdateAccountPayload<ActivityItem>): Thunk {
+    return dispatch => {
+        dispatch(revertAccountActivityMiddlewareAction(payload));
     };
 }
 

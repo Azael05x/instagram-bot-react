@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { AxiosRequestConfig, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import {
     RouteComponentProps,
     withRouter,
@@ -12,7 +12,6 @@ import {
     setAccountStatusMiddlewareActionCreator,
 } from "../../middleware/actions";
 import { getAccountData } from "../../utils/requests";
-import { selectUser } from "../../ducks/selectors";
 import { AccountData } from "../../middleware/types";
 import { Divider } from "../divider/Divider";
 import { AccountSettingsConnected } from "../account-settings/AccountSettings";
@@ -38,16 +37,12 @@ export interface AccountPageState {
     redirect: boolean,
 }
 
-export interface AccountPageStateProps {
-    auth_token: string;
-}
 export interface AccountPageDispatchProps {
     onDelete: typeof unlinkAccountMiddlewareActionCreator;
     onStatusChange: typeof setAccountStatusMiddlewareActionCreator;
 }
 export type AccountPageProps =
     & AccountPageDispatchProps
-    & AccountPageStateProps
     & RouteComponentProps<{ id: number }>
 ;
 
@@ -57,28 +52,16 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
 
         this.state = {
             account: {} as AccountData,
-            activeScreen: ScreenDataRole.ActivityReview, // TODO: Make navigation listen to active screen
+            activeScreen: ScreenDataRole.Settings,
             redirect: false,
         }
     }
     public componentWillMount() {
-        const config: AxiosRequestConfig = {
-            headers: {
-                "Authorization": this.props.auth_token,
-            }
-        };
-
-        getAccountData(this.props.match.params.id, config)
+        getAccountData(this.props.match.params.id)
             .then((response: AxiosResponse<AccountData>) => {
                 this.setState({ account: response.data });
             })
             .catch(() => {
-                /*
-                    Current solution for redirecting user if the accounts page
-                    is unavailable or the user is not found.
-
-                    TODO: Investigate possibility to handle this with React Router
-                 */
                 this.setState({
                     redirect: true,
                 });
@@ -96,9 +79,13 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
 
         const activityButtonClassname = `${styles.button} ${account.is_active ? styles.buttonStop : styles.buttonStart}`;
         const activityButtonLabel = account.is_active ? "Pause" : "Start"
-        const activityButtonIcon = account.is_active
+        // TODO: Fix icon swapping. FontAwesome 5 dynamic svg replacement of icons
+        // does not work - icons are not set dynamically
+        const activityButtonIcon = false && (account.is_active
             ? <i className="fa fa-pause" aria-hidden="true" />
-            : <i className="fa fa-play" aria-hidden="true" />;
+            : <i className="fa fa-play" aria-hidden="true" />);
+
+        const currentScreen = this.renderScreen();
 
         const selectOptions: SelectOption[] = [
             {
@@ -115,6 +102,14 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             },
         ];
 
+        
+        let currentOption: SelectOption;
+        for (let option of selectOptions){
+            if (currentScreen.label === option.label) {
+                currentOption = option;
+            }
+        }
+
         return (
             <div className={styles.container}>
                 <div className={styles.innerContainer}>
@@ -123,6 +118,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                         <Select
                             onSelectOption={this.onNavigate}
                             selectOptions={selectOptions}
+                            currentOption={currentOption}
                         />
                         <div className={styles.buttons}>
                             <button
@@ -138,7 +134,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                     </div>
                     <Divider />
                     <div className={styles.body}>
-                        {this.renderScreen().component}
+                        {currentScreen.component}
                     </div>
                 </div>
             </div>
@@ -190,16 +186,12 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     }
 }
 
-const mapStateToProps = (state: any): AccountPageStateProps => ({
-    auth_token: selectUser(state).auth_token,
-});
-
 const mapDispatchToProps = {
     onDelete: unlinkAccountMiddlewareActionCreator,
     onStatusChange: setAccountStatusMiddlewareActionCreator,
 }
 
-export const AccountPageConnected = withRouter(connect<AccountPageStateProps, AccountPageDispatchProps>(
-    mapStateToProps,
+export const AccountPageConnected = withRouter(connect<{}, AccountPageDispatchProps>(
+    undefined,
     mapDispatchToProps,
 )(AccountPage));

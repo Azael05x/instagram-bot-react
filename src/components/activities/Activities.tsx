@@ -3,10 +3,10 @@ import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { getActivities } from "../../utils/requests";
 import { AxiosResponse } from "axios";
-import { selectUser } from "../../ducks/selectors";
 import { CommentActivity, FollowActivity, LikeActivity } from "./types";
 import { ActivityItem } from "./components/Activity";
 import { EmptyList, EmptyListType } from "../empty-list/EmptyList";
+import { revertAccountActivityMiddlewareActionCreator } from "../../middleware/actions";
 
 export interface ActivitiesState {
     activities: (CommentActivity & FollowActivity & LikeActivity)[];
@@ -14,14 +14,11 @@ export interface ActivitiesState {
 export interface ActivitiesOwnProps {
     accountId: number;
 }
-export interface ActivitiesStateProps {
-    auth_token: string;
-}
-export interface ActivitiesDispatchProps {
 
+export interface ActivitiesDispatchProps {
+    onRevert: typeof revertAccountActivityMiddlewareActionCreator;
 }
 export type ActivitiesProps =
-    & ActivitiesStateProps
     & ActivitiesOwnProps
     & ActivitiesDispatchProps
     & RouteComponentProps<{}>
@@ -36,13 +33,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         }
     }
     public componentWillMount() {
-        const config = {
-            headers: {
-                "Authorization": this.props.auth_token,
-            }
-        };
-
-        getActivities(this.props.accountId, config)
+        getActivities(this.props.accountId)
             .then((response: AxiosResponse<(CommentActivity & FollowActivity & LikeActivity)[]>) => {
                 this.setState({
                     activities: response.data,
@@ -61,19 +52,20 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
     }
     private renderActivity = () => {
         return this.state.activities
-            .map((activity, i) => <ActivityItem key={i} activityItem={activity} />);
+            .map((activity, i) => <ActivityItem key={i} activityItem={activity} onRevert={this.onRevert} />);
+    }
+    private onRevert = () => {
+        console.log("ON REVERT")
+        // this.props.onRevert();
     }
 }
 
-const mapStateToProps = (state: any) => ({
-    auth_token: selectUser(state).auth_token,
-})
-
 const mapDispatchToProps = {
+    onRevert: revertAccountActivityMiddlewareActionCreator,
 };
 
-export const ActivitiesConnected = withRouter(connect<ActivitiesStateProps, ActivitiesDispatchProps>(
-    mapStateToProps,
+export const ActivitiesConnected = withRouter(connect<{}, ActivitiesDispatchProps>(
+    undefined,
     mapDispatchToProps,
 )(Activities));
 

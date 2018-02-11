@@ -2,7 +2,7 @@ import {
     Middleware,
     MiddlewareAPI,
 } from "redux";
-import { AxiosResponse, AxiosRequestConfig } from "axios";
+import { AxiosResponse } from "axios";
 import {
     linkAccountActionCreator,
     unlinkAccountActionCreator,
@@ -17,8 +17,9 @@ import {
     ACCOUNT_UPDATE_GENERAL,
     ACCOUNT_UPDATE_COMMENTS,
     ACCOUNT_SET_STATUS,
+    ACCOUNT_ACTIVITY_REVERT,
 } from "./consts";
-// import { createNewAccount } from "./utils";
+
 import {
     InitAccountMiddlewareAction,
     LinkAccountMiddlewareAction,
@@ -27,8 +28,8 @@ import {
     UpdateAccountGeneralMiddlewareAction,
     UpdateAccountCommentsMiddlewareAction,
     SetAccountStatusMiddlewareAction,
+    RevertAccountActivityMiddlewareAction,
 } from "./actions";
-import { selectUser } from "../ducks/selectors";
 import {
     AccountData,
     Activities,
@@ -42,9 +43,10 @@ import {
     updateGeneral,
     updateComments,
     setAccountStatus,
+    revertAccountActivity,
 } from "../utils/requests";
+import { ActivityItem } from "../components/activities/components/Activity";
 
-// TODO: Add typings, bitch (ti pro sebja Roland???), da blja
 export interface PartialState {
 }
 
@@ -56,25 +58,15 @@ export type AccountMiddlewareAction =
     | UpdateAccountGeneralMiddlewareAction
     | UpdateAccountCommentsMiddlewareAction
     | SetAccountStatusMiddlewareAction
+    | RevertAccountActivityMiddlewareAction
 ;
 
-export function createConfig(userAuthToken: string, options = {}): AxiosRequestConfig {
-    return {
-        headers: {
-            "Authorization": userAuthToken,
-        },
-        ...options,
-    };
-}
-
-export const accountMiddleware = (<S extends PartialState>({ dispatch, getState }: MiddlewareAPI<S>) => (next: any) => {
+export const accountMiddleware = (<S extends PartialState>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
     return (action: AccountMiddlewareAction) => {
-        // Required for a REST action to be approved by the server
-        const config = createConfig(selectUser(getState()).auth_token);
 
         switch (action.type) {
             case ACCOUNT_INIT: {
-                getInitAccountData(config)
+                getInitAccountData()
                     .then((response: AxiosResponse<AccountData[]>) => {
                         dispatch(initAccountActionCreator(response.data as any))
                     })
@@ -89,7 +81,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                 break;
             }
             case ACCOUNT_UNLINK: {
-                deleteAccount(action.payload, config)
+                deleteAccount(action.payload)
                     .then(() => {
                         dispatch(unlinkAccountActionCreator(action.payload))
                     })
@@ -104,7 +96,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                     settings: action.payload.data,
                 };
        
-                updateActivities(action.payload.id, data, config)
+                updateActivities(action.payload.id, data)
                     .catch(error => {
                         console.error("UPDATE FAILED", error)
                     });
@@ -116,7 +108,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                     settings: action.payload.data,
                 };
         
-                updateGeneral(action.payload.id, data, config)
+                updateGeneral(action.payload.id, data)
                     .catch(error => {
                         console.error("UPDATE FAILED", error)
                     });
@@ -128,7 +120,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                     settings: action.payload.data,
                 };
 
-                updateComments(action.payload.id, data, config)
+                updateComments(action.payload.id, data)
                     .catch(error => {
                         console.error("UPDATE FAILED", error)
                     });
@@ -142,7 +134,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                     },
                 };
 
-                setAccountStatus(action.payload.id, data, config)
+                setAccountStatus(action.payload.id, data)
                     .then((response: AxiosResponse<AccountData>) => {
                         dispatch(updateAccountActionCreator({
                             id: action.payload.id,
@@ -153,6 +145,17 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch, getState 
                         console.error("UPDATE FAILED", error)
                     });
                 
+                break;
+            }
+            case ACCOUNT_ACTIVITY_REVERT: {
+                const data = { activity: action.payload.data };
+                revertAccountActivity(action.payload.id, data)
+                    .then((response: AxiosResponse<ActivityItem>) => {
+                        console.log("REVERT", response);
+                    })
+                    .catch(error => {
+                        console.error("REVERT ERROR", error);
+                    });
                 break;
             }
             default:
