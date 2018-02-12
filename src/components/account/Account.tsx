@@ -56,7 +56,7 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
                 <i className={`fas fa-check ${styles.active} ${styles.icon}`} />
             </div>
             <div style={{ display: `${!isActive ? "block" : "none"}`}}>
-                <i className={`fas fa-times ${styles.inactive} ${styles.icon}`} />;
+                <i className={`fas fa-times ${styles.inactive} ${styles.icon}`} />
             </div>
         </>;
     }
