@@ -1,4 +1,4 @@
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = "http://localhost:8079";
 export const AUTH_BASE = "/auth/login";
 export const ACCOUNT_URL = "/instagrams";
 export const ACTIVITY_URL = "/settings/activity";
