@@ -34,7 +34,7 @@ export interface Screen {
 export interface AccountPageState {
     account: AccountData;
     activeScreen: ScreenDataRole;
-    redirect: boolean,
+    redirect: boolean;
 }
 
 export interface AccountPageDispatchProps {
@@ -54,7 +54,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             account: {} as AccountData,
             activeScreen: ScreenDataRole.Settings,
             redirect: false,
-        }
+        };
     }
     public componentWillMount() {
         getAccountData(this.props.match.params.id)
@@ -77,8 +77,9 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             return null;
         }
 
-        const activityButtonClassname = `${styles.button} ${account.is_active ? styles.buttonStop : styles.buttonStart}`;
-        const activityButtonLabel = account.is_active ? "Pause" : "Start"
+        const activityButtonClassname =
+            `${styles.button} ${account.is_active ? styles.buttonStop : styles.buttonStart}`;
+        const activityButtonLabel = account.is_active ? "Pause" : "Start";
         // TODO: Fix icon swapping. FontAwesome 5 dynamic svg replacement of icons
         // does not work - icons are not set dynamically
         const activityButtonIcon = false && (account.is_active
@@ -102,9 +103,8 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             },
         ];
 
-        
         let currentOption: SelectOption;
-        for (let option of selectOptions){
+        for (let option of selectOptions) {
             if (currentScreen.label === option.label) {
                 currentOption = option;
             }
@@ -147,17 +147,20 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         });
     }
     private onStatusChange = () => {
-        this.setState({
-            account: {
-                ...this.state.account,
-                is_active: !this.state.account.is_active
+        this.setState(
+            {
+                account: {
+                    ...this.state.account,
+                    is_active: !this.state.account.is_active
+                },
             },
-        }, () => {
-            this.props.onStatusChange({
-                id: this.state.account.id,
-                data: this.state.account,
-            });
-        })
+            () => {
+                this.props.onStatusChange({
+                    id: this.state.account.id,
+                    data: this.state.account,
+                });
+            }
+        );
     }
     private onNavigate = (event: React.MouseEvent<HTMLElement>) => {
         const chosenScreen = event.currentTarget.getAttribute("data-role") as ScreenDataRole;
@@ -189,7 +192,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
 const mapDispatchToProps = {
     onDelete: unlinkAccountMiddlewareActionCreator,
     onStatusChange: setAccountStatusMiddlewareActionCreator,
-}
+};
 
 export const AccountPageConnected = withRouter(connect<{}, AccountPageDispatchProps>(
     undefined,

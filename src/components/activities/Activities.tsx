@@ -8,24 +8,28 @@ import { EmptyList, EmptyListType } from "../empty-list/EmptyList";
 
 export interface ActivitiesState {
     activities: (CommentActivity & FollowActivity & LikeActivity)[];
+    activitiesToRender: (CommentActivity & FollowActivity & LikeActivity)[];
 }
 export interface ActivitiesProps {
     accountId: number;
 }
 
 export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesState> {
+    public batchSize = 20;
     public constructor(props: ActivitiesProps) {
         super(props);
 
         this.state = {
             activities: [],
-        }
+            activitiesToRender: [],
+        };
     }
     public componentWillMount() {
         getActivities(this.props.accountId)
             .then((response: AxiosResponse<(CommentActivity & FollowActivity & LikeActivity)[]>) => {
                 this.setState({
                     activities: response.data,
+                    activitiesToRender: response.data.slice(0, this.batchSize),
                 });
             })
             .catch((error: any) => {
@@ -33,14 +37,14 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
             });
     }
     public render() {
-        if (!this.state.activities.length) {
+        if (!this.state.activitiesToRender.length) {
             return <EmptyList type={EmptyListType.NoActivities} />;
         }
 
         return  <>{this.renderActivity()}</>;
     }
     private renderActivity = () => {
-        return this.state.activities
+        return this.state.activitiesToRender
             .map((activity, i) => <ActivityItem key={i} activityItem={activity} />);
     }
 }

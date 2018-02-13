@@ -33,15 +33,17 @@
 .link::after {
     content: "";
     position: absolute;
-    border-bottom: 1px solid #E01931;
     opacity: 0;
-    transform: scale(0);
-    top: 0;
-    transform-origin: bottom center;
-    left: 0;
-    bottom: 10%;
+    transform: scale(0) translate3d(-50%, 0, 0);
+    transform-origin: left center;
+    left: 50%;
+    top: 2.2rem;
     right: 0;
     transition: .2s;
+    background-color: #E01931;
+    height: 1px;
+    width: 90%;
+    border-radius: 100px;
 }
 .link:hover {
     color: #E01931;
@@ -49,7 +51,7 @@
 .link.active::after,
 .link:hover::after {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translate3d(-50%, 0, 0);
 }
 .active {
     color: #E76B6B;
