@@ -1,0 +1,22 @@
+.loadMore {
+    border-radius: 100px;
+    padding: .5em 1em;
+    font-size: 1rem;
+    transition: .2s;
+    cursor: pointer;
+    border: 1px solid #e8e9ec;
+    color: #fff;
+    outline: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 0 .5rem;
+    font-weight: 100;
+    white-space: nowrap;
+    background-color: #2DCC70;
+    align-self: center;
+}
+.loadMore:hover {
+    background-color: #64D98A;
+}
+.selectActivityBox {
+    align-self: center;
+}

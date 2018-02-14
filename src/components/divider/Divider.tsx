@@ -3,6 +3,7 @@ import * as styles from "./Divider.css";
 
 export enum DividerTheme {
     FullWidth = "fullWidth",
+    SmallBigMargin = "smallBigMargin",
     Small = "small",
 }
 

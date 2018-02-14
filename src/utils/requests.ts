@@ -5,7 +5,7 @@ import {
     ACTIVITY_URL,
     GENERAL_URL,
     COMMENT_URL,
-    ACTIVITY_ALL,
+    ACTIVITY_BASE,
     ACTIVITY_REVERT,
 } from "../consts";
 import { createConfig } from "./config";
@@ -53,8 +53,19 @@ export function setAccountStatus(id: number, data: any, config = defaultConfig) 
         config(),
     )
 };
-export function getActivities(id: number, config = defaultConfig) {
-    return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_ALL}`, config())
+export type RequestActivityType = "likes" | "comments" | "follows";
+
+export function getActivities(
+    id: number,
+    batchSize: number,
+    timestamp: number,
+    activityType: RequestActivityType,
+    config = defaultConfig
+) {
+    return axios.get(
+        `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_BASE}/${activityType}?batch_size=${batchSize}&from=${timestamp}`,
+        config(),
+    );
 };
 
 export function revertAccountActivity(id: number, data: any, config = defaultConfig) {
