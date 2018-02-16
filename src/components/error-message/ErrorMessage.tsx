@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "./ErrorMessage.css";
+import * as styles from "./ErrorMessage.scss";
 import { getErrorMessage } from "./utils";
 import { ErrorCode } from "./types";
 

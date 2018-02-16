@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "./EmptyList.css";
+import * as styles from "./EmptyList.scss";
 
 export enum EmptyListType {
     NoAccounts,

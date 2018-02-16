@@ -32,16 +32,12 @@ function hasAssetUrl(activity: any): activity is CommentActivity | LikeActivity 
 }
 
 export class ActivityItem extends React.PureComponent<ActivityProps, ActivityState> {
-    public constructor(props: ActivityProps) {
-        super(props);
-
-        this.state = {
-            loaded: false,
-            failedLoaded: false,
-            revertInProgress: false,
-            revertError: false,
-            unmount: false,
-        }
+    public state = {
+        loaded: false,
+        failedLoaded: false,
+        revertInProgress: false,
+        revertError: false,
+        unmount: false,
     }
     public componentDidMount() {
         const activityMedia = new Image();
