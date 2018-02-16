@@ -3,7 +3,7 @@ import { ENTER_KEY } from "../../consts";
 import { Tag } from "./components/Tag";
 
 import * as styles from "./InputSelect.css";
-import { cleanTag } from "../../utils/cleanTag";
+import { cleanTags, cleanTextArea } from "../../utils/cleanTag";
 import { Divider, DividerTheme } from "../divider/Divider";
 
 export enum InputType {
@@ -11,7 +11,7 @@ export enum InputType {
     SingleLine,
 }
 export interface InputSelectState {
-    tag: string;
+    value: string;
     tags: string[];
 }
 export interface InputSelectProps {
@@ -31,7 +31,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         super(props);
 
         this.state = {
-            tag: "",
+            value: "",
             tags: props.tags || [],
         };
     }
@@ -40,7 +40,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         const inputComponent = this.isSingleLine
             ? (
                 <input
-                    value={this.state.tag}
+                    value={this.state.value}
                     onChange={this.onInput}
                     className={styles.input}
                     placeholder={this.props.placeholder}
@@ -51,7 +51,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 <textarea
                     cols={40}
                     rows={5}
-                    value={this.state.tag}
+                    value={this.state.value}
                     onChange={this.onInput}
                     className={styles.input}
                     placeholder={this.props.placeholder}
@@ -80,27 +80,35 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
     }
     private onInput = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         this.setState({
-            tag: event.currentTarget.value,
+            value: event.currentTarget.value,
         });
     }
     private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (key.keyCode === ENTER_KEY && this.state.tag) {
+        if (key.keyCode === ENTER_KEY && this.state.value) {
             this.onSubmit();
         }
     }
     private onSubmit = () => {
-        const { tag, tags } = this.state;
-        const newTag = this.isSingleLine ? cleanTag(tag) : tag;
+        const { value, tags } = this.state;
+        const cleanValue = this.isSingleLine ? cleanTags(value) : cleanTextArea(value);
 
-        if (!tags.includes(newTag)) {
-            const newTags = [...tags, newTag];
+        if (typeof cleanValue === "string") {
+            if (cleanValue) {
+                if (!tags.includes(cleanValue)) {
+                    this.setNewTags([...tags, cleanValue])
+                }
+            }
+        } else {
+            const newTags: string[] = [];
+            for (const tag of cleanValue) {
+                if (tag && !tags.includes(tag)) {
+                    newTags.push(tag);
+                }
+            }
 
-            this.setState({
-                tag: "",
-                tags: newTags,
-            }, () => {
-                this.props.onChange(newTags);
-            });
+            if (newTags.length) {
+                this.setNewTags([...tags, ...newTags])
+            }
         }
     }
     // Index comes from binding the method in rendertags
@@ -119,5 +127,13 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
     private rendertags = () => {
         return this.state.tags
             .map((tag: string, i: number) => <Tag key={i} value={tag} onRemove={this.onRemoveTag(i)} />);
+    }
+    private setNewTags = (updatedTags: string[]) => {
+        this.setState({
+            value: "",
+            tags: updatedTags
+        }, () => {
+            this.props.onChange(updatedTags);
+        });
     }
 }

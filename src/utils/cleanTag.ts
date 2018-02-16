@@ -1,3 +1,6 @@
-export function cleanTag(tag: string) {
-    return tag.replace(/#/g, "").replace(/\s/g, "_").replace(/@/g, "");
+export function cleanTags(tag: string) {
+    return tag.replace(/#/g, "").replace(/@/g, "").split(" ");
+}
+export function cleanTextArea(tag: string) {
+    return tag.trim();
 }
