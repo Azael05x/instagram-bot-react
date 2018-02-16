@@ -68,9 +68,6 @@ module.exports = {
             inject: true,
             template: "public/index.html"
         }),
-        new UglifyJsPlugin({
-            test: /\.js($|\?)/i
-        }),
         new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
     ],
     module: {

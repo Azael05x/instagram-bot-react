@@ -2,7 +2,7 @@
  * Given an array of files this will produce an object which contains the values for the vendor entry point
  */
 function makeVendorEntry(config) {
-    const packageJson = require('./package.json');
+    const packageJson = require('../package.json');
     const vendorDependencies = Object.keys(packageJson['dependencies']);
 
     // config example value: 

@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --progress --color --config webpack.config.js",
+    "start": "webpack-dev-server --progress --color --config webpack/webpack.config.development.js",
     "prebuild": "rimraf ./dist/*",
     "build": "webpack --color --config webpack.config.production.js",
     "test:watch": "jest --watchAll",
