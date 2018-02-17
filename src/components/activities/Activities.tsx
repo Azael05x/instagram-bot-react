@@ -37,7 +37,6 @@ const selectOptions: SelectOption[] = [
     },
 ];
 
-
 export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesState> {
     public batchSize = 20;
     public activityType: ActivityType = ActivityType.Likes;

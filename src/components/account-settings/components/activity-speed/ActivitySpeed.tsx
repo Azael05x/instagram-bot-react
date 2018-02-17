@@ -2,7 +2,6 @@ import * as React from "react";
 import { Select, SelectOption, SelectTheme } from "../../../select/Select";
 import { ActivitySpeedType } from "../../../../middleware/types";
 
-
 export enum ActivitySpeedDataRoleType {
     Slow = "speed_slow",
     Medium = "speed_medium",
@@ -12,7 +11,7 @@ const activitySpeedDataRole = {
     [ActivitySpeedDataRoleType.Slow]: 1,
     [ActivitySpeedDataRoleType.Medium]: 2,
     [ActivitySpeedDataRoleType.Fast]: 3,
-}
+};
 const speedOptions: SelectOption[] = [
     {
         dataRole: ActivitySpeedDataRoleType.Slow,
@@ -26,7 +25,7 @@ const speedOptions: SelectOption[] = [
         dataRole: ActivitySpeedDataRoleType.Fast,
         label: "Fast",
     },
-]
+];
 
 export interface ActivitySpeedProps {
     speed: ActivitySpeedType;

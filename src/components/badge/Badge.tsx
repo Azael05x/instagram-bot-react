@@ -14,7 +14,7 @@ export interface BadgeProps {
 export class Badge extends React.PureComponent<BadgeProps> {
     public static defaultProps = {
         type: BadgeType.Default,
-    }
+    };
 
     render() {
         return (

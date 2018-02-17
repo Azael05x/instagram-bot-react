@@ -65,26 +65,26 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch }: Middlew
             case ACCOUNT_INIT: {
                 getInitAccountData()
                     .then((response: AxiosResponse<AccountData[]>) => {
-                        dispatch(initAccountActionCreator(response.data as any))
+                        dispatch(initAccountActionCreator(response.data as any));
                     })
                     .catch(error => {
                         // TODO: Handle error with message
-                        console.log("NO SUCH get", error)
+                        console.error("NO SUCH get", error);
                     });
                 break;
             }
             case ACCOUNT_LINK: {
-                dispatch(linkAccountActionCreator(action.payload));  
+                dispatch(linkAccountActionCreator(action.payload));
                 break;
             }
             case ACCOUNT_UNLINK: {
                 deleteAccount(action.payload)
                     .then(() => {
-                        dispatch(unlinkAccountActionCreator(action.payload))
+                        dispatch(unlinkAccountActionCreator(action.payload));
                     })
                     .catch(error => {
                         // TODO: Handle error with message
-                        console.log("NO SUCH ACCOUNT", error)
+                        console.error("NO SUCH ACCOUNT", error);
                     });
                 break;
             }
@@ -92,10 +92,10 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch }: Middlew
                 const data: { settings: Partial<Activities> } = {
                     settings: action.payload.data,
                 };
-       
+
                 updateActivities(action.payload.id, data)
                     .catch(error => {
-                        console.error("UPDATE FAILED", error)
+                        console.error("UPDATE FAILED", error);
                     });
 
                 break;
@@ -104,10 +104,10 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch }: Middlew
                 const data: { settings: Partial<General> } = {
                     settings: action.payload.data,
                 };
-        
+
                 updateGeneral(action.payload.id, data)
                     .catch(error => {
-                        console.error("UPDATE FAILED", error)
+                        console.error("UPDATE FAILED", error);
                     });
 
                 break;
@@ -119,7 +119,7 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch }: Middlew
 
                 updateComments(action.payload.id, data)
                     .catch(error => {
-                        console.error("UPDATE FAILED", error)
+                        console.error("UPDATE FAILED", error);
                     });
 
                 break;
@@ -139,14 +139,14 @@ export const accountMiddleware = (<S extends PartialState>({ dispatch }: Middlew
                         }));
                     })
                     .catch(error => {
-                        console.error("UPDATE FAILED", error)
+                        console.error("UPDATE FAILED", error);
                     });
-                
+
                 break;
             }
             default:
         }
 
         return next(action);
-    }
+    };
 }) as Middleware;

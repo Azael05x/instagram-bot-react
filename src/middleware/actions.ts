@@ -52,7 +52,9 @@ export interface SetAccountStatusMiddlewareAction {
     type: typeof ACCOUNT_SET_STATUS;
     payload: UpdateAccountPayload<AccountData>;
 }
-export function setAccountStatusMiddlewareAction(payload: UpdateAccountPayload<AccountData>): SetAccountStatusMiddlewareAction {
+export function setAccountStatusMiddlewareAction(
+    payload: UpdateAccountPayload<AccountData>,
+): SetAccountStatusMiddlewareAction {
     return {
         type: ACCOUNT_SET_STATUS,
         payload,
@@ -82,7 +84,9 @@ export interface UpdateAccountActivitiesMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_ACTIVITIES;
     payload: UpdateAccountPayload<Activities>;
 }
-export function updateAccountActivitiesMiddlewareAction(payload: UpdateAccountPayload<Activities>): UpdateAccountActivitiesMiddlewareAction {
+export function updateAccountActivitiesMiddlewareAction(
+    payload: UpdateAccountPayload<Activities>,
+): UpdateAccountActivitiesMiddlewareAction {
     return {
         type: ACCOUNT_UPDATE_ACTIVITIES,
         payload,
@@ -98,7 +102,9 @@ export interface UpdateAccountGeneralMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_GENERAL;
     payload: UpdateAccountPayload<General>;
 }
-export function updateAccountGeneralMiddlewareAction(payload: UpdateAccountPayload<General>): UpdateAccountGeneralMiddlewareAction {
+export function updateAccountGeneralMiddlewareAction(
+    payload: UpdateAccountPayload<General>
+): UpdateAccountGeneralMiddlewareAction {
     return {
         type: ACCOUNT_UPDATE_GENERAL,
         payload,
@@ -114,7 +120,9 @@ export interface UpdateAccountCommentsMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_COMMENTS;
     payload: UpdateAccountPayload<Comments>;
 }
-export function updateAccountCommentsMiddlewareAction(payload: UpdateAccountPayload<Comments>): UpdateAccountCommentsMiddlewareAction {
+export function updateAccountCommentsMiddlewareAction(
+    payload: UpdateAccountPayload<Comments>,
+): UpdateAccountCommentsMiddlewareAction {
     return {
         type: ACCOUNT_UPDATE_COMMENTS,
         payload,

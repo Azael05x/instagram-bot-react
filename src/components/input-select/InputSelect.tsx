@@ -26,7 +26,7 @@ export interface InputSelectProps {
 export class InputSelect extends React.Component<InputSelectProps, InputSelectState> {
     public static defaultProps = {
         type: InputType.SingleLine,
-    }
+    };
     public constructor(props: InputSelectProps) {
         super(props);
 
@@ -95,7 +95,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         if (typeof cleanValue === "string") {
             if (cleanValue) {
                 if (!tags.includes(cleanValue)) {
-                    this.setNewTags([...tags, cleanValue])
+                    this.setNewTags([...tags, cleanValue]);
                 }
             }
         } else {
@@ -107,7 +107,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             }
 
             if (newTags.length) {
-                this.setNewTags([...tags, ...newTags])
+                this.setNewTags([...tags, ...newTags]);
             }
         }
     }
@@ -121,8 +121,8 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 tags: newTags,
             }, () => {
                 this.props.onChange(newTags);
-            })
-        }
+            });
+        };
     }
     private rendertags = () => {
         return this.state.tags

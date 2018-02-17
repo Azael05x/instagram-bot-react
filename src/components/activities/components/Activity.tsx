@@ -93,12 +93,16 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
                 return this.renderLikesCommentsActivity(activity);
             }
             case ActivityType.Follow: {
+                const followActivityStyle = {
+                    backgroundImage: `url(${!this.state.failedLoaded ? activity.avatar_url : userPlaceholderImg})`,
+                };
+
                 return (
                     <div className={styles.row}>
                         <span>You followed</span>
                         <a className={styles.user} href={`https://instagram.com/${activity.username}`} target="_blank">
                             <div
-                                style={{ backgroundImage: `url(${!this.state.failedLoaded ? activity.avatar_url : userPlaceholderImg})` }}
+                                style={followActivityStyle}
                                 className={styles.avatar}
                             />
                             <span className={styles.username}>
@@ -132,7 +136,12 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
                 >
                     {!activity.asset_url || failedLoaded
                         ? "View post"
-                        : <img className={styles.mediaObject} src={loaded && !failedLoaded ? activity.asset_url : placeholderImg as string} />
+                        : (
+                            <img
+                                className={styles.mediaObject}
+                                src={loaded && !failedLoaded ? activity.asset_url : placeholderImg as string}
+                            />
+                        )
                     }
                 </a>
             </div>
@@ -173,4 +182,3 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
         });
     }
 }
-

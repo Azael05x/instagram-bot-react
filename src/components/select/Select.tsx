@@ -38,7 +38,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
 
         this.state = {
             currentOption: props.currentOption.label || props.selectOptions[0].label,
-        }
+        };
     }
     public render() {
         return (
@@ -54,7 +54,7 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         );
     }
     private onSelectOption = (event: React.MouseEvent<HTMLDivElement>) => {
-        this.setState({ currentOption: event.currentTarget.innerText })
+        this.setState({ currentOption: event.currentTarget.innerText });
         this.props.onSelectOption(event);
     }
     private renderOptions = () => {

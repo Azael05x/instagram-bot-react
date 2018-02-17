@@ -1,3 +1,33 @@
 {
-    
+    "rules": {
+        "align": true,
+        "arrow-return-shorthand": true,
+        "await-promise": true,
+        "trailing-comma": true,
+        "no-consecutive-blank-lines": true,
+        "max-line-length": {
+            "options": [120]
+        },
+        "no-console": {
+            "options": [
+                "debug",
+                "info",
+                "log",
+                "time",
+                "timeEnd",
+                "trace"
+            ]
+        },
+        "semicolon": true,
+        "no-trailing-whitespace": true,
+        "no-duplicate-imports": true,
+        "no-default-export": true,
+        "no-var-keyword": true,
+        "prefer-const": true,
+        "quotemark": {
+            "options": "double",
+            "severity": "warning"
+        },
+        "triple-equals": true
+    }
 }

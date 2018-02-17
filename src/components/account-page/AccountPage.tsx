@@ -104,7 +104,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         ];
 
         let currentOption: SelectOption;
-        for (let option of selectOptions) {
+        for (const option of selectOptions) {
             if (currentScreen.label === option.label) {
                 currentOption = option;
             }

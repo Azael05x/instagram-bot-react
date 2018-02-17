@@ -1,11 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
-import { selectUser } from '../../ducks/selectors';
-import { User } from '../../ducks/state';
+import { selectUser } from "../../ducks/selectors";
+import { User } from "../../ducks/state";
 
 import * as styles from "./Header.css";
-import { CaretIcon } from '../icons/Caret';
+import { CaretIcon } from "../icons/Caret";
 
 export interface HeaderStateProps {
     user: User;
@@ -82,7 +82,7 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
     }
     private onLogout = () => {
         localStorage.removeItem("auth_token");
-        window.location.href = "/"
+        window.location.href = "/";
     }
 }
 

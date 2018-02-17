@@ -31,7 +31,7 @@ export function reducer(state = initialState, action: ReducerActions) {
                     auth_token: localStorage.getItem("auth_token"),
                     email: action.payload.email,
                 }
-            }
+            };
         }
         case ACCOUNT_INIT: {
             return { ...state, accounts: action.payload };

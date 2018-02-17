@@ -47,7 +47,7 @@ export function loginAction(payload: UserLoginPayload): LoginAction {
 export function loginActionCreator(payload: UserLoginPayload): Thunk {
     return dispatch => {
         dispatch(loginAction(payload));
-        dispatch(initAccountMiddlewareActionCreator())
+        dispatch(initAccountMiddlewareActionCreator());
     };
 }
 

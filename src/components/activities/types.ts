@@ -5,7 +5,7 @@ export enum ActivityType {
     Comment = "comment",
 }
 export interface GeneralActivity {
-    id: number
+    id: number;
     instagram_id: number;
     created_at: string;
     created_at_ms: string;
@@ -29,7 +29,7 @@ export interface CommentActivity extends GeneralActivity {
 
 export interface LikeActivity extends GeneralActivity {
     activity: ActivityType.Like;
-    asset_url: string | null
+    asset_url: string | null;
     caption: string;
     media_id: string;
     shortcode: string;

@@ -32,7 +32,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             loading: false,
             redirect: false,
             errorMessage: undefined,
-        }
+        };
     }
     public shouldComponentUpdate(nextProps: LinkAccountProps, nextState: LinkAccountState) {
         return false
@@ -56,9 +56,9 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
     }
     public render() {
         if (this.state.redirect) {
-            return <Redirect exact to={"/accounts"} />
+            return <Redirect exact to={"/accounts"} />;
         }
-        
+
         return (
             <div className={styles.container}>
                 <div className={styles.form}>
@@ -162,4 +162,3 @@ export const LinkAccountConnected = withRouter(connect<{}, LinkAccountDispatchPr
     undefined,
     mapDispatchToProps,
 )(LinkAccount));
-

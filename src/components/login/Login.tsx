@@ -39,7 +39,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
             password: "",
             errorMessage: undefined,
             redirect: false,
-        }
+        };
     }
     public componentDidMount() {
         window.addEventListener("resize", this.onResize);
@@ -56,7 +56,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
     }
     public render() {
         if (this.state.redirect) {
-            return <Redirect exact to="/accounts" />
+            return <Redirect exact to="/accounts" />;
         }
 
         return (
@@ -155,7 +155,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
 
 const mapDispatchToProps: LoginDispatchProps = {
     onLogin: loginActionCreator,
-}
+};
 
 export const LoginConnected = withRouter(connect<{}, LoginDispatchProps>(
     undefined,

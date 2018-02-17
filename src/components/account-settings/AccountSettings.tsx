@@ -11,6 +11,20 @@ import {
     updateAccountGeneralMiddlewareActionCreator,
     updateAccountCommentsMiddlewareActionCreator,
 } from "../../middleware/actions";
+import {
+    hashtagsPlaceholder,
+    hashtagsBodyPlaceholder,
+    blacklistedHashtagsBodyPlaceholder,
+    blacklistedHashtagsPlaceholder,
+    blacklistedUsersBodyPlaceholder,
+    blacklistedUsersPlaceholder,
+    favouriteUsersBodyPlaceholder,
+    favouriteUsersPlaceholder,
+    videoCommentsBodyPlaceholder,
+    videoCommentsPlaceholder,
+    imageCommentsBodyPlaceholder,
+    imageCommentsPlaceholder,
+} from "../../texts/texts";
 
 import * as styles from "./AccountSettings.css";
 
@@ -64,8 +78,8 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                     <div className={styles.tagsArea}>
                         <div className={styles.settingsArea}>
                             <InputSelect
-                                placeholder="Enter the hashtags you wish to follow"
-                                bodyPlaceholder="No hashtags yet. Posts with at least one of these hashtags will be targeted for your activities"
+                                placeholder={hashtagsPlaceholder}
+                                bodyPlaceholder={hashtagsBodyPlaceholder}
                                 icon={<i className="fa fa-tags" aria-hidden="true" />}
                                 onChange={this.onFollowTagsChange}
                                 tags={settings.general.tags}
@@ -73,8 +87,8 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                         </div>
                         <div className={styles.settingsArea}>
                             <InputSelect
-                                placeholder="Enter favourite users you wish to follow"
-                                bodyPlaceholder="No favourite users yet. These users posts will have a priority in the system"
+                                placeholder={favouriteUsersPlaceholder}
+                                bodyPlaceholder={favouriteUsersBodyPlaceholder}
                                 icon={<i className="fa fa-user" aria-hidden="true" />}
                                 onChange={this.onUserTagsChange}
                                 tags={settings.general.users}
@@ -82,8 +96,8 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                         </div>
                         <div className={styles.settingsArea}>
                             <InputSelect
-                                placeholder="Enter blacklisted hashtags"
-                                bodyPlaceholder="No blacklisted hashtags yet. We will not like any post with this hashtag"
+                                placeholder={blacklistedHashtagsPlaceholder}
+                                bodyPlaceholder={blacklistedHashtagsBodyPlaceholder}
                                 icon={<i className="fa fa-ban" aria-hidden="true"></i>}
                                 onChange={this.onBlacklistedFollowTagsChange}
                                 tags={settings.general.blacklisted_tags}
@@ -91,8 +105,8 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                         </div>
                         <div className={styles.settingsArea}>
                             <InputSelect
-                                placeholder="Enter blacklisted users"
-                                bodyPlaceholder="No blacklisted users yet. We will not like any post directly related to this user"
+                                placeholder={blacklistedUsersPlaceholder}
+                                bodyPlaceholder={blacklistedUsersBodyPlaceholder}
                                 icon={<i className="fa fa-user-times" aria-hidden="true"></i>}
                                 onChange={this.onBlacklistedUserTagsChange}
                                 tags={settings.general.blacklisted_users}
@@ -105,8 +119,8 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                     <div className={styles.commentsArea}>
                         <div className={styles.settingsArea}>
                             <InputSelect
-                                placeholder="Enter a list of comments that you want to leave for the liked images. These will be used only for posts with images."
-                                bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
+                                placeholder={imageCommentsPlaceholder}
+                                bodyPlaceholder={imageCommentsBodyPlaceholder}
                                 icon={<i className="far fa-image" />}
                                 onChange={this.onImageCommentsChange}
                                 tags={settings.comments.image_comments}
@@ -115,8 +129,8 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                         </div>
                         <div className={styles.settingsArea}>
                             <InputSelect
-                                placeholder="Enter a list of comments that you want to leave for the liked videos. These will be used only for posts with videos."
-                                bodyPlaceholder="No comments yet. We will not comment with anything else than your specified comments here."
+                                placeholder={videoCommentsPlaceholder}
+                                bodyPlaceholder={videoCommentsBodyPlaceholder}
                                 icon={<i className="fa fa-play" aria-hidden="true"></i>}
                                 onChange={this.onVideoCommentsChange}
                                 tags={settings.comments.video_comments}
@@ -164,7 +178,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             data: {
                 tags: value,
             },
-        })
+        });
     }
     private onUserTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
@@ -172,7 +186,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             data: {
                 users: value,
             },
-        })
+        });
     }
     private onBlacklistedFollowTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
@@ -180,7 +194,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             data: {
                 blacklisted_tags: value,
             },
-        })
+        });
     }
     private onBlacklistedUserTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
@@ -188,7 +202,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             data: {
                 blacklisted_users: value,
             },
-        })
+        });
     }
     private onImageCommentsChange = (value: string[]) => {
         this.props.updateAccountComments({
@@ -196,7 +210,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             data: {
                 image_comments: value,
             },
-        })
+        });
     }
     private onVideoCommentsChange = (value: string[]) => {
         this.props.updateAccountComments({
@@ -204,7 +218,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             data: {
                 video_comments: value,
             },
-        })
+        });
     }
 }
 

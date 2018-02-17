@@ -14,7 +14,7 @@ export class Switch extends React.PureComponent<SwitchProps, SwitchState> {
 
         this.state = {
             isActive: !!props.value,
-        }
+        };
     }
     public render() {
         const containerClassname = `${styles.container} ${this.state.isActive && styles.active}`;

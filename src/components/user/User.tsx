@@ -1,5 +1,5 @@
 import * as React from "react";
-import { /*Switch, Route, */ RouteComponentProps } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
 export type UserProps = RouteComponentProps<{}>;
 

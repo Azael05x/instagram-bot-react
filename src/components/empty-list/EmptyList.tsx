@@ -12,7 +12,7 @@ export interface EmptyListProps {
 export class EmptyList extends React.PureComponent<EmptyListProps> {
     public static defaultProps = {
         type: EmptyListType.NoAccounts,
-    }
+    };
     public render() {
         switch (this.props.type) {
             case EmptyListType.NoActivities: {
