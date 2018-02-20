@@ -1,7 +1,34 @@
-.container {
+%generalContainer {
     color: rgba(243, 156, 18,1.0);
     padding: 1em 3em;
     text-align: left;
     max-width: 450px;
     font-family: "Montserrat", sans-serif;
+    transition: all .5s cubic-bezier(1,-0.38,.59,1.49);
+}
+
+.container {
+    @extend %generalContainer;
+    opacity: 0;
+    &.active {
+        opacity: 1;
+    }
+}
+.containerTop {
+    @extend %generalContainer;
+    border-radius: 0 0px 5px 5px;
+    left: 50%;
+    top: 0;
+    position: absolute;
+    background-color: white;
+    border: 2px solid;
+    border-top: none;
+    transform: translate(-50%, -100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    &.active {
+        transform: translate(-50%, -10%);
+        opacity: 1;
+    }
 }

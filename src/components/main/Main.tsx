@@ -12,6 +12,7 @@ import { LinkAccountConnected } from "../link-account/LinkAccount";
 import { AccountPageConnected } from "../account-page/AccountPage";
 import { Landing } from "../landing/Landing";
 import { Footer } from "../footer/Footer";
+import { PopupConnected } from "../popup/Popup";
 
 export interface MainStateProps {
     logged_in: boolean;
@@ -41,6 +42,7 @@ export class Main extends React.PureComponent<MainProps, {}> {
                         <Route path="*" component={NoMatch} />
                     </Switch>
                 </div>
+                <PopupConnected />
                 <Footer />
             </div>
         );

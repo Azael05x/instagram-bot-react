@@ -18,8 +18,16 @@ import { AccountSettingsConnected } from "../account-settings/AccountSettings";
 import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
 
-import * as styles from "./AccountPage.css";
 import { Activities } from "../activities/Activities";
+import {
+    openPopupActionCreator,
+    closePopupActionCreator,
+} from "../../ducks/actions";
+import { createReloginPopup } from "../popup/factory/PopupFactory";
+import { PopupButtonType } from "../popup/factory/PopupData";
+import { ReloginConnected } from "../Relogin/Relogin";
+
+import * as styles from "./AccountPage.scss";
 
 export enum ScreenDataRole {
     Settings = "settings",
@@ -35,11 +43,14 @@ export interface AccountPageState {
     account: AccountData;
     activeScreen: ScreenDataRole;
     redirect: boolean;
+    reloginPassword: string;
 }
 
 export interface AccountPageDispatchProps {
     onDelete: typeof unlinkAccountMiddlewareActionCreator;
     onStatusChange: typeof setAccountStatusMiddlewareActionCreator;
+    openPopup: typeof openPopupActionCreator;
+    closePopup: typeof closePopupActionCreator;
 }
 export type AccountPageProps =
     & AccountPageDispatchProps
@@ -54,12 +65,43 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             account: {} as AccountData,
             activeScreen: ScreenDataRole.Settings,
             redirect: false,
+            reloginPassword: "",
         };
     }
     public componentWillMount() {
-        getAccountData(this.props.match.params.id)
+        const {
+            match,
+            closePopup,
+            openPopup,
+        } = this.props;
+
+        getAccountData(match.params.id)
             .then((response: AxiosResponse<AccountData>) => {
-                this.setState({ account: response.data });
+                this.setState({ account: response.data }, () => {
+                    if (this.state.account.has_invalid_session) {
+                        // TODO: Refactor buttons for popups
+                        openPopup(createReloginPopup({
+                            content: (
+                                <ReloginConnected
+                                    username={this.state.account.username}
+                                    id={this.state.account.id}
+                                />
+                            ),
+                            buttons: [
+                                {
+                                    id: PopupButtonType.Submit,
+                                    title: "Submit",
+                                    callback: () => {console.error("SUBMIT BUTTON NOT WORKING CAUSE THE DEV IS LAZY");},
+                                },
+                                {
+                                    id: PopupButtonType.Cancel,
+                                    title: "Later",
+                                    callback: closePopup,
+                                },
+                            ],
+                        }));
+                    }
+                });
             })
             .catch(() => {
                 this.setState({
@@ -189,9 +231,11 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     }
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps: AccountPageDispatchProps = {
     onDelete: unlinkAccountMiddlewareActionCreator,
     onStatusChange: setAccountStatusMiddlewareActionCreator,
+    openPopup: openPopupActionCreator,
+    closePopup: closePopupActionCreator,
 };
 
 export const AccountPageConnected = withRouter(connect<{}, AccountPageDispatchProps>(

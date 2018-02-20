@@ -38,7 +38,7 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
         revertInProgress: false,
         revertError: false,
         unmount: false,
-    }
+    };
     public componentDidMount() {
         const activityMedia = new Image();
         activityMedia.onload = () => {
@@ -46,8 +46,8 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
         };
         activityMedia.onerror = () => {
             this.setState({ failedLoaded: true });
-        }
-        activityMedia.classList.add(styles.mediaObject)
+        };
+        activityMedia.classList.add(styles.mediaObject);
         activityMedia.src = hasAssetUrl(this.props.activityItem)
             ? this.props.activityItem.asset_url
             : this.props.activityItem.avatar_url;
@@ -123,7 +123,7 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
         } = this.state;
         const titlePhrase = activity.activity === ActivityType.Comment
             ? `You commented ${!activity.asset_url || failedLoaded ? "on a post" : ""}`
-            : `You liked ${!activity.asset_url || failedLoaded ? "a post" : ""}`
+            : `You liked ${!activity.asset_url || failedLoaded ? "a post" : ""}`;
 
         return (
             <div className={styles.column}>

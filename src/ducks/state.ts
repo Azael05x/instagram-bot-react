@@ -1,5 +1,5 @@
-// import { UserAccount } from "../components/dashboard/components/account/Account";
 import { AccountData } from "../middleware/types";
+import { PopupData } from "../components/popup/factory/PopupData";
 
 export interface User {
     auth_token: string;
@@ -8,6 +8,7 @@ export interface User {
 export interface State {
     user: User;
     accounts: AccountData[];
+    popup?: PopupData;
 }
 // Initial state
 export const initialState = {
@@ -16,4 +17,5 @@ export const initialState = {
         auth_token: localStorage.getItem("auth_token"),
     },
     accounts: [],
+    popup: undefined,
 } as State;

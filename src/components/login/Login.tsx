@@ -19,7 +19,7 @@ export type LoginProps = LoginDispatchProps & RouteComponentProps<{}>;
 export interface LoginState {
     email: string;
     password: string;
-    errorMessage: ErrorCode | undefined;
+    errorCode?: ErrorCode;
     redirect: boolean;
 }
 export enum FormInput {
@@ -37,7 +37,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         this.state = {
             email: "",
             password: "",
-            errorMessage: undefined,
+            errorCode: undefined,
             redirect: false,
         };
     }
@@ -104,20 +104,20 @@ export class Login extends React.Component<LoginProps, LoginState> {
                     </div>
                 </div>
                 <hr />
-                <ErrorMessage errorCode={this.state.errorMessage} />
+                <ErrorMessage errorCode={this.state.errorCode} />
             </div>
         );
     }
     private setEmail = (event: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             email: event.currentTarget.value,
-            errorMessage: undefined,
+            errorCode: undefined,
         });
     }
     private setPassword = (event: React.FormEvent<HTMLInputElement>) => {
         this.setState({
             password: event.currentTarget.value,
-            errorMessage: undefined,
+            errorCode: undefined,
         });
     }
     private onSubmit = () => {
@@ -134,7 +134,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                 localStorage.setItem("email", response.data.user.email);
 
                 this.setState({
-                    errorMessage: undefined,
+                    errorCode: undefined,
                     redirect: true,
                 }, () => {
                     this.props.onLogin({ email: this.state.email });
@@ -142,7 +142,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
             })
             .catch((error) => {
                 this.setState({
-                    errorMessage: `${error.response.status}` as ErrorCode,
+                    errorCode: error.response.status as ErrorCode,
                 });
             });
     }

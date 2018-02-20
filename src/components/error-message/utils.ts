@@ -8,6 +8,9 @@ export function getErrorMessage(error: ErrorCode) {
         case ErrorCode.Unauthorized: {
             return "Seems that there's a typo in the password. Please check it!";
         }
+        case ErrorCode.UnprocessableEntity: {
+            return "The password seems incorrect. Please try again!";
+        }
         default:
             return "Aww, sorry for this. An unexpected error occurred. Please try again later!";
     }

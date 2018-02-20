@@ -1,5 +1,6 @@
 export enum ErrorCode {
-    InternalServerError = "500",
-    Unauthorized = "401",
+    InternalServerError = 500,
+    Unauthorized = 401,
+    UnprocessableEntity = 422,
     // ...
 }

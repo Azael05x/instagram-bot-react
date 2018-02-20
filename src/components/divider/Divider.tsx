@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "./Divider.css";
+import * as styles from "./Divider.scss";
 
 export enum DividerTheme {
     FullWidth = "fullWidth",
@@ -10,7 +10,7 @@ export enum DividerTheme {
 export class Divider extends React.PureComponent<{ theme?: DividerTheme }> {
     public static defaultProps = {
         theme: DividerTheme.FullWidth,
-    }
+    };
     render() {
         return (
             <div className={`${styles.line} ${styles[this.props.theme]}`} />

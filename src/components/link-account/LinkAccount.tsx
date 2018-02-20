@@ -7,6 +7,8 @@ import { AccountData } from "../../middleware/types";
 import { linkAccountActionCreator } from "../../ducks/actions";
 import { ErrorCode } from "../error-message/types";
 import { ErrorMessage } from "../error-message/ErrorMessage";
+import { ENTER_KEY } from "../../consts";
+
 import * as styles from "./LinkAccount.css";
 
 export interface LinkAccountState {
@@ -14,7 +16,7 @@ export interface LinkAccountState {
     password: string;
     loading: boolean;
     redirect: boolean;
-    errorMessage: ErrorCode | undefined;
+    errorMessage?: ErrorCode;
 }
 
 export interface LinkAccountDispatchProps {
@@ -44,7 +46,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
         ;
     }
     public onEnterKey = (event: KeyboardEvent) => {
-        if (event.keyCode === 13) {
+        if (event.keyCode === ENTER_KEY) {
             this.onLinkAccount();
         }
     }
@@ -135,7 +137,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             })
             .catch(error => {
                 this.setState({
-                    errorMessage: `${error.response.status}` as ErrorCode,
+                    errorMessage: error.response.status as ErrorCode,
                     loading: false,
                 });
             });

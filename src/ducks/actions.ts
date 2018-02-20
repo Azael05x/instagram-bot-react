@@ -5,6 +5,8 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
     ACCOUNT_UPDATE,
+    OPEN_POPUP,
+    CLOSE_POPUP,
 } from "./consts";
 import { initAccountMiddlewareActionCreator } from "../middleware/actions";
 import { AccountData } from "../middleware/types";
@@ -96,5 +98,36 @@ export function updateAccountActionCreator(payload: UpdateAccountPayload<Account
 export function updateAccountActionCreatorCreator(payload: UpdateAccountPayload<AccountData>): Thunk {
     return dispatch => {
         dispatch(updateAccountActionCreator(payload));
+    };
+}
+
+// Popups
+export interface OpenPopupAction {
+    type: typeof OPEN_POPUP;
+    payload: any;
+}
+export function openPopupAction(payload: any): OpenPopupAction {
+    return {
+        type: OPEN_POPUP,
+        payload,
+    };
+}
+export function openPopupActionCreator(payload: any): Thunk {
+    return dispatch => {
+        dispatch(openPopupAction(payload));
+    };
+}
+
+export interface ClosePopupAction {
+    type: typeof CLOSE_POPUP;
+}
+export function closePopupAction(): ClosePopupAction {
+    return {
+        type: CLOSE_POPUP,
+    };
+}
+export function closePopupActionCreator(): Thunk {
+    return dispatch => {
+        dispatch(closePopupAction());
     };
 }

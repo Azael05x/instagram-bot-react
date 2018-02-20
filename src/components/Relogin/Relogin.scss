@@ -1,0 +1,63 @@
+@import "../../consts/consts.scss";
+
+// Duplicate  rules
+.formGroup {
+    flex-direction: column;
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    margin: .5em;
+}
+.label {
+    position: absolute;
+    color: #e7e7e7;
+    top: 50%;
+    left: 1.3em;
+    transform: translateY(-50%);
+    user-select: none;
+    pointer-events: none;
+}
+.input {
+    padding: .5em 1em;
+    border-radius: 2px;
+    font-size: 1em;
+    line-height: 1.5;
+    align-self: normal;
+    border: 1px solid $borderColorLight;
+    box-shadow: $dropShadow;
+}
+.input:focus {
+    outline-color: $successColor;
+    outline-width: 2px;
+}
+.inputError:focus {
+    outline-color: $warningColor;
+}
+
+
+@keyframes rotate {
+    0% {
+        transform: translate(150%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(150%, -50%) rotate(360deg);
+    }
+}
+.icon {
+    opacity: 1;
+    transition: .2s;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    animation: rotate 1s ease infinite;
+    font-size: 1.5rem;
+}
+.hidden {
+    opacity: 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        font-size: 14px;
+    }
+}

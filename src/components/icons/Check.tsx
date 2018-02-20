@@ -9,7 +9,7 @@ export class CheckIcon extends React.PureComponent<IconProps, {}> {
             height: "1rem",
             width: "1rem"
         },
-    }
+    };
     render() {
         return (
             <svg

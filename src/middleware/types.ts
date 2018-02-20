@@ -52,10 +52,12 @@ export interface Settings {
 
  export interface AccountData {
     created_at: string;
+    created_at_ms: number;
     id: number;
     is_active: boolean;
     settings: Settings;
     updated_at: string;
     url: string;
     username: string;
+    has_invalid_session: boolean;
 }

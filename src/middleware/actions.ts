@@ -24,8 +24,8 @@ export function linkAccountMiddlewareAction(payload: AccountData): LinkAccountMi
     return {
         type: ACCOUNT_LINK,
         payload,
-    }
-};
+    };
+}
 export function linkAccountMiddlewareActionCreator(payload: AccountData): Thunk {
     return (dispatch) => {
         dispatch(linkAccountMiddlewareAction(payload));
@@ -40,8 +40,8 @@ export function unlinkAccountMiddlewareAction(id: number): UnlinkAccountMiddlewa
     return {
         type: ACCOUNT_UNLINK,
         payload: id,
-    }
-};
+    };
+}
 export function unlinkAccountMiddlewareActionCreator(id: number): Thunk {
     return (dispatch) => {
         dispatch(unlinkAccountMiddlewareAction(id));
@@ -58,8 +58,8 @@ export function setAccountStatusMiddlewareAction(
     return {
         type: ACCOUNT_SET_STATUS,
         payload,
-    }
-};
+    };
+}
 export function setAccountStatusMiddlewareActionCreator(payload: UpdateAccountPayload<AccountData>): Thunk {
     return (dispatch) => {
         dispatch(setAccountStatusMiddlewareAction(payload));
@@ -72,8 +72,8 @@ export interface InitAccountMiddlewareAction {
 export function initAccountMiddlewareAction(): InitAccountMiddlewareAction {
     return {
         type: ACCOUNT_INIT,
-    }
-};
+    };
+}
 export function initAccountMiddlewareActionCreator(): Thunk {
     return (dispatch) => {
         dispatch(initAccountMiddlewareAction());

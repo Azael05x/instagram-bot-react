@@ -1,0 +1,89 @@
+@import "../../consts/consts.scss";
+
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.title {
+    margin: 0;
+    padding: 0;
+}
+.overlay {
+    background-color: $darkOverlay;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+.content {
+    border: 1px solid white;
+    border-radius: 5px;
+    height: 50%;
+    width: 50%;
+    max-width: 500px;
+    max-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: space-around;
+    background-color: white;
+    z-index: 99999;
+    box-shadow: $dropShadowLight;
+    padding: 1rem;
+}
+.contentHeader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.contentBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 3rem;
+}
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.button {
+    flex-basis: 20%;
+    border-radius: 100px;
+    border: 1px solid $borderColorDark;
+    padding: .5rem 1.5rem;
+    font-size: 1.2rem;
+    color: #fff;
+    margin: 0 .5rem;
+    font-weight: 100;
+    cursor: pointer;
+    transition: .2s;
+}
+.submit {
+    background-color: $successColor;
+}
+.submit:hover {
+    background-color: $successHoverColor;
+}
+.cancel {
+    background-color: #fff;
+    color: $darkText;
+}
+.cancel:hover {
+    background-color: $transparentBgHoverColor;
+}
+
+@media (max-width: 520px) {
+    .content {
+        width: 80%;
+    }
+}

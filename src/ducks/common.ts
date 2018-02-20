@@ -4,6 +4,8 @@ import {
     ACCOUNT_UNLINK,
     USER_LOGIN,
     ACCOUNT_UPDATE,
+    OPEN_POPUP,
+    CLOSE_POPUP,
 } from "./consts";
 import { initialState } from "./state";
 import {
@@ -12,6 +14,8 @@ import {
     LinkAccountAction,
     UnlinkAccountAction,
     UpdateAccountAction,
+    OpenPopupAction,
+    ClosePopupAction,
 } from "./actions";
 
 export type ReducerActions =
@@ -20,6 +24,8 @@ export type ReducerActions =
     | UnlinkAccountAction
     | InitAccountAction
     | UpdateAccountAction
+    | OpenPopupAction
+    | ClosePopupAction
 ;
 
 export function reducer(state = initialState, action: ReducerActions) {
@@ -59,6 +65,18 @@ export function reducer(state = initialState, action: ReducerActions) {
             return {
                 ...state,
                 accounts: updatedAccounts,
+            };
+        }
+        case OPEN_POPUP: {
+            return {
+                ...state,
+                popup: action.payload,
+            };
+        }
+        case CLOSE_POPUP: {
+            return {
+                ...state,
+                popup: undefined,
             };
         }
         default:

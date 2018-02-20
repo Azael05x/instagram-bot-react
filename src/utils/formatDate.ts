@@ -6,7 +6,7 @@ export function parseDate(date: Date) {
     const month = formatDate(date.getMonth()+1);
     const year = formatDate(date.getFullYear());
 
-    return `${day}.${month}.${year}`
+    return `${day}.${month}.${year}`;
 }
 export function parseTime(date: Date) {
     return formatDate(date.getHours()) + ":" + formatDate(date.getMinutes());

@@ -8,6 +8,7 @@ export const LIKE_URL = "/settings/like"; // min max likes
 export const FOLLOW_URL = "/settings/follow"; // min max followers
 export const ACTIVITY_BASE = "/activity";
 export const ACTIVITY_REVERT = "/activity/revert";
+export const LINK = "/link";
 export const LOGIN_URL = BASE_URL + AUTH_BASE;
 
 // Keyboard keys
