@@ -24,6 +24,7 @@ export class Main extends React.PureComponent<MainProps, {}> {
     render() {
         return (
             <div className={styles.container}>
+
                 <HeaderConnected />
                 <div className={styles.bodyContainer}>
                     <Switch>

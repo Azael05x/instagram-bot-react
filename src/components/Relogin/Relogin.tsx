@@ -6,6 +6,7 @@ import { ENTER_KEY } from "../../consts";
 import { closePopupActionCreator } from "../../ducks/actions";
 import { ErrorMessage, ErrorMessageType } from "../error-message/ErrorMessage";
 import { ErrorCode } from "../error-message/types";
+import { PopupButton, PopupButtonType } from "../popup/factory/PopupData";
 
 import * as styles from "./Relogin.scss";
 
@@ -37,7 +38,24 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
         window.removeEventListener("keyup", this.onEnterKey);
     }
     public render() {
-        return (
+        const {
+            username,
+        } = this.props;
+
+        const buttons: PopupButton[] =  [
+            {
+                id: PopupButtonType.Submit,
+                title: "Submit",
+                callback: this.onSubmit,
+            },
+            {
+                id: PopupButtonType.Cancel,
+                title: "Later",
+                callback: this.props.closePopup,
+            },
+        ];
+
+        return <>
             <div className={styles.container}>
                 <div style={{ marginBottom: ".5rem" }}>
                     Oh no, this account has been logged out&nbsp;by&nbsp;Instagram. <br />
@@ -49,7 +67,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                         className={styles.label}
                         hidden={!!this.state.password}
                     >
-                        {`@${this.props.username} password`}
+                        {`@${username} password`}
                     </label>
                     <input
                         id="password"
@@ -62,9 +80,13 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                         <i className="fas fa-spinner" />
                     </div>
                 </div>
+                {/* Deprecated. Remove and reuse Toast message instead */}
                 <ErrorMessage theme={ErrorMessageType.Top} errorCode={this.state.errorCode} />
             </div>
-        );
+            <div className={styles.buttonContainer}>
+                {this.renderButtons(buttons)}
+            </div>
+        </>;
     }
     private onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
@@ -74,26 +96,45 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
     }
     private onEnterKey = (event: KeyboardEvent) => {
         if (event.keyCode === ENTER_KEY) {
-            this.setState({
-                progress: true,
-            });
-            relinkAccount(this.props.id, {
-                password: this.state.password,
-            })
-            .then(_response => {
-                this.props.closePopup();
-                this.setState({
-                    progress: false,
-                    errorCode: undefined,
-                });
-            })
-            .catch(error => {
-                this.setState({
-                    progress: false,
-                    errorCode: error.response.status,
-                });
-            });
+            this.onSubmit();
         }
+    }
+    private onSubmit = () => {
+        this.setState({
+            progress: true,
+        });
+        relinkAccount(this.props.id, {
+            password: this.state.password,
+        })
+        .then(_response => {
+            this.props.closePopup();
+            this.setState({
+                progress: false,
+                errorCode: undefined,
+            });
+        })
+        .catch(error => {
+            this.setState({
+                progress: false,
+                errorCode: error.response.status,
+            });
+        });
+    }
+    private renderButtons = (buttons: PopupButton[]) => {
+        return buttons.map((button, i) => {
+            return (
+                <button
+                    key={i}
+                    data-role={button.id}
+                    onClick={button.callback}
+                    className={`${styles.button} ${styles[button.id]}`}
+                >
+                    {button.icon}
+                    {button.icon && " "}
+                    {button.title}
+                </button>
+            );
+        });
     }
 }
 

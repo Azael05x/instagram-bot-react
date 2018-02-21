@@ -33,6 +33,38 @@
 .inputError:focus {
     outline-color: $warningColor;
 }
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2rem;
+}
+.button {
+    flex-basis: 20%;
+    border-radius: 100px;
+    border: 1px solid $borderColorDark;
+    padding: .5rem 1.5rem;
+    font-size: 1.2rem;
+    color: #fff;
+    margin: 0 .5rem;
+    font-weight: 100;
+    cursor: pointer;
+    transition: .2s;
+    outline: none;
+}
+.submit {
+    background-color: $successColor;
+}
+.submit:hover {
+    background-color: $successHoverColor;
+}
+.cancel {
+    background-color: #fff;
+    color: $darkText;
+}
+.cancel:hover {
+    background-color: $transparentBgHoverColor;
+}
 
 
 @keyframes rotate {

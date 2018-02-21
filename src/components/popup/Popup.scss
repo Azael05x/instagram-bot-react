@@ -9,6 +9,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    transition: .2s;
+    pointer-events: none;
+    &.active {
+        pointer-events: all;
+        opacity: 1;
+    }
 }
 .title {
     margin: 0;

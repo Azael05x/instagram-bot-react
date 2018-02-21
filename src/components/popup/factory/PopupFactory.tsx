@@ -9,7 +9,7 @@ import {
 } from "./PopupData";
 
 export interface PopupProps {
-    buttons: PopupButton[];
+    buttons?: PopupButton[];
     title?: string | JSX.Element;
     content?: JSX.Element;
 }

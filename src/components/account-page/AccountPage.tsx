@@ -19,12 +19,8 @@ import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
 
 import { Activities } from "../activities/Activities";
-import {
-    openPopupActionCreator,
-    closePopupActionCreator,
-} from "../../ducks/actions";
+import { openPopupActionCreator } from "../../ducks/actions";
 import { createReloginPopup } from "../popup/factory/PopupFactory";
-import { PopupButtonType } from "../popup/factory/PopupData";
 import { ReloginConnected } from "../Relogin/Relogin";
 
 import * as styles from "./AccountPage.scss";
@@ -50,7 +46,6 @@ export interface AccountPageDispatchProps {
     onDelete: typeof unlinkAccountMiddlewareActionCreator;
     onStatusChange: typeof setAccountStatusMiddlewareActionCreator;
     openPopup: typeof openPopupActionCreator;
-    closePopup: typeof closePopupActionCreator;
 }
 export type AccountPageProps =
     & AccountPageDispatchProps
@@ -71,7 +66,6 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     public componentWillMount() {
         const {
             match,
-            closePopup,
             openPopup,
         } = this.props;
 
@@ -79,7 +73,6 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             .then((response: AxiosResponse<AccountData>) => {
                 this.setState({ account: response.data }, () => {
                     if (this.state.account.has_invalid_session) {
-                        // TODO: Refactor buttons for popups
                         openPopup(createReloginPopup({
                             content: (
                                 <ReloginConnected
@@ -87,18 +80,6 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                                     id={this.state.account.id}
                                 />
                             ),
-                            buttons: [
-                                {
-                                    id: PopupButtonType.Submit,
-                                    title: "Submit",
-                                    callback: () => {console.error("SUBMIT BUTTON NOT WORKING CAUSE THE DEV IS LAZY");},
-                                },
-                                {
-                                    id: PopupButtonType.Cancel,
-                                    title: "Later",
-                                    callback: closePopup,
-                                },
-                            ],
                         }));
                     }
                 });
@@ -235,7 +216,6 @@ const mapDispatchToProps: AccountPageDispatchProps = {
     onDelete: unlinkAccountMiddlewareActionCreator,
     onStatusChange: setAccountStatusMiddlewareActionCreator,
     openPopup: openPopupActionCreator,
-    closePopup: closePopupActionCreator,
 };
 
 export const AccountPageConnected = withRouter(connect<{}, AccountPageDispatchProps>(

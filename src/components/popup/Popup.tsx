@@ -13,26 +13,28 @@ export type PopupProps = PopupStateProps;
 
 export class Popup extends React.PureComponent<PopupProps> {
     render() {
-        if (!this.props.popup) {
-            return null;
-        }
+        // if (!this.props.popup) {
+        //     return null;
+        // }
 
         const { popup } = this.props;
 
         return (
-            <div className={styles.container}>
+            <div className={`${styles.container} ${!!this.props.popup && styles.active}`}>
                 <div className={styles.overlay} />
                 <div className={styles.content}>
                     <div className={styles.contentHeader}>
-                        {popup.title}
+                        {popup && popup.title}
                         <Divider theme={DividerTheme.Small} />
                     </div>
                     <div className={styles.contentBody}>
-                        {popup.content()}
+                        {popup && popup.content()}
                     </div>
-                    <div className={styles.buttonContainer}>
-                        {this.renderButtons(popup.buttons)}
-                    </div>
+                    {popup && popup.buttons && (
+                        <div className={styles.buttonContainer}>
+                            {this.renderButtons(popup.buttons)}
+                        </div>
+                    )}
                 </div>
             </div>
         );
