@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --progress --color --config webpack/webpack.config.development.js",
     "docker": "webpack-dev-server  --progress --color --config webpack/webpack.config.development.js --host=0.0.0.0",
     "prebuild": "rimraf ./dist/*",
-    "build": "webpack --color --config webpack.config.production.js",
+    "build": "webpack --color --config webpack/webpack.config.production.js",
     "test:watch": "jest --watchAll",
     "test": "jest --ci --runInBand"
   },
