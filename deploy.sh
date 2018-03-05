@@ -2,7 +2,7 @@
 set -e
 
 # Build the project for STAGING
-# yarn build
+yarn build
 
 # Define local server
 nginx_conf="./deploy/react.conf"
