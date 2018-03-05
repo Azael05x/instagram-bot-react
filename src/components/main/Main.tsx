@@ -29,17 +29,17 @@ export class Main extends React.PureComponent<MainProps, {}> {
                 <div className={styles.bodyContainer}>
                     <Switch>
                         <Route exact path="/" component={Landing} />
+                        <div className={styles.extraSpace}>
                         { this.props.logged_in
-                            ? (
-                                <>
-                                    <Route path="/profile" component={User} />
-                                    <Route path="/link-account" component={LinkAccountConnected} />
-                                    <Route exact path="/accounts" component={DashboardConnected} />
-                                    <Route path="/accounts/:id" component={AccountPageConnected} />
-                                </>
-                            )
+                            ? <>
+                                <Route path="/profile" component={User} />
+                                <Route path="/link-account" component={LinkAccountConnected} />
+                                <Route exact path="/accounts" component={DashboardConnected} />
+                                <Route path="/accounts/:id" component={AccountPageConnected} />
+                            </>
                             : <Route path="/login" component={LoginConnected} />
-                        }
+                            }
+                        </div>
                         <Route path="*" component={NoMatch} />
                     </Switch>
                 </div>
