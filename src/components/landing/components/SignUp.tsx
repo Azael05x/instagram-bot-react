@@ -1,9 +1,17 @@
 import * as React from "react";
 import { Divider, DividerTheme } from "../../divider/Divider";
 import { Button, ButtonType } from "../../button/Button";
-import { ENTER_KEY } from "../../../consts";
+import { ENTER_KEY, REGISTER_URL } from "../../../consts";
 
 import * as styles from "../Landing.scss";
+
+
+// TODO: REMOVE LINES BELOW
+import axios from 'axios';
+
+
+
+
 
 export interface SignUpState {
     email: string;
@@ -86,7 +94,8 @@ export class SignUp extends React.PureComponent<{}, SignUpState> {
             this.onSubmit();
         }
     }
-    private onSubmit = () => {
+    private onSubmit = async () => {
+        return await axios.post(REGISTER_URL, this.state);
         // TODO: Redirect to sing up page
     }
 }

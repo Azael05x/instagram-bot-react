@@ -1,5 +1,6 @@
 export const BASE_URL = "http://localhost:8079";
 export const AUTH_BASE = "/auth/login";
+export const REGISTER_BASE = "/auth/register";
 export const ACCOUNT_URL = "/instagrams";
 export const ACTIVITY_URL = "/settings/activity";
 export const GENERAL_URL = "/settings/general";
@@ -10,6 +11,7 @@ export const ACTIVITY_BASE = "/activity";
 export const ACTIVITY_REVERT = "/activity/revert";
 export const LINK = "/link";
 export const LOGIN_URL = BASE_URL + AUTH_BASE;
+export const REGISTER_URL = BASE_URL + REGISTER_BASE;
 
 // Keyboard keys
 export const ENTER_KEY = 13;
