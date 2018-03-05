@@ -1,6 +1,8 @@
+@import "../../consts/consts.scss";
+
 .line {
     height: 2px;
-    background-color: rgba(29, 34, 71, 0.1);
+    background-color: $placeholderColor;
     position: relative;
     margin: 1.5rem 0;
     align-self: center;
