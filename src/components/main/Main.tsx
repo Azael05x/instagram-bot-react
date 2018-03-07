@@ -10,7 +10,7 @@ import { selectUser } from "../../ducks/selectors";
 import { NoMatch } from "../no-match/NoMatch";
 import { LinkAccountConnected } from "../link-account/LinkAccount";
 import { AccountPageConnected } from "../account-page/AccountPage";
-import { Landing } from "../landing/Landing";
+import { LandingConnected } from "../landing/Landing";
 import { Footer } from "../footer/Footer";
 import { PopupConnected } from "../popup/Popup";
 
@@ -28,7 +28,7 @@ export class Main extends React.PureComponent<MainProps, {}> {
                 <HeaderConnected />
                 <div className={styles.bodyContainer}>
                     <Switch>
-                        <Route exact path="/" component={Landing} />
+                        <Route exact path="/" component={LandingConnected} />
                         <div className={styles.extraSpace}>
                         { this.props.logged_in
                             ? <>

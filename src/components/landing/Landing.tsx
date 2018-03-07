@@ -1,20 +1,29 @@
 // tslint:disable:max-line-length
 
 import * as React from "react";
+import { connect } from "react-redux";
 import * as styles from "./Landing.scss";
-import { RouteComponentProps } from "react-router-dom";
+import {
+    withRouter,
+    RouteComponentProps,
+} from "react-router-dom";
 import { Divider, DividerTheme } from "../divider/Divider";
 import { SignUp } from "./components/SignUp";
-import { Hero } from "./components/Hero";
+import { HeroConnected } from "./components/Hero";
 import { WhatWeDoDont } from "./components/WhatWeDoDont";
+import { selectUser } from "../../ducks/selectors";
 
-export type LandingProps = RouteComponentProps<{}>;
+export interface LandingStateProps {
+    hasUser: boolean;
+}
+
+export type LandingProps = LandingStateProps & RouteComponentProps<{}>;
 
 export class Landing extends React.Component<LandingProps> {
     render() {
         return (
             <div className={styles.container}>
-                <Hero />
+                <HeroConnected />
 
                 <div className={styles.sectionContainer}>
                     <h1 className={styles.title}>
@@ -61,10 +70,20 @@ export class Landing extends React.Component<LandingProps> {
                     <WhatWeDoDont />
                 </div>
 
-                <div className={styles.sectionContainer}>
-                    <SignUp />
-                </div>
+                {!this.props.hasUser && (
+                    <div className={styles.sectionContainer}>
+                        <SignUp />
+                    </div>
+                )}
             </div>
         );
     }
 }
+
+const mapStateToProps = (state: any): LandingStateProps => ({
+    hasUser: !!selectUser(state).auth_token,
+});
+
+export const LandingConnected = withRouter(connect<LandingStateProps>(
+    mapStateToProps
+)(Landing));

@@ -1,16 +1,5 @@
 @import "../../consts/consts.scss";
 
-%whatBoxTitlePseudo {
-    content: "";
-    height: 2px;
-    width: 30px;
-    background-color: rgba($darkText, .7);
-    transform: translateY(-50%);
-    position: absolute;
-    border-radius: 100px;
-    top: 50%;
-}
-
 .sectionContainer {
     padding: 2rem;
     margin-bottom: 2rem;
@@ -107,7 +96,7 @@
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    padding: 1rem 3rem;
+    padding: 2rem 3rem;
     margin: 1rem;
     border-radius: 2px;
     box-shadow: $dropShadow;
@@ -158,14 +147,7 @@ ul.cardInfo {
     word-break: break-word;
     font-weight: 100;
     position: relative;
-}
-.cardTitle::before {
-    @extend %whatBoxTitlePseudo;
-    left: -2.5rem;
-}
-.cardTitle::after {
-    @extend %whatBoxTitlePseudo;
-    right: -2.5rem;
+    font-size: 2.5rem;
 }
 .icon {
     font-size: 4em;
@@ -200,16 +182,19 @@ ul.cardInfo {
 // Form
 .formGroup {
     position: relative;
-    height: 5rem;
-    width: 25rem;
+    height: 3rem;
+    width: 20rem;
     margin: .5rem 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.formGroup:last-child {
+    margin-top: 2rem;
+}
 .input {
     border: none;
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 100;
     outline: none;
     height: 100%;
@@ -229,7 +214,7 @@ ul.cardInfo {
     top: 50%;
     left: .5rem;
     transform: translateY(-50%);
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: $placeholderColor;
     opacity: 1;
     transition: .2s;

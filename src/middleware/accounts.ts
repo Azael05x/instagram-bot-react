@@ -17,7 +17,6 @@ import {
     ACCOUNT_UPDATE_GENERAL,
     ACCOUNT_UPDATE_COMMENTS,
     ACCOUNT_SET_STATUS,
-    // ACCOUNT_ACTIVITY_REVERT,
 } from "./consts";
 
 import {
@@ -42,7 +41,6 @@ import {
     updateGeneral,
     updateComments,
     setAccountStatus,
-    // revertAccountActivity,
 } from "../utils/requests";
 
 export interface PartialState {

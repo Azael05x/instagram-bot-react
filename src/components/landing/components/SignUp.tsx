@@ -5,13 +5,8 @@ import { ENTER_KEY, REGISTER_URL } from "../../../consts";
 
 import * as styles from "../Landing.scss";
 
-
 // TODO: REMOVE LINES BELOW
-import axios from 'axios';
-
-
-
-
+import axios from "axios";
 
 export interface SignUpState {
     email: string;

@@ -13,6 +13,7 @@ import { State } from "./ducks/state";
 
 const store: Store<State> = createStore(
     commonReducer as any, // TODO: Fix incompatible type
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
     applyMiddleware(
         thunk,
         accountMiddleware,
