@@ -72,7 +72,7 @@ export function getActivities(
 export function setReviewed(
     id: number,
     activityType: RequestActivityType,
-    timestamp: string,
+    timestamp: number,
     config = defaultConfig
 ) {
     return axios.post(

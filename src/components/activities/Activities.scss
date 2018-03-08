@@ -38,8 +38,25 @@
     display: flex;
     align-items: center;
     text-transform: capitalize;
-    .icon {
-        color: $successColor;
-        margin-left: .5rem;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
     }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.icon {
+    opacity: 1;
+    transition: .2s;
+    position: relative;
+    color: $darkText;
+    animation: rotate 1s ease infinite;
+    font-size: 1.5rem;
+    margin-right: .5rem;
+}
+.hidden {
+    opacity: 0;
 }

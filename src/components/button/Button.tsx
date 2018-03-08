@@ -6,8 +6,13 @@ export enum ButtonType {
     Danger = "danger",
     Warning = "warning",
 }
+export enum ButtonSize {
+    Regular = "regular",
+    Small = "small",
+}
 export interface ButtonPropsDefaultProps {
     type: ButtonType;
+    size: ButtonSize;
 }
 export interface ButtonProps extends Partial<ButtonPropsDefaultProps> {
     label: string;
@@ -17,6 +22,7 @@ export interface ButtonProps extends Partial<ButtonPropsDefaultProps> {
 export class Button extends React.PureComponent<ButtonProps, {}> {
     public static defaultProps: ButtonPropsDefaultProps = {
         type: ButtonType.Main,
+        size: ButtonSize.Regular,
     };
 
     render() {
@@ -24,9 +30,10 @@ export class Button extends React.PureComponent<ButtonProps, {}> {
             label,
             onClick,
             type,
+            size,
         } = this.props;
 
-        const className = `${styles.button} ${styles[type]}`;
+        const className = `${styles.button} ${styles[type]} ${styles[size]}`;
 
         return (
             <button
