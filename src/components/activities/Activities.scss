@@ -1,3 +1,5 @@
+@import "../../consts/consts.scss";
+
 .loadMore {
     border-radius: 100px;
     padding: .5em 1em;
@@ -19,4 +21,25 @@
 }
 .selectActivityBox {
     align-self: center;
+    position: relative;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.reviewedContainer {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    right: 1rem;
+}
+.reviewedAnswer {
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    .icon {
+        color: $successColor;
+        margin-left: .5rem;
+    }
 }

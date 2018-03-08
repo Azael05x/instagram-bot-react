@@ -7,6 +7,7 @@ import {
     COMMENT_URL,
     ACTIVITY_BASE,
     ACTIVITY_REVERT,
+    ACTIVITY_REVIEWED,
     LINK,
 } from "../consts";
 import { createConfig } from "./config";
@@ -65,6 +66,20 @@ export function getActivities(
 ) {
     return axios.get(
         `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_BASE}/${activityType}?batch_size=${batchSize}&from=${timestamp}`,
+        config(),
+    );
+}
+export function setReviewed(
+    id: number,
+    activityType: RequestActivityType,
+    timestamp: string,
+    config = defaultConfig
+) {
+    return axios.post(
+        `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_BASE}/${activityType}${ACTIVITY_REVIEWED}`,
+        {
+            ms: timestamp,
+        },
         config(),
     );
 }

@@ -1,17 +1,20 @@
 import * as React from "react";
 import { AxiosResponse } from "axios";
 
-import { getActivities } from "../../utils/requests";
+import { getActivities , setReviewed} from "../../utils/requests";
 import { CommentActivity, FollowActivity, LikeActivity } from "./types";
 import { ActivityItem } from "./components/Activity";
 import { EmptyList, EmptyListType } from "../empty-list/EmptyList";
 import { Divider, DividerTheme } from "../divider/Divider";
-import * as styles from "./Activities.css";
 import { Select, SelectOption, SelectTheme } from "../select/Select";
+
+import * as styles from "./Activities.scss";
 
 export interface ActivitiesState {
     activities: (CommentActivity & FollowActivity & LikeActivity)[];
     activityType: ActivityType;
+    isReviewed: boolean;
+    reviewingInProgress: boolean;
 }
 export interface ActivitiesProps {
     accountId: number;
@@ -48,6 +51,8 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         this.state = {
             activities: [],
             activityType: ActivityType.Likes,
+            isReviewed: false,
+            reviewingInProgress: false,
         };
     }
     public componentWillMount() {
@@ -59,6 +64,37 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         }
     }
     public render() {
+
+        const reviewComponent = (
+            <div className={styles.reviewedContainer}>
+                {!this.state.isReviewed
+                    ? <>
+                        <input
+                            id="reviewed"
+                            type="checkbox"
+                            className={styles.checkbox}
+                            onChange={this.markAsReviewed}
+                            checked={this.state.isReviewed}
+                        />
+                        <label htmlFor="reviewed">Mark {this.state.activityType} as reviewed</label>
+                    </>
+                    : (this.state.reviewingInProgress
+                        ? (
+                            <span className={styles.reviewedAnswer}>
+                                {`${this.state.activityType} successfully reviewed`}
+                                <i className={`fa fa-check ${styles.icon}`} aria-hidden="true" />
+                            </span>
+                        )
+                        : (
+                            <span className={styles.reviewedAnswer}>
+                                {`Review in progress...`}
+                                <i className={`fa fa-spinner ${styles.icon}`} aria-hidden="true" />
+                            </span>
+                        )
+                    )}
+            </div>
+        );
+
         return <>
             <div className={styles.selectActivityBox}>
                 <Select
@@ -66,6 +102,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
                     selectOptions={selectOptions}
                     theme={SelectTheme.Small}
                 />
+                {this.state.activities.length ? reviewComponent : null}
             </div>
             {this.state.activities.length
                 ? <>
@@ -111,5 +148,39 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
             .catch((error: any) => {
                 console.error("Failed to get acitivites: ", error);
             });
+    }
+    private markAsReviewed = () => {
+        const {
+            activities,
+            activityType,
+            isReviewed,
+        } = this.state;
+
+        if (!isReviewed) {
+            this.setState({
+                isReviewed: true,
+                reviewingInProgress: true,
+            });
+
+            setReviewed(
+                this.props.accountId,
+                activityType,
+                activities[0].created_at_ms,
+            )
+                .then(() => {
+                    this.setState({
+                        reviewingInProgress: false,
+                    });
+
+                    window.setTimeout(() => {
+                        this.setState({
+                            isReviewed: false,
+                        });
+                    }, 10000);
+                })
+                .catch((error: any) => {
+                    console.error(`Failed to set ${this.state.activityType} as reviewed: `, error);
+                });
+        }
     }
 }
