@@ -7,6 +7,7 @@ import { ActivityItem } from "./components/Activity";
 import { EmptyList, EmptyListType } from "../empty-list/EmptyList";
 import { Divider, DividerTheme } from "../divider/Divider";
 import { Select, SelectOption, SelectTheme } from "../select/Select";
+import { Button, ButtonSize } from "../button/Button";
 
 import * as styles from "./Activities.scss";
 
@@ -64,34 +65,26 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         }
     }
     public render() {
+        const {
+            activityType,
+            reviewingInProgress,
+            activities,
+        } = this.state;
+
+        const reviewButtonLabel = !reviewingInProgress
+            ? `Mark ${activityType} as reviewed`
+            : "Reviewing...";
 
         const reviewComponent = (
             <div className={styles.reviewedContainer}>
-                {!this.state.isReviewed
-                    ? <>
-                        <input
-                            id="reviewed"
-                            type="checkbox"
-                            className={styles.checkbox}
-                            onChange={this.markAsReviewed}
-                            checked={this.state.isReviewed}
-                        />
-                        <label htmlFor="reviewed">Mark {this.state.activityType} as reviewed</label>
-                    </>
-                    : (this.state.reviewingInProgress
-                        ? (
-                            <span className={styles.reviewedAnswer}>
-                                {`${this.state.activityType} successfully reviewed`}
-                                <i className={`fa fa-check ${styles.icon}`} aria-hidden="true" />
-                            </span>
-                        )
-                        : (
-                            <span className={styles.reviewedAnswer}>
-                                {`Review in progress...`}
-                                <i className={`fa fa-spinner ${styles.icon}`} aria-hidden="true" />
-                            </span>
-                        )
-                    )}
+                <div className={`${styles.icon} ${!reviewingInProgress && styles.hidden}`}>
+                    <i className="fas fa-spinner" />
+                </div>
+                <Button
+                    onClick={this.markAsReviewed}
+                    label={reviewButtonLabel}
+                    size={ButtonSize.Small}
+                />
             </div>
         );
 
@@ -102,9 +95,9 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
                     selectOptions={selectOptions}
                     theme={SelectTheme.Small}
                 />
-                {this.state.activities.length ? reviewComponent : null}
+                {activities.length ? reviewComponent : null}
             </div>
-            {this.state.activities.length
+            {activities.length
                 ? <>
                     <Divider theme={DividerTheme.SmallBigMargin} />
                     {this.renderActivity()}
@@ -153,34 +146,26 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         const {
             activities,
             activityType,
-            isReviewed,
         } = this.state;
 
-        if (!isReviewed) {
-            this.setState({
-                isReviewed: true,
-                reviewingInProgress: true,
-            });
+        this.setState({
+            reviewingInProgress: true,
+            isReviewed: false,
+        });
 
-            setReviewed(
-                this.props.accountId,
-                activityType,
-                activities[0].created_at_ms,
-            )
-                .then(() => {
-                    this.setState({
-                        reviewingInProgress: false,
-                    });
-
-                    window.setTimeout(() => {
-                        this.setState({
-                            isReviewed: false,
-                        });
-                    }, 10000);
-                })
-                .catch((error: any) => {
-                    console.error(`Failed to set ${this.state.activityType} as reviewed: `, error);
+        setReviewed(
+            this.props.accountId,
+            activityType,
+            activities[0].created_at_ms,
+        )
+            .then(() => {
+                this.setState({
+                    reviewingInProgress: false,
+                    isReviewed: true,
                 });
-        }
+            })
+            .catch((error: any) => {
+                console.error(`Failed to set ${this.state.activityType} as reviewed: `, error);
+            });
     }
 }
