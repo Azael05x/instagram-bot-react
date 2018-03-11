@@ -18,7 +18,7 @@ import { AccountSettingsConnected } from "../account-settings/AccountSettings";
 import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
 
-import { Activities } from "../activities/Activities";
+import { ActivitiesConnected } from "../activities/Activities";
 import { openPopupActionCreator } from "../../ducks/actions";
 import { createReloginPopup } from "../popup/factory/PopupFactory";
 import { ReloginConnected } from "../Relogin/Relogin";
@@ -205,7 +205,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                 label: "Statistics",
             },
             [ScreenDataRole.ActivityReview]: {
-                component: <Activities accountId={this.state.account.id} />,
+                component: <ActivitiesConnected accountId={this.state.account.id} />,
                 label: "Activity Review",
             },
         }[this.state.activeScreen];

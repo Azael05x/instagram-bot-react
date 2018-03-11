@@ -1,5 +1,6 @@
 import * as React from "react";
 import { AxiosResponse } from "axios";
+import { connect } from "react-redux";
 
 import { getActivities , setReviewed} from "../../utils/requests";
 import { CommentActivity, FollowActivity, LikeActivity } from "./types";
@@ -8,6 +9,8 @@ import { EmptyList, EmptyListType } from "../empty-list/EmptyList";
 import { Divider, DividerTheme } from "../divider/Divider";
 import { Select, SelectOption, SelectTheme } from "../select/Select";
 import { Button, ButtonSize } from "../button/Button";
+import { showToastAction } from "../toast/ducks/actions";
+import { ToastType } from "../toast/ducks/state";
 
 import * as styles from "./Activities.scss";
 
@@ -16,10 +19,16 @@ export interface ActivitiesState {
     activityType: ActivityType;
     isReviewed: boolean;
     reviewingInProgress: boolean;
+    returnReviewed: boolean;
 }
-export interface ActivitiesProps {
+
+export interface ActivitiesDispatchProps {
+    showToast: typeof showToastAction;
+}
+export interface ActivitiesOwnProps {
     accountId: number;
 }
+export type ActivitiesProps = ActivitiesOwnProps & ActivitiesDispatchProps;
 
 export enum ActivityType {
     Likes = "likes",
@@ -46,22 +55,21 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
     public activityType: ActivityType = ActivityType.Likes;
     public nextTimeStamp: number | null = Date.now();
 
-    public constructor(props: ActivitiesProps) {
-        super(props);
-
-        this.state = {
-            activities: [],
-            activityType: ActivityType.Likes,
-            isReviewed: false,
-            reviewingInProgress: false,
-        };
-    }
+    public state: ActivitiesState = {
+        activities: [],
+        activityType: ActivityType.Likes,
+        isReviewed: false,
+        returnReviewed: false,
+        reviewingInProgress: false,
+    };
     public componentWillMount() {
         this.onLoadMore();
     }
     public componentDidUpdate(_nextProps: ActivitiesProps, nextState: ActivitiesState) {
         if (nextState.activityType !== this.state.activityType) {
-            this.onLoadMore();
+            this.setState({
+                returnReviewed: false,
+            }, this.onLoadMore);
         }
     }
     public render() {
@@ -128,7 +136,13 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         }
     }
     private onLoadMore = () => {
-        getActivities(this.props.accountId, this.batchSize, this.nextTimeStamp, this.state.activityType)
+        getActivities(
+            this.props.accountId,
+            this.batchSize,
+            this.nextTimeStamp,
+            this.state.returnReviewed,
+            this.state.activityType,
+        )
             .then((response: AxiosResponse<{
                 activities: (CommentActivity & FollowActivity & LikeActivity)[],
                 next_timestamp: number,
@@ -136,6 +150,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
                 this.nextTimeStamp = response.data.next_timestamp;
                 this.setState({
                     activities: [...this.state.activities, ...response.data.activities],
+                    returnReviewed: true,
                 });
             })
             .catch((error: any) => {
@@ -159,13 +174,32 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
             activities[0].created_at_ms,
         )
             .then(() => {
-                this.setState({
-                    reviewingInProgress: false,
-                    isReviewed: true,
-                });
+                setTimeout(() => {
+                    this.props.showToast(
+                        <>Successfully reviewed {this.state.activityType}</>,
+                        ToastType.Success,
+                    );
+                    this.setState({
+                        reviewingInProgress: false,
+                        isReviewed: true,
+                    });
+                }, 1000);
             })
             .catch((error: any) => {
                 console.error(`Failed to set ${this.state.activityType} as reviewed: `, error);
+                this.props.showToast(
+                    <>Oh snap, please try again later to review {this.state.activityType}</>,
+                    ToastType.Error,
+                );
             });
     }
 }
+
+const mapDispatchToProps: ActivitiesDispatchProps = {
+    showToast: showToastAction,
+};
+
+export const ActivitiesConnected = connect<{}, ActivitiesDispatchProps>(
+    undefined,
+    mapDispatchToProps,
+)(Activities);

@@ -1,3 +1,5 @@
+// tslint:disable:max-line-length
+
 import axios from "axios";
 import {
     BASE_URL,
@@ -62,11 +64,12 @@ export function getActivities(
     id: number,
     batchSize: number,
     timestamp: number,
+    returnReviewed: boolean,
     activityType: RequestActivityType,
     config = defaultConfig
 ) {
     return axios.get(
-        `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_BASE}/${activityType}?batch_size=${batchSize}&from=${timestamp}`,
+        `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_BASE}/${activityType}?batch_size=${batchSize}&from=${timestamp}&return_reviewed=${returnReviewed}`,
         config(),
     );
 }
