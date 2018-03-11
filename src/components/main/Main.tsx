@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as styles from "./Main.css";
 import { Switch, Route, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { HeaderConnected } from "../header/Header";
@@ -13,6 +12,9 @@ import { AccountPageConnected } from "../account-page/AccountPage";
 import { LandingConnected } from "../landing/Landing";
 import { Footer } from "../footer/Footer";
 import { PopupConnected } from "../popup/Popup";
+import { ToastConnected } from "../toast/Toast";
+
+import * as styles from "./Main.scss";
 
 export interface MainStateProps {
     logged_in: boolean;
@@ -24,7 +26,7 @@ export class Main extends React.PureComponent<MainProps, {}> {
     render() {
         return (
             <div className={styles.container}>
-
+                <ToastConnected />
                 <HeaderConnected />
                 <div className={styles.bodyContainer}>
                     <Switch>
