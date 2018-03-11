@@ -25,7 +25,7 @@ export class Toast extends React.PureComponent<ToastProps, ToastState> {
         showMessage: false,
         unMount: true,
     };
-    public toastLifeTime = 2000;
+    public toastLifeTime = 5000;
     public toastShowDelay = 100;
     public toast: ToastItem;
     public showToastTimeoutId: number;

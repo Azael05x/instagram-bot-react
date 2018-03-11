@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import { Divider } from "../../divider/Divider";
 import { Button, ButtonType } from "../../button/Button";
@@ -10,12 +11,19 @@ import * as styles from "../Landing.scss";
 export interface HeroProps {
     hasUser: boolean;
 }
+export interface HeroState {
+    redirect: boolean;
+}
 
-export class Hero extends React.PureComponent<HeroProps> {
-    private onFreeDemo = () => {
-        // TODO: Redirect to sign up page
-    }
+export class Hero extends React.PureComponent<HeroProps, HeroState> {
+    public state = {
+        redirect: false,
+    };
     public render() {
+        if (this.state.redirect) {
+            return <Redirect exact to="/register" />;
+        }
+
         return (
             <div className={styles.heroContainer}>
                 <div className={styles.heroTitleContainer}>
@@ -37,6 +45,12 @@ export class Hero extends React.PureComponent<HeroProps> {
                 <div className={styles.heroImage}></div>
             </div>
         );
+    }
+    private onFreeDemo = () => {
+        // Redirect to sign up page
+        this.setState({
+            redirect: true,
+        });
     }
 }
 

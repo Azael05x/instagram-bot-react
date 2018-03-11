@@ -1,3 +1,5 @@
+@import "../../consts/consts.scss";
+
 .container {
     display: flex;
     justify-content: center;
@@ -55,4 +57,10 @@
 .title {
     text-transform: uppercase;
     color: #1D2247;
+}
+
+.link {
+    cursor: pointer;
+    color: $dangerColor;
+    text-decoration: none;
 }

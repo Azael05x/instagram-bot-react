@@ -1,30 +1,41 @@
 import * as React from "react";
-import { Divider, DividerTheme } from "../../divider/Divider";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { AxiosResponse } from "axios";
+
 import { Button, ButtonType } from "../../button/Button";
-import { ENTER_KEY, REGISTER_URL } from "../../../consts";
+import { ENTER_KEY } from "../../../consts";
+import { registerUser } from "../../../utils/requests";
+import { showToastAction } from "../../toast/ducks/actions";
+import { ToastType } from "../../toast/ducks/state";
 
 import * as styles from "../Landing.scss";
-
-// TODO: REMOVE LINES BELOW
-import axios from "axios";
 
 export interface SignUpState {
     email: string;
     password: string;
+    registerInProgress: boolean;
+    redirect: boolean;
 }
 
-export class SignUp extends React.PureComponent<{}, SignUpState> {
+export interface SignUpDispatchProps {
+    showToast: typeof showToastAction;
+}
+export type SignUpProps = SignUpDispatchProps;
+
+export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
     public state: SignUpState = {
         email: "",
         password: "",
+        registerInProgress: false,
+        redirect: false,
     };
     public render() {
+        if (this.state.redirect) {
+            return <Redirect exact to="/login" />;
+        }
+
         return <>
-            <h1 className={styles.title}>
-                Not sure?<br />
-                Try us for <span className={styles.accent}>free</span>!
-            </h1>
-            <Divider theme={DividerTheme.Small} />
             <div>
                 <div className={styles.formGroup}>
                     <label
@@ -65,6 +76,9 @@ export class SignUp extends React.PureComponent<{}, SignUpState> {
                     />
                 </div>
                 <div className={styles.formGroup}>
+                    <div className={`${styles.spinner} ${!this.state.registerInProgress && styles.hidden}`}>
+                        <i className="fas fa-spinner" />
+                    </div>
                     <Button
                         label={"Sign Up"}
                         onClick={this.onSubmit}
@@ -90,7 +104,51 @@ export class SignUp extends React.PureComponent<{}, SignUpState> {
         }
     }
     private onSubmit = async () => {
-        return await axios.post(REGISTER_URL, this.state);
-        // TODO: Redirect to sing up page
+        this.toggleRegisterInProgress();
+
+        registerUser({ email: this.state.email, password: this.state.password })
+            .then((response: AxiosResponse<{ success: boolean, errors: { email: string[] } }>) => {
+                this.toggleRegisterInProgress();
+
+                if (response.data.success) {
+                    this.props.showToast(
+                        <h3>Successfully Signed up!</h3>,
+                        ToastType.Success,
+                    );
+
+                    // Redirect to sign up page
+                    this.setState({
+                        redirect: true,
+                    });
+                } else {
+                    this.props.showToast(
+                        <h4>Email {response.data.errors.email}</h4>,
+                        ToastType.Error,
+                    );
+                }
+            })
+            .catch((error) => {
+                this.toggleRegisterInProgress();
+
+                console.error("An error occurred: ", error);
+                this.props.showToast(
+                    <h4>Oops, something went wrong. Please try again later</h4>,
+                    ToastType.Error,
+                );
+            });
+    }
+    private toggleRegisterInProgress = () => {
+        this.setState({
+            registerInProgress: !this.state.registerInProgress,
+        });
     }
 }
+
+const mapDispatchToProps: SignUpDispatchProps = {
+    showToast: showToastAction,
+};
+
+export const SignUpConnected = connect<{}, SignUpDispatchProps>(
+    undefined,
+    mapDispatchToProps,
+)(SignUp);

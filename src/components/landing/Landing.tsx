@@ -8,7 +8,7 @@ import {
     RouteComponentProps,
 } from "react-router-dom";
 import { Divider, DividerTheme } from "../divider/Divider";
-import { SignUp } from "./components/SignUp";
+import { SignUpConnected } from "./components/SignUp";
 import { HeroConnected } from "./components/Hero";
 import { WhatWeDoDont } from "./components/WhatWeDoDont";
 import { selectUser } from "../../ducks/selectors";
@@ -72,7 +72,12 @@ export class Landing extends React.Component<LandingProps> {
 
                 {!this.props.hasUser && (
                     <div className={styles.sectionContainer}>
-                        <SignUp />
+                        <h1 className={styles.title}>
+                            Not sure?<br />
+                            Try us for <span className={styles.accent}>free</span>!
+                        </h1>
+                        <Divider theme={DividerTheme.Small} />
+                        <SignUpConnected />
                     </div>
                 )}
             </div>

@@ -13,6 +13,7 @@ import { LandingConnected } from "../landing/Landing";
 import { Footer } from "../footer/Footer";
 import { PopupConnected } from "../popup/Popup";
 import { ToastConnected } from "../toast/Toast";
+import { Register } from "../register/Register";
 
 import * as styles from "./Main.scss";
 
@@ -37,9 +38,13 @@ export class Main extends React.PureComponent<MainProps, {}> {
                                 <Route path="/profile" component={User} />
                                 <Route path="/link-account" component={LinkAccountConnected} />
                                 <Route exact path="/accounts" component={DashboardConnected} />
+                                <Route path="/profile" component={User} />
                                 <Route path="/accounts/:id" component={AccountPageConnected} />
                             </>
-                            : <Route path="/login" component={LoginConnected} />
+                            : <>
+                                <Route path="/login" component={LoginConnected} />
+                                <Route path="/register" component={Register} />
+                            </>
                             }
                         </div>
                         <Route path="*" component={NoMatch} />

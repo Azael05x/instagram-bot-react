@@ -1,0 +1,13 @@
+@import "../../consts/consts.scss";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.title {
+    color: $darkText;
+    font-size: calc(1rem + 2vw);
+    margin-bottom: 1rem;
+}

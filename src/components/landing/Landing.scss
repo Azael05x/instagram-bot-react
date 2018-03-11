@@ -1,5 +1,14 @@
 @import "../../consts/consts.scss";
 
+@keyframes rotate {
+    0% {
+        transform: translate(0, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(0, -50%) rotate(360deg);
+    }
+}
+
 .sectionContainer {
     padding: 2rem;
     margin-bottom: 2rem;
@@ -219,9 +228,20 @@ ul.cardInfo {
     opacity: 1;
     transition: .2s;
 }
+.spinner {
+    opacity: 1;
+    transition: .2s;
+    position: absolute;
+    top: 50%;
+    animation: rotate 1s ease infinite;
+    left: 2rem;
+    font-size: 2rem;
+    pointer-events: none;
+}
 .hidden {
     opacity: 0;
 }
+
 
 @media (min-width: 1920px) {
     .heroTitle {

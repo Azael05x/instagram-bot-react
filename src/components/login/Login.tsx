@@ -1,14 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { Redirect, RouteComponentProps, withRouter } from "react-router-dom";
+import { Redirect, RouteComponentProps, withRouter, Link } from "react-router-dom";
 
 import { ErrorCode } from "../error-message/types";
 import { ErrorMessage } from "../error-message/ErrorMessage";
 import { LOGIN_URL, ENTER_KEY } from "../../consts";
 import { loginActionCreator } from "../../ducks/actions";
 
-import * as styles from "./Login.css";
+import * as styles from "./Login.scss";
 
 export interface LoginDispatchProps {
     onLogin: typeof loginActionCreator;
@@ -104,6 +104,11 @@ export class Login extends React.Component<LoginProps, LoginState> {
                     </div>
                 </div>
                 <hr />
+                <small>
+                    Don't have an account?
+                    {" "}
+                    <Link to={"/register"} className={styles.link}>Sign up here!</Link>
+                </small>
                 <ErrorMessage errorCode={this.state.errorCode} />
             </div>
         );

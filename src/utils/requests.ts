@@ -8,6 +8,7 @@ import {
     ACTIVITY_BASE,
     ACTIVITY_REVERT,
     ACTIVITY_REVIEWED,
+    REGISTER_URL,
     LINK,
 } from "../consts";
 import { createConfig } from "./config";
@@ -90,4 +91,7 @@ export function revertAccountActivity(id: number, data: any, config = defaultCon
 
 export function relinkAccount(id: number, data: { password: string }, config = defaultConfig) {
     return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}${LINK}`, data, config());
+}
+export function registerUser(data: { email: string, password: string }) {
+    return axios.post(REGISTER_URL, data);
 }
