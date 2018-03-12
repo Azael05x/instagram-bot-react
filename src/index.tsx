@@ -1,19 +1,16 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { HashRouter } from "react-router-dom";
-import {
-    createStore,
-    applyMiddleware,
-    combineReducers,
-} from "redux";
 import { Provider, Store } from "react-redux";
+import { HashRouter } from "react-router-dom";
+import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
-import { MainConnected } from "./components/main/Main";
+
 import { reducer as commonReducer } from "../src/ducks/common";
 import { selectUser } from "../src/ducks/selectors";
+import { MainConnected } from "./components/main/Main";
+import { toastReducer } from "./components/toast/ducks/reducer";
 import { accountMiddleware } from "./middleware/accounts";
 import { initAccountMiddlewareActionCreator } from "./middleware/actions";
-import { toastReducer,  } from "./components/toast/ducks/reducer";
 import { InstaState } from "./types/rootState";
 
 const reducers = combineReducers<InstaState>({
