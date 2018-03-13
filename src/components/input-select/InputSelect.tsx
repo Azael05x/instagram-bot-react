@@ -17,7 +17,8 @@ export interface InputSelectState {
 export interface InputSelectProps {
     placeholder: string;
     bodyPlaceholder: string;
-    onChange: (value: string[]) => void;
+    onSubmit: (value: string[]) => void;
+    onChange?: (value: string) => void;
     icon?: JSX.Element;
     tags?: string[]; // Tags that could already be associated with the account
     type?: InputType;
@@ -79,9 +80,12 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         );
     }
     private onInput = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        this.setState({
-            value: event.currentTarget.value,
-        });
+        const value = event.currentTarget.value;
+
+        if (this.props.onChange) {
+            this.props.onChange(value);
+        }
+        this.setState({ value });
     }
     private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (key.keyCode === ENTER_KEY && this.state.value) {
@@ -120,7 +124,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             this.setState({
                 tags: newTags,
             }, () => {
-                this.props.onChange(newTags);
+                this.props.onSubmit(newTags);
             });
         };
     }
@@ -133,7 +137,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             value: "",
             tags: updatedTags
         }, () => {
-            this.props.onChange(updatedTags);
+            this.props.onSubmit(updatedTags);
         });
     }
 }

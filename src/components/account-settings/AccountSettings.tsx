@@ -1,6 +1,8 @@
 import * as React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
+import { AxiosResponse } from "axios";
+
 import { AccountData, ActivitySpeedType } from "../../middleware/types";
 import { Divider, DividerTheme } from "../divider/Divider";
 import { ActivitySpeed } from "./components/activity-speed/ActivitySpeed";
@@ -25,6 +27,7 @@ import {
     imageCommentsBodyPlaceholder,
     imageCommentsPlaceholder,
 } from "../../texts/texts";
+import { searchTags, searchUsers } from "../../utils/requests";
 
 import * as styles from "./AccountSettings.css";
 
@@ -81,8 +84,9 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 placeholder={hashtagsPlaceholder}
                                 bodyPlaceholder={hashtagsBodyPlaceholder}
                                 icon={<i className="fa fa-tags" aria-hidden="true" />}
-                                onChange={this.onFollowTagsChange}
+                                onSubmit={this.onFollowTagsChange}
                                 tags={settings.general.tags}
+                                onChange={this.onTagInput}
                             />
                         </div>
                         <div className={styles.settingsArea}>
@@ -90,8 +94,9 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 placeholder={favouriteUsersPlaceholder}
                                 bodyPlaceholder={favouriteUsersBodyPlaceholder}
                                 icon={<i className="fa fa-user" aria-hidden="true" />}
-                                onChange={this.onUserTagsChange}
+                                onSubmit={this.onUserTagsChange}
                                 tags={settings.general.users}
+                                onChange={this.onUserInput}
                             />
                         </div>
                         <div className={styles.settingsArea}>
@@ -99,8 +104,9 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 placeholder={blacklistedHashtagsPlaceholder}
                                 bodyPlaceholder={blacklistedHashtagsBodyPlaceholder}
                                 icon={<i className="fa fa-ban" aria-hidden="true"></i>}
-                                onChange={this.onBlacklistedFollowTagsChange}
+                                onSubmit={this.onBlacklistedFollowTagsChange}
                                 tags={settings.general.blacklisted_tags}
+                                onChange={this.onTagInput}
                             />
                         </div>
                         <div className={styles.settingsArea}>
@@ -108,8 +114,9 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 placeholder={blacklistedUsersPlaceholder}
                                 bodyPlaceholder={blacklistedUsersBodyPlaceholder}
                                 icon={<i className="fa fa-user-times" aria-hidden="true"></i>}
-                                onChange={this.onBlacklistedUserTagsChange}
+                                onSubmit={this.onBlacklistedUserTagsChange}
                                 tags={settings.general.blacklisted_users}
+                                onChange={this.onUserInput}
                             />
                         </div>
                     </div>
@@ -122,7 +129,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 placeholder={imageCommentsPlaceholder}
                                 bodyPlaceholder={imageCommentsBodyPlaceholder}
                                 icon={<i className="far fa-image" />}
-                                onChange={this.onImageCommentsChange}
+                                onSubmit={this.onImageCommentsChange}
                                 tags={settings.comments.image_comments}
                                 type={InputType.TextField}
                                 />
@@ -132,7 +139,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 placeholder={videoCommentsPlaceholder}
                                 bodyPlaceholder={videoCommentsBodyPlaceholder}
                                 icon={<i className="fa fa-play" aria-hidden="true"></i>}
-                                onChange={this.onVideoCommentsChange}
+                                onSubmit={this.onVideoCommentsChange}
                                 tags={settings.comments.video_comments}
                                 type={InputType.TextField}
                                 />
@@ -219,6 +226,26 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                 video_comments: value,
             },
         });
+    }
+    private onTagInput = (value: string) => {
+        console.log("WRITING TAG...");
+        searchTags(this.props.account.id, value)
+            .then((response: AxiosResponse<any>) =>{
+                console.log("Tag search result:", response);
+            })
+            .catch((error: Error) => {
+                console.error("Could not search tags: ", error);
+            });
+    }
+    private onUserInput = (value: string) => {
+        console.log("WRITING USER...");
+        searchUsers(this.props.account.id, value)
+            .then((response: AxiosResponse<any>) =>{
+                console.log("User search result:", response);
+            })
+            .catch((error: Error) => {
+                console.error("Could not search tags: ", error);
+            });
     }
 }
 

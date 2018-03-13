@@ -98,3 +98,17 @@ export function relinkAccount(id: number, data: { password: string }, config = d
 export function registerUser(data: { email: string, password: string }) {
     return axios.post(REGISTER_URL, data);
 }
+export function searchUsers(id: number, name: string, config = defaultConfig) {
+    return axios.post(
+        `${BASE_URL}${ACCOUNT_URL}/${id}/search_user`,
+        { name },
+        config(),
+    );
+}
+export function searchTags(id: number, name: string, config = defaultConfig) {
+    return axios.post(
+        `${BASE_URL}${ACCOUNT_URL}/${id}/search_tag`,
+        { name },
+        config(),
+    );
+}
