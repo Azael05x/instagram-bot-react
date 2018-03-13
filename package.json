@@ -34,6 +34,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/jest": "^21.0.0",
+    "@types/lodash": "^4.14.104",
     "@types/react": "^16.0.0",
     "@types/react-dom": "^16.0.0",
     "@types/react-hot-loader": "^3.0.4",
@@ -78,6 +79,7 @@
   },
   "dependencies": {
     "core-js": "^2.4.1",
+    "lodash": "^4.17.5",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "whatwg-fetch": "^2.0.3"

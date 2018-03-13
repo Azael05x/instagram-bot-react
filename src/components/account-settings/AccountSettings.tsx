@@ -1,7 +1,6 @@
 import * as React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
-import { AxiosResponse } from "axios";
 
 import { AccountData, ActivitySpeedType } from "../../middleware/types";
 import { Divider, DividerTheme } from "../divider/Divider";
@@ -228,24 +227,10 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
         });
     }
     private onTagInput = (value: string) => {
-        console.log("WRITING TAG...");
-        searchTags(this.props.account.id, value)
-            .then((response: AxiosResponse<any>) =>{
-                console.log("Tag search result:", response);
-            })
-            .catch((error: Error) => {
-                console.error("Could not search tags: ", error);
-            });
+        return searchTags(this.props.account.id, value);
     }
     private onUserInput = (value: string) => {
-        console.log("WRITING USER...");
-        searchUsers(this.props.account.id, value)
-            .then((response: AxiosResponse<any>) =>{
-                console.log("User search result:", response);
-            })
-            .catch((error: Error) => {
-                console.error("Could not search tags: ", error);
-            });
+        return searchUsers(this.props.account.id, value);
     }
 }
 

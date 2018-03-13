@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "./Tag.css";
+import * as styles from "./Tag.scss";
 
 export interface TagProps {
     value: string;

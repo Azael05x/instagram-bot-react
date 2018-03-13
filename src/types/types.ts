@@ -18,3 +18,25 @@ export interface ThunkDispatch<S> {
 
  // @ts-ignore
 export const isAsyncAction = (action: any): action is Function => false;
+
+export interface SearchTagItem {
+    id: string;
+    mediaCount: number;
+    name: string;
+}
+export interface SearchUserItem {
+    id: number;
+    byline: string;
+    followerCount: number;
+    fullName: string;
+    isVerified: boolean;
+    profilePicUrl: string;
+    username: string;
+}
+
+export interface SearchBody<P1, P2> {
+    body: {
+        result: P1[] | P2[];
+        status: 200 | number; // TODO: Add all statuses
+    };
+}

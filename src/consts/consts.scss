@@ -1,7 +1,8 @@
 // Colors
 $darkOverlay: rgba(0, 0, 0, .6);
 $dropShadow: 0 0 .5rem rgba(0, 0, 0, 0.1);
-$dropShadowDark: 0 0 .5rem rgba(0, 0, 0, 0.5);
+$dropShadowDark: 0 0 .5rem rgba(0, 0, 0, 0.5); // check if needed
+$dropShadowDarker: 0 .1rem .5rem rgba(0, 0, 0, 0.5); // compare with this
 $dropShadowLight: 0 0 1px rgba(0,0,0,.3);
 $borderColorDark: rgba(29, 34, 71, .1);
 $borderColorLight: #e8e9ec;

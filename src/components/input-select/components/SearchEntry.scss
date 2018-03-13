@@ -1,0 +1,28 @@
+@import "../../../consts/consts.scss";
+
+.container {
+    padding: 0.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: .2s;
+    position: relative;
+    &:hover {
+        background-color: $borderColorLight;
+    }
+    &:not(:last-child) {
+        border-bottom: 1px solid $borderColorLight;
+    }
+}
+.name {
+    color: $darkText;
+    overflow: hidden;
+}
+.mediaCount {
+    color: $borderColorLight;
+    font-size: 0.7rem;
+    position: absolute;
+    right: 0.3rem;
+    bottom: 0.1rem;
+}
