@@ -51,10 +51,8 @@ const throttledSearchCb = throttle(async (
     onChange: (value: string) => Promise<AxiosResponse<SearchBody<SearchTagItem, SearchUserItem>>>,
     setSearchResults: (result: SearchUserItem[] | SearchTagItem[]) => void,
 ) => {
-    if (onChange) {
-        const { data: { body: { result }} } = await onChange(value);
-        result.length && setSearchResults(result);
-    }
+    const { data: { body: { result }} } = await onChange(value);
+    result.length && setSearchResults(result);
 }, searchThrottleTimeout, { trailing: false, leading: true});
 
 export class InputSelect extends React.Component<InputSelectProps, InputSelectState> {
@@ -128,7 +126,9 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         const value = event.currentTarget.value;
         this.setState({ value });
 
-        throttledSearchCb(value, this.props.onChange, this.setSearchResults);
+        if (this.props.onChange) {
+            throttledSearchCb(value, this.props.onChange, this.setSearchResults);
+        }
     }
     private setSearchResults = (result: SearchUserItem[] | SearchTagItem[]) => {
         if (isUserSearch(result)) {
