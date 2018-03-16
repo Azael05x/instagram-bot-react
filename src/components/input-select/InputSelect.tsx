@@ -30,6 +30,8 @@ export interface InputSelectState {
     value: string;
     tags: string[];
     searchResults: SearchTagItem[] | SearchUserItem[];
+    loading: boolean;
+    isDropdownOpen: boolean;
 }
 export interface InputSelectProps {
     placeholder: string;
@@ -45,15 +47,15 @@ export interface InputSelectProps {
     Throttle search requests to minmize lag
     Minimize request amount per timeout
  */
-const searchThrottleTimeout = 1000;
+const searchThrottleTimeout = 300;
 const throttledSearchCb = throttle(async (
     value: string,
     onChange: (value: string) => Promise<AxiosResponse<SearchBody<SearchTagItem, SearchUserItem>>>,
     setSearchResults: (result: SearchUserItem[] | SearchTagItem[]) => void,
 ) => {
     const { data: { body: { result }} } = await onChange(value);
-    result.length && setSearchResults(result);
-}, searchThrottleTimeout, { trailing: false, leading: true});
+    setSearchResults(result);
+}, searchThrottleTimeout, { trailing: true, leading: true});
 
 export class InputSelect extends React.Component<InputSelectProps, InputSelectState> {
     public static defaultProps = {
@@ -66,8 +68,16 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             value: "",
             tags: props.tags || [],
             searchResults: [],
+            loading: false,
+            isDropdownOpen: false,
         };
     }
+    /**
+        Differentiates between single line inputs (e.g. hashtags, users)
+        and multiline text areas for comments
+
+        Also, required for cleaning the user input
+     */
     private isSingleLine = this.props.type === InputType.SingleLine;
     public render() {
         const {
@@ -78,6 +88,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         const {
             value,
             tags,
+            loading,
         } = this.state;
 
         const inputComponent = this.isSingleLine
@@ -110,7 +121,10 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                         </div>
                     )}
                     {inputComponent}
-                    {value && this.renderDropdown()}
+                    <div className={`${styles.spinner} ${loading && styles.active}`}>
+                        <i className="fas fa-spinner" />
+                    </div>
+                    {this.renderDropdown()}
                 </div>
                 <Divider theme={DividerTheme.Small} />
                 <div className={styles.tagField}>
@@ -127,25 +141,49 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         this.setState({ value });
 
         if (this.props.onChange) {
-            throttledSearchCb(value, this.props.onChange, this.setSearchResults);
+            if (!value || value.length <= 2) {
+                this.setState({
+                    isDropdownOpen: false,
+                    searchResults: [],
+                });
+            } else {
+                !this.state.isDropdownOpen && this.setState({
+                    isDropdownOpen: true,
+                });
+                !this.state.loading && this.setLoading(true);
+                throttledSearchCb(
+                    value,
+                    this.props.onChange,
+                    this.setSearchResults,
+                );
+            }
+
         }
     }
     private setSearchResults = (result: SearchUserItem[] | SearchTagItem[]) => {
+        let searchResults: SearchTagItem[] | SearchUserItem[];
+
         if (isUserSearch(result)) {
-            this.setState({
-                searchResults: checkDuplicateUsersResult(
-                    this.state.tags,
-                    sortUserSearchResult(result).slice(0, 10),
-                ),
-            });
+            searchResults = checkDuplicateUsersResult(
+                this.state.tags,
+                sortUserSearchResult(result).slice(0, 10),
+            );
         } else {
-            this.setState({
-                searchResults: checkDuplicateTagResult(
-                    this.state.tags,
-                    sortTagSearchResult(result).slice(0, 10),
-                ),
-            });
+            searchResults = checkDuplicateTagResult(
+                this.state.tags,
+                sortTagSearchResult(result).slice(0, 10),
+            );
         }
+
+        !searchResults.length && this.setState({
+            isDropdownOpen: false,
+        });
+        this.setState({ searchResults }, () => this.setLoading(false));
+    }
+    private setLoading = (value: boolean) => {
+        this.setState({
+            loading: value,
+        });
     }
     private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         if (key.keyCode === ENTER_KEY && this.state.value) {
@@ -182,6 +220,8 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 this.setNewTags([...tags, ...newTags]);
             }
         }
+
+        this.closeDropdown();
     }
     // Index comes from binding the method in rendertags
     private onRemoveTag = (i: number) => {
@@ -209,40 +249,59 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         });
     }
     private renderDropdown = () => {
-        if (isUserSearch(this.state.searchResults)) {
-            return (
-                <div className={styles.searchDropdown}>
-                    {this.state.searchResults.map((result, i) => (
-                        <SearchEntry
-                            key={i}
-                            name={result.username}
-                            mediaCount={result.followerCount}
-                            onClick={this.onSearchClick}
-                        />
-                    ))}
-                </div>
-            );
+        const {
+            searchResults,
+            loading,
+            isDropdownOpen,
+        } = this.state;
+        let searchResultComponents: JSX.Element[];
+
+        if (isUserSearch(searchResults)) {
+            searchResultComponents = searchResults
+                .map((result, i) => (
+                    <SearchEntry
+                        key={i}
+                        name={result.username}
+                        mediaCount={result.followerCount}
+                        onClick={this.onSearchClick}
+                    />
+                ));
         } else {
-            return (
-                <div className={styles.searchDropdown}>
-                    {this.state.searchResults.map((result, i) => (
-                        <SearchEntry
-                            key={i}
-                            name={result.name}
-                            mediaCount={result.mediaCount}
-                            onClick={this.onSearchClick}
-                        />
-                    ))}
-                </div>
-            );
+            searchResultComponents = searchResults
+                .map((result, i) => (
+                    <SearchEntry
+                        key={i}
+                        name={result.name}
+                        mediaCount={result.mediaCount}
+                        onClick={this.onSearchClick}
+                    />
+                ));
         }
 
+        return <>
+            <div
+                className={`
+                    ${styles.searchDropdown}
+                    ${isDropdownOpen && !loading && styles.active}
+                `}
+            >
+                {searchResultComponents}
+            </div>
+        </>;
     }
     private onSearchClick = (value: string) => {
         /*
             No cleaning  or additional checking required.
             Cleaning already done before displaying search results
         */
-        this.setNewTags([...this.state.tags, value]);
+       if (!this.state.tags.includes(value)) {
+            this.closeDropdown();
+            this.setNewTags([...this.state.tags, value]);
+        }
+    }
+    private closeDropdown = () => {
+        this.setState({
+            isDropdownOpen: false,
+        });
     }
 }

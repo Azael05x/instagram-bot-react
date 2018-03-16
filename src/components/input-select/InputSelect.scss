@@ -1,5 +1,14 @@
 @import "../../consts/consts.scss";
 
+@keyframes rotate {
+    0% {
+        transform: translate(0, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(0, -50%) rotate(360deg);
+    }
+}
+
 .container {
     display: flex;
     flex-direction: column;
@@ -57,4 +66,25 @@
     background-color: #fff;
     z-index: 9999;
     box-shadow: $dropShadowDarker;
+    transform: scale(0);
+    transition: .5s;
+    transform-origin: top left;
+    &.active {
+        transform: scale(1);
+    }
+}
+
+.spinner {
+    opacity: 0;
+    transition: .2s;
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    font-size: 1.2rem;
+    pointer-events: none;
+    transform: translate(0, -50%) rotate(0deg);
+    &.active {
+        opacity: 1;
+        animation: rotate 1s ease infinite;
+    }
 }
