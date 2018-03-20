@@ -285,7 +285,13 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                     ${isDropdownOpen && !loading && styles.active}
                 `}
             >
-                {searchResultComponents}
+                <div>
+                    {searchResultComponents}
+                </div>
+                <div className={styles.closeButton} onClick={this.closeDropdown}>
+                    <span style={{ marginRight: ".3rem" }}>Close</span>
+                    <i className="fas fa-times" />
+                </div>
             </div>
         </>;
     }
