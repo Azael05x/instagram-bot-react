@@ -5,6 +5,7 @@ import { throttle } from "lodash";
 import { ENTER_KEY } from "../../consts";
 import { Tag } from "./components/Tag";
 import { cleanTags, cleanTextArea } from "../../utils/cleanTag";
+import { getUniqueId } from "../../utils/uniqueId";
 import { Divider, DividerTheme } from "../divider/Divider";
 import {
     SearchBody,
@@ -79,6 +80,20 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         Also, required for cleaning the user input
      */
     private isSingleLine = this.props.type === InputType.SingleLine;
+    private dropdownId = `${getUniqueId()}`;
+    public componentDidMount() {
+        /*
+            Event listener for managing closing dropdown
+            when clicking outside the adjacent input fieldor the dropdown itself
+        */
+        if (this.isSingleLine) {
+            window.addEventListener("click", this.dropdownCloseMouseEventCb);
+        }
+    }
+    public componentWillUnmount() {
+        window.removeEventListener("click", this.dropdownCloseMouseEventCb);
+    }
+
     public render() {
         const {
             placeholder,
@@ -99,6 +114,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                     className={styles.input}
                     placeholder={placeholder}
                     onKeyUp={this.onEnterKey}
+                    data-id={this.dropdownId}
                 />
             )
             : (
@@ -124,7 +140,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                     <div className={`${styles.spinner} ${loading && styles.active}`}>
                         <i className="fas fa-spinner" />
                     </div>
-                    {this.renderDropdown()}
+                    {this.isSingleLine && this.renderDropdown()}
                 </div>
                 <Divider theme={DividerTheme.Small} />
                 <div className={styles.tagField}>
@@ -278,22 +294,17 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 ));
         }
 
-        return <>
+        return (
             <div
                 className={`
                     ${styles.searchDropdown}
                     ${isDropdownOpen && !loading && styles.active}
                 `}
+                data-id={this.dropdownId}
             >
-                <div>
-                    {searchResultComponents}
-                </div>
-                <div className={styles.closeButton} onClick={this.closeDropdown}>
-                    <span style={{ marginRight: ".3rem" }}>Close</span>
-                    <i className="fas fa-times" />
-                </div>
+                {searchResultComponents}
             </div>
-        </>;
+       );
     }
     private onSearchClick = (value: string) => {
         /*
@@ -309,5 +320,10 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         this.setState({
             isDropdownOpen: false,
         });
+    }
+    private dropdownCloseMouseEventCb = (event: any) => { // TODO: Fix type
+        if(this.state.isDropdownOpen && this.dropdownId !== event.target.dataset.id) {
+            this.closeDropdown();
+        }
     }
 }
