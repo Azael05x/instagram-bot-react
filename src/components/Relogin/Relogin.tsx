@@ -7,6 +7,8 @@ import { closePopupActionCreator } from "../../ducks/actions";
 import { ErrorMessage, ErrorMessageType } from "../error-message/ErrorMessage";
 import { ErrorCode } from "../error-message/types";
 import { PopupButton, PopupButtonType } from "../popup/factory/PopupData";
+import { showToastAction } from "../toast/ducks/actions";
+import { ToastType } from "../toast/ducks/state";
 
 import * as styles from "./Relogin.scss";
 
@@ -16,6 +18,7 @@ export interface ReloginOwnProps {
 }
 export interface ReloginDispatchProps {
     closePopup: typeof closePopupActionCreator;
+    showToast: typeof showToastAction;
 }
 export type ReloginProps = ReloginDispatchProps & ReloginOwnProps;
 
@@ -108,6 +111,10 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
         })
         .then(_response => {
             this.props.closePopup();
+            this.props.showToast(
+                "You have succesfully re-logged in!",
+                ToastType.Success,
+            );
             this.setState({
                 progress: false,
                 errorCode: undefined,
@@ -140,6 +147,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
 
 const mapDispatchToProps: ReloginDispatchProps = {
     closePopup: closePopupActionCreator,
+    showToast: showToastAction,
 };
 
 export const ReloginConnected = connect<{}, ReloginDispatchProps>(
