@@ -9,7 +9,7 @@ nginx_conf="./deploy/react.conf"
 dist="./dist"
 
 # Define remote server
-host="178.62.242.250"
+host="167.99.34.185"
 user="root"
 path="/var/www/react"
 nginx_path="/etc/nginx/sites-available"
