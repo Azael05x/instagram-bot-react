@@ -3,7 +3,7 @@ enum Environment {
     Production = "production",
 }
 export const BASE_URL = process.env.NODE_ENV === Environment.Production
-    ? "http://178.62.242.250:81"
+    ? "https://api.gekotta.com"
     : "http://localhost:8079";
 
 export const AUTH_BASE = "/auth/login";
