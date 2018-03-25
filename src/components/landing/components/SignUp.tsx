@@ -35,8 +35,8 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
             return <Redirect exact to="/login" />;
         }
 
-        return <>
-            <div>
+        return (
+            <div className={styles.formGroupContainer}>
                 <div className={styles.formGroup}>
                     <label
                         htmlFor="email"
@@ -86,7 +86,7 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
                     />
                 </div>
             </div>
-        </>;
+        );
     }
     private onEmailChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
         this.setState({

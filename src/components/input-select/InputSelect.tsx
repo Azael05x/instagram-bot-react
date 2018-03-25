@@ -80,7 +80,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         Also, required for cleaning the user input
      */
     private isSingleLine = this.props.type === InputType.SingleLine;
-    private dropdownId = `${getUniqueId()}`;
+    private dropdownId = `${getUniqueId()}`; // String because compared to data-id which returns a string
     public componentDidMount() {
         /*
             Event listener for managing closing dropdown

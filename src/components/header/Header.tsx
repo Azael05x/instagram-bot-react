@@ -3,18 +3,24 @@ import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 import { selectUser } from "../../ducks/selectors";
 import { User } from "../../ducks/state";
-
-import * as styles from "./Header.css";
 import { CaretIcon } from "../icons/Caret";
+
+import * as styles from "./Header.scss";
 
 export interface HeaderStateProps {
     user: User;
 }
+export interface HeaderState {
+    isMenuOpen: boolean;
+}
 
 export type HeaderProps = HeaderStateProps & RouteComponentProps<{}>;
 
-export class Header extends React.PureComponent<HeaderProps, {}> {
-    render() {
+export class Header extends React.PureComponent<HeaderProps, HeaderState> {
+    public state = {
+        isMenuOpen: false,
+    };
+    public render() {
         const userComponent = !!this.props.user.auth_token
             ? (
                 <NavLink
@@ -23,6 +29,7 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
                     exact
                     about="Profile"
                     activeClassName={styles.active}
+                    onClick={this.onCloseMenu}
                 >
                     Welcome, {this.props.user.email}
                     <span className={styles.caret}>
@@ -44,6 +51,7 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
                     exact
                     about="Login"
                     activeClassName={styles.active}
+                    onClick={this.onCloseMenu}
                 >
                     Login
                 </NavLink>
@@ -52,14 +60,32 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
         return (
             <div className={styles.container}>
                 <div className={styles.innerContainer}>
-                    <div className={styles.logo}></div>
-                    <div className={styles.navigation}>
+                    <div className={styles.logo}>
+                        {/* Insert logo here  */}
+                        LOGO
+                    </div>
+                    <div className={styles.mobileNavigation} >
+                        <div
+                            className={`${styles.icon} ${!this.state.isMenuOpen && styles.active}`}
+                            onClick={this.onOpenMenu}
+                        >
+                            <i className="fas fa-bars" />
+                        </div>
+                        <div
+                            className={`${styles.icon} ${this.state.isMenuOpen && styles.active}`}
+                            onClick={this.onCloseMenu}
+                        >
+                            <i className="fas fa-chevron-left" />
+                        </div>
+                    </div>
+                    <div className={`${styles.navigation} ${this.state.isMenuOpen && styles.active}`}>
                         <NavLink
                             className={styles.link}
                             to={"/"}
                             exact
                             about="Home"
                             activeClassName={styles.active}
+                            onClick={this.onCloseMenu}
                         >
                             Home
                         </NavLink>
@@ -70,6 +96,7 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
                                 exact
                                 about="Dashboard"
                                 activeClassName={styles.active}
+                                onClick={this.onCloseMenu}
                             >
                                 Dashboard
                             </NavLink>
@@ -83,6 +110,24 @@ export class Header extends React.PureComponent<HeaderProps, {}> {
     private onLogout = () => {
         localStorage.removeItem("auth_token");
         window.location.href = "/";
+    }
+    private onOpenMenu = () => {
+        // To prevent page scrolling
+        document.body.style.overflow = "hidden";
+
+        this.setState({
+            isMenuOpen: true,
+        });
+    }
+    private onCloseMenu = () => {
+        if (this.state.isMenuOpen) {
+            // To prevent page scrolling
+            document.body.style.overflow = "initial";
+
+            this.setState({
+                isMenuOpen: false,
+            });
+        }
     }
 }
 
