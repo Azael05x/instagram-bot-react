@@ -14,6 +14,7 @@ import { Footer } from "../footer/Footer";
 import { PopupConnected } from "../popup/Popup";
 import { ToastConnected } from "../toast/Toast";
 import { Register } from "../register/Register";
+import { Faq } from "../faq/Faq";
 
 import * as styles from "./Main.scss";
 
@@ -33,6 +34,7 @@ export class Main extends React.PureComponent<MainProps, {}> {
                     <Switch>
                         <Route exact path="/" component={LandingConnected} />
                         <div className={styles.extraSpace}>
+                        <Route exact path="/faq" component={Faq} />
                         { this.props.logged_in
                             ? <>
                                 <Route path="/profile" component={User} />

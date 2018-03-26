@@ -148,6 +148,16 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                                 Dashboard
                             </NavLink>
                         )}
+                        <NavLink
+                            className={styles.link}
+                            to={"/faq"}
+                            exact
+                            about="FAQ"
+                            activeClassName={styles.active}
+                            onClick={this.onCloseMenu}
+                        >
+                            FAQ
+                        </NavLink>
                         {userComponent}
                     </div>
                 </div>
