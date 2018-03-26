@@ -38,7 +38,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             }
         } = this.props;
 
-        const userComponent = !auth_token
+        const userComponent = !!auth_token
             ? (
                 this.state.isMobile
                     ? <>
