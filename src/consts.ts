@@ -23,3 +23,6 @@ export const REGISTER_URL = BASE_URL + REGISTER_BASE;
 
 // Keyboard keys
 export const ENTER_KEY = 13;
+
+// Sizes
+export const MOBILE_WIDTH = 768;

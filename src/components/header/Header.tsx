@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { selectUser } from "../../ducks/selectors";
 import { User } from "../../ducks/state";
 import { CaretIcon } from "../icons/Caret";
+import { MOBILE_WIDTH } from "../../consts";
 
 import * as styles from "./Header.scss";
 
@@ -12,6 +13,7 @@ export interface HeaderStateProps {
 }
 export interface HeaderState {
     isMenuOpen: boolean;
+    isMobile: boolean;
 }
 
 export type HeaderProps = HeaderStateProps & RouteComponentProps<{}>;
@@ -19,31 +21,70 @@ export type HeaderProps = HeaderStateProps & RouteComponentProps<{}>;
 export class Header extends React.PureComponent<HeaderProps, HeaderState> {
     public state = {
         isMenuOpen: false,
+        isMobile: false,
     };
+    public componentDidMount() {
+        this.setDeviceType();
+        window.addEventListener("resize", this.setDeviceType);
+    }
+    public componentWillUnmount() {
+        window.removeEventListener("resize", this.setDeviceType);
+    }
     public render() {
-        const userComponent = !!this.props.user.auth_token
+        const {
+            user: {
+                email,
+                auth_token,
+            }
+        } = this.props;
+
+        const userComponent = !auth_token
             ? (
-                <NavLink
-                    className={`${styles.link} ${styles.parentLink}`}
-                    to={"/profile"}
-                    exact
-                    about="Profile"
-                    activeClassName={styles.active}
-                    onClick={this.onCloseMenu}
-                >
-                    Welcome, {this.props.user.email}
-                    <span className={styles.caret}>
-                        <CaretIcon />
-                    </span>
-                    <div className={styles.dropdown}>
+                this.state.isMobile
+                    ? <>
+                        <NavLink
+                            className={`${styles.link} ${styles.parentLink}`}
+                            to={"/profile"}
+                            exact
+                            about="Profile"
+                            activeClassName={styles.active}
+                            onClick={this.onCloseMenu}
+                        >
+                            Profile
+                        </NavLink>
                         <div
                             className={styles.link}
                             onClick={this.onLogout}
                         >
                             Logout
                         </div>
-                    </div>
-                </NavLink>
+                    </>
+                    : (
+                        <div className={`${styles.link} ${styles.parentLink}`}>
+                            Welcome, {email}
+                            <span className={styles.caret}>
+                                <CaretIcon />
+                            </span>
+                            <div className={styles.dropdown}>
+                                <NavLink
+                                    className={styles.link}
+                                    to={"/profile"}
+                                    exact
+                                    about="Profile"
+                                    activeClassName={styles.active}
+                                    onClick={this.onCloseMenu}
+                                >
+                                    Profile
+                                </NavLink>
+                                <div
+                                    className={styles.link}
+                                    onClick={this.onLogout}
+                                >
+                                    Logout
+                                </div>
+                            </div>
+                        </div>
+                    )
             )
             : (
                 <NavLink
@@ -109,6 +150,9 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
     }
     private onLogout = () => {
         localStorage.removeItem("auth_token");
+        this.onCloseMenu();
+
+        // Redirect to home page
         window.location.href = "/";
     }
     private onOpenMenu = () => {
@@ -127,6 +171,21 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             this.setState({
                 isMenuOpen: false,
             });
+        }
+    }
+    private setDeviceType = () => {
+        if (document.body.clientWidth <= MOBILE_WIDTH) {
+            if (!this.state.isMobile) {
+                this.setState({
+                    isMobile: true,
+                });
+            }
+        } else {
+            if (this.state.isMobile) {
+                this.setState({
+                    isMobile: false,
+                });
+            }
         }
     }
 }

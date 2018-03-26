@@ -31,6 +31,8 @@
     font-size: .9em;
     display: flex;
     align-items: center;
+    justify-content: center;
+    cursor: pointer;
     &::after {
         content: "";
         position: absolute;
@@ -38,7 +40,7 @@
         transform: scale(0) translate3d(-50%, 0, 0);
         transform-origin: left center;
         left: 50%;
-        bottom: 0;
+        bottom: .4rem;
         right: 0;
         transition: .2s;
         background-color: #E01931;
@@ -69,18 +71,17 @@
     right: 0;
     border-radius: 2px;
     display: flex;
-    align-items: center;
     flex-direction: column;
     background-color: white;
     box-shadow: 0 -2px 2px rgba(0,0,0,.3);
     transition: .2s;
     opacity: 0;
-    transform: translateY(0);
+    z-index: 5;
 }
 .parentLink {
     &:hover {
         .dropdown {
-            transform: translateY(89%);
+            top: 89%;
             opacity: 1;
         }
         .caret {
