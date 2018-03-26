@@ -102,6 +102,10 @@
         display: block;
     }
 }
+.logo {
+    text-decoration: none;
+    color: initial;
+}
 
 @media (max-width: 768px) {
     .mobileNavigation {

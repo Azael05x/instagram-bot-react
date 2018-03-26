@@ -101,10 +101,16 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
         return (
             <div className={styles.container}>
                 <div className={styles.innerContainer}>
-                    <div className={styles.logo}>
-                        {/* Insert logo here  */}
-                        LOGO
-                    </div>
+                    <NavLink
+                            className={styles.logo}
+                            to={"/"}
+                            exact
+                            about="Home"
+                            onClick={this.onCloseMenu}
+                        >
+                            {/* Insert logo here  */}
+                            LOGO
+                        </NavLink>
                     <div className={styles.mobileNavigation} >
                         <div
                             className={`${styles.icon} ${!this.state.isMenuOpen && styles.active}`}
