@@ -44,7 +44,7 @@ export class Faq extends React.PureComponent<FaqProps> {
                         <h3 className={styles.title}>How to improve content quality?</h3>
                         <Divider theme={DividerTheme.Small} />
                         <small className={styles.itemInfo}>
-                            A rather broad question depending on the context.
+                            A rather broad question dependant on the context.
                             However, to quote Ryan Holliday – "Be bold, be brash."
                             and "It's a Marathon, not a Sprint."
                             <br />

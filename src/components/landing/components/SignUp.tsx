@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { AxiosResponse } from "axios";
+import { throttle } from "lodash";
 
 import { Button, ButtonType } from "../../button/Button";
 import { ENTER_KEY } from "../../../consts";
@@ -103,7 +104,15 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
             this.onSubmit();
         }
     }
-    private onSubmit = async () => {
+    /*
+        Throttling onSubmit because
+        the initial idea of throttling a Promise (e.g. registerUser)
+        immediately calls the then/catch chain, however,
+        the call itself is throttled.
+
+        This is an unexpected behaviour.
+    */
+    private onSubmit = throttle(async () => {
         this.toggleRegisterInProgress();
 
         registerUser({ email: this.state.email, password: this.state.password })
@@ -136,7 +145,7 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
                     ToastType.Error,
                 );
             });
-    }
+    }, 1000, { leading: true, trailing: false });
     private toggleRegisterInProgress = () => {
         this.setState({
             registerInProgress: !this.state.registerInProgress,
