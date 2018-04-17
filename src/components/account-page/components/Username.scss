@@ -1,12 +1,15 @@
 .usernameContainer {
     display: flex;
     align-items: flex-end;
-    line-height: 1;
     justify-self: start;
 }
 .username {
-    font-size: 2rem;
+    font-size: 1.6rem;
     margin-right: .5rem;
+    white-space: nowrap;
+    max-width: 10rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 @media (max-width: 800px) {

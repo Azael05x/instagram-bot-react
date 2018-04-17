@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Badge, BadgeType } from "../../badge/Badge";
 
-import * as styles from "./Username.css";
+import * as styles from "./Username.scss";
 
 export interface UsernameProps {
     username: string;

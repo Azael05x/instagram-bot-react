@@ -40,7 +40,6 @@ export class Main extends React.PureComponent<MainProps, {}> {
                                 <Route path="/profile" component={User} />
                                 <Route path="/link-account" component={LinkAccountConnected} />
                                 <Route exact path="/accounts" component={DashboardConnected} />
-                                <Route path="/profile" component={User} />
                                 <Route path="/accounts/:id" component={AccountPageConnected} />
                             </>
                             : <>

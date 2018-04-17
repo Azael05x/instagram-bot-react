@@ -27,7 +27,7 @@ export class Landing extends React.Component<LandingProps> {
 
                 <div className={styles.sectionContainer}>
                     <h1 className={styles.title}>
-                        Boost your <span className={styles.accent}>Instagram&nbsp;exposure</span><br />
+                        Boost your <span className={styles.accent}>Instagram exposure</span><br />
                         in just <span className={styles.accent}>3 easy steps</span>
                     </h1>
                     <Divider theme={DividerTheme.Small} />

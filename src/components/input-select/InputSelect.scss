@@ -34,6 +34,8 @@
     font-size: 1em;
     line-height: 1.5;
     flex: 1;
+    // important To prevent text-area dragging effect rewriting width
+    width: 100% !important;
 }
 .tagField {
     display: flex;
