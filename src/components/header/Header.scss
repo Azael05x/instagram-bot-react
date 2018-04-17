@@ -23,7 +23,7 @@
 .link {
     color: #1D2247;
     text-decoration: none;
-    padding: 1em .5em;
+    padding: .8em .5em;
     margin: 0 0.5em;
     position: relative;
     transition: .2s;
@@ -105,6 +105,8 @@
 .logo {
     text-decoration: none;
     color: initial;
+    font-weight: bold;
+    font-size: 2rem;
 }
 
 @media (max-width: 768px) {
@@ -140,7 +142,7 @@
             transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
             opacity: 0;
             transform: translateX(-100%);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             &::after {
                 bottom: 1rem;
             }
@@ -161,6 +163,15 @@
                 }
                 &:nth-child(4) {
                     transition-delay: .4s;
+                }
+                &:nth-child(5) {
+                    transition-delay: .5s;
+                }
+                &:nth-child(6) {
+                    transition-delay: .6s;
+                }
+                &:nth-child(7) {
+                    transition-delay: .7s;
                 }
             }
         }

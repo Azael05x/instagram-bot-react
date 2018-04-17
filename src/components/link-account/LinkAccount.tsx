@@ -9,7 +9,7 @@ import { ErrorCode } from "../error-message/types";
 import { ErrorMessage } from "../error-message/ErrorMessage";
 import { ENTER_KEY } from "../../consts";
 
-import * as styles from "./LinkAccount.css";
+import * as styles from "./LinkAccount.scss";
 
 export interface LinkAccountState {
     username: string;

@@ -24,9 +24,6 @@
     }
 }
 @media (max-width: 520px) {
-    .container {
-        padding: 1rem 2rem;
-    }
     .accountsContainer {
         grid-template-columns: repeat(1, 1fr);
     }

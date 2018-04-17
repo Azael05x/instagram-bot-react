@@ -3,17 +3,9 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    height: calc(100vh - 5.1rem);
-    background-color: rgba(231, 231, 231, 0.5);
 }
 .form {
-    box-shadow: 0 0 .5rem rgba(0, 0, 0, 0.1);
     background-color: #fff;
-    border-radius: 5px;
-    border: 1px solid #e7e7e7;
-    width: 18rem;
-    min-height: 20rem;
-    padding: 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

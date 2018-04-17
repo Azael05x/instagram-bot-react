@@ -73,7 +73,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                         </label>
                         <input
                             id="email"
-                            type="text"
+                            type="email"
                             onChange={this.setEmail}
                             value={this.state.email}
                             className={styles.input}

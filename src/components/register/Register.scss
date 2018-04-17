@@ -1,4 +1,5 @@
 @import "../../consts/consts.scss";
+@import "../../consts/mediaQueries.scss";
 
 .container {
     display: flex;
@@ -8,6 +9,12 @@
 }
 .title {
     color: $darkText;
-    font-size: calc(1rem + 2vw);
+    font-size: 3rem;
     margin-bottom: 1rem;
+}
+
+@media (max-width: $mqTabletWidth) {
+    .title {
+        font-size: 2rem;
+    }
 }

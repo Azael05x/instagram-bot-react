@@ -7,7 +7,7 @@ export class User extends React.Component<UserProps, {}> {
     render() {
         return (
             <div>
-                USER PAGE
+               Coming soon...
             </div>
         );
     }

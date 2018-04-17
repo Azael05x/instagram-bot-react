@@ -89,7 +89,7 @@
 
 .title {
     color: $darkText;
-    font-size: calc(1rem + 2vw);
+    font-size: 2rem;
     margin-bottom: 1rem;
 }
 .cta {
@@ -157,7 +157,7 @@ ul.cardInfo {
     word-break: break-word;
     font-weight: 100;
     position: relative;
-    font-size: 2.5rem;
+    font-size: 2.1rem;
 }
 .icon {
     font-size: 4em;
@@ -256,7 +256,7 @@ ul.cardInfo {
         font-size: 8.5rem;
     }
     .title {
-        font-size: 10rem;
+        font-size: 3rem;
     }
     .cta {
         font-size: 4.5rem;
@@ -300,11 +300,14 @@ ul.cardInfo {
         padding: 2rem;
     }
     .title {
-        font-size: calc(1rem + 4vw);
+        font-size: 2rem;
+    }
+    .spinner {
+        top: auto;
     }
 }
 @media(max-width: $mqTabletWidth) and (orientation: landscape) {
     .title {
-        font-size: calc(1rem + 2vw);
+        font-size: 2rem;
     }
 }

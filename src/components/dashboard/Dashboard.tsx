@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import * as styles from "./Dashboard.css";
 import { withRouter, RouteComponentProps } from "react-router";
 import { DashboardHeader } from "./components/dashboard-header/DashboardHeader";
 import { Divider } from "../divider/Divider";
@@ -9,6 +8,8 @@ import { AccountItem } from "../account/Account";
 import { selectAccounts } from "../../ducks/selectors";
 import { setAccountStatusMiddlewareActionCreator } from "../../middleware/actions";
 import { AccountData } from "../../middleware/types";
+
+import * as styles from "./Dashboard.scss";
 
 export interface DashboardStateProps {
     accounts: AccountData[];
