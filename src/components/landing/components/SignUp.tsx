@@ -1,21 +1,18 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { AxiosResponse } from "axios";
 import { throttle } from "lodash";
 
-import { Button, ButtonType } from "../../button/Button";
-import { ENTER_KEY } from "../../../consts";
+import { ButtonType } from "../../button/Button";
 import { registerUser } from "../../../utils/requests";
 import { showToastAction } from "../../toast/ducks/actions";
 import { ToastType } from "../../toast/ducks/state";
-
-import * as styles from "../Landing.scss";
+import { UserForm } from "../../user-form/UserForm";
 
 export interface SignUpState {
     email: string;
     password: string;
-    registerInProgress: boolean;
+    loading: boolean;
     redirect: boolean;
 }
 
@@ -28,81 +25,20 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
     public state: SignUpState = {
         email: "",
         password: "",
-        registerInProgress: false,
+        loading: false,
         redirect: false,
     };
     public render() {
-        if (this.state.redirect) {
-            return <Redirect exact to="/login" />;
-        }
-
         return (
-            <div className={styles.formGroupContainer}>
-                <div className={styles.formGroup}>
-                    <label
-                        htmlFor="email"
-                        className={`${ this.state.email && styles.hidden} ${styles.label}`}
-                    >
-                        Your email...
-                    </label>
-                    <input
-                        id="email"
-                        className={styles.input}
-                        type="email"
-                        onChange={this.onEmailChange}
-                        value={this.state.email}
-                        autoComplete="nope"
-                        autoCapitalize="nope"
-                        autoCorrect="nope"
-                        onKeyUp={this.onEnterKey}
-                    />
-                </div>
-                <div className={styles.formGroup}>
-                    <label
-                        htmlFor="password"
-                        className={`${ this.state.password && styles.hidden} ${styles.label}`}
-                    >
-                        Password...
-                    </label>
-                    <input
-                        id="password"
-                        className={styles.input}
-                        type="password"
-                        onChange={this.onPasswordChange}
-                        value={this.state.password}
-                        autoComplete="nope"
-                        autoCapitalize="nope"
-                        autoCorrect="nope"
-                        onKeyUp={this.onEnterKey}
-                    />
-                </div>
-                <div className={styles.formGroup}>
-                    <div className={`${styles.spinner} ${!this.state.registerInProgress && styles.hidden}`}>
-                        <i className="fas fa-spinner" />
-                    </div>
-                    <Button
-                        label={"Sign Up"}
-                        onClick={this.onSubmit}
-                        type={ButtonType.Danger}
-                    />
-                </div>
-            </div>
+            <UserForm
+                actionInProgress={this.state.loading}
+                buttonType={ButtonType.Danger}
+                redirect={this.state.redirect}
+                redirectEndpoint={"/login"}
+                onSubmit={this.onSubmit}
+                buttonLabel={"Sign Up"}
+            />
         );
-    }
-    private onEmailChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
-        this.setState({
-            email: event.currentTarget.value,
-        });
-    }
-    private onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
-        this.setState({
-            password: event.currentTarget.value,
-        });
-    }
-    private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (key.keyCode === ENTER_KEY && this.state.email && this.state.password) {
-            this.onSubmit();
-        }
     }
     /*
         Throttling onSubmit because
@@ -112,13 +48,17 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
 
         This is an unexpected behaviour.
     */
-    private onSubmit = throttle(async () => {
-        this.toggleRegisterInProgress();
+    private onSubmit = throttle((email: string, password: string) => {
+        if (!email && !password) {
+            return;
+        }
 
-        registerUser({ email: this.state.email, password: this.state.password })
+        this.setState({
+            loading: true,
+        });
+
+        registerUser({ email, password })
             .then((response: AxiosResponse<{ success: boolean, errors: { email: string[] } }>) => {
-                this.toggleRegisterInProgress();
-
                 if (response.data.success) {
                     this.props.showToast(
                         <h3>Successfully Signed up!</h3>,
@@ -128,8 +68,12 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
                     // Redirect to sign up page
                     this.setState({
                         redirect: true,
+                        loading: false,
                     });
                 } else {
+                    this.setState({
+                        loading: false,
+                    });
                     this.props.showToast(
                         <h4>Email {response.data.errors.email}</h4>,
                         ToastType.Error,
@@ -137,7 +81,9 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
                 }
             })
             .catch((error) => {
-                this.toggleRegisterInProgress();
+                this.setState({
+                    loading: false,
+                });
 
                 console.error("An error occurred: ", error);
                 this.props.showToast(
@@ -146,11 +92,6 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
                 );
             });
     }, 1000, { leading: true, trailing: false });
-    private toggleRegisterInProgress = () => {
-        this.setState({
-            registerInProgress: !this.state.registerInProgress,
-        });
-    }
 }
 
 const mapDispatchToProps: SignUpDispatchProps = {

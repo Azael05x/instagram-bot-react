@@ -1,26 +1,31 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
-import { Redirect, RouteComponentProps, withRouter, Link } from "react-router-dom";
+import { throttle } from "lodash";
+import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 
 import { ErrorCode } from "../error-message/types";
-import { ErrorMessage } from "../error-message/ErrorMessage";
-import { LOGIN_URL, ENTER_KEY } from "../../consts";
+import { LOGIN_URL } from "../../consts";
 import { loginActionCreator } from "../../ducks/actions";
+import { UserForm } from "../user-form/UserForm";
+import { ButtonType } from "../button/Button";
+import { showToastAction } from "../toast/ducks/actions";
+import { getErrorMessage } from "../error-message/utils";
+import { ToastType } from "../toast/ducks/state";
 
 import * as styles from "./Login.scss";
 
 export interface LoginDispatchProps {
     onLogin: typeof loginActionCreator;
+    showToast: typeof showToastAction;
 }
 
 export type LoginProps = LoginDispatchProps & RouteComponentProps<{}>;
 
 export interface LoginState {
-    email: string;
-    password: string;
     errorCode?: ErrorCode;
     redirect: boolean;
+    loading: boolean;
 }
 export enum FormInput {
     Email = "email",
@@ -31,16 +36,11 @@ export class Login extends React.Component<LoginProps, LoginState> {
     private titleFontSize: string = document.body.clientWidth < 900
         ? "calc(100vw / 10)"
         : "5em";
-    public constructor(props: LoginProps) {
-        super(props);
-
-        this.state = {
-            email: "",
-            password: "",
-            errorCode: undefined,
-            redirect: false,
-        };
-    }
+    public state: LoginState = {
+        errorCode: undefined,
+        redirect: false,
+        loading: false,
+    };
     public componentDidMount() {
         window.addEventListener("resize", this.onResize);
     }
@@ -55,111 +55,67 @@ export class Login extends React.Component<LoginProps, LoginState> {
         }
     }
     public render() {
-        if (this.state.redirect) {
-            return <Redirect exact to="/accounts" />;
-        }
-
         return (
             <div className={styles.container}>
                 <h1 style={{ fontSize: this.titleFontSize}} className={styles.title}>Welcome</h1>
-                <div className={styles.form}>
-                    <div className={styles.formGroup}>
-                        <label
-                            htmlFor="email"
-                            className={styles.label}
-                            hidden={!!this.state.email}
-                        >
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            onChange={this.setEmail}
-                            value={this.state.email}
-                            className={styles.input}
-                            data-role="email"
-                            onKeyUp={this.onEnterKey}
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label
-                            htmlFor="password"
-                            className={styles.label}
-                            hidden={!!this.state.password}
-                        >
-                            Password
-                        </label>
-                        <input
-                            id="password"
-                            type="password"
-                            onInput={this.setPassword}
-                            value={this.state.password}
-                            className={styles.input}
-                            data-role="password"
-                            onKeyUp={this.onEnterKey}
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <button type="submit" className={styles.button} onClick={this.onSubmit}>Log In</button>
-                    </div>
-                </div>
+                <UserForm
+                    actionInProgress={this.state.loading}
+                    buttonType={ButtonType.Main}
+                    redirect={this.state.redirect}
+                    redirectEndpoint={"/accounts"}
+                    onSubmit={this.onSubmit}
+                    buttonLabel={"Log In"}
+                />
                 <hr />
                 <small>
                     Don't have an account?
                     {" "}
                     <Link to={"/register"} className={styles.link}>Sign up here!</Link>
                 </small>
-                <ErrorMessage errorCode={this.state.errorCode} />
             </div>
         );
     }
-    private setEmail = (event: React.FormEvent<HTMLInputElement>) => {
-        this.setState({
-            email: event.currentTarget.value,
-            errorCode: undefined,
-        });
-    }
-    private setPassword = (event: React.FormEvent<HTMLInputElement>) => {
-        this.setState({
-            password: event.currentTarget.value,
-            errorCode: undefined,
-        });
-    }
-    private onSubmit = () => {
-        if (!this.state.email && !this.state.password) {
+    private onSubmit = throttle((email: string, password: string) => {
+        if (!email && !password) {
             return;
         }
 
+        this.setState({
+            loading: true,
+        });
+
         axios.post(LOGIN_URL, {
-            email: this.state.email,
-            password: this.state.password,
+            email,
+            password: password,
         })
             .then((response) => {
                 localStorage.setItem("auth_token", response.data.auth_token);
                 localStorage.setItem("email", response.data.user.email);
 
                 this.setState({
-                    errorCode: undefined,
                     redirect: true,
+                    loading: false,
                 }, () => {
-                    this.props.onLogin({ email: this.state.email });
+                    this.props.showToast(
+                        <h3>Welcome, {response.data.user.email}!</h3>,
+                        ToastType.Success,
+                    );
+                    this.props.onLogin({ email });
                 });
             })
             .catch((error) => {
-                this.setState({
-                    errorCode: error.response.status as ErrorCode,
-                });
+                this.setState({ loading: false });
+                this.props.showToast(
+                    getErrorMessage(error.response.status),
+                    ToastType.Error,
+                );
             });
-    }
-    private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement>) => {
-        if (key.keyCode === ENTER_KEY && this.state.email && this.state.password) {
-            this.onSubmit();
-        }
-    }
+    }, 1000, { leading: true, trailing: false });
 }
 
 const mapDispatchToProps: LoginDispatchProps = {
     onLogin: loginActionCreator,
+    showToast: showToastAction,
 };
 
 export const LoginConnected = withRouter(connect<{}, LoginDispatchProps>(
