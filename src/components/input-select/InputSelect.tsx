@@ -161,6 +161,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 this.setState({
                     isDropdownOpen: false,
                     searchResults: [],
+                    loading: false,
                 });
             } else {
                 !this.state.isDropdownOpen && this.setState({

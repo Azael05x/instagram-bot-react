@@ -38,7 +38,7 @@
     transform: translateZ(0);
     color: inherit;
     height: 10rem;
-    padding: 2rem;    
+    padding: 2rem;
 }
 .username {
     font-size: 1.2rem;
@@ -52,7 +52,6 @@
 .status {
     font-size: .8rem;
     color: rgba(0, 0, 0, 0.3);
-    align-items: flex-end;
     line-height: 1;
     display: flex;
     justify-content: center;
@@ -115,6 +114,13 @@
 
 @media (max-width: 520px) {
     .link {
-        height: 10rem;
+        height: 9rem;
+        padding: 1rem;
+    }
+    .buttons {
+        bottom: 1.5rem;
+        left: 1rem;
+        right: 1rem;
+        width: calc(100% - 2rem);
     }
 }
