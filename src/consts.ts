@@ -1,9 +1,11 @@
 enum Environment {
     Development = "development",
     Production = "production",
+    Staging = "staging",
 }
-export const BASE_URL = process.env.NODE_ENV === Environment.Production
-    ? "https://api.gekotta.com"
+
+export const BASE_URL = process.env.NODE_ENV === Environment.Staging
+    ? "https://staging-api.gekotta.com"
     : "http://localhost:8079";
 
 export const AUTH_BASE = "/auth/login";

@@ -37,7 +37,7 @@ module.exports = {
             dead_code: true
         }*/),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production'),
+            'process.env.NODE_ENV': JSON.stringify('staging'),
         }),
         new HtmlWebpackPlugin({
             hash: true,
@@ -56,7 +56,7 @@ module.exports = {
                 minifyURLs: true,
             },
         }),
-        new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),        
+        new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
     ],
     module: {
         rules: [
@@ -90,13 +90,13 @@ module.exports = {
                 })
             },
             {
-                test: /\.(png|jp(e*)g|svg)$/,  
+                test: /\.(png|jp(e*)g|svg)$/,
                 use: [{
                     loader: "url-loader",
-                    options: { 
+                    options: {
                         limit: 8000, // Convert images < 8kb to base64 strings
                         name: "images/[hash]-[name].[ext]"
-                    } 
+                    }
                 }]
             },
         ]
