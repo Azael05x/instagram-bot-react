@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { AxiosResponse } from "axios";
+import { throttle } from "lodash";
 
 import { postAccount } from "../../utils/requests";
 import { AccountData } from "../../middleware/types";
@@ -40,6 +41,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             || nextState.username !== this.state.username
             || nextState.password !== this.state.password
             || nextState.loading !== this.state.loading
+            || nextState.redirect !== this.state.redirect
         ;
     }
     public render() {
@@ -60,7 +62,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             </div>
         );
     }
-    private onSubmit = (username: string, password: string) => {
+    private onSubmit = throttle((username: string, password: string) => {
         if (!username && !password) {
             return;
         }
@@ -88,7 +90,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
                     ToastType.Error,
                 );
             });
-    }
+    }, 1000, { leading: true, trailing: false });
 }
 
 const mapDispatchToProps = {

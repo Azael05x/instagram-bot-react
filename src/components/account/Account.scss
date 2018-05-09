@@ -51,6 +51,7 @@
     font-size: 1.2rem;
     white-space: nowrap;
     max-width: 10rem;
+    width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
     margin-bottom: 5px;
@@ -121,7 +122,7 @@
     font-size: 0.9rem;
 }
 
-@media (max-width: 520px) {
+@media (max-width: $mqTabletWidth) {
     .link {
         height: 9rem;
         padding: 1rem;
@@ -131,5 +132,8 @@
         left: 1rem;
         right: 1rem;
         width: calc(100% - 2rem);
+    }
+    .username {
+        font-size: 1rem;
     }
 }

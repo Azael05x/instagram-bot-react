@@ -2,8 +2,8 @@ import * as React from "react";
 
 import { CaretIcon } from "../icons/Caret";
 import { Option } from "./components/Option";
-import { isMobile } from '../../utils/deviceSupport';
-import { noop } from '../../utils/functions';
+import { isMobile } from "../../utils/deviceSupport";
+import { noop } from "../../utils/functions";
 
 import * as styles from "./Select.scss";
 

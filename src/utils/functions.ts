@@ -1,1 +1,1 @@
-export function noop() {/*noop*/}; 
+export function noop() {/*noop*/}
