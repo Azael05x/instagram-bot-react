@@ -1,9 +1,11 @@
 import * as React from "react";
+
 import { CaretIcon } from "../icons/Caret";
 import { Option } from "./components/Option";
+import { isMobile } from '../../utils/deviceSupport';
+import { noop } from '../../utils/functions';
 
 import * as styles from "./Select.scss";
-import { isMobile } from '../../utils/deviceSupport';
 
 export interface SelectState {
     currentOption: string;
@@ -44,8 +46,8 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         return (
             <div
                 onClick={this.onClick}
-                onMouseOver={!this.isMobile && this.openOptionsList}
-                onMouseOut={!this.isMobile && this.closeOptionsList}
+                onMouseOver={!this.isMobile ? this.openOptionsList : noop}
+                onMouseOut={!this.isMobile ? this.closeOptionsList : noop}
                 className={`${styles.navigation} ${styles[this.props.theme]}`}
             >
                {this.state.currentOption}
