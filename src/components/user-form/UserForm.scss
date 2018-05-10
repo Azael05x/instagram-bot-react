@@ -31,7 +31,6 @@
     margin-top: 2rem;
 }
 .input {
-    border: none;
     font-size: 1.5rem;
     font-weight: 100;
     outline: none;
@@ -41,7 +40,9 @@
     transition: .2s;
     position: relative;
     background-color: transparent;
+    border: none;
     border-bottom: 1px solid $darkText;
+    border-radius: 0; // fix border rounding issues on mobile
     padding: 0;
 }
 .input:focus {

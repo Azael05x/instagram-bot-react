@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
@@ -68,6 +69,7 @@ module.exports = {
             inject: true,
             template: "public/index.html"
         }),
+        new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
     ],
     module: {
@@ -109,7 +111,7 @@ module.exports = {
                     options: { 
                         limit: 8000, // Convert images < 8kb to base64 strings
                         name: "images/[hash]-[name].[ext]"
-                    } 
+                    }
                 }]
             }
         ]
