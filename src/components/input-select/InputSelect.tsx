@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AxiosResponse } from "axios";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 
 import { ENTER_KEY } from "../../consts";
 import { Tag } from "./components/Tag";
@@ -11,6 +11,7 @@ import {
     SearchBody,
     SearchTagItem,
     SearchUserItem,
+    InputClickTargetEvent,
 } from "../../types/types";
 import { SearchEntry } from "./components/SearchEntry";
 import {
@@ -49,7 +50,7 @@ export interface InputSelectProps {
     Minimize request amount per timeout
  */
 const searchThrottleTimeout = 300;
-const throttledSearchCb = throttle(async (
+const throttledSearchCb = debounce(async (
     value: string,
     onChange: (value: string) => Promise<AxiosResponse<SearchBody<SearchTagItem, SearchUserItem>>>,
     setSearchResults: (result: SearchUserItem[] | SearchTagItem[]) => void,
@@ -94,10 +95,12 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         */
         if (this.isSingleLine) {
             window.addEventListener("click", this.dropdownCloseMouseEventCb);
+            window.addEventListener("touchstart", this.dropdownCloseMouseEventCb);
         }
     }
     public componentWillUnmount() {
         window.removeEventListener("click", this.dropdownCloseMouseEventCb);
+        window.removeEventListener("touchstart", this.dropdownCloseMouseEventCb);
     }
 
     public render() {
@@ -333,7 +336,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             isDropdownOpen: false,
         });
     }
-    private dropdownCloseMouseEventCb = (event: any) => { // TODO: Fix type
+    private dropdownCloseMouseEventCb = (event: InputClickTargetEvent) => {
         if(this.state.isDropdownOpen && this.dropdownId !== event.target.dataset.id) {
             this.closeDropdown();
         }

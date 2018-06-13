@@ -39,6 +39,7 @@ export type StatusCodes =
     | 403
     | 500
     | 401
+    | 422
 ;
 
 export interface SearchBody<P1, P2> {
@@ -46,4 +47,8 @@ export interface SearchBody<P1, P2> {
         result: P1[] | P2[] | undefined;
         status: StatusCodes;
     };
+}
+
+export interface InputClickTargetEvent extends Event {
+    target: HTMLInputElement;
 }

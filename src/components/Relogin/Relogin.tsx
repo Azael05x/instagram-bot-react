@@ -4,13 +4,16 @@ import { connect } from "react-redux";
 import { relinkAccount } from "../../utils/requests";
 import { ENTER_KEY } from "../../consts";
 import { closePopupActionCreator } from "../../ducks/actions";
-import { ErrorMessage, ErrorMessageType } from "../error-message/ErrorMessage";
 import { ErrorCode } from "../error-message/types";
 import { PopupButton, PopupButtonType } from "../popup/factory/PopupData";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
+import { debounce } from "lodash";
 
 import * as styles from "./Relogin.scss";
+import { getErrorMessage } from "../error-message/utils";
+
+const searchThrottleTimeout = 1000;
 
 export interface ReloginOwnProps {
     username: string;
@@ -83,8 +86,6 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                         <i className="fas fa-spinner" />
                     </div>
                 </div>
-                {/* Deprecated. Remove and reuse Toast message instead */}
-                <ErrorMessage theme={ErrorMessageType.Top} errorCode={this.state.errorCode} />
             </div>
             <div className={styles.buttonContainer}>
                 {this.renderButtons(buttons)}
@@ -102,10 +103,15 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
             this.onSubmit();
         }
     }
-    private onSubmit = () => {
+    private onSubmit = debounce(() => {
+        if (!this.state.password) {
+            return;
+        }
+
         this.setState({
             progress: true,
         });
+
         relinkAccount(this.props.id, {
             password: this.state.password,
         })
@@ -121,13 +127,23 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
             });
         })
         .catch(error => {
+            console.error("An error occurred while attempting a re-login: " + error);
             this.setState({
                 progress: false,
                 errorCode: error.response.status,
             });
+            this.props.showToast(
+                getErrorMessage(error.response.status),
+                ToastType.Error,
+            );
         });
-    }
+    }, searchThrottleTimeout, { trailing: false, leading: true});
     private renderButtons = (buttons: PopupButton[]) => {
+        /**
+         * @deprecated
+         * replace with Button component
+         * add disabled style to button component
+         */
         return buttons.map((button, i) => {
             return (
                 <button
