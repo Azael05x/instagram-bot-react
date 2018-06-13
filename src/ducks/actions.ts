@@ -10,7 +10,7 @@ import {
 } from "./consts";
 import { initAccountMiddlewareActionCreator } from "../middleware/actions";
 import { AccountData } from "../middleware/types";
-import { UpdateAccountPayload } from "../utils/updateAccountTypes";
+import { UpdateAccountPayload } from "../types/updateAccountTypes";
 
 export interface UserLoginPayload {
     email: string;

@@ -41,13 +41,16 @@ const vendor = shared.makeVendorEntry({ mainModules: main, modulesToExclude: ["s
 
 module.exports = {
     context: process.cwd(), // to automatically find tsconfig.json
+    devtool: "inline-source-map",
     entry: {
         main: main,
         vendor: vendor
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "[name].js",
+        devtoolLineToLine: true,
+        filename: "bundle.js",
+        sourceMapFilename: "bundle.js.map",
         publicPath: "/"
     },
     plugins: [
@@ -62,15 +65,15 @@ module.exports = {
             watch: ["./src"] // optional but improves performance (fewer stat calls)
         }),
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("development"),
-        }),
         new HtmlWebpackPlugin({
             inject: true,
             template: "public/index.html"
         }),
         new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        }),
     ],
     module: {
         rules: [
@@ -119,7 +122,6 @@ module.exports = {
     resolve: {
         extensions: [".tsx", ".ts", ".js"]
     },
-    devtool: "inline-source-map",
     devServer: {
         open: true,
         hot: true,
