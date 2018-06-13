@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { AxiosResponse } from "axios";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 
 import { postAccount } from "../../utils/requests";
 import { AccountData } from "../../middleware/types";
@@ -10,8 +10,9 @@ import { linkAccountActionCreator } from "../../ducks/actions";
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
-import { getErrorMessage } from "../error-message/utils";
 import { ToastType } from "../toast/ducks/state";
+import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
+import { PromiseCatch } from "../../types/types";
 
 import * as styles from "./LinkAccount.scss";
 
@@ -62,7 +63,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             </div>
         );
     }
-    private onSubmit = throttle((username: string, password: string) => {
+    private onSubmit = debounce((username: string, password: string) => {
         if (!username && !password) {
             return;
         }
@@ -83,17 +84,17 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
                     );
                 });
             })
-            .catch(error => {
+            .catch((error: PromiseCatch) => {
                 this.setState({ loading: false });
                 this.props.showToast(
-                    getErrorMessage(error.response.status),
+                    getStatusCodeMessage(error.response.status),
                     ToastType.Error,
                 );
             });
     }, 1000, { leading: true, trailing: false });
 }
 
-const mapDispatchToProps = {
+const mapDispatchToProps: LinkAccountDispatchProps = {
     addAccount: linkAccountActionCreator,
     showToast: showToastAction,
 };

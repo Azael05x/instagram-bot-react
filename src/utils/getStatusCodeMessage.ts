@@ -1,14 +1,14 @@
-import { ErrorCode } from "./types";
+import { StatusCode } from "../types/types";
 
-export function getErrorMessage(error: ErrorCode) {
-    switch(error) {
-        case ErrorCode.InternalServerError: {
+export function getStatusCodeMessage(status: StatusCode) {
+    switch(status) {
+        case StatusCode.InternalServerError: {
             return "Seems that the credentials are invalid. Please check your email and password!";
         }
-        case ErrorCode.Unauthorized: {
+        case StatusCode.Unauthorized: {
             return "Seems that there's a typo in the password. Please check it!";
         }
-        case ErrorCode.UnprocessableEntity: {
+        case StatusCode.UnprocessableEntity: {
             return "The password seems incorrect. Please try again!";
         }
         default:

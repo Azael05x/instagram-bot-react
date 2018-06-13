@@ -1,17 +1,17 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { debounce } from "lodash";
 
 import { relinkAccount } from "../../utils/requests";
 import { ENTER_KEY } from "../../consts";
 import { closePopupActionCreator } from "../../ducks/actions";
-import { ErrorCode } from "../error-message/types";
 import { PopupButton, PopupButtonType } from "../popup/factory/PopupData";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
-import { debounce } from "lodash";
+import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
+import { StatusCode, PromiseCatch } from "../../types/types";
 
 import * as styles from "./Relogin.scss";
-import { getErrorMessage } from "../error-message/utils";
 
 const searchThrottleTimeout = 1000;
 
@@ -27,7 +27,7 @@ export type ReloginProps = ReloginDispatchProps & ReloginOwnProps;
 
 export interface ReloginState {
     password: string;
-    errorCode: ErrorCode;
+    errorCode: StatusCode;
     progress: boolean;
 }
 
@@ -126,14 +126,14 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                 errorCode: undefined,
             });
         })
-        .catch(error => {
+        .catch((error: PromiseCatch) => {
             console.error("An error occurred while attempting a re-login: " + error);
             this.setState({
                 progress: false,
                 errorCode: error.response.status,
             });
             this.props.showToast(
-                getErrorMessage(error.response.status),
+                getStatusCodeMessage(error.response.status),
                 ToastType.Error,
             );
         });

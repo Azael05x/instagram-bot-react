@@ -4,14 +4,14 @@ import axios from "axios";
 import { throttle } from "lodash";
 import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 
-import { ErrorCode } from "../error-message/types";
 import { LOGIN_URL } from "../../consts";
 import { loginActionCreator } from "../../ducks/actions";
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
-import { getErrorMessage } from "../error-message/utils";
 import { ToastType } from "../toast/ducks/state";
+import { StatusCode, PromiseCatch } from "../../types/types";
+import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
 
 import * as styles from "./Login.scss";
 
@@ -23,7 +23,7 @@ export interface LoginDispatchProps {
 export type LoginProps = LoginDispatchProps & RouteComponentProps<{}>;
 
 export interface LoginState {
-    errorCode?: ErrorCode;
+    errorCode?: StatusCode;
     redirect: boolean;
     loading: boolean;
 }
@@ -103,10 +103,10 @@ export class Login extends React.Component<LoginProps, LoginState> {
                     this.props.onLogin({ email });
                 });
             })
-            .catch((error) => {
+            .catch((error: PromiseCatch) => {
                 this.setState({ loading: false });
                 this.props.showToast(
-                    getErrorMessage(error.response.status),
+                    getStatusCodeMessage(error.response.status),
                     ToastType.Error,
                 );
             });
