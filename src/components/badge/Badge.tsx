@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as styles from "./Badge.css";
+import * as styles from "./Badge.scss";
 
 export enum BadgeType {
     Danger = "danger",
