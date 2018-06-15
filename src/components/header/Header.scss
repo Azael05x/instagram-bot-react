@@ -5,9 +5,13 @@
     height: 3em;
     align-items: center;
     justify-content: center;
-    background: transparent;
+    background: white;
     border-bottom: 1px solid rgba(29, 34, 71, 0.1);
     padding: 1em 5em;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
 }
 .innerContainer {
     max-width: 75vw;
