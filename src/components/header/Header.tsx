@@ -8,6 +8,11 @@ import { MOBILE_WIDTH } from "../../consts";
 
 import * as styles from "./Header.scss";
 
+function stopScroll (event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+}
+
 export interface HeaderStateProps {
     user: User;
 }
@@ -175,6 +180,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
         // To prevent page scrolling
         document.querySelector("html").style.overflow = "hidden";
         document.body.style.overflow = "hidden";
+        document.body.addEventListener("touchmove", stopScroll);
 
         this.setState({
             isMenuOpen: true,
@@ -185,6 +191,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             // To prevent page scrolling
             document.querySelector("html").style.overflow = "initial";
             document.body.style.overflow = "initial";
+            document.body.removeEventListener("touchmove", stopScroll);
 
             this.setState({
                 isMenuOpen: false,
