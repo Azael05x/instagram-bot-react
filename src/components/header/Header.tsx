@@ -173,8 +173,8 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
     }
     private onOpenMenu = () => {
         // To prevent page scrolling
-        const el = document.querySelector(`[data-role="root"]`);
-        el.setAttribute("style", "overflow: hidden");
+        document.querySelector("html").style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
 
         this.setState({
             isMenuOpen: true,
@@ -183,8 +183,8 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
     private onCloseMenu = () => {
         if (this.state.isMenuOpen) {
             // To prevent page scrolling
-            const el = document.querySelector(`[data-role="root"]`);
-            el.removeAttribute("style");
+            document.querySelector("html").style.overflow = "initial";
+            document.body.style.overflow = "initial";
 
             this.setState({
                 isMenuOpen: false,
