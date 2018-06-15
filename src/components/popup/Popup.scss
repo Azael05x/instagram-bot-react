@@ -13,9 +13,11 @@
     opacity: 0;
     transition: .2s;
     pointer-events: none;
+    position: fixed;
     &.active {
         pointer-events: all;
         opacity: 1;
+        z-index: 99999999999;
     }
 }
 .title {
