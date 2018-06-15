@@ -99,7 +99,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             );
 
         return (
-            <div className={styles.container}>
+            <div className={`${styles.container} ${this.state.isMenuOpen && styles.active}`}>
                 <div className={styles.innerContainer}>
                     <NavLink
                             className={styles.logo}
