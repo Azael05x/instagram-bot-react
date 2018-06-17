@@ -67,7 +67,8 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({
             inject: true,
-            template: "public/index.html"
+            template: "public/index.html",
+            favicon: 'public/favicon.ico'
         }),
         new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),

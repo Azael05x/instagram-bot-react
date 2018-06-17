@@ -40,6 +40,7 @@ module.exports = {
             hash: true,
             inject: true,
             template: 'public/index.html',
+            favicon: 'public/favicon.ico',
             minify: {
                 removeComments: true,
                 collapseWhitespace: true,
