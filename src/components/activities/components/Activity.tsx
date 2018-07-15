@@ -12,6 +12,7 @@ import {
 import * as styles from "./Activity.css";
 import { revertAccountActivity } from "../../../utils/requests";
 import { AxiosResponse } from "axios";
+import { PromiseCatch } from "../../../types/types";
 
 const placeholderImg = require("../../../assets/placeholder.png");
 const userPlaceholderImg = require("../../../assets/user_placeholder.png");
@@ -174,7 +175,7 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
                 });
             }
         })
-        .catch(error => {
+        .catch((error: PromiseCatch) => {
             this.setState({
                 revertInProgress: false,
             });

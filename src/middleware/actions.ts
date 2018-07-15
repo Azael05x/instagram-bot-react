@@ -14,7 +14,7 @@ import {
     General,
     Comments,
 } from "./types";
-import { UpdateAccountPayload } from "../utils/updateAccountTypes";
+import { UpdateAccountPayload } from "../types/updateAccountTypes";
 
 export interface LinkAccountMiddlewareAction {
     type: typeof ACCOUNT_LINK;

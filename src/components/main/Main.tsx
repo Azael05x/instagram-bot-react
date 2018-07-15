@@ -24,8 +24,8 @@ export interface MainStateProps {
 
 export type MainProps = MainStateProps & RouteComponentProps<{}>;
 
-export class Main extends React.PureComponent<MainProps, {}> {
-    render() {
+export class Main extends React.PureComponent<MainProps> {
+    public render() {
         return (
             <div className={styles.container}>
                 <ToastConnected />
@@ -62,7 +62,6 @@ const mapStateToProps = (state: any): MainStateProps => ({
     logged_in: !!selectUser(state).auth_token,
 });
 
-export const MainConnected = withRouter(connect<MainStateProps, {}>(
+export const MainConnected = withRouter(connect<MainStateProps>(
     mapStateToProps,
-    undefined,
 )(Main));

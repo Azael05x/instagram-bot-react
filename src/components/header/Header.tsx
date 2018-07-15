@@ -99,7 +99,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             );
 
         return (
-            <div className={styles.container}>
+            <div className={`${styles.container} ${this.state.isMenuOpen && styles.active}`}>
                 <div className={styles.innerContainer}>
                     <NavLink
                             className={styles.logo}
@@ -173,6 +173,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
     }
     private onOpenMenu = () => {
         // To prevent page scrolling
+        document.querySelector("html").style.overflow = "hidden";
         document.body.style.overflow = "hidden";
 
         this.setState({
@@ -182,6 +183,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
     private onCloseMenu = () => {
         if (this.state.isMenuOpen) {
             // To prevent page scrolling
+            document.querySelector("html").style.overflow = "initial";
             document.body.style.overflow = "initial";
 
             this.setState({

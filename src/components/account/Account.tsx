@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import * as styles from "./Account.css";
+import * as styles from "./Account.scss";
 import { AccountData } from "../../middleware/types";
 
 export interface AccountItemState {
@@ -42,11 +42,10 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
         );
     }
     private onStatusChange = () => {
-        const { account } = this.props;
         this.isAccountActive = !this.isAccountActive;
 
         this.props.onStatusChange({
-            ...account,
+            ...this.props.account,
             is_active: this.isAccountActive,
         });
     }

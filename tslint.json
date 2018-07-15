@@ -28,6 +28,8 @@
             "options": "double",
             "severity": "warning"
         },
-        "triple-equals": true
+        "triple-equals": true,
+        "class-name": true,
+        "deprecation": true
     }
 }

@@ -4,6 +4,7 @@ const webpack = require("webpack");
 const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
@@ -40,13 +41,16 @@ const vendor = shared.makeVendorEntry({ mainModules: main, modulesToExclude: ["s
 
 module.exports = {
     context: process.cwd(), // to automatically find tsconfig.json
+    devtool: "inline-source-map",
     entry: {
         main: main,
         vendor: vendor
     },
     output: {
         path: path.resolve(__dirname, "dist"),
-        filename: "[name].js",
+        devtoolLineToLine: true,
+        filename: "bundle.js",
+        sourceMapFilename: "bundle.js.map",
         publicPath: "/"
     },
     plugins: [
@@ -61,14 +65,16 @@ module.exports = {
             watch: ["./src"] // optional but improves performance (fewer stat calls)
         }),
         new webpack.NoEmitOnErrorsPlugin(),
-        new webpack.DefinePlugin({
-            "process.env.NODE_ENV": JSON.stringify("development"),
-        }),
         new HtmlWebpackPlugin({
             inject: true,
-            template: "public/index.html"
+            template: "public/index.html",
+            favicon: 'public/favicon.ico'
         }),
+        new CleanWebpackPlugin(['dist']),
         new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        }),
     ],
     module: {
         rules: [
@@ -109,7 +115,7 @@ module.exports = {
                     options: { 
                         limit: 8000, // Convert images < 8kb to base64 strings
                         name: "images/[hash]-[name].[ext]"
-                    } 
+                    }
                 }]
             }
         ]
@@ -117,7 +123,6 @@ module.exports = {
     resolve: {
         extensions: [".tsx", ".ts", ".js"]
     },
-    devtool: "inline-source-map",
     devServer: {
         open: true,
         hot: true,

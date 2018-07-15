@@ -13,9 +13,11 @@
     opacity: 0;
     transition: .2s;
     pointer-events: none;
+    position: fixed;
     &.active {
         pointer-events: all;
         opacity: 1;
+        z-index: 99999999999;
     }
 }
 .title {
@@ -35,7 +37,7 @@
 .content {
     border: 1px solid white;
     border-radius: 5px;
-    height: 50%;
+    height: 100%;
     width: 50%;
     max-width: 500px;
     max-height: 300px;

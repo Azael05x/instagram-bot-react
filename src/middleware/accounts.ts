@@ -56,7 +56,7 @@ export type AccountMiddlewareAction =
     | SetAccountStatusMiddlewareAction
 ;
 
-export const accountMiddleware = (<S extends PartialState>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
+export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
     return (action: AccountMiddlewareAction) => {
 
         switch (action.type) {

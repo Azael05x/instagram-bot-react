@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AxiosResponse } from "axios";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 
 import { ENTER_KEY } from "../../consts";
 import { Tag } from "./components/Tag";
@@ -11,6 +11,7 @@ import {
     SearchBody,
     SearchTagItem,
     SearchUserItem,
+    InputClickTargetEvent,
 } from "../../types/types";
 import { SearchEntry } from "./components/SearchEntry";
 import {
@@ -49,30 +50,36 @@ export interface InputSelectProps {
     Minimize request amount per timeout
  */
 const searchThrottleTimeout = 300;
-const throttledSearchCb = throttle(async (
+const throttledSearchCb = debounce(async (
     value: string,
     onChange: (value: string) => Promise<AxiosResponse<SearchBody<SearchTagItem, SearchUserItem>>>,
     setSearchResults: (result: SearchUserItem[] | SearchTagItem[]) => void,
+    loadingCb?: () => void,
 ) => {
     const { data: { body: { result }} } = await onChange(value);
-    setSearchResults(result);
+
+    /**
+     * If the API fails the result can be undefined
+     * FIXME:
+     * @var result shows as not possibly being undefined, but it can
+     */
+    if (result) {
+        loadingCb && loadingCb();
+        setSearchResults(result);
+    }
 }, searchThrottleTimeout, { trailing: true, leading: true});
 
 export class InputSelect extends React.Component<InputSelectProps, InputSelectState> {
     public static defaultProps = {
         type: InputType.SingleLine,
     };
-    public constructor(props: InputSelectProps) {
-        super(props);
-
-        this.state = {
-            value: "",
-            tags: props.tags || [],
-            searchResults: [],
-            loading: false,
-            isDropdownOpen: false,
-        };
-    }
+    public state: InputSelectState = {
+        value: "",
+        tags: this.props.tags || [],
+        searchResults: [],
+        loading: false,
+        isDropdownOpen: false,
+    };
     /**
         Differentiates between single line inputs (e.g. hashtags, users)
         and multiline text areas for comments
@@ -88,10 +95,12 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         */
         if (this.isSingleLine) {
             window.addEventListener("click", this.dropdownCloseMouseEventCb);
+            window.addEventListener("touchstart", this.dropdownCloseMouseEventCb);
         }
     }
     public componentWillUnmount() {
         window.removeEventListener("click", this.dropdownCloseMouseEventCb);
+        window.removeEventListener("touchstart", this.dropdownCloseMouseEventCb);
     }
 
     public render() {
@@ -128,14 +137,20 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                     onKeyUp={this.onEnterKey}
                 />
             );
+
+        /**
+         * Left side icon for input indicating purpose
+         */
+        const iconComponent = icon && (
+            <div className={styles.iconContainer}>
+                {icon}
+            </div>
+        );
+
         return (
             <div className={styles.container}>
                 <div className={styles.inputWrapper}>
-                    {icon && (
-                        <div className={styles.iconContainer}>
-                            {icon}
-                        </div>
-                    )}
+                    {iconComponent}
                     {inputComponent}
                     <div className={`${styles.spinner} ${loading && styles.active}`}>
                         <i className="fas fa-spinner" />
@@ -161,24 +176,23 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 this.setState({
                     isDropdownOpen: false,
                     searchResults: [],
+                    loading: false,
                 });
             } else {
                 !this.state.isDropdownOpen && this.setState({
                     isDropdownOpen: true,
                 });
-                !this.state.loading && this.setLoading(true);
                 throttledSearchCb(
                     value,
                     this.props.onChange,
                     this.setSearchResults,
+                    !this.state.loading ? () => this.setLoading(true) : undefined,
                 );
             }
-
         }
     }
     private setSearchResults = (result: SearchUserItem[] | SearchTagItem[]) => {
         let searchResults: SearchTagItem[] | SearchUserItem[];
-
         if (isUserSearch(result)) {
             searchResults = checkDuplicateUsersResult(
                 this.state.tags,
@@ -237,6 +251,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             }
         }
 
+        this.setLoading(false);
         this.closeDropdown();
     }
     // Index comes from binding the method in rendertags
@@ -321,7 +336,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             isDropdownOpen: false,
         });
     }
-    private dropdownCloseMouseEventCb = (event: any) => { // TODO: Fix type
+    private dropdownCloseMouseEventCb = (event: InputClickTargetEvent) => {
         if(this.state.isDropdownOpen && this.dropdownId !== event.target.dataset.id) {
             this.closeDropdown();
         }

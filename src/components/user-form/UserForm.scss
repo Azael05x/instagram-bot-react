@@ -1,0 +1,79 @@
+@import "../../consts/consts.scss";
+@import "../../consts/mediaQueries.scss";
+
+@keyframes rotate {
+    0% {
+        transform: translate(0, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(0, -50%) rotate(360deg);
+    }
+}
+
+// Form
+.formGroupContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-self: normal;
+}
+.formGroup {
+    position: relative;
+    height: 3rem;
+    width: 20rem;
+    max-width: 80%;
+    margin: .5rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.formGroup:last-child {
+    margin-top: 2rem;
+}
+.input {
+    font-size: 1.5rem;
+    font-weight: 100;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    transition: .2s;
+    position: relative;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid $darkText;
+    border-radius: 0; // fix border rounding issues on mobile
+    padding: 0;
+}
+.input:focus {
+    border-color: $dangerColor;
+}
+.label {
+    position: absolute;
+    top: 50%;
+    left: .5rem;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    color: $placeholderColor;
+    opacity: 1;
+    transition: .2s;
+}
+.spinner {
+    opacity: 1;
+    transition: .2s;
+    position: absolute;
+    top: 50%;
+    animation: rotate 1s ease infinite;
+    left: 2rem;
+    font-size: 2rem;
+    pointer-events: none;
+}
+.hidden {
+    opacity: 0;
+}
+
+@media (max-width: $mqTabletWidth) {
+    .spinner {
+        top: auto;
+    }
+}
