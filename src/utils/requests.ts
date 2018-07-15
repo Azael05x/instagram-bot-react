@@ -96,7 +96,7 @@ export function relinkAccount(id: number, data: { password: string }, config = d
     return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}${LINK}`, data, config());
 }
 export function registerUser(data: { email: string, password: string }) {
-    return axios.post(REGISTER_URL, data);
+    return axios.post(REGISTER_URL, data, defaultConfig());
 }
 export function searchUsers(id: number, name: string, config = defaultConfig) {
     return axios.post(

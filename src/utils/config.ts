@@ -1,10 +1,8 @@
 import { AxiosRequestConfig } from "axios";
 
-export function createConfig(userAuthToken: string, options = {}): AxiosRequestConfig {
+export function createConfig(options = {}): AxiosRequestConfig {
     return {
-        headers: {
-            "Authorization": userAuthToken,
-        },
+        withCredentials: true,
         ...options,
     };
 }

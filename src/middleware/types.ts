@@ -50,7 +50,7 @@ export interface Settings {
     general: General;
 }
 
- export interface AccountData {
+export interface AccountData {
     created_at: string;
     created_at_ms: number;
     id: number;

@@ -6,7 +6,7 @@ enum Environment {
 
 export const BASE_URL = process.env.NODE_ENV === Environment.Staging
     ? "https://staging-api.gekotta.com"
-    : "http://localhost:8079";
+    : "http://localhost:8081";
 
 export const AUTH_BASE = "/auth/login";
 export const REGISTER_BASE = "/auth/register";

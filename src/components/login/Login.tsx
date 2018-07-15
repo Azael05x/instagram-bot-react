@@ -133,7 +133,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
         axios.post(LOGIN_URL, {
             email: this.state.email,
             password: this.state.password,
-        })
+        }, { withCredentials: true })
             .then((response) => {
                 localStorage.setItem("auth_token", response.data.auth_token);
                 localStorage.setItem("email", response.data.user.email);
