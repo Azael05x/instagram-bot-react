@@ -28,7 +28,7 @@ const store: Store<InstaState> = createStore(
 );
 
 // Get UserAccount listings
-if (selectUser(store.getState()).auth_token) {
+if (selectUser(store.getState()).email) {
     store.dispatch(initAccountMiddlewareActionCreator());
 }
 

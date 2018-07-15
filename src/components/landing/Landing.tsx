@@ -86,7 +86,7 @@ export class Landing extends React.Component<LandingProps> {
 }
 
 const mapStateToProps = (state: any): LandingStateProps => ({
-    hasUser: !!selectUser(state).auth_token,
+    hasUser: !!selectUser(state).email,
 });
 
 export const LandingConnected = withRouter(connect<LandingStateProps>(

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 import { debounce } from "lodash";
 
 import { postAccount } from "../../utils/requests";
@@ -12,7 +12,6 @@ import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
 import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
-import { PromiseCatch } from "../../types/types";
 
 import * as styles from "./LinkAccount.scss";
 
@@ -84,7 +83,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
                     );
                 });
             })
-            .catch((error: PromiseCatch) => {
+            .catch((error: AxiosError) => {
                 this.setState({ loading: false });
                 this.props.showToast(
                     getStatusCodeMessage(error.response.status),

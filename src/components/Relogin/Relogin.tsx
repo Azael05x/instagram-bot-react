@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
+import { AxiosError } from "axios";
 
 import { relinkAccount } from "../../utils/requests";
 import { ENTER_KEY } from "../../consts";
@@ -9,7 +10,7 @@ import { PopupButton, PopupButtonType } from "../popup/factory/PopupData";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
 import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
-import { StatusCode, PromiseCatch } from "../../types/types";
+import { StatusCode } from "../../types/types";
 
 import * as styles from "./Relogin.scss";
 
@@ -126,7 +127,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                 errorCode: undefined,
             });
         })
-        .catch((error: PromiseCatch) => {
+        .catch((error: AxiosError) => {
             console.error("An error occurred while attempting a re-login: " + error);
             this.setState({
                 progress: false,

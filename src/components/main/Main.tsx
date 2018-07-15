@@ -59,7 +59,7 @@ export class Main extends React.PureComponent<MainProps> {
 }
 
 const mapStateToProps = (state: any): MainStateProps => ({
-    logged_in: !!selectUser(state).auth_token,
+    logged_in: !!selectUser(state).email,
 });
 
 export const MainConnected = withRouter(connect<MainStateProps>(

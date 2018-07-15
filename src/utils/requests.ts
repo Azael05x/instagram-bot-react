@@ -12,50 +12,48 @@ import {
     ACTIVITY_REVIEWED,
     REGISTER_URL,
     LINK,
+    LOGOUT,
 } from "../consts";
 import { createConfig } from "./config";
 
-// Default config. Can be overwritten when using any of the following methods
-const defaultConfig = () => createConfig(localStorage.getItem("auth_token"));
-
-export function getInitAccountData(config = defaultConfig) {
-    return axios.get(`${BASE_URL}${ACCOUNT_URL}`, config());
+export function getInitAccountData() {
+    return axios.get(`${BASE_URL}${ACCOUNT_URL}`, createConfig());
 }
-export function getAccountData(id: number, config = defaultConfig) {
-    return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}`, config());
+export function getAccountData(id: number) {
+    return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}`, createConfig());
 }
-export function postAccount(data: any, config = defaultConfig) {
-    return axios.post(`${BASE_URL}${ACCOUNT_URL}`, data, config());
+export function postAccount(data: any) {
+    return axios.post(`${BASE_URL}${ACCOUNT_URL}`, data, createConfig());
 }
-export function deleteAccount(id: number, config = defaultConfig) {
-    return axios.delete(`${BASE_URL}${ACCOUNT_URL}/${id}`, config());
+export function deleteAccount(id: number) {
+    return axios.delete(`${BASE_URL}${ACCOUNT_URL}/${id}`, createConfig());
 }
-export function updateActivities(id: number, data: any, config = defaultConfig) {
+export function updateActivities(id: number, data: any) {
     return axios.patch(
         `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_URL}`,
         data,
-        config(),
+        createConfig(),
     );
 }
-export function updateGeneral(id: number, data: any, config = defaultConfig) {
+export function updateGeneral(id: number, data: any) {
     return axios.patch(
         `${BASE_URL}${ACCOUNT_URL}/${id}${GENERAL_URL}`,
         data,
-        config(),
+        createConfig(),
     );
 }
-export function updateComments(id: number, data: any, config = defaultConfig) {
+export function updateComments(id: number, data: any) {
     return axios.patch(
         `${BASE_URL}${ACCOUNT_URL}/${id}${COMMENT_URL}`,
         data,
-        config(),
+        createConfig(),
     );
 }
-export function setAccountStatus(id: number, data: any, config = defaultConfig) {
+export function setAccountStatus(id: number, data: any) {
     return axios.patch(
         `${BASE_URL}${ACCOUNT_URL}/${id}`,
         data,
-        config(),
+        createConfig(),
     );
 }
 export type RequestActivityType = "likes" | "comments" | "follows";
@@ -66,49 +64,54 @@ export function getActivities(
     timestamp: number,
     returnReviewed: boolean,
     activityType: RequestActivityType,
-    config = defaultConfig
 ) {
     return axios.get(
         `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_BASE}/${activityType}?batch_size=${batchSize}&from=${timestamp}&return_reviewed=${returnReviewed}`,
-        config(),
+        createConfig(),
     );
 }
 export function setReviewed(
     id: number,
     activityType: RequestActivityType,
     timestamp: number,
-    config = defaultConfig
 ) {
     return axios.post(
         `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_BASE}/${activityType}${ACTIVITY_REVIEWED}`,
         {
             ms: timestamp,
         },
-        config(),
+        createConfig(),
     );
 }
 
-export function revertAccountActivity(id: number, data: any, config = defaultConfig) {
-    return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_REVERT}`, data, config());
+export function revertAccountActivity(id: number, data: any) {
+    return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_REVERT}`, data, createConfig());
 }
 
-export function relinkAccount(id: number, data: { password: string }, config = defaultConfig) {
-    return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}${LINK}`, data, config());
+export function relinkAccount(id: number, data: { password: string }) {
+    return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}${LINK}`, data, createConfig());
 }
 export function registerUser(data: { email: string, password: string }) {
-    return axios.post(REGISTER_URL, data, defaultConfig());
+    return axios.post(REGISTER_URL, data, createConfig());
 }
-export function searchUsers(id: number, name: string, config = defaultConfig) {
+export function searchUsers(id: number, name: string) {
     return axios.post(
         `${BASE_URL}${ACCOUNT_URL}/${id}/search_user`,
         { name },
-        config(),
+        createConfig(),
     );
 }
-export function searchTags(id: number, name: string, config = defaultConfig) {
+export function searchTags(id: number, name: string) {
     return axios.post(
         `${BASE_URL}${ACCOUNT_URL}/${id}/search_tag`,
         { name },
-        config(),
+        createConfig(),
+    );
+}
+
+export async function logout() {
+    return axios.delete(
+        `${BASE_URL}${LOGOUT}`,
+        createConfig()
     );
 }

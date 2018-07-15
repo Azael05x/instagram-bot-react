@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AxiosResponse } from "axios";
+import { AxiosResponse, AxiosError } from "axios";
 import { connect } from "react-redux";
 
 import { getActivities , setReviewed} from "../../utils/requests";
@@ -11,7 +11,6 @@ import { Select, SelectOption, SelectTheme } from "../select/Select";
 import { Button, ButtonSize } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
-import { PromiseCatch } from "../../types/types";
 
 import * as styles from "./Activities.scss";
 
@@ -186,7 +185,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
                     });
                 }, 1000);
             })
-            .catch((error: PromiseCatch) => {
+            .catch((error: AxiosError) => {
                 console.error(`Failed to set ${this.state.activityType} as reviewed: `, error);
                 this.props.showToast(
                     <>Oh snap, please try again later to review {this.state.activityType}</>,

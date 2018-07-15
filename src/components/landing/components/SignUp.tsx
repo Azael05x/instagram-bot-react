@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { AxiosResponse } from "axios";
+import { AxiosError } from "axios";
 import { throttle } from "lodash";
 
 import { ButtonType } from "../../button/Button";
@@ -58,36 +58,29 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
         });
 
         registerUser({ email, password })
-            .then((response: AxiosResponse<{ success: boolean, errors: { email: string[] } }>) => {
-                if (response.data.success) {
-                    this.props.showToast(
-                        <h3>Successfully Signed up!</h3>,
-                        ToastType.Success,
-                    );
+            .then(() => {
+                this.props.showToast(
+                    <h3>Successfully Signed up!</h3>,
+                    ToastType.Success,
+                );
 
-                    // Redirect to sign up page
-                    this.setState({
-                        redirect: true,
-                        loading: false,
-                    });
-                } else {
-                    this.setState({
-                        loading: false,
-                    });
-                    this.props.showToast(
-                        <h4>Email {response.data.errors.email}</h4>,
-                        ToastType.Error,
-                    );
-                }
+                // Redirect to sign up page
+                this.setState({
+                    redirect: true,
+                    loading: false,
+                });
             })
-            .catch((error) => {
+            .catch((error: AxiosError) => {
                 this.setState({
                     loading: false,
                 });
 
                 console.error("An error occurred: ", error);
+                const errorText = error.response
+                    ? error.response.data
+                    : "Oops, something went wrong. Please try again later";
                 this.props.showToast(
-                    <h4>Oops, something went wrong. Please try again later</h4>,
+                    <h4>{errorText}</h4>,
                     ToastType.Error,
                 );
             });

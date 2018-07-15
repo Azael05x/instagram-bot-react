@@ -5,6 +5,7 @@ import { selectUser } from "../../ducks/selectors";
 import { User } from "../../ducks/state";
 import { CaretIcon } from "../icons/Caret";
 import { MOBILE_WIDTH } from "../../consts";
+import { logout } from "../../utils/requests";
 
 import * as styles from "./Header.scss";
 
@@ -34,11 +35,10 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
         const {
             user: {
                 email,
-                auth_token,
             }
         } = this.props;
 
-        const userComponent = !!auth_token
+        const userComponent = !!email
             ? (
                 this.state.isMobile
                     ? <>
@@ -136,7 +136,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                         >
                             Home
                         </NavLink>
-                        { this.props.user.auth_token && (
+                        { this.props.user.email && (
                             <NavLink
                                 className={styles.link}
                                 to={"/accounts"}
@@ -164,12 +164,18 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             </div>
         );
     }
-    private onLogout = () => {
-        localStorage.removeItem("auth_token");
-        this.onCloseMenu();
+    private onLogout = async () => {
+        try {
+            await logout();
+
+            localStorage.removeItem("email");
+            this.onCloseMenu();
+            window.location.href = "/";
+        } catch (error) {
+            console.error("SUKA");
+        }
 
         // Redirect to home page
-        window.location.href = "/";
     }
     private onOpenMenu = () => {
         // To prevent page scrolling

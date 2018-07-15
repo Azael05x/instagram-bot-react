@@ -34,7 +34,6 @@ export function reducer(state = initialState, action: ReducerActions) {
             return {
                 ...state,
                 user: {
-                    auth_token: localStorage.getItem("auth_token"),
                     email: action.payload.email,
                 }
             };

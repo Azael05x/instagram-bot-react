@@ -118,10 +118,3 @@ export interface SearchBody<P1, P2> {
 export interface InputClickTargetEvent extends Event {
     target: HTMLInputElement;
 }
-
-export interface PromiseCatch {
-    message: string;
-    response: {
-        status: StatusCode;
-    };
-}

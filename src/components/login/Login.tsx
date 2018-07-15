@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { throttle } from "lodash";
 import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 
@@ -10,7 +10,7 @@ import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
-import { StatusCode, PromiseCatch } from "../../types/types";
+import { StatusCode } from "../../types/types";
 import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
 
 import * as styles from "./Login.scss";
@@ -89,7 +89,6 @@ export class Login extends React.Component<LoginProps, LoginState> {
             password,
         }, { withCredentials: true })
             .then((response) => {
-                localStorage.setItem("auth_token", response.data.auth_token);
                 localStorage.setItem("email", response.data.user.email);
 
                 this.setState({
@@ -103,7 +102,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                     this.props.onLogin({ email });
                 });
             })
-            .catch((error: PromiseCatch) => {
+            .catch((error: AxiosError) => {
                 this.setState({ loading: false });
                 this.props.showToast(
                     getStatusCodeMessage(error.response.status),

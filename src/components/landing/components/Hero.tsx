@@ -55,7 +55,7 @@ export class Hero extends React.PureComponent<HeroProps, HeroState> {
 }
 
 const mapStateToProps = (state: any): HeroProps => ({
-    hasUser: !!selectUser(state).auth_token,
+    hasUser: !!selectUser(state).email,
 });
 
 export const HeroConnected = connect<HeroProps>(
