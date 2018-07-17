@@ -5,16 +5,16 @@
 export type MediaType = "all" | "photo" | "video";
 
 export interface CommentsLikesGeneral {
-    maximum_comments: number;
-    maximum_likes: number;
-    minimum_likes: number;
-    minimum_comments: number;
-    media_age: number;
-    media_type: MediaType;
+    maximumComments: number;
+    maximumLikes: number;
+    minimumLikes: number;
+    minimumComments: number;
+    mediaAge: number;
+    mediaType: MediaType;
 }
 export interface Comments extends CommentsLikesGeneral {
-    image_comments: string[];
-    video_comments: string[];
+    imageComments: string[];
+    videoComments: string[];
 }
 export type Likes = CommentsLikesGeneral;
 
@@ -26,18 +26,18 @@ export enum ActivitySpeedType {
 
 export interface Activities {
     speed: ActivitySpeedType;
-    enabled_likes: boolean;
-    enabled_follows: boolean;
-    enabled_unfollows: boolean;
-    enabled_comments: boolean;
+    enabledLikes: boolean;
+    enabledFollows: boolean;
+    enabledUnfollows: boolean;
+    enabledComments: boolean;
 }
 export interface Follows  {
-    maximum_followers: number;
-    minimum_followers: number;
+    maximumFollowers: number;
+    minimumFollowers: number;
 }
 export interface General {
-    blacklisted_tags: string[];
-    blacklisted_users: string[];
+    blacklistedTags: string[];
+    blacklistedUsers: string[];
     tags: string[];
     users: string[];
 }
@@ -51,13 +51,11 @@ export interface Settings {
 }
 
 export interface AccountData {
-    created_at: string;
-    created_at_ms: number;
+    createdAt: string;
     id: number;
-    is_active: boolean;
+    isActive: boolean;
     settings: Settings;
-    updated_at: string;
-    url: string;
+    updatedAt: string;
     username: string;
-    has_invalid_session: boolean;
+    hasInvalidSession: boolean;
 }

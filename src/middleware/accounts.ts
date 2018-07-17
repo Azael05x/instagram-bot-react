@@ -123,9 +123,9 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
                 break;
             }
             case ACCOUNT_SET_STATUS: {
-                const data: { instagram: { is_active: boolean; } } = {
+                const data: { instagram: { isActive: boolean; } } = {
                     instagram: {
-                        is_active: action.payload.data.is_active,
+                        isActive: action.payload.data.isActive,
                     },
                 };
 

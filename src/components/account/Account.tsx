@@ -12,7 +12,7 @@ export interface AccountItemProps {
 }
 
 export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
-    private isAccountActive = this.props.account.is_active;
+    private isAccountActive = this.props.account.isActive;
     public render() {
         const { account } = this.props;
 
@@ -46,7 +46,7 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
 
         this.props.onStatusChange({
             ...this.props.account,
-            is_active: this.isAccountActive,
+            isActive: this.isAccountActive,
         });
     }
     private setIcon = (isActive: boolean) => {

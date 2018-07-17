@@ -104,7 +104,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 bodyPlaceholder={blacklistedHashtagsBodyPlaceholder}
                                 icon={<i className="fa fa-ban" aria-hidden="true"></i>}
                                 onSubmit={this.onBlacklistedFollowTagsChange}
-                                tags={settings.general.blacklisted_tags}
+                                tags={settings.general.blacklistedTags}
                                 onChange={this.onTagInput}
                             />
                         </div>
@@ -114,7 +114,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 bodyPlaceholder={blacklistedUsersBodyPlaceholder}
                                 icon={<i className="fa fa-user-times" aria-hidden="true"></i>}
                                 onSubmit={this.onBlacklistedUserTagsChange}
-                                tags={settings.general.blacklisted_users}
+                                tags={settings.general.blacklistedUsers}
                                 onChange={this.onUserInput}
                             />
                         </div>
@@ -129,7 +129,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 bodyPlaceholder={imageCommentsBodyPlaceholder}
                                 icon={<i className="far fa-image" />}
                                 onSubmit={this.onImageCommentsChange}
-                                tags={settings.comments.image_comments}
+                                tags={settings.comments.imageComments}
                                 type={InputType.TextField}
                                 />
                         </div>
@@ -139,7 +139,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 bodyPlaceholder={videoCommentsBodyPlaceholder}
                                 icon={<i className="fa fa-play" aria-hidden="true"></i>}
                                 onSubmit={this.onVideoCommentsChange}
-                                tags={settings.comments.video_comments}
+                                tags={settings.comments.videoComments}
                                 type={InputType.TextField}
                                 />
                         </div>
@@ -151,25 +151,25 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
     private onLikesToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            data: { enabled_likes: value },
+            data: { enabledLikes: value },
         });
     }
     private onFollowsToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            data: { enabled_follows: value },
+            data: { enabledFollows: value },
         });
     }
     private onUnfollowsToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            data: { enabled_unfollows: value },
+            data: { enabledUnfollows: value },
         });
     }
     private onCommentsToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
-            data: { enabled_comments: value },
+            data: { enabledComments: value },
         });
     }
     private onSpeedChange = (value: ActivitySpeedType) => {
@@ -198,7 +198,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
         this.props.updateAccountGeneral({
             id: this.props.account.id,
             data: {
-                blacklisted_tags: value,
+                blacklistedTags: value,
             },
         });
     }
@@ -206,7 +206,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
         this.props.updateAccountGeneral({
             id: this.props.account.id,
             data: {
-                blacklisted_users: value,
+                blacklistedUsers: value,
             },
         });
     }
@@ -214,7 +214,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
         this.props.updateAccountComments({
             id: this.props.account.id,
             data: {
-                image_comments: value,
+                imageComments: value,
             },
         });
     }
@@ -222,7 +222,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
         this.props.updateAccountComments({
             id: this.props.account.id,
             data: {
-                video_comments: value,
+                videoComments: value,
             },
         });
     }

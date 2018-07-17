@@ -68,11 +68,10 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             match,
             openPopup,
         } = this.props;
-
         getAccountData(match.params.id)
-            .then((response: AxiosResponse<AccountData>) => {
-                this.setState({ account: response.data }, () => {
-                    if (this.state.account.has_invalid_session) {
+        .then((response: AxiosResponse<AccountData>) => {
+            this.setState({ account: response.data }, () => {
+                    if (this.state.account.hasInvalidSession) {
                         openPopup(createReloginPopup({
                             content: (
                                 <ReloginConnected
@@ -101,11 +100,11 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         }
 
         const activityButtonClassname =
-            `${styles.button} ${account.is_active ? styles.buttonStop : styles.buttonStart}`;
-        const activityButtonLabel = account.is_active ? "Pause" : "Start";
+            `${styles.button} ${account.isActive ? styles.buttonStop : styles.buttonStart}`;
+        const activityButtonLabel = account.isActive ? "Pause" : "Start";
         // TODO: Fix icon swapping. FontAwesome 5 dynamic svg replacement of icons
         // does not work - icons are not set dynamically
-        const activityButtonIcon = false && (account.is_active
+        const activityButtonIcon = false && (account.isActive
             ? <i className="fa fa-pause" aria-hidden="true" />
             : <i className="fa fa-play" aria-hidden="true" />);
 
@@ -137,7 +136,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             <div className={styles.container}>
                 <div className={styles.innerContainer}>
                     <div className={styles.header}>
-                        <Username isActive={account.is_active} username={account.username} />
+                        <Username isActive={account.isActive} username={account.username} />
                         <Select
                             onSelectOption={this.onNavigate}
                             selectOptions={selectOptions}
@@ -174,7 +173,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             {
                 account: {
                     ...this.state.account,
-                    is_active: !this.state.account.is_active
+                    isActive: !this.state.account.isActive
                 },
             },
             () => {
