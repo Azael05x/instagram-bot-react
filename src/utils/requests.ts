@@ -96,14 +96,14 @@ export function registerUser(data: { email: string, password: string }) {
 }
 export function searchUsers(id: number, name: string) {
     return axios.post(
-        `${BASE_URL}${ACCOUNT_URL}/${id}/search_user`,
+        `${BASE_URL}${ACCOUNT_URL}/${id}/search/user`,
         { name },
         createConfig(),
     );
 }
 export function searchTags(id: number, name: string) {
     return axios.post(
-        `${BASE_URL}${ACCOUNT_URL}/${id}/search_tag`,
+        `${BASE_URL}${ACCOUNT_URL}/${id}/search/tag`,
         { name },
         createConfig(),
     );
