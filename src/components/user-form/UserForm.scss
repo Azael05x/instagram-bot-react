@@ -71,9 +71,3 @@
 .hidden {
     opacity: 0;
 }
-
-@media (max-width: $mqTabletWidth) {
-    .spinner {
-        top: auto;
-    }
-}

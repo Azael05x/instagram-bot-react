@@ -6,10 +6,25 @@ import { ENTER_KEY } from "../../consts";
 
 import * as styles from "./UserForm.scss";
 
+const onFormSubmitCb = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
+
 export interface UserFormState {
-    email: string;
+    value: string;
     password: string;
 }
+
+export enum InputType {
+    Email = "email",
+    Text = "text",
+    Number = "number",
+    Telephone = "tel",
+}
+const labelTextMap = {
+    [InputType.Email]: "email",
+    [InputType.Text]: "text",
+    [InputType.Number]: "number",
+    [InputType.Telephone]: "telephone",
+};
 
 export interface UserFormProps {
     onSubmit: (email: string, password: string) => void;
@@ -19,11 +34,15 @@ export interface UserFormProps {
     buttonLabel: string;
     mainInputLabel?: string;
     buttonType?: ButtonType;
+    inputType?: InputType;
 }
 
 export class UserForm extends React.PureComponent<UserFormProps, UserFormState> {
+    public static defaultProps = {
+        inputType: InputType.Email,
+    };
     public state: UserFormState = {
-        email: "",
+        value: "",
         password: "",
     };
     public render() {
@@ -32,20 +51,20 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
         }
 
         return (
-            <form className={styles.formGroupContainer} onSubmit={(e) => e.preventDefault()} noValidate={true}>
+            <form className={styles.formGroupContainer} onSubmit={onFormSubmitCb} noValidate={true}>
                 <div className={styles.formGroup}>
                     <label
-                        htmlFor="email"
-                        className={`${ this.state.email && styles.hidden} ${styles.label}`}
+                        htmlFor={this.props.inputType}
+                        className={`${ this.state.value && styles.hidden} ${styles.label}`}
                     >
-                        {this.props.mainInputLabel || "emai"}
+                        {this.props.mainInputLabel || labelTextMap[this.props.inputType]}
                     </label>
                     <input
-                        id="email"
+                        id={this.props.inputType}
                         className={styles.input}
-                        type="email"
+                        type={this.props.inputType}
                         onChange={this.onEmailChange}
-                        value={this.state.email}
+                        value={this.state.value}
                         autoComplete="nope"
                         autoCapitalize="nope"
                         autoCorrect="nope"
@@ -86,7 +105,7 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
     }
     private onEmailChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
         this.setState({
-            email: event.currentTarget.value,
+            value: event.currentTarget.value,
         });
     }
     private onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
@@ -95,11 +114,11 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
         });
     }
     private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (key.keyCode === ENTER_KEY && this.state.email && this.state.password) {
+        if (key.keyCode === ENTER_KEY && this.state.value && this.state.password) {
             this.onSubmit();
         }
     }
     private onSubmit = () => {
-        this.props.onSubmit(this.state.email, this.state.password);
+        this.props.onSubmit(this.state.value, this.state.password);
     }
 }

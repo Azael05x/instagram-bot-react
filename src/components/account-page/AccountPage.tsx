@@ -68,26 +68,27 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             match,
             openPopup,
         } = this.props;
+
         getAccountData(match.params.id)
-        .then((response: AxiosResponse<AccountData>) => {
-            this.setState({ account: response.data }, () => {
-                    if (this.state.account.hasInvalidSession) {
-                        openPopup(createReloginPopup({
-                            content: (
-                                <ReloginConnected
-                                    username={this.state.account.username}
-                                    id={this.state.account.id}
-                                />
-                            ),
-                        }));
-                    }
+            .then((response: AxiosResponse<AccountData>) => {
+                this.setState({ account: response.data }, () => {
+                        if (this.state.account.hasInvalidSession) {
+                            openPopup(createReloginPopup({
+                                content: (
+                                    <ReloginConnected
+                                        username={this.state.account.username}
+                                        id={this.state.account.id}
+                                    />
+                                ),
+                            }));
+                        }
+                    });
+                })
+                .catch(() => {
+                    this.setState({
+                        redirect: true,
+                    });
                 });
-            })
-            .catch(() => {
-                this.setState({
-                    redirect: true,
-                });
-            });
     }
     public render() {
         if (this.state.redirect) {
@@ -115,14 +116,14 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                 dataRole: ScreenDataRole.Settings,
                 label: "Settings",
             },
-            {
-                dataRole: ScreenDataRole.Statistics,
-                label: "Statistics",
-            },
-            {
-                dataRole: ScreenDataRole.ActivityReview,
-                label: "Activity Review",
-            },
+            // {
+            //     dataRole: ScreenDataRole.Statistics,
+            //     label: "Statistics",
+            // },
+            // {
+            //     dataRole: ScreenDataRole.ActivityReview,
+            //     label: "Activity Review",
+            // },
         ];
 
         let currentOption: SelectOption;

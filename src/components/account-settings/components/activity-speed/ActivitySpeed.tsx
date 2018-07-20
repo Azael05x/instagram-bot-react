@@ -17,14 +17,14 @@ const speedOptions: SelectOption[] = [
         dataRole: ActivitySpeedDataRoleType.Slow,
         label: "Slow",
     },
-    {
-        dataRole: ActivitySpeedDataRoleType.Medium,
-        label: "Medium",
-    },
-    {
-        dataRole: ActivitySpeedDataRoleType.Fast,
-        label: "Fast",
-    },
+    // {
+    //     dataRole: ActivitySpeedDataRoleType.Medium,
+    //     label: "Medium",
+    // },
+    // {
+    //     dataRole: ActivitySpeedDataRoleType.Fast,
+    //     label: "Fast",
+    // },
 ];
 
 export interface ActivitySpeedProps {
