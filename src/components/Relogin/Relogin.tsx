@@ -3,14 +3,15 @@ import { connect } from "react-redux";
 import { debounce } from "lodash";
 import { AxiosError } from "axios";
 
-import { relinkAccount } from "../../utils/requests";
-import { ENTER_KEY } from "../../consts";
-import { closePopupActionCreator } from "../../ducks/actions";
+import { relinkAccount } from "@utils/requests";
+import { closePopupActionCreator } from "@ducks/actions";
+import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
+import { StatusCode } from "@types";
+import { isEnterKey, getPressedKey } from "@utils/keyboardEvents";
+
 import { PopupButton, PopupButtonType } from "../popup/factory/PopupData";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
-import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
-import { StatusCode } from "../../types/types";
 
 import * as styles from "./Relogin.scss";
 
@@ -100,7 +101,12 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
         });
     }
     private onEnterKey = (event: KeyboardEvent) => {
-        if (event.keyCode === ENTER_KEY) {
+        const keyPressed = getPressedKey(event);
+        /**
+         * If more key presses have to be handled
+         * then create universal keyHandler or use a lib
+         */
+        if (keyPressed && isEnterKey(keyPressed)) {
             this.onSubmit();
         }
     }

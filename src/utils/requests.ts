@@ -13,7 +13,7 @@ import {
     REGISTER_URL,
     LINK,
     LOGOUT,
-} from "../consts";
+} from "@consts";
 import { createConfig } from "./config";
 import { AccountData } from "../middleware/types";
 

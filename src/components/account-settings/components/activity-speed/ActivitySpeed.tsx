@@ -1,6 +1,7 @@
 import * as React from "react";
+import { ActivitySpeedType } from "@middleware/types";
+
 import { Select, SelectOption, SelectTheme } from "../../../select/Select";
-import { ActivitySpeedType } from "../../../../middleware/types";
 
 export enum ActivitySpeedDataRoleType {
     Slow = "speed_slow",

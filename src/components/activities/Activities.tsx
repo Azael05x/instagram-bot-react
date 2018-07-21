@@ -2,7 +2,7 @@ import * as React from "react";
 import { AxiosResponse, AxiosError } from "axios";
 import { connect } from "react-redux";
 
-import { getActivities , setReviewed} from "../../utils/requests";
+import { getActivities , setReviewed} from "@utils/requests";
 import { CommentActivity, FollowActivity, LikeActivity } from "./types";
 import { ActivityItem } from "./components/Activity";
 import { EmptyList, EmptyListType } from "../empty-list/EmptyList";

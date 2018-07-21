@@ -8,18 +8,18 @@ import {
 } from "react-router-dom";
 
 import {
-    unlinkAccountMiddlewareActionCreator,
-    setAccountStatusMiddlewareActionCreator,
-} from "../../middleware/actions";
-import { getAccountData } from "../../utils/requests";
-import { AccountData } from "../../middleware/types";
+    unlinkAccountMiddlewareAction,
+    setAccountStatusMiddlewareAction,
+} from "@middleware/actions";
+import { AccountData } from "@middleware/types";
+import { getAccountData } from "@utils/requests";
+import { openPopupAction } from "@ducks/actions";
+
 import { Divider } from "../divider/Divider";
 import { AccountSettingsConnected } from "../account-settings/AccountSettings";
 import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
-
 import { ActivitiesConnected } from "../activities/Activities";
-import { openPopupActionCreator } from "../../ducks/actions";
 import { createReloginPopup } from "../popup/factory/PopupFactory";
 import { ReloginConnected } from "../Relogin/Relogin";
 
@@ -43,9 +43,9 @@ export interface AccountPageState {
 }
 
 export interface AccountPageDispatchProps {
-    onDelete: typeof unlinkAccountMiddlewareActionCreator;
-    onStatusChange: typeof setAccountStatusMiddlewareActionCreator;
-    openPopup: typeof openPopupActionCreator;
+    onDelete: typeof unlinkAccountMiddlewareAction;
+    onStatusChange: typeof setAccountStatusMiddlewareAction;
+    openPopup: typeof openPopupAction;
 }
 export type AccountPageProps =
     & AccountPageDispatchProps
@@ -213,9 +213,9 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
 }
 
 const mapDispatchToProps: AccountPageDispatchProps = {
-    onDelete: unlinkAccountMiddlewareActionCreator,
-    onStatusChange: setAccountStatusMiddlewareActionCreator,
-    openPopup: openPopupActionCreator,
+    onDelete: unlinkAccountMiddlewareAction,
+    onStatusChange: setAccountStatusMiddlewareAction,
+    openPopup: openPopupAction,
 };
 
 export const AccountPageConnected = withRouter(connect<{}, AccountPageDispatchProps>(

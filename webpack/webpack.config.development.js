@@ -5,8 +5,8 @@ const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-web
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 // * Only necessary until https://github.com/Realytics/fork-ts-checker-webpack-plugin/pull/48 has been merged and released
 // START 
@@ -121,10 +121,12 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js"]
+        extensions: [".tsx", ".ts", ".js"],
+        plugins: [
+            new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })
+        ]
     },
     devServer: {
-        open: true,
         hot: true,
         historyApiFallback: true,
         stats: "errors-only"

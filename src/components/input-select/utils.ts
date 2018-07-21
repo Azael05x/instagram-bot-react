@@ -1,7 +1,7 @@
 import {
     SearchTagItem,
     SearchUserItem,
-} from "../../types/types";
+} from "@types";
 
 export function isUserSearch(result: SearchTagItem[] | SearchUserItem[]): result is SearchUserItem[] {
     return result[0] && (<SearchUserItem>result[0]).fullName !== undefined;

@@ -2,16 +2,15 @@ import * as React from "react";
 import { AxiosResponse } from "axios";
 import { debounce } from "lodash";
 
-import { ENTER_KEY } from "../../consts";
 import { Tag } from "./components/Tag";
-import { cleanTags, cleanTextArea } from "../../utils/cleanTag";
-import { getUniqueId } from "../../utils/uniqueId";
+import { cleanTags, cleanTextArea } from "@utils/cleanTag";
+import { getUniqueId } from "@utils/uniqueId";
 import { Divider, DividerTheme } from "../divider/Divider";
 import {
     SearchTagItem,
     SearchUserItem,
     InputClickTargetEvent,
-} from "../../types/types";
+} from "@types";
 
 import {
     sortTagSearchResult,
@@ -23,6 +22,7 @@ import {
 
 import * as styles from "./InputSelect.scss";
 import { SearchDropdown } from "./components/SearchDropdown";
+import { getPressedKey, isEnterKey } from "@utils/keyboardEvents";
 
 export enum InputType {
     TextField,
@@ -226,8 +226,13 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             loading: value,
         });
     }
-    private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (key.keyCode === ENTER_KEY && this.state.value) {
+    private onEnterKey = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const keyPressed = getPressedKey(event);
+        /**
+         * If more key presses have to be handled
+         * then create universal keyHandler or use a lib
+         */
+        if (keyPressed && isEnterKey(keyPressed) && this.state.value) {
             this.onSubmit();
         }
     }

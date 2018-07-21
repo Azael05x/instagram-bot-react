@@ -8,9 +8,9 @@ import {
 import {
     parseDate,
     parseTime,
-} from "../../../utils/formatDate";
+} from "@utils/formatDate";
 import * as styles from "./Activity.css";
-import { revertAccountActivity } from "../../../utils/requests";
+import { revertAccountActivity } from "@utils/requests";
 import { AxiosResponse, AxiosError } from "axios";
 
 const placeholderImg = require("../../../assets/placeholder.png");

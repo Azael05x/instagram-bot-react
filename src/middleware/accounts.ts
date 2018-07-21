@@ -3,10 +3,10 @@ import {
     MiddlewareAPI,
 } from "redux";
 import {
-    linkAccountActionCreator,
-    unlinkAccountActionCreator,
-    initAccountActionCreator,
-    updateAccountActionCreator,
+    linkAccountAction,
+    unlinkAccountAction,
+    initAccountAction,
+    updateAccountAction,
 } from "../ducks/actions";
 import {
     ACCOUNT_INIT,
@@ -61,7 +61,7 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
             case ACCOUNT_INIT: {
                 try {
                     const response = await getInitAccountData();
-                    dispatch(initAccountActionCreator(response.data));
+                    dispatch(initAccountAction(response.data));
                 } catch (error) {
                     // TODO: Handle error with message
                     console.error("FAILED ACCOUNT INIT", error);
@@ -70,13 +70,13 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
                 break;
             }
             case ACCOUNT_LINK: {
-                dispatch(linkAccountActionCreator(action.payload));
+                dispatch(linkAccountAction(action.payload));
                 break;
             }
             case ACCOUNT_UNLINK: {
                 try {
                     await deleteAccount(action.payload);
-                    dispatch(unlinkAccountActionCreator(action.payload));
+                    dispatch(unlinkAccountAction(action.payload));
                 } catch (error) {
                         // TODO: Handle error with message
                         console.error("NO SUCH ACCOUNT", error);
@@ -132,7 +132,7 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
 
                 try {
                     await setAccountStatus(action.payload.id, data);
-                    dispatch(updateAccountActionCreator({
+                    dispatch(updateAccountAction({
                         id: action.payload.id,
                         data: action.payload.data,
                     }));

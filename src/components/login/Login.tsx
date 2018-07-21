@@ -4,14 +4,14 @@ import axios, { AxiosError } from "axios";
 import { throttle } from "lodash";
 import { RouteComponentProps, withRouter, Link } from "react-router-dom";
 
-import { LOGIN_URL } from "../../consts";
-import { loginActionCreator } from "../../ducks/actions";
+import { LOGIN_URL } from "@consts";
+import { loginActionCreator } from "@ducks/actions";
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
-import { StatusCode } from "../../types/types";
-import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
+import { StatusCode } from "@types";
+import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 
 import * as styles from "./Login.scss";
 

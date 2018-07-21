@@ -5,7 +5,7 @@ import { HeaderConnected } from "../header/Header";
 import { User } from "../user/User";
 import { LoginConnected } from "../login/Login";
 import { DashboardConnected } from "../dashboard/Dashboard";
-import { selectUser } from "../../ducks/selectors";
+import { selectUser } from "@ducks/selectors";
 import { NoMatch } from "../no-match/NoMatch";
 import { LinkAccountConnected } from "../link-account/LinkAccount";
 import { AccountPageConnected } from "../account-page/AccountPage";

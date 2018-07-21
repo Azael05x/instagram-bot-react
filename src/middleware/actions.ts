@@ -1,4 +1,3 @@
-import { Thunk } from "../types/types";
 import {
     ACCOUNT_INIT,
     ACCOUNT_LINK,
@@ -26,11 +25,6 @@ export function linkAccountMiddlewareAction(payload: AccountData): LinkAccountMi
         payload,
     };
 }
-export function linkAccountMiddlewareActionCreator(payload: AccountData): Thunk {
-    return (dispatch) => {
-        dispatch(linkAccountMiddlewareAction(payload));
-    };
-}
 
 export interface UnlinkAccountMiddlewareAction {
     type: typeof ACCOUNT_UNLINK;
@@ -40,11 +34,6 @@ export function unlinkAccountMiddlewareAction(id: number): UnlinkAccountMiddlewa
     return {
         type: ACCOUNT_UNLINK,
         payload: id,
-    };
-}
-export function unlinkAccountMiddlewareActionCreator(id: number): Thunk {
-    return (dispatch) => {
-        dispatch(unlinkAccountMiddlewareAction(id));
     };
 }
 
@@ -60,11 +49,6 @@ export function setAccountStatusMiddlewareAction(
         payload,
     };
 }
-export function setAccountStatusMiddlewareActionCreator(payload: UpdateAccountPayload<AccountData>): Thunk {
-    return (dispatch) => {
-        dispatch(setAccountStatusMiddlewareAction(payload));
-    };
-}
 
 export interface InitAccountMiddlewareAction {
     type: typeof ACCOUNT_INIT;
@@ -72,11 +56,6 @@ export interface InitAccountMiddlewareAction {
 export function initAccountMiddlewareAction(): InitAccountMiddlewareAction {
     return {
         type: ACCOUNT_INIT,
-    };
-}
-export function initAccountMiddlewareActionCreator(): Thunk {
-    return (dispatch) => {
-        dispatch(initAccountMiddlewareAction());
     };
 }
 
@@ -92,11 +71,6 @@ export function updateAccountActivitiesMiddlewareAction(
         payload,
     };
 }
-export function updateAccountActivitiesActionMiddlewareCreator(payload: UpdateAccountPayload<Activities>): Thunk {
-    return dispatch => {
-        dispatch(updateAccountActivitiesMiddlewareAction(payload));
-    };
-}
 
 export interface UpdateAccountGeneralMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_GENERAL;
@@ -110,11 +84,6 @@ export function updateAccountGeneralMiddlewareAction(
         payload,
     };
 }
-export function updateAccountGeneralMiddlewareActionCreator(payload: UpdateAccountPayload<General>): Thunk {
-    return dispatch => {
-        dispatch(updateAccountGeneralMiddlewareAction(payload));
-    };
-}
 
 export interface UpdateAccountCommentsMiddlewareAction {
     type: typeof ACCOUNT_UPDATE_COMMENTS;
@@ -126,10 +95,5 @@ export function updateAccountCommentsMiddlewareAction(
     return {
         type: ACCOUNT_UPDATE_COMMENTS,
         payload,
-    };
-}
-export function updateAccountCommentsMiddlewareActionCreator(payload: UpdateAccountPayload<Comments>): Thunk {
-    return dispatch => {
-        dispatch(updateAccountCommentsMiddlewareAction(payload));
     };
 }

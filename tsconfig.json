@@ -31,6 +31,15 @@
     "noUnusedLocals": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
-    "suppressImplicitAnyIndexErrors": true
+    "suppressImplicitAnyIndexErrors": true,
+    "baseUrl": ".",
+    "paths": {
+      "@utils/*": ["src/utils/*"],
+      "@ducks/*": ["src/ducks/*"],
+      "@texts": ["src/texts/texts"],
+      "@types": ["src/types"],
+      "@consts": ["src/consts/consts.ts"],
+      "@middleware/*": ["src/middleware/*"]
+    }
   }
 }

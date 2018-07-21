@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { throttle } from "lodash";
 
 import { ButtonType } from "../../button/Button";
-import { registerUser } from "../../../utils/requests";
+import { registerUser } from "@utils/requests";
 import { showToastAction } from "../../toast/ducks/actions";
 import { ToastType } from "../../toast/ducks/state";
 import { UserForm } from "../../user-form/UserForm";

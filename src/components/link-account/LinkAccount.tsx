@@ -3,13 +3,14 @@ import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { debounce } from "lodash";
 
-import { postAccount } from "../../utils/requests";
-import { linkAccountActionCreator } from "../../ducks/actions";
+import { postAccount } from "@utils/requests";
+import { linkAccountAction } from "@ducks/actions";
+import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
+
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
-import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
 
 import * as styles from "./LinkAccount.scss";
 
@@ -21,7 +22,7 @@ export interface LinkAccountState {
 }
 
 export interface LinkAccountDispatchProps {
-    addAccount: typeof linkAccountActionCreator;
+    addAccount: typeof linkAccountAction;
     showToast: typeof showToastAction;
 }
 export type LinkAccountProps = LinkAccountDispatchProps & RouteComponentProps<{}>;
@@ -89,7 +90,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
 }
 
 const mapDispatchToProps: LinkAccountDispatchProps = {
-    addAccount: linkAccountActionCreator,
+    addAccount: linkAccountAction,
     showToast: showToastAction,
 };
 
