@@ -2,7 +2,6 @@ import {
     Middleware,
     MiddlewareAPI,
 } from "redux";
-import { AxiosResponse } from "axios";
 import {
     linkAccountActionCreator,
     unlinkAccountActionCreator,
@@ -29,7 +28,6 @@ import {
     SetAccountStatusMiddlewareAction,
 } from "./actions";
 import {
-    AccountData,
     Activities,
     General,
     Comments,
@@ -57,18 +55,18 @@ export type AccountMiddlewareAction =
 ;
 
 export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
-    return (action: AccountMiddlewareAction) => {
+    return async (action: AccountMiddlewareAction) => {
 
         switch (action.type) {
             case ACCOUNT_INIT: {
-                getInitAccountData()
-                    .then((response: AxiosResponse<AccountData[]>) => {
-                        dispatch(initAccountActionCreator(response.data as any));
-                    })
-                    .catch(error => {
-                        // TODO: Handle error with message
-                        console.error("NO SUCH get", error);
-                    });
+                try {
+                    const response = await getInitAccountData();
+                    dispatch(initAccountActionCreator(response.data));
+                } catch (error) {
+                    // TODO: Handle error with message
+                    console.error("FAILED ACCOUNT INIT", error);
+                }
+
                 break;
             }
             case ACCOUNT_LINK: {
@@ -76,14 +74,14 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
                 break;
             }
             case ACCOUNT_UNLINK: {
-                deleteAccount(action.payload)
-                    .then(() => {
-                        dispatch(unlinkAccountActionCreator(action.payload));
-                    })
-                    .catch(error => {
+                try {
+                    await deleteAccount(action.payload);
+                    dispatch(unlinkAccountActionCreator(action.payload));
+                } catch (error) {
                         // TODO: Handle error with message
                         console.error("NO SUCH ACCOUNT", error);
-                    });
+                }
+
                 break;
             }
             case ACCOUNT_UPDATE_ACTIVITIES: {
@@ -91,10 +89,11 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
                     settings: action.payload.data,
                 };
 
-                updateActivities(action.payload.id, data)
-                    .catch(error => {
-                        console.error("UPDATE FAILED", error);
-                    });
+                try {
+                    await updateActivities(action.payload.id, data);
+                } catch (error) {
+                    console.error("UPDATE FAILED", error);
+                }
 
                 break;
             }
@@ -103,10 +102,11 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
                     settings: action.payload.data,
                 };
 
-                updateGeneral(action.payload.id, data)
-                    .catch(error => {
-                        console.error("UPDATE FAILED", error);
-                    });
+                try {
+                    await updateGeneral(action.payload.id, data);
+                } catch (error) {
+                    console.error("UPDATE FAILED", error);
+                }
 
                 break;
             }
@@ -115,30 +115,30 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
                     settings: action.payload.data,
                 };
 
-                updateComments(action.payload.id, data)
-                    .catch(error => {
-                        console.error("UPDATE FAILED", error);
-                    });
+                try {
+                    await updateComments(action.payload.id, data);
+                } catch (error) {
+                    console.error("UPDATE FAILED", error);
+                }
 
                 break;
             }
             case ACCOUNT_SET_STATUS: {
-                const data: { instagram: { isActive: boolean; } } = {
+                const data = {
                     instagram: {
                         isActive: action.payload.data.isActive,
                     },
                 };
 
-                setAccountStatus(action.payload.id, data)
-                    .then(() => {
-                        dispatch(updateAccountActionCreator({
-                            id: action.payload.id,
-                            data: action.payload.data,
-                        }));
-                    })
-                    .catch(error => {
-                        console.error("UPDATE FAILED", error);
-                    });
+                try {
+                    await setAccountStatus(action.payload.id, data);
+                    dispatch(updateAccountActionCreator({
+                        id: action.payload.id,
+                        data: action.payload.data,
+                    }));
+                } catch (error) {
+                    console.error("UPDATE FAILED", error);
+                }
 
                 break;
             }
