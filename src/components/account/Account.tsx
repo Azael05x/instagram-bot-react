@@ -50,6 +50,11 @@ export class AccountItem extends React.PureComponent<AccountItemProps, {}> {
         });
     }
     private setIcon = (isActive: boolean) => {
+        /**
+         * Such stupid approach of hiding wrapper divs instead of the icon
+         * is because font awesome svgs load once. Afterwards you can't
+         * unmount/mount with a simple condition
+         */
         return <>
             <div style={{ display: `${isActive ? "block" : "none"}`}}>
                 <i className={`fas fa-check ${styles.active} ${styles.icon}`} />

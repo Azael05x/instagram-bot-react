@@ -130,10 +130,10 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
                 };
 
                 setAccountStatus(action.payload.id, data)
-                    .then((response: AxiosResponse<AccountData>) => {
+                    .then(() => {
                         dispatch(updateAccountActionCreator({
                             id: action.payload.id,
-                            data: response.data,
+                            data: action.payload.data,
                         }));
                     })
                     .catch(error => {
