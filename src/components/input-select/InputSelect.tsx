@@ -12,7 +12,7 @@ import {
     SearchUserItem,
     InputClickTargetEvent,
 } from "../../types/types";
-import { SearchEntry } from "./components/SearchEntry";
+
 import {
     sortTagSearchResult,
     sortUserSearchResult,
@@ -22,6 +22,7 @@ import {
 } from "./utils";
 
 import * as styles from "./InputSelect.scss";
+import { SearchDropdown } from "./components/SearchDropdown";
 
 export enum InputType {
     TextField,
@@ -110,6 +111,8 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             value,
             tags,
             loading,
+            searchResults,
+            isDropdownOpen,
         } = this.state;
 
         const inputComponent = this.isSingleLine
@@ -122,7 +125,13 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                     onKeyUp={this.onEnterKey}
                     data-id={this.dropdownId}
                 />
-                {this.renderDropdown()}
+                <SearchDropdown
+                    isLoading={loading}
+                    dropDownId={this.dropdownId}
+                    onSearchClick={this.onSearchClick}
+                    searchResults={searchResults}
+                    isDropdownOpen={isDropdownOpen}
+                />
             </>
             : (
                 <textarea
@@ -281,52 +290,6 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         }, () => {
             this.props.onSubmit(updatedTags);
         });
-    }
-    private renderDropdown = () => {
-        const {
-            searchResults,
-            loading,
-            isDropdownOpen,
-        } = this.state;
-        let searchResultComponents: JSX.Element[];
-
-        /**
-         * Render search dropdown with
-         * all the rows rendered
-         */
-        if (isUserSearch(searchResults)) {
-            searchResultComponents = searchResults
-                .map((result, i) => (
-                    <SearchEntry
-                        key={i}
-                        name={result.username}
-                        mediaCount={result.followerCount}
-                        onClick={this.onSearchClick}
-                    />
-                ));
-        } else {
-            searchResultComponents = searchResults
-                .map((result, i) => (
-                    <SearchEntry
-                        key={i}
-                        name={result.name}
-                        mediaCount={result.mediaCount}
-                        onClick={this.onSearchClick}
-                    />
-                ));
-        }
-
-        return (
-            <div
-                className={`
-                    ${styles.searchDropdown}
-                    ${isDropdownOpen && !loading && styles.active}
-                `}
-                data-id={this.dropdownId}
-            >
-                {searchResultComponents}
-            </div>
-       );
     }
     private onSearchClick = (value: string) => {
         /*

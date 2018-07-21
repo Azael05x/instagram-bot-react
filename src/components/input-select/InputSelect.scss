@@ -61,20 +61,6 @@
     position: relative;
     transform: translateX(-50%);
 }
-.searchDropdown {
-    position: absolute;
-    top: 100%;
-    width: 60%;
-    background-color: #fff;
-    z-index: 9999;
-    box-shadow: $dropShadowDarker;
-    transform: scale(0);
-    transition: .5s;
-    transform-origin: top left;
-    &.active {
-        transform: scale(1);
-    }
-}
 
 .spinner {
     opacity: 0;
