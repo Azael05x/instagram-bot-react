@@ -8,7 +8,6 @@ import { cleanTags, cleanTextArea } from "../../utils/cleanTag";
 import { getUniqueId } from "../../utils/uniqueId";
 import { Divider, DividerTheme } from "../divider/Divider";
 import {
-    SearchBody,
     SearchTagItem,
     SearchUserItem,
     InputClickTargetEvent,
@@ -39,7 +38,7 @@ export interface InputSelectProps {
     placeholder: string;
     bodyPlaceholder: string;
     onSubmit: (value: string[]) => void;
-    onChange?: (value: string) => Promise<AxiosResponse<SearchBody<SearchTagItem, SearchUserItem>>>;
+    onChange?: (value: string) => Promise<AxiosResponse<SearchTagItem[] | SearchUserItem[]>>;
     icon?: JSX.Element;
     tags?: string[]; // Tags that could already be associated with the account
     type?: InputType;
@@ -52,20 +51,18 @@ export interface InputSelectProps {
 const searchThrottleTimeout = 300;
 const throttledSearchCb = debounce(async (
     value: string,
-    onChange: (value: string) => Promise<AxiosResponse<SearchBody<SearchTagItem, SearchUserItem>>>,
+    onChange: (value: string) => Promise<AxiosResponse<SearchTagItem[] | SearchUserItem[]>>,
     setSearchResults: (result: SearchUserItem[] | SearchTagItem[]) => void,
-    loadingCb?: () => void,
 ) => {
-    const { data: { body: { result }} } = await onChange(value);
+    const { data } = await onChange(value);
 
     /**
      * If the API fails the result can be undefined
      * FIXME:
-     * @var result shows as not possibly being undefined, but it can
+     * @var data shows as not possibly being undefined, but it can
      */
-    if (result) {
-        loadingCb && loadingCb();
-        setSearchResults(result);
+    if (data) {
+        setSearchResults(data);
     }
 }, searchThrottleTimeout, { trailing: true, leading: true});
 
@@ -91,7 +88,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
     public componentDidMount() {
         /*
             Event listener for managing closing dropdown
-            when clicking outside the adjacent input fieldor the dropdown itself
+            when clicking outside the adjacent input field or the dropdown itself
         */
         if (this.isSingleLine) {
             window.addEventListener("click", this.dropdownCloseMouseEventCb);
@@ -116,7 +113,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         } = this.state;
 
         const inputComponent = this.isSingleLine
-            ? (
+            ? <>
                 <input
                     value={value}
                     onChange={this.onInput}
@@ -125,7 +122,8 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                     onKeyUp={this.onEnterKey}
                     data-id={this.dropdownId}
                 />
-            )
+                {this.renderDropdown()}
+            </>
             : (
                 <textarea
                     cols={40}
@@ -146,21 +144,23 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 {icon}
             </div>
         );
+        const loadingSpinnerIcon = (
+            <div className={`${styles.spinner} ${loading && styles.active}`}>
+                <i className="fas fa-spinner" />
+            </div>
+        );
 
         return (
             <div className={styles.container}>
                 <div className={styles.inputWrapper}>
                     {iconComponent}
                     {inputComponent}
-                    <div className={`${styles.spinner} ${loading && styles.active}`}>
-                        <i className="fas fa-spinner" />
-                    </div>
-                    {this.isSingleLine && this.renderDropdown()}
+                    {loadingSpinnerIcon}
                 </div>
                 <Divider theme={DividerTheme.Small} />
                 <div className={styles.tagField}>
                     {tags.length
-                        ? this.rendertags()
+                        ? this.renderTags()
                         : <div className={styles.bodyPlaceholder}>{bodyPlaceholder}</div>
                     }
                 </div>
@@ -182,17 +182,19 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 !this.state.isDropdownOpen && this.setState({
                     isDropdownOpen: true,
                 });
+
+                !this.state.loading && this.setLoading(true);
                 throttledSearchCb(
                     value,
                     this.props.onChange,
                     this.setSearchResults,
-                    !this.state.loading ? () => this.setLoading(true) : undefined,
                 );
             }
         }
     }
     private setSearchResults = (result: SearchUserItem[] | SearchTagItem[]) => {
         let searchResults: SearchTagItem[] | SearchUserItem[];
+
         if (isUserSearch(result)) {
             searchResults = checkDuplicateUsersResult(
                 this.state.tags,
@@ -221,6 +223,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         }
     }
     private cleanTags = (value: string) => {
+        // Clean raw tags input by user from unwanted characters
         return this.isSingleLine ? cleanTags(value) : cleanTextArea(value);
     }
     private onSubmit = () => {
@@ -267,7 +270,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             });
         };
     }
-    private rendertags = () => {
+    private renderTags = () => {
         return this.state.tags
             .map((tag: string, i: number) => <Tag key={i} value={tag} onRemove={this.onRemoveTag(i)} />);
     }
@@ -287,6 +290,10 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         } = this.state;
         let searchResultComponents: JSX.Element[];
 
+        /**
+         * Render search dropdown with
+         * all the rows rendered
+         */
         if (isUserSearch(searchResults)) {
             searchResultComponents = searchResults
                 .map((result, i) => (

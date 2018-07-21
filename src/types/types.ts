@@ -109,10 +109,8 @@ export enum StatusCode {
 }
 
 export interface SearchBody<P1, P2> {
-    body: {
-        result: P1[] | P2[] | undefined;
-        status: StatusCode;
-    };
+    data: P1[] | P2[] | undefined;
+    status: StatusCode;
 }
 
 export interface InputClickTargetEvent extends Event {
