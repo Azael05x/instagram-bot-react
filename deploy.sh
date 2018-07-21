@@ -10,6 +10,9 @@ else
   cert="~/.ssh/bot.pem"
 fi
 
+# Install latest packages
+yarn
+
 # Build the project for STAGING
 yarn build
 
@@ -18,10 +21,10 @@ nginx_conf="./deploy/react.conf"
 dist="./dist"
 
 # Define remote server
-host="34.228.21.6"
+host="18.211.182.200"
 user="ubuntu"
 
-path="/var/www/react"
+path="/home/ubuntu/react"
 nginx_path="/etc/nginx/sites-available"
 remote="ssh -i $cert $user@$host"
 
