@@ -1,6 +1,6 @@
 // tslint:disable:max-line-length
 
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import {
     BASE_URL,
     ACCOUNT_URL,
@@ -13,19 +13,20 @@ import {
     REGISTER_URL,
     LINK,
     LOGOUT,
-} from "../consts";
+} from "@consts";
 import { createConfig } from "./config";
+import { AccountData } from "../middleware/types";
 
-export function getInitAccountData() {
+export function getInitAccountData(): Promise<AxiosResponse<AccountData[]>> {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}`, createConfig());
 }
-export function getAccountData(id: number) {
+export function getAccountData(id: number): Promise<AxiosResponse<AccountData>> {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}`, createConfig());
 }
-export function postAccount(data: any) {
+export function postAccount(data: { username: string; password: string; }): Promise<AxiosResponse<AccountData>> {
     return axios.post(`${BASE_URL}${ACCOUNT_URL}`, data, createConfig());
 }
-export function deleteAccount(id: number) {
+export function deleteAccount(id: number): Promise<AxiosResponse<void>> {
     return axios.delete(`${BASE_URL}${ACCOUNT_URL}/${id}`, createConfig());
 }
 export function updateActivities(id: number, data: any) {

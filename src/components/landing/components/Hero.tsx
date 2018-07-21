@@ -4,7 +4,7 @@ import { Redirect } from "react-router-dom";
 
 import { Divider } from "../../divider/Divider";
 import { Button, ButtonType } from "../../button/Button";
-import { selectUser } from "../../../ducks/selectors";
+import { selectUser } from "@ducks/selectors";
 
 import * as styles from "../Landing.scss";
 

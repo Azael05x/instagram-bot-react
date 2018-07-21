@@ -1,17 +1,16 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { AxiosResponse, AxiosError } from "axios";
 import { debounce } from "lodash";
 
-import { postAccount } from "../../utils/requests";
-import { AccountData } from "../../middleware/types";
-import { linkAccountActionCreator } from "../../ducks/actions";
+import { postAccount } from "@utils/requests";
+import { linkAccountAction } from "@ducks/actions";
+import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
+
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
-import { getStatusCodeMessage } from "../../utils/getStatusCodeMessage";
 
 import * as styles from "./LinkAccount.scss";
 
@@ -23,7 +22,7 @@ export interface LinkAccountState {
 }
 
 export interface LinkAccountDispatchProps {
-    addAccount: typeof linkAccountActionCreator;
+    addAccount: typeof linkAccountAction;
     showToast: typeof showToastAction;
 }
 export type LinkAccountProps = LinkAccountDispatchProps & RouteComponentProps<{}>;
@@ -62,39 +61,36 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             </div>
         );
     }
-    private onSubmit = debounce((username: string, password: string) => {
+    private onSubmit = debounce(async (username: string, password: string) => {
         if (!username && !password) {
             return;
         }
 
         this.setState({ loading: true });
-        const data = { username, password };
-
-        postAccount(data)
-            .then((response: AxiosResponse<AccountData>) => {
-                this.setState({
-                    loading: false,
-                    redirect: true,
-                }, () => {
-                    this.props.addAccount(response.data);
-                    this.props.showToast(
-                        `Successfully linked ${username}'s account`,
-                        ToastType.Success,
-                    );
-                });
-            })
-            .catch((error: AxiosError) => {
-                this.setState({ loading: false });
+        try {
+            const { data } = await postAccount({ username, password });
+            this.setState({
+                loading: false,
+                redirect: true,
+            }, () => {
+                this.props.addAccount(data);
                 this.props.showToast(
-                    getStatusCodeMessage(error.response.status),
-                    ToastType.Error,
+                    `Successfully linked ${username}'s account`,
+                    ToastType.Success,
                 );
             });
+        } catch (error) {
+            this.setState({ loading: false });
+            this.props.showToast(
+                getStatusCodeMessage(error.response.status),
+                ToastType.Error,
+            );
+        }
     }, 1000, { leading: true, trailing: false });
 }
 
 const mapDispatchToProps: LinkAccountDispatchProps = {
-    addAccount: linkAccountActionCreator,
+    addAccount: linkAccountAction,
     showToast: showToastAction,
 };
 

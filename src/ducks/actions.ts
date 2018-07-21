@@ -8,7 +8,7 @@ import {
     OPEN_POPUP,
     CLOSE_POPUP,
 } from "./consts";
-import { initAccountMiddlewareActionCreator } from "../middleware/actions";
+import { initAccountMiddlewareAction } from "../middleware/actions";
 import { AccountData } from "../middleware/types";
 import { UpdateAccountPayload } from "../types/updateAccountTypes";
 
@@ -24,11 +24,6 @@ export function initAccountAction(payload: AccountData[]): InitAccountAction {
     return {
         type: ACCOUNT_INIT,
         payload,
-    };
-}
-export function initAccountActionCreator(payload: AccountData[]): Thunk {
-    return dispatch => {
-        dispatch(initAccountAction(payload));
     };
 }
 
@@ -49,7 +44,7 @@ export function loginAction(payload: UserLoginPayload): LoginAction {
 export function loginActionCreator(payload: UserLoginPayload): Thunk {
     return dispatch => {
         dispatch(loginAction(payload));
-        dispatch(initAccountMiddlewareActionCreator());
+        dispatch(initAccountMiddlewareAction());
     };
 }
 
@@ -63,11 +58,6 @@ export function linkAccountAction(payload: AccountData): LinkAccountAction {
         payload,
     };
 }
-export function linkAccountActionCreator(payload: AccountData): Thunk {
-    return dispatch => {
-        dispatch(linkAccountAction(payload));
-    };
-}
 
 export interface UnlinkAccountAction {
     type: typeof ACCOUNT_UNLINK;
@@ -79,25 +69,15 @@ export function unlinkAccountAction(payload: number): UnlinkAccountAction {
         payload,
     };
 }
-export function unlinkAccountActionCreator(payload: number): Thunk {
-    return dispatch => {
-        dispatch(unlinkAccountAction(payload));
-    };
-}
 
 export interface UpdateAccountAction {
     type: typeof ACCOUNT_UPDATE;
     payload: UpdateAccountPayload<AccountData>;
 }
-export function updateAccountActionCreator(payload: UpdateAccountPayload<AccountData>): UpdateAccountAction {
+export function updateAccountAction(payload: UpdateAccountPayload<AccountData>): UpdateAccountAction {
     return {
         type: ACCOUNT_UPDATE,
         payload,
-    };
-}
-export function updateAccountActionCreatorCreator(payload: UpdateAccountPayload<AccountData>): Thunk {
-    return dispatch => {
-        dispatch(updateAccountActionCreator(payload));
     };
 }
 
@@ -110,11 +90,6 @@ export function openPopupAction(payload: any): OpenPopupAction {
     return {
         type: OPEN_POPUP,
         payload,
-    };
-}
-export function openPopupActionCreator(payload: any): Thunk {
-    return dispatch => {
-        dispatch(openPopupAction(payload));
     };
 }
 

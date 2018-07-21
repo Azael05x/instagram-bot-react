@@ -1,7 +1,7 @@
 import * as React from "react";
 import { isUserSearch } from "../utils";
 import { SearchEntry } from "./SearchEntry";
-import { SearchTagItem, SearchUserItem } from "../../../types/types";
+import { SearchTagItem, SearchUserItem } from "@types";
 
 import * as styles from "./SearchDropdown.scss";
 

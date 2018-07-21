@@ -1,7 +1,9 @@
 import * as React from "react";
+import { Activities } from "@middleware/types";
+
 import { Switch } from "../../../switch/Switch";
-import { Activities } from "../../../../middleware/types";
-import * as styles from "./General.css";
+
+import * as styles from "./General.scss";
 
 export interface GeneralProps {
     values: Activities;

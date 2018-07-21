@@ -2,16 +2,12 @@ import * as React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { AccountData, ActivitySpeedType } from "../../middleware/types";
-import { Divider, DividerTheme } from "../divider/Divider";
-import { ActivitySpeed } from "./components/activity-speed/ActivitySpeed";
-import { General } from "./components/general/General";
-import { InputSelect, InputType } from "../input-select/InputSelect";
+import { AccountData, ActivitySpeedType } from "@middleware/types";
 import {
-    updateAccountActivitiesActionMiddlewareCreator,
-    updateAccountGeneralMiddlewareActionCreator,
-    updateAccountCommentsMiddlewareActionCreator,
-} from "../../middleware/actions";
+    updateAccountActivitiesMiddlewareAction,
+    updateAccountGeneralMiddlewareAction,
+    updateAccountCommentsMiddlewareAction,
+} from "@middleware/actions";
 import {
     hashtagsPlaceholder,
     hashtagsBodyPlaceholder,
@@ -25,18 +21,23 @@ import {
     videoCommentsPlaceholder,
     imageCommentsBodyPlaceholder,
     imageCommentsPlaceholder,
-} from "../../texts/texts";
-import { searchTags, searchUsers } from "../../utils/requests";
+} from "@texts";
+import { searchTags, searchUsers } from "@utils/requests";
 
-import * as styles from "./AccountSettings.css";
+import { Divider, DividerTheme } from "../divider/Divider";
+import { ActivitySpeed } from "./components/activity-speed/ActivitySpeed";
+import { General } from "./components/general/General";
+import { InputSelect, InputType } from "../input-select/InputSelect";
+
+import * as styles from "./AccountSettings.scss";
 
 export interface AccountSettingsOwnProps {
     account: AccountData;
 }
 export interface AccountSettingsDispatchProps {
-    updateAccountActivities: typeof updateAccountActivitiesActionMiddlewareCreator;
-    updateAccountGeneral: typeof updateAccountGeneralMiddlewareActionCreator;
-    updateAccountComments: typeof updateAccountCommentsMiddlewareActionCreator;
+    updateAccountActivities: typeof updateAccountActivitiesMiddlewareAction;
+    updateAccountGeneral: typeof updateAccountGeneralMiddlewareAction;
+    updateAccountComments: typeof updateAccountCommentsMiddlewareAction;
 }
 
 export type AccountSettingsProps =
@@ -235,9 +236,9 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
 }
 
 const mapDispatchToProps: AccountSettingsDispatchProps = {
-    updateAccountActivities: updateAccountActivitiesActionMiddlewareCreator,
-    updateAccountGeneral: updateAccountGeneralMiddlewareActionCreator,
-    updateAccountComments: updateAccountCommentsMiddlewareActionCreator,
+    updateAccountActivities: updateAccountActivitiesMiddlewareAction,
+    updateAccountGeneral: updateAccountGeneralMiddlewareAction,
+    updateAccountComments: updateAccountCommentsMiddlewareAction,
 };
 
 export const AccountSettingsConnected = withRouter(connect<{}, AccountSettingsDispatchProps>(

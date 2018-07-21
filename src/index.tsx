@@ -5,13 +5,13 @@ import { HashRouter } from "react-router-dom";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
 
-import { reducer as commonReducer } from "../src/ducks/common";
-import { selectUser } from "../src/ducks/selectors";
+import { reducer as commonReducer } from "@ducks/common";
+import { selectUser } from "@ducks/selectors";
 import { MainConnected } from "./components/main/Main";
 import { toastReducer } from "./components/toast/ducks/reducer";
-import { accountMiddleware } from "./middleware/accounts";
-import { initAccountMiddlewareActionCreator } from "./middleware/actions";
-import { InstaState } from "./types/rootState";
+import { accountMiddleware } from "@middleware/accounts";
+import { initAccountMiddlewareAction } from "@middleware/actions";
+import { InstaState } from "@types";
 
 const reducers = combineReducers<InstaState>({
     common: commonReducer,
@@ -29,7 +29,7 @@ const store: Store<InstaState> = createStore(
 
 // Get UserAccount listings
 if (selectUser(store.getState()).email) {
-    store.dispatch(initAccountMiddlewareActionCreator());
+    store.dispatch(initAccountMiddlewareAction());
 }
 
 ReactDOM.render(

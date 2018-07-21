@@ -11,7 +11,7 @@ import { Divider, DividerTheme } from "../divider/Divider";
 import { SignUpConnected } from "./components/SignUp";
 import { HeroConnected } from "./components/Hero";
 import { WhatWeDoDont } from "./components/WhatWeDoDont";
-import { selectUser } from "../../ducks/selectors";
+import { selectUser } from "@ducks/selectors";
 
 export interface LandingStateProps {
     hasUser: boolean;

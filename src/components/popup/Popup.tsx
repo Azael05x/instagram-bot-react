@@ -1,9 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 
-import { selectPopup } from "../../ducks/selectors";
+import { selectPopup } from "@ducks/selectors";
+
 import { PopupData, PopupButton } from "./factory/PopupData";
 import { Divider, DividerTheme } from "../divider/Divider";
+
 import * as styles from "./Popup.scss";
 
 export interface PopupStateProps {

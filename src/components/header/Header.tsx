@@ -1,11 +1,11 @@
 import * as React from "react";
 import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
-import { selectUser } from "../../ducks/selectors";
-import { User } from "../../ducks/state";
+import { selectUser } from "@ducks/selectors";
+import { User } from "@ducks/state";
 import { CaretIcon } from "../icons/Caret";
-import { MOBILE_WIDTH } from "../../consts";
-import { logout } from "../../utils/requests";
+import { MOBILE_WIDTH } from "@consts";
+import { logout } from "@utils/requests";
 
 import * as styles from "./Header.scss";
 

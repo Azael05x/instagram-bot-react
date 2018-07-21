@@ -2,7 +2,7 @@ import * as React from "react";
 import { Redirect } from "react-router-dom";
 
 import { Button, ButtonType } from "../button/Button";
-import { ENTER_KEY } from "../../consts";
+import { getPressedKey, isEnterKey } from "@utils/keyboardEvents";
 
 import * as styles from "./UserForm.scss";
 
@@ -113,8 +113,13 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
             password: event.currentTarget.value,
         });
     }
-    private onEnterKey = (key: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if (key.keyCode === ENTER_KEY && this.state.value && this.state.password) {
+    private onEnterKey = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+         const keyPressed = getPressedKey(event);
+        /**
+         * If more key presses have to be handled
+         * then create universal keyHandler or use a lib
+         */
+        if (keyPressed && isEnterKey(keyPressed) && this.state.value && this.state.password) {
             this.onSubmit();
         }
     }

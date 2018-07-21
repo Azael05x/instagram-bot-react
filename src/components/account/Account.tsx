@@ -1,7 +1,8 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import { AccountData } from "@middleware/types";
+
 import * as styles from "./Account.scss";
-import { AccountData } from "../../middleware/types";
 
 export interface AccountItemState {
     redirect: boolean;

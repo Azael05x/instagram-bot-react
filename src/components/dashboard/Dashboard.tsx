@@ -1,13 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router";
+
 import { DashboardHeader } from "./components/dashboard-header/DashboardHeader";
 import { Divider } from "../divider/Divider";
 import { EmptyList } from "../empty-list/EmptyList";
 import { AccountItem } from "../account/Account";
-import { selectAccounts } from "../../ducks/selectors";
-import { setAccountStatusMiddlewareActionCreator } from "../../middleware/actions";
-import { AccountData } from "../../middleware/types";
+import { selectAccounts } from "@ducks/selectors";
+import { setAccountStatusMiddlewareAction } from "@middleware/actions";
+import { AccountData } from "@middleware/types";
 
 import * as styles from "./Dashboard.scss";
 
@@ -15,7 +16,7 @@ export interface DashboardStateProps {
     accounts: AccountData[];
 }
 export interface DashboardDispatchProps {
-    onStatusChange: typeof setAccountStatusMiddlewareActionCreator;
+    onStatusChange: typeof setAccountStatusMiddlewareAction;
 }
 
 export type DashboardProps = DashboardStateProps & DashboardDispatchProps & RouteComponentProps<{}>;
@@ -52,7 +53,7 @@ const mapStateToProps = (state: any): DashboardStateProps=> ({
     accounts: selectAccounts(state),
 });
 const mapDispatchToProps = {
-    onStatusChange: setAccountStatusMiddlewareActionCreator,
+    onStatusChange: setAccountStatusMiddlewareAction,
 };
 
 export const DashboardConnected = withRouter(connect<DashboardStateProps, {}>(
