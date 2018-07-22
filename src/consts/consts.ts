@@ -4,9 +4,16 @@ enum Environment {
     Staging = "staging",
 }
 
-export const BASE_URL = process.env.NODE_ENV === Environment.Staging
-    ? "https://staging-api.gekotta.com"
-    : "http://localhost:8081";
+let baseUrl;
+if (process.env.NODE_ENV === Environment.Development) {
+    baseUrl = "http://localhost:8081";
+} else if (process.env.NODE_ENV === Environment.Staging) {
+    baseUrl = "https://staging-api.gekotta.com";
+} else if (process.env.NODE_ENV === Environment.Production) {
+    baseUrl = "https://api.gekotta.com";
+}
+
+export const BASE_URL = baseUrl;
 
 export const AUTH_BASE = "/auth/login";
 export const REGISTER_BASE = "/auth/register";
