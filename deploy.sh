@@ -35,6 +35,6 @@ eval $remote "rm -rf $path/*"
 rsync -avz $dist/* -e "ssh -i $cert" $user@$host:$path
 
 # Copy nginx
-rsync -avz $nginx_conf -e "ssh -i $cert" $user@$host:$nginx_path
-eval $remote "ln -fs /etc/nginx/sites-available/react.conf /etc/nginx/sites-enabled/react"
+rsync --rsync-path="sudo rsync" -avz $nginx_conf -e "ssh -i $cert" $user@$host:$nginx_path
+eval $remote "sudo ln -fs /etc/nginx/sites-available/react.conf /etc/nginx/sites-enabled/react"
 eval $remote "sudo systemctl reload nginx"

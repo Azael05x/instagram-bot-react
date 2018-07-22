@@ -172,7 +172,6 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             this.onCloseMenu();
             window.location.href = "/";
         } catch (error) {
-            console.error("SUKA");
         }
 
         // Redirect to home page
