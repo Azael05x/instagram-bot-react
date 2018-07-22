@@ -13,9 +13,11 @@ import {
     REGISTER_URL,
     LINK,
     LOGOUT,
+    LOGIN_URL,
 } from "@consts";
 import { createConfig } from "./config";
-import { AccountData } from "../middleware/types";
+import { AccountData } from "@middleware/types";
+import { SearchTagItem, SearchUserItem, BasicCredentials } from "@types";
 
 export function getInitAccountData(): Promise<AxiosResponse<AccountData[]>> {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}`, createConfig());
@@ -89,20 +91,20 @@ export function revertAccountActivity(id: number, data: any) {
     return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_REVERT}`, data, createConfig());
 }
 
-export function relinkAccount(id: number, data: { password: string }) {
+export function relinkAccount(id: number, data: { password: string }): Promise<AxiosResponse<void>> {
     return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}${LINK}`, data, createConfig());
 }
-export function registerUser(data: { email: string, password: string }) {
+export function registerUser(data: BasicCredentials) {
     return axios.post(REGISTER_URL, data, createConfig());
 }
-export function searchUsers(id: number, name: string) {
+export function searchUsers(id: number, name: string): Promise<AxiosResponse<SearchUserItem[]>> {
     return axios.post(
         `${BASE_URL}${ACCOUNT_URL}/${id}/search/user`,
         { name },
         createConfig(),
     );
 }
-export function searchTags(id: number, name: string) {
+export function searchTags(id: number, name: string): Promise<AxiosResponse<SearchTagItem[]>> {
     return axios.post(
         `${BASE_URL}${ACCOUNT_URL}/${id}/search/tag`,
         { name },
@@ -110,9 +112,17 @@ export function searchTags(id: number, name: string) {
     );
 }
 
-export async function logout() {
+export function logout() {
     return axios.delete(
         `${BASE_URL}${LOGOUT}`,
+        createConfig()
+    );
+}
+
+export function login(data: BasicCredentials) {
+    return axios.post(
+        LOGIN_URL,
+        data,
         createConfig()
     );
 }

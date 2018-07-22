@@ -1,19 +1,25 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import axios, { AxiosError } from "axios";
-import { throttle } from "lodash";
-import { RouteComponentProps, withRouter, Link } from "react-router-dom";
+import { debounce } from "lodash";
+import {
+    RouteComponentProps,
+    withRouter,
+    Link,
+} from "react-router-dom";
 
-import { LOGIN_URL } from "@consts";
 import { loginActionCreator } from "@ducks/actions";
+import { login } from "@utils/requests";
+import { StatusCode } from "@types";
+import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
+
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
-import { StatusCode } from "@types";
-import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 
 import * as styles from "./Login.scss";
+
+const SUBMIT_TIMEOUT = 500;
 
 export interface LoginDispatchProps {
     onLogin: typeof loginActionCreator;
@@ -75,7 +81,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
             </div>
         );
     }
-    private onSubmit = throttle((email: string, password: string) => {
+    private onSubmit = debounce(async (email: string, password: string) => {
         if (!email && !password) {
             return;
         }
@@ -84,32 +90,29 @@ export class Login extends React.Component<LoginProps, LoginState> {
             loading: true,
         });
 
-        axios.post(LOGIN_URL, {
-            email,
-            password,
-        }, { withCredentials: true })
-            .then((response) => {
-                localStorage.setItem("email", response.data.user.email);
+        try {
+            const response = await login({ email, password });
 
-                this.setState({
-                    redirect: true,
-                    loading: false,
-                }, () => {
-                    this.props.showToast(
-                        <h3>Welcome, {response.data.user.email}!</h3>,
-                        ToastType.Success,
-                    );
-                    this.props.onLogin({ email });
-                });
-            })
-            .catch((error: AxiosError) => {
-                this.setState({ loading: false });
+            localStorage.setItem("email", response.data.user.email);
+
+            this.setState({
+                redirect: true,
+                loading: false,
+            }, () => {
                 this.props.showToast(
-                    getStatusCodeMessage(error.response.status),
-                    ToastType.Error,
+                    <h3>Welcome, {response.data.user.email}!</h3>,
+                    ToastType.Success,
                 );
+                this.props.onLogin({ email });
             });
-    }, 1000, { leading: true, trailing: false });
+        } catch (error) {
+            this.setState({ loading: false });
+            this.props.showToast(
+                getStatusCodeMessage(error.response.status),
+                ToastType.Error,
+            );
+        }
+    }, SUBMIT_TIMEOUT, { leading: true, trailing: false });
 }
 
 const mapDispatchToProps: LoginDispatchProps = {

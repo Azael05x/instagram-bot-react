@@ -1,13 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { AxiosError } from "axios";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 
 import { ButtonType } from "../../button/Button";
 import { registerUser } from "@utils/requests";
 import { showToastAction } from "../../toast/ducks/actions";
 import { ToastType } from "../../toast/ducks/state";
 import { UserForm } from "../../user-form/UserForm";
+
+const SUBMIT_TIMEOUT = 500;
 
 export interface SignUpState {
     email: string;
@@ -40,15 +41,8 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
             />
         );
     }
-    /*
-        Throttling onSubmit because
-        the initial idea of throttling a Promise (e.g. registerUser)
-        immediately calls the then/catch chain, however,
-        the call itself is throttled.
 
-        This is an unexpected behaviour.
-    */
-    private onSubmit = throttle((email: string, password: string) => {
+    private onSubmit = debounce(async (email: string, password: string) => {
         if (!email && !password) {
             return;
         }
@@ -57,34 +51,34 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
             loading: true,
         });
 
-        registerUser({ email, password })
-            .then(() => {
-                this.props.showToast(
-                    <h3>Successfully Signed up!</h3>,
-                    ToastType.Success,
-                );
+        try {
+            await registerUser({ email, password });
 
-                // Redirect to sign up page
-                this.setState({
-                    redirect: true,
-                    loading: false,
-                });
-            })
-            .catch((error: AxiosError) => {
-                this.setState({
-                    loading: false,
-                });
+            this.props.showToast(
+                <h3>Successfully Signed up!</h3>,
+                ToastType.Success,
+            );
 
-                console.error("An error occurred: ", error);
-                const errorText = error.response
-                    ? error.response.data
-                    : "Oops, something went wrong. Please try again later";
-                this.props.showToast(
-                    <h4>{errorText}</h4>,
-                    ToastType.Error,
-                );
+            // Redirect to sign up page
+            this.setState({
+                redirect: true,
+                loading: false,
             });
-    }, 1000, { leading: true, trailing: false });
+        } catch (error) {
+            this.setState({
+                loading: false,
+            });
+
+            console.error("An error occurred: ", error);
+            const errorText = error.response
+                ? error.response.data
+                : "Oops, something went wrong. Please try again later";
+            this.props.showToast(
+                <h4>{errorText}</h4>,
+                ToastType.Error,
+            );
+        }
+    }, SUBMIT_TIMEOUT, { leading: true, trailing: false });
 }
 
 const mapDispatchToProps: SignUpDispatchProps = {

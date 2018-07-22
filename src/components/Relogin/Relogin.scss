@@ -8,15 +8,6 @@
     position: relative;
     margin: .5em;
 }
-.label {
-    position: absolute;
-    color: #e7e7e7;
-    top: 50%;
-    left: 1.3em;
-    transform: translateY(-50%);
-    user-select: none;
-    pointer-events: none;
-}
 .input {
     padding: .5em 1em;
     border-radius: 2px;

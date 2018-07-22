@@ -34,6 +34,7 @@ export interface InputSelectState {
     searchResults: SearchTagItem[] | SearchUserItem[];
     loading: boolean;
     isDropdownOpen: boolean;
+    cancelTouchEnd: boolean;
 }
 export interface InputSelectProps {
     placeholder: string;
@@ -46,11 +47,11 @@ export interface InputSelectProps {
 }
 
 /*
-    Throttle search requests to minmize lag
+    Debounce search requests to minmize lag
     Minimize request amount per timeout
  */
-const searchThrottleTimeout = 300;
-const throttledSearchCb = debounce(async (
+const SEARCH_DEBOUNCE_TIMEOUT = 300;
+const debounceSearchCb = debounce(async (
     value: string,
     onChange: (value: string) => Promise<AxiosResponse<SearchTagItem[] | SearchUserItem[]>>,
     setSearchResults: (result: SearchUserItem[] | SearchTagItem[]) => void,
@@ -65,7 +66,7 @@ const throttledSearchCb = debounce(async (
     if (data) {
         setSearchResults(data);
     }
-}, searchThrottleTimeout, { trailing: true, leading: true});
+}, SEARCH_DEBOUNCE_TIMEOUT, { trailing: true, leading: true});
 
 export class InputSelect extends React.Component<InputSelectProps, InputSelectState> {
     public static defaultProps = {
@@ -77,6 +78,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
         searchResults: [],
         loading: false,
         isDropdownOpen: false,
+        cancelTouchEnd: false,
     };
     /**
         Differentiates between single line inputs (e.g. hashtags, users)
@@ -86,19 +88,9 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
      */
     private isSingleLine = this.props.type === InputType.SingleLine;
     private dropdownId = `${getUniqueId()}`; // String because compared to data-id which returns a string
-    public componentDidMount() {
-        /*
-            Event listener for managing closing dropdown
-            when clicking outside the adjacent input field or the dropdown itself
-        */
-        if (this.isSingleLine) {
-            window.addEventListener("click", this.dropdownCloseMouseEventCb);
-            window.addEventListener("touchstart", this.dropdownCloseMouseEventCb);
-        }
-    }
+
     public componentWillUnmount() {
-        window.removeEventListener("click", this.dropdownCloseMouseEventCb);
-        window.removeEventListener("touchstart", this.dropdownCloseMouseEventCb);
+        this.removeDropdownCloseEvents();
     }
 
     public render() {
@@ -113,6 +105,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             loading,
             searchResults,
             isDropdownOpen,
+            cancelTouchEnd,
         } = this.state;
 
         const inputComponent = this.isSingleLine
@@ -128,7 +121,7 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 <SearchDropdown
                     isLoading={loading}
                     dropDownId={this.dropdownId}
-                    onSearchClick={this.onSearchClick}
+                    onSearchResultSelect={!cancelTouchEnd ? this.onSearchResultSelect : undefined}
                     searchResults={searchResults}
                     isDropdownOpen={isDropdownOpen}
                 />
@@ -176,12 +169,15 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             </div>
         );
     }
-    private onInput = async (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    private onInput = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const value = event.currentTarget.value;
         this.setState({ value });
-
+        this.addDropdown(value);
+    }
+    private addDropdown = (value: string) => {
         if (this.props.onChange) {
             if (!value || value.length <= 2) {
+                this.removeDropdownCloseEvents();
                 this.setState({
                     isDropdownOpen: false,
                     searchResults: [],
@@ -193,7 +189,11 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 });
 
                 !this.state.loading && this.setLoading(true);
-                throttledSearchCb(
+
+                // Add event listeners only when the dropdown should actually be shown
+                this.addDropdownCloseEvents();
+
+                debounceSearchCb(
                     value,
                     this.props.onChange,
                     this.setSearchResults,
@@ -296,24 +296,64 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
             this.props.onSubmit(updatedTags);
         });
     }
-    private onSearchClick = (value: string) => {
+    private onSearchResultSelect = (value: string) => {
         /*
             No cleaning  or additional checking required.
             Cleaning already done before displaying search results
         */
+
        if (!this.state.tags.includes(value)) {
             this.closeDropdown();
             this.setNewTags([...this.state.tags, value]);
         }
     }
+
     private closeDropdown = () => {
+        this.addDropdownCloseEvents();
         this.setState({
             isDropdownOpen: false,
         });
     }
     private dropdownCloseMouseEventCb = (event: InputClickTargetEvent) => {
-        if(this.state.isDropdownOpen && this.dropdownId !== event.target.dataset.id) {
+        if (this.state.cancelTouchEnd) {
+            this.setState({
+                cancelTouchEnd: false,
+            });
+            return;
+        }
+
+        if(
+            this.state.isDropdownOpen
+            && this.dropdownId !== event.target.dataset.id
+        ) {
             this.closeDropdown();
         }
+    }
+    private cancelDropdownClose = () => {
+        /**
+         * Required to not close the dropdown
+         * on mobiles while touchmove is being fired
+         */
+        if (!this.state.cancelTouchEnd) {
+            this.setState({
+                cancelTouchEnd: true,
+            });
+        }
+    }
+    private addDropdownCloseEvents = () => {
+        /*
+            Event listener for managing closing dropdown
+            when clicking outside the adjacent input field or the dropdown itself
+        */
+        if (this.isSingleLine) {
+            window.addEventListener("click", this.dropdownCloseMouseEventCb);
+            window.addEventListener("touchend", this.dropdownCloseMouseEventCb);
+            window.addEventListener("touchmove", this.cancelDropdownClose);
+        }
+    }
+    public removeDropdownCloseEvents = () => {
+        window.removeEventListener("click", this.dropdownCloseMouseEventCb);
+        window.removeEventListener("touchend", this.dropdownCloseMouseEventCb);
+        window.removeEventListener("touchmove", this.cancelDropdownClose);
     }
 }

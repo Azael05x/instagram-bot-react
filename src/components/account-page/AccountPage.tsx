@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { AxiosResponse } from "axios";
 import {
     RouteComponentProps,
     withRouter,
@@ -63,32 +62,32 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             reloginPassword: "",
         };
     }
-    public componentWillMount() {
+    public async componentWillMount() {
         const {
             match,
             openPopup,
         } = this.props;
 
-        getAccountData(match.params.id)
-            .then((response: AxiosResponse<AccountData>) => {
-                this.setState({ account: response.data }, () => {
-                        if (this.state.account.hasInvalidSession) {
-                            openPopup(createReloginPopup({
-                                content: (
-                                    <ReloginConnected
-                                        username={this.state.account.username}
-                                        id={this.state.account.id}
-                                    />
-                                ),
-                            }));
-                        }
-                    });
-                })
-                .catch(() => {
-                    this.setState({
-                        redirect: true,
-                    });
-                });
+        try {
+            const response = await getAccountData(match.params.id);
+
+            this.setState({ account: response.data }, () => {
+                if (this.state.account.hasInvalidSession) {
+                    openPopup(createReloginPopup({
+                        content: (
+                            <ReloginConnected
+                                username={this.state.account.username}
+                                id={this.state.account.id}
+                            />
+                        ),
+                    }));
+                }
+            });
+        } catch (error) {
+            this.setState({
+                redirect: true,
+            });
+        }
     }
     public render() {
         if (this.state.redirect) {

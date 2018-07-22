@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
-import { AxiosError } from "axios";
 
 import { relinkAccount } from "@utils/requests";
 import { closePopupActionCreator } from "@ducks/actions";
@@ -15,7 +14,7 @@ import { ToastType } from "../toast/ducks/state";
 
 import * as styles from "./Relogin.scss";
 
-const searchThrottleTimeout = 1000;
+const SUBMIT_TIMEOUT = 500;
 
 export interface ReloginOwnProps {
     username: string;
@@ -70,19 +69,12 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                     Please enter this accounts instagram&nbsp;password&nbsp;below
                 </div>
                 <div className={styles.formGroup}>
-                    <label
-                        htmlFor="password"
-                        className={styles.label}
-                        hidden={!!this.state.password}
-                    >
-                        {`@${username} password`}
-                    </label>
                     <input
-                        id="password"
                         type="password"
                         className={`${styles.input} ${this.state.errorCode && styles.inputError}`}
                         onChange={this.onPasswordChange}
                         autoFocus={true}
+                        placeholder={`@${username} password`}
                     />
                     <div className={`${styles.icon} ${!this.state.progress && styles.hidden}`}>
                         <i className="fas fa-spinner" />
@@ -110,7 +102,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
             this.onSubmit();
         }
     }
-    private onSubmit = debounce(() => {
+    private onSubmit = debounce(async () => {
         if (!this.state.password) {
             return;
         }
@@ -119,10 +111,11 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
             progress: true,
         });
 
-        relinkAccount(this.props.id, {
-            password: this.state.password,
-        })
-        .then(_response => {
+        try {
+            await relinkAccount(this.props.id, {
+                password: this.state.password,
+            });
+
             this.props.closePopup();
             this.props.showToast(
                 "You have succesfully re-logged in!",
@@ -132,8 +125,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                 progress: false,
                 errorCode: undefined,
             });
-        })
-        .catch((error: AxiosError) => {
+        } catch (error) {
             console.error("An error occurred while attempting a re-login: " + error);
             this.setState({
                 progress: false,
@@ -143,8 +135,8 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                 getStatusCodeMessage(error.response.status),
                 ToastType.Error,
             );
-        });
-    }, searchThrottleTimeout, { trailing: false, leading: true});
+        }
+    }, SUBMIT_TIMEOUT, { trailing: false, leading: true});
     private renderButtons = (buttons: PopupButton[]) => {
         /**
          * @deprecated

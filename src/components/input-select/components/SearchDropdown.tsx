@@ -9,12 +9,16 @@ export interface SearchDropdownProps {
     searchResults: SearchTagItem[] | SearchUserItem[];
     isLoading: boolean;
     isDropdownOpen: boolean;
-    onSearchClick: (value: string) => void;
+    onSearchResultSelect?: (value: string) => void;
     dropDownId: string;
 }
 
 export class SearchDropdown extends React.PureComponent<SearchDropdownProps> {
     public render() {
+        if (!this.props.isDropdownOpen) {
+            return null;
+        }
+
         const {
             isLoading,
             isDropdownOpen,
@@ -36,10 +40,9 @@ export class SearchDropdown extends React.PureComponent<SearchDropdownProps> {
     private getResultComponent = () => {
         const {
             searchResults,
-            onSearchClick,
+            onSearchResultSelect,
         } = this.props;
         let searchResultComponents: JSX.Element[];
-
         /**
          * Render search dropdown with
          * all the rows rendered
@@ -51,7 +54,7 @@ export class SearchDropdown extends React.PureComponent<SearchDropdownProps> {
                         key={i}
                         name={result.username}
                         mediaCount={result.followerCount}
-                        onClick={onSearchClick}
+                        onSearchResultSelect={onSearchResultSelect}
                     />
                 ));
         } else {
@@ -61,7 +64,7 @@ export class SearchDropdown extends React.PureComponent<SearchDropdownProps> {
                         key={i}
                         name={result.name}
                         mediaCount={result.mediaCount}
-                        onClick={onSearchClick}
+                        onSearchResultSelect={onSearchResultSelect}
                     />
                 ));
         }
