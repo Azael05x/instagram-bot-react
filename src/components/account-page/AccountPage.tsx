@@ -14,6 +14,7 @@ import { AccountData } from "@middleware/types";
 import { getAccountData } from "@utils/requests";
 import { openPopupAction } from "@ducks/actions";
 import { Path } from "@types";
+import { afterErrorSetState } from "@utils/functions";
 
 import { Divider } from "../divider/Divider";
 import { AccountSettingsConnected } from "../account-settings/AccountSettings";
@@ -85,8 +86,10 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                 }
             });
         } catch (error) {
-            this.setState({
-                redirect: true,
+            afterErrorSetState(error.response.status, () => {
+                this.setState({
+                    redirect: true,
+                });
             });
         }
     }

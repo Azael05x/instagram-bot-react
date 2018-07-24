@@ -7,6 +7,7 @@ import { registerUser } from "@utils/requests";
 import { showToastAction } from "../../toast/ducks/actions";
 import { ToastType } from "../../toast/ducks/state";
 import { UserForm } from "../../user-form/UserForm";
+import { afterErrorSetState } from "@utils/functions";
 
 const SUBMIT_TIMEOUT = 500;
 
@@ -65,8 +66,10 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
                 loading: false,
             });
         } catch (error) {
-            this.setState({
-                loading: false,
+            afterErrorSetState(error.response.status, () => {
+                this.setState({
+                    loading: false,
+                });
             });
 
             console.error("An error occurred: ", error);

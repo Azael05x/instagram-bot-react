@@ -18,6 +18,7 @@ import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
 
 import * as styles from "./Login.scss";
+import { afterErrorSetState } from "@utils/functions";
 
 const SUBMIT_TIMEOUT = 500;
 
@@ -106,7 +107,9 @@ export class Login extends React.Component<LoginProps, LoginState> {
                 this.props.onLogin({ email });
             });
         } catch (error) {
-            this.setState({ loading: false });
+            afterErrorSetState(error.response.status, () => {
+                this.setState({ loading: false });
+            });
             this.props.showToast(
                 getStatusCodeMessage(error.response.status),
                 ToastType.Error,

@@ -7,6 +7,7 @@ import {
     ACCOUNT_UPDATE,
     OPEN_POPUP,
     CLOSE_POPUP,
+    USER_LOGOUT,
 } from "./consts";
 import { initAccountMiddlewareAction } from "../middleware/actions";
 import { AccountData } from "../middleware/types";
@@ -30,7 +31,6 @@ export function initAccountAction(payload: AccountData[]): InitAccountAction {
 export interface UserLoginPayload {
     email: string;
 }
-
 export interface LoginAction {
     type: typeof USER_LOGIN;
     payload: UserLoginPayload;
@@ -45,6 +45,22 @@ export function loginActionCreator(payload: UserLoginPayload): Thunk {
     return dispatch => {
         dispatch(loginAction(payload));
         dispatch(initAccountMiddlewareAction());
+    };
+}
+
+export interface LogoutAction {
+    type: typeof USER_LOGOUT;
+}
+export function logoutAction(): LogoutAction {
+    return {
+        type: USER_LOGOUT,
+    };
+}
+
+export function logoutActionCreator(): Thunk {
+    return (dispatch) => {
+        dispatch(logoutAction());
+        localStorage.removeItem("email");
     };
 }
 
@@ -99,10 +115,5 @@ export interface ClosePopupAction {
 export function closePopupAction(): ClosePopupAction {
     return {
         type: CLOSE_POPUP,
-    };
-}
-export function closePopupActionCreator(): Thunk {
-    return dispatch => {
-        dispatch(closePopupAction());
     };
 }

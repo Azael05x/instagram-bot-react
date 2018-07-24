@@ -4,39 +4,62 @@ import { connect } from "react-redux";
 import axios, { AxiosError } from "axios";
 
 import { Path } from "@types";
+import { selectUser } from "@ducks/selectors";
+import { logoutActionCreator } from "@ducks/actions";
+
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
 
 export interface InterceptorState {
     redirectTo?: Path;
 }
+export interface InterceptorStateProps {
+    isLogged: boolean;
+}
 export interface InterceptorDispatchProps {
     showToast: typeof showToastAction;
+    logout: typeof logoutActionCreator;
 }
 
-export type InterceptorProps = InterceptorDispatchProps;
+export type InterceptorProps = InterceptorDispatchProps & InterceptorStateProps;
 
 export class Interceptor extends React.PureComponent<InterceptorProps, InterceptorState> {
     public state: InterceptorState = {
         redirectTo: undefined,
     };
+    private interceptorRef: number | null = null;
+    private errorFired = false;
 
     public componentDidMount() {
-        axios.interceptors.response.use(
+        /**
+         * Intercepts axios requests
+         * If 401 status code is returned
+         * we have to logout and redirect user
+         * to the login page
+         */
+        this.interceptorRef = axios.interceptors.response.use(
             (response) => response,
             (error: AxiosError) => {
                 if (error.response.status === 401) {
-                    // FIXME: because of location reload toast is not showing
+                    this.errorFired = true;
+                    this.props.logout();
                     this.props.showToast(
                         error.response.statusText,
                         ToastType.Error,
                     );
-                    this.setRedirect();
                 }
 
                 return Promise.reject(error);
             }
         );
+    }
+    public componentWillReceiveProps(nextProps: InterceptorProps) {
+        if (this.props.logout && !nextProps.isLogged && this.errorFired) {
+            this.setRedirect();
+        }
+    }
+    public componentWillUnmount() {
+        axios.interceptors.request.eject(this.interceptorRef);
     }
 
     public render() {
@@ -47,7 +70,6 @@ export class Interceptor extends React.PureComponent<InterceptorProps, Intercept
         return null;
     }
     private setRedirect = () => {
-        localStorage.removeItem("email");
         this.setState({
             redirectTo: Path.Login,
         }, this.resetState);
@@ -56,15 +78,19 @@ export class Interceptor extends React.PureComponent<InterceptorProps, Intercept
         this.setState({
             redirectTo: undefined,
         });
-        window.location.reload();
+        this.errorFired = false;
     }
 }
 
+const mapStateToProps = (state: any): InterceptorStateProps => ({
+    isLogged: !!selectUser(state).email,
+});
 const mapDispatchToProps: InterceptorDispatchProps = {
     showToast: showToastAction,
+    logout: logoutActionCreator,
 };
 
-export const InterceptorConnected = connect<{}, InterceptorDispatchProps>(
-    null,
+export const InterceptorConnected = connect<InterceptorStateProps, InterceptorDispatchProps>(
+    mapStateToProps,
     mapDispatchToProps
 )(Interceptor);

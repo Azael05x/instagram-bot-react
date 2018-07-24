@@ -6,6 +6,7 @@ import {
     ACCOUNT_UPDATE,
     OPEN_POPUP,
     CLOSE_POPUP,
+    USER_LOGOUT,
 } from "./consts";
 import { initialState } from "./state";
 import {
@@ -16,10 +17,12 @@ import {
     UpdateAccountAction,
     OpenPopupAction,
     ClosePopupAction,
+    LogoutAction,
 } from "./actions";
 
 export type ReducerActions =
     | LoginAction
+    | LogoutAction
     | LinkAccountAction
     | UnlinkAccountAction
     | InitAccountAction
@@ -36,6 +39,12 @@ export function reducer(state = initialState, action: ReducerActions) {
                 user: {
                     email: action.payload.email,
                 }
+            };
+        }
+        case USER_LOGOUT: {
+            return {
+                ...state,
+                user: {},
             };
         }
         case ACCOUNT_INIT: {

@@ -13,6 +13,7 @@ import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/state";
 
 import * as styles from "./LinkAccount.scss";
+import { afterErrorSetState } from "@utils/functions";
 
 export interface LinkAccountState {
     username: string;
@@ -80,7 +81,9 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
                 );
             });
         } catch (error) {
-            this.setState({ loading: false });
+            afterErrorSetState(error.response.status, () => {
+                this.setState({ loading: false });
+            });
             this.props.showToast(
                 getStatusCodeMessage(error.response.status),
                 ToastType.Error,
