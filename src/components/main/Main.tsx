@@ -1,11 +1,13 @@
 import * as React from "react";
 import { Switch, Route, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
+import { selectUser } from "@ducks/selectors";
+import { Path } from "@types";
+
 import { HeaderConnected } from "../header/Header";
 import { User } from "../user/User";
 import { LoginConnected } from "../login/Login";
 import { DashboardConnected } from "../dashboard/Dashboard";
-import { selectUser } from "@ducks/selectors";
 import { NoMatch } from "../no-match/NoMatch";
 import { LinkAccountConnected } from "../link-account/LinkAccount";
 import { AccountPageConnected } from "../account-page/AccountPage";
@@ -15,6 +17,7 @@ import { PopupConnected } from "../popup/Popup";
 import { ToastConnected } from "../toast/Toast";
 import { Register } from "../register/Register";
 import { Faq } from "../faq/Faq";
+import { Interceptor } from "../interceptor/Interceptor";
 
 import * as styles from "./Main.scss";
 
@@ -32,27 +35,28 @@ export class Main extends React.PureComponent<MainProps> {
                 <HeaderConnected />
                 <div className={styles.bodyContainer}>
                     <Switch>
-                        <Route exact path="/" component={LandingConnected} />
+                        <Route exact path={Path.Home} component={LandingConnected} />
                         <div className={styles.extraSpace}>
-                        <Route exact path="/faq" component={Faq} />
+                        <Route exact path={Path.Faq} component={Faq} />
                         { this.props.logged_in
                             ? <>
-                                <Route path="/profile" component={User} />
-                                <Route path="/link-account" component={LinkAccountConnected} />
-                                <Route exact path="/accounts" component={DashboardConnected} />
-                                <Route path="/accounts/:id" component={AccountPageConnected} />
+                                <Route path={Path.Profile} component={User} />
+                                <Route path={Path.LinkAccount} component={LinkAccountConnected} />
+                                <Route exact path={Path.Accounts} component={DashboardConnected} />
+                                <Route path={Path.AccountsID} component={AccountPageConnected} />
                             </>
                             : <>
-                                <Route path="/login" component={LoginConnected} />
-                                <Route path="/register" component={Register} />
+                                <Route path={Path.Login} component={LoginConnected} />
+                                <Route path={Path.Register} component={Register} />
                             </>
                             }
                         </div>
-                        <Route path="*" component={NoMatch} />
+                        <Route path={Path.Wildcard} component={NoMatch} />
                     </Switch>
                 </div>
                 <PopupConnected />
                 <Footer />
+                <Interceptor />
             </div>
         );
     }

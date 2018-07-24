@@ -1,11 +1,13 @@
 import * as React from "react";
 import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
+
 import { selectUser } from "@ducks/selectors";
 import { User } from "@ducks/state";
-import { CaretIcon } from "../icons/Caret";
 import { MOBILE_WIDTH } from "@consts";
 import { logout } from "@utils/requests";
+
+import { CaretIcon } from "../icons/Caret";
 
 import * as styles from "./Header.scss";
 
@@ -61,7 +63,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                     </>
                     : (
                         <div className={`${styles.link} ${styles.parentLink}`}>
-                            Welcome, {email}
+                            <span className={styles.welcomeText}>Welcome, {email}</span>
                             <span className={styles.caret}>
                                 <CaretIcon />
                             </span>

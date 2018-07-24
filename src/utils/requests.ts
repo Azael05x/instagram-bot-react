@@ -15,9 +15,10 @@ import {
     LOGOUT,
     LOGIN_URL,
 } from "@consts";
-import { createConfig } from "./config";
 import { AccountData } from "@middleware/types";
 import { SearchTagItem, SearchUserItem, BasicCredentials } from "@types";
+
+import { createConfig } from "./config";
 
 export function getInitAccountData(): Promise<AxiosResponse<AccountData[]>> {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}`, createConfig());

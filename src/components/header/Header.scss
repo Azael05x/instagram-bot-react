@@ -85,12 +85,14 @@
     transition: .2s;
     opacity: 0;
     z-index: 5;
+    pointer-events: none;
 }
 .parentLink {
     &:hover {
         .dropdown {
             top: 89%;
             opacity: 1;
+            pointer-events: all;
         }
         .caret {
             transform: rotate(180deg);
@@ -169,4 +171,11 @@
             }
         }
     }
+}
+
+.welcomeText {
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
