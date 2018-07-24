@@ -1,10 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { Path } from "@types";
+import { selectUser } from "@ducks/selectors";
 
 import { Divider } from "../../divider/Divider";
 import { Button, ButtonType } from "../../button/Button";
-import { selectUser } from "@ducks/selectors";
 
 import * as styles from "../Landing.scss";
 
@@ -21,7 +22,7 @@ export class Hero extends React.PureComponent<HeroProps, HeroState> {
     };
     public render() {
         if (this.state.redirect) {
-            return <Redirect exact to="/register" />;
+            return <Redirect exact to={Path.Register} />;
         }
 
         return (

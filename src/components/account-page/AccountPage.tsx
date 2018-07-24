@@ -13,6 +13,7 @@ import {
 import { AccountData } from "@middleware/types";
 import { getAccountData } from "@utils/requests";
 import { openPopupAction } from "@ducks/actions";
+import { Path } from "@types";
 
 import { Divider } from "../divider/Divider";
 import { AccountSettingsConnected } from "../account-settings/AccountSettings";
@@ -91,7 +92,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     }
     public render() {
         if (this.state.redirect) {
-            return <Redirect exact to="/accounts" />;
+            return <Redirect exact to={Path.Accounts} />;
         }
 
         const { account } = this.state;

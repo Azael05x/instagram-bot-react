@@ -17,7 +17,7 @@ import { PopupConnected } from "../popup/Popup";
 import { ToastConnected } from "../toast/Toast";
 import { Register } from "../register/Register";
 import { Faq } from "../faq/Faq";
-import { Interceptor } from "../interceptor/Interceptor";
+import { InterceptorConnected } from "../interceptor/Interceptor";
 
 import * as styles from "./Main.scss";
 
@@ -56,7 +56,7 @@ export class Main extends React.PureComponent<MainProps> {
                 </div>
                 <PopupConnected />
                 <Footer />
-                <Interceptor />
+                <InterceptorConnected />
             </div>
         );
     }
