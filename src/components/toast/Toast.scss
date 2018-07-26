@@ -1,9 +1,12 @@
 @import "../../consts/consts.scss";
 
+$maxContainerWidth: 12rem;
+
 .container {
     padding: 1.2em 3em;
     text-align: center;
-    max-width: 15rem;
+    max-width: $maxContainerWidth;
+    width: 100%;
     font-family: "Montserrat", sans-serif;
     transition: transform .7s cubic-bezier(1,-0.38,.59,1.49), opacity .3s ease .4s;
     position: fixed;
@@ -52,9 +55,14 @@
     color: $dangerColor;
     border-color: $dangerColor;
 }
+.messageBottomPart {
+    text-overflow: ellipsis;
+    max-width: $maxContainerWidth;
+    overflow: hidden;
+}
 
 @media (max-width: 768px) {
     .container {
-        padding: 0.5em 2em;
+        padding: 1em 2em;
     }
 }

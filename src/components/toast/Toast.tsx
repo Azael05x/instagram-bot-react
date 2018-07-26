@@ -75,7 +75,7 @@ export class Toast extends React.PureComponent<ToastProps, ToastState> {
             message = <>
                 {toastMessage.top}
                 <br />
-                {toastMessage.bottom}
+                <span className={styles.messageBottomPart}>{toastMessage.bottom}</span>
             </>;
         }
 
