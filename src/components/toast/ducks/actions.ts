@@ -1,4 +1,9 @@
-import { ToastItem, ToastType, ToastAnimationType } from "./state";
+import {
+    ToastItem,
+    ToastType,
+    ToastAnimationType,
+    ToastMessage,
+} from "./type";
 
 export const SHOW_TOAST = "toasts/SHOW_TOAST";
 export const HIDE_TOAST = "toasts/HIDE_TOAST";
@@ -8,7 +13,7 @@ export interface ShowToastAction {
     payload: ToastItem;
 }
 export function showToastAction(
-    message: string | JSX.Element,
+    message: ToastMessage,
     type = ToastType.Info,
     animation = ToastAnimationType.SlideLeft,
 ): ShowToastAction {

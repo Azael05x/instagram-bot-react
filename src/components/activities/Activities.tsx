@@ -10,7 +10,7 @@ import { Divider, DividerTheme } from "../divider/Divider";
 import { Select, SelectOption, SelectTheme } from "../select/Select";
 import { Button, ButtonSize } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
-import { ToastType } from "../toast/ducks/state";
+import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./Activities.scss";
 
@@ -176,7 +176,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
             .then(() => {
                 setTimeout(() => {
                     this.props.showToast(
-                        <>Successfully reviewed {this.state.activityType}</>,
+                        `Successfully reviewed ${this.state.activityType}`,
                         ToastType.Success,
                     );
                     this.setState({
@@ -188,7 +188,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
             .catch((error: AxiosError) => {
                 console.error(`Failed to set ${this.state.activityType} as reviewed: `, error);
                 this.props.showToast(
-                    <>Oh snap, please try again later to review {this.state.activityType}</>,
+                    `Oh snap, please try again later to review ${this.state.activityType}`,
                     ToastType.Error,
                 );
             });

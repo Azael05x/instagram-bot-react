@@ -6,14 +6,14 @@ import { debounce } from "lodash";
 import { postAccount } from "@utils/requests";
 import { linkAccountAction } from "@ducks/actions";
 import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
+import { afterErrorSetState } from "@utils/functions";
 
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
-import { ToastType } from "../toast/ducks/state";
+import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./LinkAccount.scss";
-import { afterErrorSetState } from "@utils/functions";
 
 export interface LinkAccountState {
     username: string;

@@ -4,21 +4,20 @@ import { debounce } from "lodash";
 import {
     RouteComponentProps,
     withRouter,
-    Link,
 } from "react-router-dom";
 
 import { loginActionCreator } from "@ducks/actions";
 import { login } from "@utils/requests";
-import { StatusCode } from "@types";
+import { StatusCode, Path } from "@types";
 import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
+import { afterErrorSetState } from "@utils/functions";
 
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
-import { ToastType } from "../toast/ducks/state";
+import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./Login.scss";
-import { afterErrorSetState } from "@utils/functions";
 
 const SUBMIT_TIMEOUT = 500;
 
@@ -38,6 +37,15 @@ export enum FormInput {
     Email = "email",
     Password = "password",
 }
+
+/**
+ * Used to pass into <Info />  component.
+ */
+const infoData = {
+    infoPathTo: Path.Register,
+    infoText: "Don't have an account?",
+    linkLabel: "Sign up here!",
+};
 
 export class Login extends React.Component<LoginProps, LoginState> {
     private titleFontSize: string = document.body.clientWidth < 900
@@ -69,16 +77,11 @@ export class Login extends React.Component<LoginProps, LoginState> {
                     actionInProgress={this.state.loading}
                     buttonType={ButtonType.Main}
                     redirect={this.state.redirect}
-                    redirectEndpoint={"/accounts"}
+                    redirectEndpoint={Path.Accounts}
                     onSubmit={this.onSubmit}
                     buttonLabel={"Log In"}
+                    infoData={infoData}
                 />
-                <hr />
-                <small>
-                    Don't have an account?
-                    {" "}
-                    <Link to={"/register"} className={styles.link}>Sign up here!</Link>
-                </small>
             </div>
         );
     }
@@ -101,7 +104,10 @@ export class Login extends React.Component<LoginProps, LoginState> {
                 loading: false,
             }, () => {
                 this.props.showToast(
-                    <h3>Welcome, {response.data.user.email}!</h3>,
+                    {
+                        top: "Welcome,",
+                        bottom: response.data.user.email,
+                    },
                     ToastType.Success,
                 );
                 this.props.onLogin({ email });

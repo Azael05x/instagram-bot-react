@@ -8,7 +8,7 @@ import { selectUser } from "@ducks/selectors";
 import { logoutActionCreator } from "@ducks/actions";
 
 import { showToastAction } from "../toast/ducks/actions";
-import { ToastType } from "../toast/ducks/state";
+import { ToastType } from "../toast/ducks/type";
 
 export interface InterceptorState {
     redirectTo?: Path;

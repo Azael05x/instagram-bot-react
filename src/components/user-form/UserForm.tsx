@@ -4,6 +4,9 @@ import { Redirect } from "react-router-dom";
 import { Button, ButtonType } from "../button/Button";
 import { getPressedKey, isEnterKey } from "@utils/keyboardEvents";
 
+import { Info } from "./components/Info";
+import { InfoData } from "./components/type";
+
 import * as styles from "./UserForm.scss";
 
 const onFormSubmitCb = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
@@ -35,6 +38,7 @@ export interface UserFormProps {
     mainInputLabel?: string;
     buttonType?: ButtonType;
     inputType?: InputType;
+    infoData?: InfoData;
 }
 
 export class UserForm extends React.PureComponent<UserFormProps, UserFormState> {
@@ -50,21 +54,35 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
             return <Redirect exact to={this.props.redirectEndpoint} />;
         }
 
+        const {
+            actionInProgress,
+            buttonLabel,
+            buttonType,
+            infoData,
+            inputType,
+            mainInputLabel,
+        } = this.props;
+
+        const {
+            password,
+            value,
+        } = this.state;
+
         return (
             <form className={styles.formGroupContainer} onSubmit={onFormSubmitCb} noValidate={true}>
                 <div className={styles.formGroup}>
                     <label
-                        htmlFor={this.props.inputType}
-                        className={`${ this.state.value && styles.hidden} ${styles.label}`}
+                        htmlFor={inputType}
+                        className={`${ value && styles.hidden} ${styles.label}`}
                     >
-                        {this.props.mainInputLabel || labelTextMap[this.props.inputType]}
+                        {mainInputLabel || labelTextMap[inputType]}
                     </label>
                     <input
-                        id={this.props.inputType}
+                        id={inputType}
                         className={styles.input}
-                        type={this.props.inputType}
+                        type={inputType}
                         onChange={this.onEmailChange}
-                        value={this.state.value}
+                        value={value}
                         autoComplete="nope"
                         autoCapitalize="nope"
                         autoCorrect="nope"
@@ -74,7 +92,7 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
                 <div className={styles.formGroup}>
                     <label
                         htmlFor="password"
-                        className={`${ this.state.password && styles.hidden} ${styles.label}`}
+                        className={`${ password && styles.hidden} ${styles.label}`}
                     >
                         password
                     </label>
@@ -83,7 +101,7 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
                         className={styles.input}
                         type="password"
                         onChange={this.onPasswordChange}
-                        value={this.state.password}
+                        value={password}
                         autoComplete="nope"
                         autoCapitalize="nope"
                         autoCorrect="nope"
@@ -91,15 +109,16 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
                     />
                 </div>
                 <div className={styles.formGroup}>
-                    <div className={`${styles.spinner} ${!this.props.actionInProgress && styles.hidden}`}>
+                    <div className={`${styles.spinner} ${!actionInProgress && styles.hidden}`}>
                         <i className="fas fa-spinner" />
                     </div>
                     <Button
-                        label={this.props.buttonLabel}
+                        label={buttonLabel}
                         onClick={this.onSubmit}
-                        type={this.props.buttonType}
+                        type={buttonType}
                     />
                 </div>
+                <Info infoData={infoData} />
             </form>
         );
     }

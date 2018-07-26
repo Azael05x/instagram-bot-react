@@ -1,0 +1,10 @@
+@import "../../../consts/consts.scss";
+
+.container {
+    margin-top: 1rem;
+}
+.link {
+    cursor: pointer;
+    color: $dangerColor;
+    text-decoration: none;
+}

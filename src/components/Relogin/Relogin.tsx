@@ -10,7 +10,7 @@ import { isEnterKey, getPressedKey } from "@utils/keyboardEvents";
 
 import { PopupButton, PopupButtonType } from "../popup/factory/PopupData";
 import { showToastAction } from "../toast/ducks/actions";
-import { ToastType } from "../toast/ducks/state";
+import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./Relogin.scss";
 import { afterErrorSetState } from "@utils/functions";

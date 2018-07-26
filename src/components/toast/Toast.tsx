@@ -1,10 +1,17 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { selectToasts } from "./ducks/selectors";
-import { ToastItem } from "./ducks/state";
 import { hideToastAction } from "./ducks/actions";
+import {
+    ToastMessageComposed,
+    ToastItem,
+} from "./ducks/type";
 
 import * as styles from "./Toast.scss";
+
+function isComponent(toastMessage: JSX.Element | ToastMessageComposed): toastMessage is JSX.Element {
+    return !(toastMessage as ToastMessageComposed).top;
+}
 
 export interface ToastStateProps {
     toasts: ToastItem[];
@@ -46,13 +53,31 @@ export class Toast extends React.PureComponent<ToastProps, ToastState> {
             return null;
         }
 
-        const { toast } = this;
+        const {
+            toast: {
+                message: toastMessage,
+                animation,
+                type,
+            },
+        } = this;
 
         const className = `${styles.container}
-            ${styles[toast.animation]}
+            ${styles[animation]}
             ${this.state.showMessage && styles.active}
-            ${styles[toast.type]}
+            ${styles[type]}
         `;
+
+        let message: string | JSX.Element;
+
+        if (typeof toastMessage === "string" || isComponent(toastMessage)) {
+            message = toastMessage;
+        } else {
+            message = <>
+                {toastMessage.top}
+                <br />
+                {toastMessage.bottom}
+            </>;
+        }
 
         return (
             <div
@@ -61,7 +86,7 @@ export class Toast extends React.PureComponent<ToastProps, ToastState> {
                 onTransitionEnd={this.onTransitionEnd}
                 data-active={this.state.showMessage}
             >
-               {toast.message}
+               {message}
             </div>
         );
     }

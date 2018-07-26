@@ -2,14 +2,23 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
 
-import { ButtonType } from "../../button/Button";
-import { registerUser } from "@utils/requests";
-import { showToastAction } from "../../toast/ducks/actions";
-import { ToastType } from "../../toast/ducks/state";
-import { UserForm } from "../../user-form/UserForm";
 import { afterErrorSetState } from "@utils/functions";
+import { registerUser } from "@utils/requests";
+import { Path } from "@types";
+import { ButtonType } from "../../button/Button";
+import { showToastAction } from "../../toast/ducks/actions";
+import { ToastType } from "../../toast/ducks/type";
+import { UserForm } from "../../user-form/UserForm";
 
 const SUBMIT_TIMEOUT = 500;
+/**
+ * Used to pass into <Info />  component.
+ */
+const infoData = {
+    infoPathTo: Path.Login,
+    infoText: "Already have an account?",
+    linkLabel: "Log in here!",
+};
 
 export interface SignUpState {
     email: string;
@@ -39,6 +48,7 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
                 redirectEndpoint={"/login"}
                 onSubmit={this.onSubmit}
                 buttonLabel={"Sign Up"}
+                infoData={infoData}
             />
         );
     }
@@ -56,7 +66,7 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
             await registerUser({ email, password });
 
             this.props.showToast(
-                <h3>Successfully Signed up!</h3>,
+                "Successfully Signed up!",
                 ToastType.Success,
             );
 
@@ -77,7 +87,7 @@ export class SignUp extends React.PureComponent<SignUpProps, SignUpState> {
                 ? error.response.data
                 : "Oops, something went wrong. Please try again later";
             this.props.showToast(
-                <h4>{errorText}</h4>,
+                errorText,
                 ToastType.Error,
             );
         }

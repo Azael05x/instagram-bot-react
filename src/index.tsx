@@ -7,11 +7,12 @@ import thunk from "redux-thunk";
 
 import { reducer as commonReducer } from "@ducks/common";
 import { selectUser } from "@ducks/selectors";
-import { MainConnected } from "./components/main/Main";
-import { toastReducer } from "./components/toast/ducks/reducer";
 import { accountMiddleware } from "@middleware/accounts";
 import { initAccountMiddlewareAction } from "@middleware/actions";
 import { InstaState } from "@types";
+
+import { MainConnected } from "./components/main/Main";
+import { toastReducer } from "./components/toast/ducks/reducer";
 
 const reducers = combineReducers<InstaState>({
     common: commonReducer,
