@@ -77,7 +77,7 @@ export class Login extends React.Component<LoginProps, LoginState> {
                     actionInProgress={this.state.loading}
                     buttonType={ButtonType.Main}
                     redirect={this.state.redirect}
-                    redirectEndpoint={Path.Accounts}
+                    redirectEndpoint={Path.Dashboard}
                     onSubmit={this.onSubmit}
                     buttonLabel={"Log In"}
                     infoData={infoData}
@@ -133,3 +133,5 @@ export const LoginConnected = withRouter(connect<{}, LoginDispatchProps>(
     undefined,
     mapDispatchToProps,
 )(Login));
+
+export default LoginConnected;

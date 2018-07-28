@@ -101,3 +101,5 @@ export const LinkAccountConnected = withRouter(connect<{}, LinkAccountDispatchPr
     undefined,
     mapDispatchToProps,
 )(LinkAccount));
+
+export default LinkAccountConnected;

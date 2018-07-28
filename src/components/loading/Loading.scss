@@ -1,0 +1,42 @@
+$xScale: 1;
+$yScale: 1;
+
+@mixin common($animationName, $animationDuration, $animationTime, $top, $height) {
+    height: $height;
+    max-height: 20%;
+    position: fixed;
+    top: $top;
+    left: -50%;
+    transform: translate(-50%,-50%) rotate(45deg);
+    animation: $animationName $animationDuration $animationTime .5s infinite; 
+}
+@keyframes rocket1 {
+    0% {
+        left: -50%;
+        transform: translate(-50%,-50%) rotate(45deg);
+    }
+    100% {
+        left: 150%;
+        transform: translate(-50%,-50%) rotate(45deg);
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.rocket1 {
+    @include common(rocket1, 1.5s, ease-in, 50%, 100px);
+}
+.rocket2 {
+    @include common(rocket1, 2s, cubic-bezier(0.19, 1, 0.22, 1), 75%, 300px);
+}
+.rocket3 {
+    @include common(rocket1, 1.5s, cubic-bezier(.81,.16,.94,.2), 25%, 200px);
+}
+
+
+

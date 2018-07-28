@@ -51,7 +51,8 @@ module.exports = {
         devtoolLineToLine: true,
         filename: "bundle.js",
         sourceMapFilename: "bundle.js.map",
-        publicPath: "/"
+        publicPath: "/",
+        chunkFilename: '[name].chunk.js'
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "vendor.js" }),

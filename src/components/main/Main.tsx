@@ -5,19 +5,22 @@ import { selectUser } from "@ducks/selectors";
 import { Path } from "@types";
 
 import { HeaderConnected } from "../header/Header";
-import { User } from "../user/User";
-import { LoginConnected } from "../login/Login";
-import { DashboardConnected } from "../dashboard/Dashboard";
-import { NoMatch } from "../no-match/NoMatch";
-import { LinkAccountConnected } from "../link-account/LinkAccount";
-import { AccountPageConnected } from "../account-page/AccountPage";
-import { LandingConnected } from "../landing/Landing";
 import { Footer } from "../footer/Footer";
 import { PopupConnected } from "../popup/Popup";
 import { ToastConnected } from "../toast/Toast";
-import { Register } from "../register/Register";
-import { Faq } from "../faq/Faq";
 import { InterceptorConnected } from "../interceptor/Interceptor";
+import { AsyncComponent } from "../async-component/AsyncComponent";
+
+// Lazily imported chunks in closures
+const LazyDashboard = () => import(/* webpackChunkName: "dashboard" */"../dashboard/Dashboard");
+const LazyFaq = () => import(/* webpackChunkName: "faq" */"../faq/Faq");
+const LazyRegister = () => import(/* webpackChunkName: "register" */"../register/Register");
+const LazyLanding = () => import(/* webpackChunkName: "landing" */"../landing/Landing");
+const LazyAccountPage = () => import(/* webpackChunkName: "accountPage" */"../account-page/AccountPage");
+const LazyUser = () => import(/* webpackChunkName: "user" */"../user/User");
+const LazyLogin = () => import(/* webpackChunkName: "login" */"../login/Login");
+const LazyLinkAccount = () => import(/* webpackChunkName: "linkAccount" */"../link-account/LinkAccount");
+const LazyNoMatch = () => import(/* webpackChunkName: "noMatch" */"../no-match/NoMatch");
 
 import * as styles from "./Main.scss";
 
@@ -35,23 +38,53 @@ export class Main extends React.PureComponent<MainProps> {
                 <HeaderConnected />
                 <div className={styles.bodyContainer}>
                     <Switch>
-                        <Route exact path={Path.Home} component={LandingConnected} />
+                        <Route
+                            exact
+                            path={Path.Home}
+                            component={() => <AsyncComponent moduleProvider={LazyLanding} />}
+                        />
                         <div className={styles.extraSpace}>
-                        <Route exact path={Path.Faq} component={Faq} />
+                        <Route
+                            exact
+                            path={Path.Faq}
+                            component={() => <AsyncComponent moduleProvider={LazyFaq} />}
+                        />
                         { this.props.logged_in
                             ? <>
-                                <Route path={Path.Profile} component={User} />
-                                <Route path={Path.LinkAccount} component={LinkAccountConnected} />
-                                <Route exact path={Path.Accounts} component={DashboardConnected} />
-                                <Route path={Path.AccountsID} component={AccountPageConnected} />
+                                <Route
+                                    path={Path.Profile}
+                                    component={() => <AsyncComponent moduleProvider={LazyUser} />}
+                                />
+                                <Route
+                                    path={Path.LinkAccount}
+                                    component={() => <AsyncComponent moduleProvider={LazyLinkAccount} />}
+                                />
+                                <Route
+                                    exact
+                                    path={Path.Dashboard}
+                                    component={() => <AsyncComponent moduleProvider={LazyDashboard} />}
+                                />
+                                <Route
+                                    path={Path.AccountsID}
+                                    component={() => <AsyncComponent moduleProvider={LazyAccountPage} />}
+                                />
                             </>
                             : <>
-                                <Route path={Path.Login} component={LoginConnected} />
-                                <Route path={Path.Register} component={Register} />
+                                <Route
+                                    path={Path.Login}
+                                    component={() => <AsyncComponent moduleProvider={LazyLogin} />}
+                                />
+                                <Route
+                                    path={Path.Register}
+                                    component={() => <AsyncComponent moduleProvider={LazyRegister} />}
+                                />
                             </>
                             }
                         </div>
-                        <Route path={Path.Wildcard} component={NoMatch} />
+                        <Route
+                            path={Path.Wildcard}
+                            component={() => <AsyncComponent moduleProvider={LazyNoMatch} />}
+                        />
                     </Switch>
                 </div>
                 <PopupConnected />

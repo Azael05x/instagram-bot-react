@@ -92,3 +92,5 @@ const mapStateToProps = (state: any): LandingStateProps => ({
 export const LandingConnected = withRouter(connect<LandingStateProps>(
     mapStateToProps
 )(Landing));
+
+export default LandingConnected;

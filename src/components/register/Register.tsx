@@ -15,3 +15,5 @@ export class Register extends React.PureComponent {
         );
     }
 }
+
+export default Register;

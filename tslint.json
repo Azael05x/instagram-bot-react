@@ -21,7 +21,7 @@
         "semicolon": true,
         "no-trailing-whitespace": true,
         "no-duplicate-imports": true,
-        "no-default-export": true,
+        "no-default-export": false,
         "no-var-keyword": true,
         "prefer-const": true,
         "quotemark": {

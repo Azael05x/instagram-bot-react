@@ -24,6 +24,7 @@ module.exports = {
     output: {
         path: path.join(process.cwd(), 'dist'),
         filename: '[name].js',
+        chunkFilename: '[name].chunk.js'
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),

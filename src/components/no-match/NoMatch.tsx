@@ -14,3 +14,5 @@ export class NoMatch extends React.Component<RouteComponentProps<{}>> {
         );
     }
 }
+
+export default NoMatch;

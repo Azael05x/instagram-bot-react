@@ -64,3 +64,5 @@ export class Faq extends React.PureComponent<FaqProps> {
         );
     }
 }
+
+export default Faq;

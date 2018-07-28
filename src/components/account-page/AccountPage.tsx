@@ -95,7 +95,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     }
     public render() {
         if (this.state.redirect) {
-            return <Redirect exact to={Path.Accounts} />;
+            return <Redirect exact to={Path.Dashboard} />;
         }
 
         const { account } = this.state;
@@ -225,3 +225,5 @@ export const AccountPageConnected = withRouter(connect<{}, AccountPageDispatchPr
     undefined,
     mapDispatchToProps,
 )(AccountPage));
+
+export default AccountPageConnected;

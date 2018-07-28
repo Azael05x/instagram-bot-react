@@ -13,7 +13,7 @@ export enum Path {
     Faq = "/faq",
     Profile = "/profile",
     LinkAccount = "/link-account",
-    Accounts = "/accounts",
+    Dashboard = "/accounts",
     AccountsID = "/accounts/:id",
     Register = "/register",
     Wildcard = "*",

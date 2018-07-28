@@ -60,3 +60,5 @@ export const DashboardConnected = withRouter(connect<DashboardStateProps, {}>(
     mapStateToProps,
     mapDispatchToProps,
 )(Dashboard));
+
+export default DashboardConnected;
