@@ -46,7 +46,7 @@ export class FollowTime extends React.PureComponent<ActivitySpeedProps> {
 
         return (
             <>
-                <div style={{marginBottom: ".5rem"}}>Follow Time</div>
+                <div style={{marginBottom: ".5rem"}}>Unfollow Users After</div>
                 <Select
                     currentOption={currentOption}
                     onSelectOption={this.onSelectTime}

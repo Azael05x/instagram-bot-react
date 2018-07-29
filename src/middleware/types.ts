@@ -45,7 +45,7 @@ export interface Activities {
 export interface Follows  {
     maximumFollowers: number;
     minimumFollowers: number;
-    unfollowMinutes: number;
+    unfollowAfterMinutes: number;
 }
 export interface General {
     blacklistedTags: string[];

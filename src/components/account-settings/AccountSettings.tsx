@@ -69,7 +69,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                         <Divider theme={DividerTheme.Small} />
                         <div className={styles.settingsAreaRow}>
                             <FollowTime
-                                time={settings.follows.unfollowMinutes}
+                                time={settings.follows.unfollowAfterMinutes}
                                 onChange={this.onFollowTimeChange}
                             />
                         </div>
@@ -191,7 +191,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
     private onFollowTimeChange = (value: FollowTimeType) => {
         this.props.updateAccountFollows({
             id: this.props.account.id,
-            data: { unfollowMinutes: value },
+            data: { unfollowAfterMinutes: value },
         });
     }
     private onFollowTagsChange = (value: string[]) => {
