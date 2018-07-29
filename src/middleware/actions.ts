@@ -3,6 +3,7 @@ import {
     ACCOUNT_LINK,
     ACCOUNT_UNLINK,
     ACCOUNT_UPDATE_ACTIVITIES,
+    ACCOUNT_UPDATE_FOLLOWS,
     ACCOUNT_UPDATE_GENERAL,
     ACCOUNT_UPDATE_COMMENTS,
     ACCOUNT_SET_STATUS,
@@ -12,6 +13,7 @@ import {
     Activities,
     General,
     Comments,
+    Follows,
 } from "./types";
 import { UpdateAccountPayload } from "../types/updateAccountTypes";
 
@@ -68,6 +70,19 @@ export function updateAccountActivitiesMiddlewareAction(
 ): UpdateAccountActivitiesMiddlewareAction {
     return {
         type: ACCOUNT_UPDATE_ACTIVITIES,
+        payload,
+    };
+}
+
+export interface UpdateAccountFollowsMiddlewareAction {
+    type: typeof ACCOUNT_UPDATE_FOLLOWS;
+    payload: UpdateAccountPayload<Follows>;
+}
+export function updateAccountFollowsMiddlewareAction(
+    payload: UpdateAccountPayload<Follows>,
+): UpdateAccountFollowsMiddlewareAction {
+    return {
+        type: ACCOUNT_UPDATE_FOLLOWS,
         payload,
     };
 }

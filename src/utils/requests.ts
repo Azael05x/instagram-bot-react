@@ -14,6 +14,7 @@ import {
     LINK,
     LOGOUT,
     LOGIN_URL,
+    FOLLOW_URL,
 } from "@consts";
 import { AccountData } from "@middleware/types";
 import { SearchTagItem, SearchUserItem, BasicCredentials } from "@types";
@@ -35,6 +36,13 @@ export function deleteAccount(id: number): Promise<AxiosResponse<void>> {
 export function updateActivities(id: number, data: any) {
     return axios.patch(
         `${BASE_URL}${ACCOUNT_URL}/${id}${ACTIVITY_URL}`,
+        data,
+        createConfig(),
+    );
+}
+export function updateFollows(id: number, data: any) {
+    return axios.patch(
+        `${BASE_URL}${ACCOUNT_URL}/${id}${FOLLOW_URL}`,
         data,
         createConfig(),
     );

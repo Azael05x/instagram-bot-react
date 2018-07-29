@@ -2,11 +2,12 @@ import * as React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { AccountData, ActivitySpeedType } from "@middleware/types";
+import { AccountData, ActivitySpeedType, FollowTimeType } from "@middleware/types";
 import {
     updateAccountActivitiesMiddlewareAction,
     updateAccountGeneralMiddlewareAction,
     updateAccountCommentsMiddlewareAction,
+    updateAccountFollowsMiddlewareAction,
 } from "@middleware/actions";
 import {
     hashtagsPlaceholder,
@@ -30,12 +31,14 @@ import { General } from "./components/general/General";
 import { InputSelect, InputType } from "../input-select/InputSelect";
 
 import * as styles from "./AccountSettings.scss";
+import { FollowTime } from "./components/follow-time/FollowTime";
 
 export interface AccountSettingsOwnProps {
     account: AccountData;
 }
 export interface AccountSettingsDispatchProps {
     updateAccountActivities: typeof updateAccountActivitiesMiddlewareAction;
+    updateAccountFollows: typeof updateAccountFollowsMiddlewareAction;
     updateAccountGeneral: typeof updateAccountGeneralMiddlewareAction;
     updateAccountComments: typeof updateAccountCommentsMiddlewareAction;
 }
@@ -52,7 +55,6 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
         }
 
         const { settings } = this.props.account;
-
         return (
             <div className={styles.container}>
                 <div className={styles.section}>
@@ -62,6 +64,13 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                             <ActivitySpeed
                                 speed={settings.activities.speed}
                                 onChange={this.onSpeedChange}
+                            />
+                        </div>
+                        <Divider theme={DividerTheme.Small} />
+                        <div className={styles.settingsAreaRow}>
+                            <FollowTime
+                                time={settings.follows.unfollowMinutes}
+                                onChange={this.onFollowTimeChange}
                             />
                         </div>
                         <Divider theme={DividerTheme.Small} />
@@ -179,6 +188,12 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             data: { speed: value },
         });
     }
+    private onFollowTimeChange = (value: FollowTimeType) => {
+        this.props.updateAccountFollows({
+            id: this.props.account.id,
+            data: { unfollowMinutes: value },
+        });
+    }
     private onFollowTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
             id: this.props.account.id,
@@ -237,6 +252,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
 
 const mapDispatchToProps: AccountSettingsDispatchProps = {
     updateAccountActivities: updateAccountActivitiesMiddlewareAction,
+    updateAccountFollows: updateAccountFollowsMiddlewareAction,
     updateAccountGeneral: updateAccountGeneralMiddlewareAction,
     updateAccountComments: updateAccountCommentsMiddlewareAction,
 };

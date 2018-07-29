@@ -18,10 +18,21 @@ export interface Comments extends CommentsLikesGeneral {
 }
 export type Likes = CommentsLikesGeneral;
 
+/**
+ * type index number
+ */
 export enum ActivitySpeedType {
     Slow = 1,
     Medium = 2,
     Fast = 3,
+}
+/**
+ * Follow time in mutes
+ */
+export enum FollowTimeType {
+    Slow = 1440,
+    Medium = 2880,
+    Fast = 4320,
 }
 
 export interface Activities {
@@ -34,6 +45,7 @@ export interface Activities {
 export interface Follows  {
     maximumFollowers: number;
     minimumFollowers: number;
+    unfollowMinutes: number;
 }
 export interface General {
     blacklistedTags: string[];

@@ -16,6 +16,7 @@ import {
     ACCOUNT_UPDATE_GENERAL,
     ACCOUNT_UPDATE_COMMENTS,
     ACCOUNT_SET_STATUS,
+    ACCOUNT_UPDATE_FOLLOWS,
 } from "./consts";
 
 import {
@@ -26,11 +27,13 @@ import {
     UpdateAccountGeneralMiddlewareAction,
     UpdateAccountCommentsMiddlewareAction,
     SetAccountStatusMiddlewareAction,
+    UpdateAccountFollowsMiddlewareAction,
 } from "./actions";
 import {
     Activities,
     General,
     Comments,
+    Follows,
 } from "./types";
 import {
     getInitAccountData,
@@ -39,6 +42,7 @@ import {
     updateGeneral,
     updateComments,
     setAccountStatus,
+    updateFollows,
 } from "../utils/requests";
 
 export interface PartialState {
@@ -50,6 +54,7 @@ export type AccountMiddlewareAction =
     | InitAccountMiddlewareAction
     | UpdateAccountActivitiesMiddlewareAction
     | UpdateAccountGeneralMiddlewareAction
+    | UpdateAccountFollowsMiddlewareAction
     | UpdateAccountCommentsMiddlewareAction
     | SetAccountStatusMiddlewareAction
 ;
@@ -91,6 +96,19 @@ export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: 
 
                 try {
                     await updateActivities(action.payload.id, data);
+                } catch (error) {
+                    console.error("UPDATE FAILED", error);
+                }
+
+                break;
+            }
+            case ACCOUNT_UPDATE_FOLLOWS: {
+                const data: { settings: Partial<Follows> } = {
+                    settings: action.payload.data,
+                };
+
+                try {
+                    await updateFollows(action.payload.id, data);
                 } catch (error) {
                     console.error("UPDATE FAILED", error);
                 }
