@@ -22,7 +22,7 @@ import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
 import { ActivitiesConnected } from "../activities/Activities";
 import { createReloginPopup } from "../popup/factory/PopupFactory";
-import { ReloginConnected } from "../Relogin/Relogin";
+import { ReloginConnected } from "../relogin/Relogin";
 
 import * as styles from "./AccountPage.scss";
 

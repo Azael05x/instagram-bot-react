@@ -11,8 +11,9 @@ import { accountMiddleware } from "@middleware/accounts";
 import { initAccountMiddlewareAction } from "@middleware/actions";
 import { InstaState } from "@types";
 
-import { MainConnected } from "./components/main/Main";
+import { Main } from "./components/main/Main";
 import { toastReducer } from "./components/toast/ducks/reducer";
+import { setupInterceptors } from "./components/require-auth/networkService";
 
 const reducers = combineReducers<InstaState>({
     common: commonReducer,
@@ -28,6 +29,11 @@ const store: Store<InstaState> = createStore(
     ),
 );
 
+/**
+ * Setup axios interceptors for network request handling
+ */
+setupInterceptors(store.dispatch);
+
 // Get UserAccount listings
 if (selectUser(store.getState()).email) {
     store.dispatch(initAccountMiddlewareAction());
@@ -37,7 +43,7 @@ ReactDOM.render(
     (
         <Provider store={store}>
             <HashRouter>
-                <MainConnected />
+                <Main />
             </HashRouter>
         </Provider>
     ),

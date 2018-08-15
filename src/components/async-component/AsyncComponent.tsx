@@ -1,9 +1,11 @@
 import * as React from "react";
 import { Loading } from "../loading/Loading";
+import { RouteComponentProps } from "react-router-dom";
 
-export interface AsyncComponentProps {
+export interface AsyncComponentOwnProps {
     moduleProvider: () => Promise<any>;
 }
+export type AsyncComponentProps = AsyncComponentOwnProps & Partial<RouteComponentProps<{}>>;
 export interface AsyncComponentState {
     Component: React.ComponentClass<any>;
 }
@@ -16,7 +18,7 @@ export class AsyncComponent extends React.PureComponent<AsyncComponentProps, Asy
     async componentWillMount() {
         if(!this.state.Component) {
             const Component = await this.props.moduleProvider();
-            this.setState({ Component: Component.default});
+            this.setState({ Component: Component.default });
         }
     }
 

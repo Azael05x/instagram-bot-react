@@ -121,3 +121,5 @@ export interface BasicCredentials {
     email: string;
     password: string;
 }
+
+export type Module = () => Promise<any>;

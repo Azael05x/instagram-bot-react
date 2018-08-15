@@ -1,15 +1,11 @@
 import * as React from "react";
 import { Switch, Route, withRouter, RouteComponentProps } from "react-router-dom";
-import { connect } from "react-redux";
-import { selectUser } from "@ducks/selectors";
 import { Path } from "@types";
 
 import { HeaderConnected } from "../header/Header";
 import { Footer } from "../footer/Footer";
 import { PopupConnected } from "../popup/Popup";
 import { ToastConnected } from "../toast/Toast";
-import { InterceptorConnected } from "../interceptor/Interceptor";
-import { AsyncComponent } from "../async-component/AsyncComponent";
 
 // Lazily imported chunks in closures
 const LazyDashboard = () => import(/* webpackChunkName: "dashboard" */"../dashboard/Dashboard");
@@ -23,14 +19,11 @@ const LazyLinkAccount = () => import(/* webpackChunkName: "linkAccount" */"../li
 const LazyNoMatch = () => import(/* webpackChunkName: "noMatch" */"../no-match/NoMatch");
 
 import * as styles from "./Main.scss";
+import { RouteEnhancer } from "./RouteEnhancer";
 
-export interface MainStateProps {
-    logged_in: boolean;
-}
+export type MainProps = RouteComponentProps<{}>;
 
-export type MainProps = MainStateProps & RouteComponentProps<{}>;
-
-export class Main extends React.PureComponent<MainProps> {
+export class MainComponent extends React.PureComponent<MainProps> {
     public render() {
         return (
             <div className={styles.container}>
@@ -41,64 +34,53 @@ export class Main extends React.PureComponent<MainProps> {
                         <Route
                             exact
                             path={Path.Home}
-                            component={() => <AsyncComponent moduleProvider={LazyLanding} />}
+                            component={RouteEnhancer(LazyLanding)}
                         />
                         <div className={styles.extraSpace}>
                         <Route
                             exact
                             path={Path.Faq}
-                            component={() => <AsyncComponent moduleProvider={LazyFaq} />}
+                            component={RouteEnhancer(LazyFaq)}
                         />
-                        { this.props.logged_in
-                            ? <>
-                                <Route
-                                    path={Path.Profile}
-                                    component={() => <AsyncComponent moduleProvider={LazyUser} />}
-                                />
-                                <Route
-                                    path={Path.LinkAccount}
-                                    component={() => <AsyncComponent moduleProvider={LazyLinkAccount} />}
-                                />
-                                <Route
-                                    exact
-                                    path={Path.Dashboard}
-                                    component={() => <AsyncComponent moduleProvider={LazyDashboard} />}
-                                />
-                                <Route
-                                    path={Path.AccountsID}
-                                    component={() => <AsyncComponent moduleProvider={LazyAccountPage} />}
-                                />
-                            </>
-                            : <>
-                                <Route
-                                    path={Path.Login}
-                                    component={() => <AsyncComponent moduleProvider={LazyLogin} />}
-                                />
-                                <Route
-                                    path={Path.Register}
-                                    component={() => <AsyncComponent moduleProvider={LazyRegister} />}
-                                />
-                            </>
-                            }
+
+                        <Route
+                            path={Path.Profile}
+                            component={RouteEnhancer(LazyUser, true)}
+                        />
+                        <Route
+                            path={Path.LinkAccount}
+                            component={RouteEnhancer(LazyLinkAccount, true)}
+                        />
+                        <Route
+                            exact
+                            path={Path.Dashboard}
+                            component={RouteEnhancer(LazyDashboard, true)}
+                        />
+                        <Route
+                            path={Path.AccountsID}
+                            component={RouteEnhancer(LazyAccountPage, true)}
+                        />
+                        <Route
+                            path={Path.Login}
+                            component={RouteEnhancer(LazyLogin)}
+                        />
+                        <Route
+                            path={Path.Register}
+                            component={RouteEnhancer(LazyRegister)}
+                        />
                         </div>
+
                         <Route
                             path={Path.Wildcard}
-                            component={() => <AsyncComponent moduleProvider={LazyNoMatch} />}
+                            component={RouteEnhancer(LazyNoMatch)}
                         />
                     </Switch>
                 </div>
                 <PopupConnected />
                 <Footer />
-                <InterceptorConnected />
             </div>
         );
     }
 }
 
-const mapStateToProps = (state: any): MainStateProps => ({
-    logged_in: !!selectUser(state).email,
-});
-
-export const MainConnected = withRouter(connect<MainStateProps>(
-    mapStateToProps,
-)(Main));
+export const Main = withRouter(MainComponent);
