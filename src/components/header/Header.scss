@@ -12,6 +12,7 @@
     top: 0;
     width: calc(100% - 10em);
     z-index: 100;
+    transition: .2s;
     
     &.active {
         border-bottom-color: transparent;
@@ -132,11 +133,20 @@
     font-size: 2rem;
 }
 
+.isHeaderMinimized {
+    height: 1.5em;
+    font-size: 0.9em;
+}
+
 @media (max-width: 768px) {
     .mobileNavigation {
         display: block;
         font-size: 1.5rem;
         cursor: pointer;
+    }
+
+    .isHeaderMinimized {
+        height: 2.5em;
     }
 
     .container {
@@ -199,9 +209,4 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-.isHeaderMinimized {
-    height: 1.5em;
-    font-size: 0.9em;
 }
