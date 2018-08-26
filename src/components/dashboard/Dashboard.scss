@@ -3,10 +3,12 @@
     flex-direction: column;
     align-items: center;
 }
+
 .innerContainer {
     max-width: 960px;
     width: 100%;
 }
+
 .accountsContainer {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -14,11 +16,13 @@
     grid-row-gap: 1rem;
     justify-content: center;
 }
+
 @media (max-width: 960px) {
     .accountsContainer {
         grid-template-columns: repeat(3, 1fr);
     }
 }
+
 @media (max-width: 720px) {
     .accountsContainer {
         grid-template-columns: repeat(2, 50%);

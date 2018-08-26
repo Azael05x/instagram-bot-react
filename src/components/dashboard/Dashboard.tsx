@@ -21,7 +21,7 @@ export interface DashboardDispatchProps {
 
 export type DashboardProps = DashboardStateProps & DashboardDispatchProps & RouteComponentProps<{}>;
 
-export class Dashboard extends React.Component<DashboardProps, {}> {
+export class Dashboard extends React.Component<DashboardProps> {
     public render() {
         const bodyComponent = this.props.accounts.length
             ? <div className={styles.accountsContainer}>{this.renderAccounts()}</div>

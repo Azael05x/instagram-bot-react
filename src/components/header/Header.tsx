@@ -17,21 +17,28 @@ export interface HeaderStateProps {
 export interface HeaderState {
     isMenuOpen: boolean;
     isMobile: boolean;
+    isHeaderMinimized: boolean;
 }
 
 export type HeaderProps = HeaderStateProps & RouteComponentProps<{}>;
 
 export class Header extends React.PureComponent<HeaderProps, HeaderState> {
-    public state = {
+    private isScrolling = false;
+    private lastScrollPositionY= 0;
+
+    public state: HeaderState = {
         isMenuOpen: false,
         isMobile: false,
+        isHeaderMinimized: false,
     };
     public componentDidMount() {
         this.setDeviceType();
         window.addEventListener("resize", this.setDeviceType);
+        window.addEventListener("scroll", this.resizeHeader);
     }
     public componentWillUnmount() {
         window.removeEventListener("resize", this.setDeviceType);
+        window.removeEventListener("scroll", this.resizeHeader);
     }
     public render() {
         const {
@@ -39,6 +46,8 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                 email,
             }
         } = this.props;
+
+        const { isHeaderMinimized } = this.state;
 
         const userComponent = !!email
             ? (
@@ -101,7 +110,11 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             );
 
         return (
-            <div className={`${styles.container} ${this.state.isMenuOpen && styles.active}`}>
+            <div className={`
+                ${styles.container}
+                ${this.state.isMenuOpen && styles.active}
+                ${isHeaderMinimized && styles.isHeaderMinimized}
+            `}>
                 <div className={styles.innerContainer}>
                     <NavLink
                             className={styles.logo}
@@ -213,13 +226,35 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             }
         }
     }
+    private resizeHeader = () => {
+        if (!this.isScrolling) {
+            window.requestAnimationFrame(() => {
+                const pageYOffset = window.pageYOffset;
+                if (this.lastScrollPositionY !== pageYOffset) {
+                    this.lastScrollPositionY = pageYOffset;
+                    if (this.lastScrollPositionY > 60) {
+                        this.setState({
+                            isHeaderMinimized: true,
+                        });
+                    } else {
+                        this.setState({
+                            isHeaderMinimized: false,
+                        });
+                    }
+                }
+
+                this.isScrolling = false;
+            });
+
+            this.isScrolling = true;
+        }
+    }
 }
 
 const mapStateToProps = (state: any): HeaderStateProps => ({
     user: selectUser(state),
 });
 
-export const HeaderConnected = withRouter(connect<HeaderStateProps, {}>(
+export const HeaderConnected = withRouter(connect<HeaderStateProps>(
     mapStateToProps,
-    {},
 )(Header));

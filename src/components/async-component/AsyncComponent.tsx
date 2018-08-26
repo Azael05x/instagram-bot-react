@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Loading } from "../loading/Loading";
 import { RouteComponentProps } from "react-router-dom";
+import { Loading } from "../loading/Loading";
 
 export interface AsyncComponentOwnProps {
     moduleProvider: () => Promise<any>;
@@ -23,15 +23,14 @@ export class AsyncComponent extends React.PureComponent<AsyncComponentProps, Asy
     }
 
     render() {
-        const { Component } = this.state;
         const {
             moduleProvider,
             ...rest
         } = this.props;
 
         return <>
-                {Component
-                    ? <Component {...rest} />
+                {this.state.Component
+                    ? <this.state.Component {...rest} />
                     : <Loading />
                 }
         </>;

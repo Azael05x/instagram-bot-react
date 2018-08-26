@@ -19,7 +19,7 @@ export interface ButtonProps extends Partial<ButtonPropsDefaultProps> {
     onClick: () => void;
 }
 
-export class Button extends React.PureComponent<ButtonProps, {}> {
+export class Button extends React.PureComponent<ButtonProps> {
     public static defaultProps: ButtonPropsDefaultProps = {
         type: ButtonType.Main,
         size: ButtonSize.Regular,

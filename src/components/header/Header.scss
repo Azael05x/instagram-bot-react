@@ -17,6 +17,7 @@
         border-bottom-color: transparent;
     }
 }
+
 .innerContainer {
     max-width: 75vw;
     width: 100%;
@@ -24,6 +25,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .navigation {
     display: flex;
 }
@@ -41,6 +43,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+
     &::after {
         content: "";
         position: absolute;
@@ -56,9 +59,11 @@
         width: 90%;
         border-radius: 100px;
     }
+
     &:hover {
         color: #E01931;
     }
+
     &.active,
     &:hover {
         &::after {
@@ -67,9 +72,11 @@
         }
     }
 }
+
 .active {
     color: #E76B6B;
 }
+
 .dropdown {
     border: 1px solid;
     padding: 0 .5rem;
@@ -87,6 +94,7 @@
     z-index: 5;
     pointer-events: none;
 }
+
 .parentLink {
     &:hover {
         .dropdown {
@@ -99,19 +107,24 @@
         }
     }
 }
+
 .caret {
     transition: .2s;
 }
+
 .mobileNavigation {
     display: none;
 }
+
 .icon {
     display: none;
     font-size: 1.5rem;
+
     &.active {
         display: block;
     }
 }
+
 .logo {
     text-decoration: none;
     color: initial;
@@ -125,14 +138,17 @@
         font-size: 1.5rem;
         cursor: pointer;
     }
+
     .container {
         padding: .2em 0;
         width: 100%;
     }
+
     .innerContainer {
         flex: 1;
         max-width: auto;
     }
+
     .navigation {
         display: flex;
         flex-direction: column;
@@ -144,8 +160,9 @@
         bottom: 0;
         align-items: center;
         padding: 1rem 0;
-        z-index: 9999999;
+        z-index: $zIndexMenuNavigator;
         transition: .4s;
+
         .link {
             transition-property: all;
             transition-duration: .4s;
@@ -154,15 +171,19 @@
             opacity: 0;
             transform: translateX(-100%);
             font-size: 1.4rem;
+
             &::after {
                 bottom: 1rem;
             }
         }
+
         &.active {
             transform: translateX(100%);
+
             .link {
                 transform: translateX(0);
                 opacity: 1;
+
                 @for $i from 1 through $maxMenuItemCount {
                     &:nth-child(#{$i}) {
                         transition-delay: calc(#{$i} * 0.1s);
@@ -178,4 +199,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.isHeaderMinimized {
+    height: 1.5em;
+    font-size: 0.9em;
 }

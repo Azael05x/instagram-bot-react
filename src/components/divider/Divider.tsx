@@ -7,7 +7,11 @@ export enum DividerTheme {
     Small = "small",
 }
 
-export class Divider extends React.PureComponent<{ theme?: DividerTheme }> {
+export interface DividerProps {
+    theme?: DividerTheme;
+}
+
+export class Divider extends React.PureComponent<DividerProps> {
     public static defaultProps = {
         theme: DividerTheme.FullWidth,
     };
