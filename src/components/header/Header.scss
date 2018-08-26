@@ -130,7 +130,7 @@
     text-decoration: none;
     color: initial;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: 1.7rem;
 }
 
 .isHeaderMinimized {
@@ -139,6 +139,14 @@
 }
 
 @media (max-width: 768px) {
+    .headerTop {
+        z-index: $zIndexHeaderTopBar;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        align-items: center;
+    }
+
     .mobileNavigation {
         display: block;
         font-size: 1.5rem;
@@ -164,13 +172,13 @@
         flex-direction: column;
         position: fixed;
         background-color: white;
-        top: 3.4rem;
+        top: 2.5rem;
         right: 100%;
         width: 100%;
         bottom: 0;
         align-items: center;
-        padding: 1rem 0;
-        z-index: $zIndexMenuNavigator;
+        padding: 2rem 0 1rem 0;
+        z-index: $zIndexMobileMenu;
         transition: .4s;
 
         .link {

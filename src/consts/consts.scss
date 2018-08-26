@@ -20,8 +20,10 @@ $placeholderColor: rgba(29, 34, 71, 0.3);
 // Layers
 $zIndexSearchDropdown: 99;
 $zIndexHeader: 100;
-$zIndexToast: 99999;
-$zIndexMenuNavigator: 9999999;
+$zIndexMobileMenu: 10000;
+$zIndexHeaderTopBar: 10001;
+$zIndexToast: 90000;
+
 // Other
 $maxMenuItemCount: 5;
 

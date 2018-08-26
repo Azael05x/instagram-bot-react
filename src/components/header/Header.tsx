@@ -116,7 +116,8 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                 ${isHeaderMinimized && styles.isHeaderMinimized}
             `}>
                 <div className={styles.innerContainer}>
-                    <NavLink
+                    <div className={styles.headerTop}>
+                        <NavLink
                             className={styles.logo}
                             to={"/"}
                             exact
@@ -126,18 +127,19 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                             {/* Insert logo here  */}
                             gekotta.
                         </NavLink>
-                    <div className={styles.mobileNavigation} >
-                        <div
-                            className={`${styles.icon} ${!this.state.isMenuOpen && styles.active}`}
-                            onClick={this.onOpenMenu}
-                        >
-                            <i className="fas fa-bars" />
-                        </div>
-                        <div
-                            className={`${styles.icon} ${this.state.isMenuOpen && styles.active}`}
-                            onClick={this.onCloseMenu}
-                        >
-                            <i className="fas fa-chevron-left" />
+                        <div className={styles.mobileNavigation}>
+                            <div
+                                className={`${styles.icon} ${!this.state.isMenuOpen && styles.active}`}
+                                onClick={this.onOpenMenu}
+                            >
+                                <i className="fas fa-bars" />
+                            </div>
+                            <div
+                                className={`${styles.icon} ${this.state.isMenuOpen && styles.active}`}
+                                onClick={this.onCloseMenu}
+                            >
+                                <i className="fas fa-chevron-left" />
+                            </div>
                         </div>
                     </div>
                     <div className={`${styles.navigation} ${this.state.isMenuOpen && styles.active}`}>
