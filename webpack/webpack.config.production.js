@@ -1,11 +1,9 @@
 const path = require('path');
-const fs = require('fs');
 const webpack = require('webpack');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+// const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const shared = require('./shared');
 const main = [
@@ -21,20 +19,18 @@ module.exports = {
         main: main,
         vendor: vendor
     },
+    mode: "production",
     output: {
         path: path.join(process.cwd(), 'dist'),
         filename: '[name].js',
         chunkFilename: '[name].chunk.js'
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: 'vendor.js' }),
-        new ForkTsCheckerWebpackPlugin({
-            async: false,
-            memoryLimit: 4096,
-            checkSyntacticErrors: true
-        }),
-        new webpack.NoEmitOnErrorsPlugin(),
-        new UglifyJSPlugin(),
+        // new ForkTsCheckerWebpackPlugin({
+        //     async: false,
+        //     memoryLimit: 4096,
+        //     checkSyntacticErrors: true
+        // }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'staging')
         }),
@@ -56,7 +52,7 @@ module.exports = {
                 minifyURLs: true,
             },
         }),
-        new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
+        new MiniCssExtractPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
     ],
     module: {
         rules: [
@@ -69,25 +65,22 @@ module.exports = {
             },
             {
                 test: /\.(s?)css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {
-                            loader: "css-loader",
-                            query: {
-                                modules: true,
-                                localIdentName: "[name]__[local]___[hash:base64:5]",
-                                minimize: true,
-                            },
+                use: [
+                    {
+                        loader: "css-loader",
+                        query: {
+                            modules: true,
+                            localIdentName: "[name]__[local]___[hash:base64:5]",
+                            minimize: true,
                         },
-                        {
-                            loader: "resolve-url-loader" // resolves url for sass-loader
-                        },
-                        {
-                            loader: "sass-loader" // compiles Sass to CSS
-                        },
-                    ]
-                })
+                    },
+                    {
+                        loader: "resolve-url-loader" // resolves url for sass-loader
+                    },
+                    {
+                        loader: "sass-loader" // compiles Sass to CSS
+                    }
+                ]
             },
             {
                 test: /\.(png|jp(e*)g|svg)$/,

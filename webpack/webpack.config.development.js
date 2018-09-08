@@ -1,32 +1,12 @@
 const path = require("path");
-const fs = require("fs");
 const webpack = require("webpack");
-const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+// const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
+// const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
-// * Only necessary until https://github.com/Realytics/fork-ts-checker-webpack-plugin/pull/48 has been merged and released
-// START 
-const chalk = require("chalk");
-const os = require("os");
-
-function formatterForLineAndColumnUrlClicking(message, useColors) {
-    const colors = new chalk.constructor({ enabled: useColors });
-    const messageColor = message.isWarningSeverity() ? colors.bold.yellow : colors.bold.red;
-    const fileAndNumberColor = colors.bold.cyan;
-    const codeColor = colors.grey;
-
-    return [
-        messageColor(message.getSeverity().toUpperCase() + " in ") +
-        fileAndNumberColor(message.getFile() + "(" + message.getLine() + "," + message.getCharacter() + ")") +
-        messageColor(":"),
-        codeColor(message.getFormattedCode() + ": ") + message.getContent()
-    ].join(os.EOL);
-}
-// END
 
 const shared = require("./shared");
 const main = [
@@ -46,6 +26,7 @@ module.exports = {
         main: main,
         vendor: vendor
     },
+    mode: "development",
     output: {
         path: path.resolve(__dirname, "dist"),
         devtoolLineToLine: true,
@@ -55,16 +36,13 @@ module.exports = {
         chunkFilename: '[name].chunk.js'
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({ name: "vendor", filename: "vendor.js" }),
-        new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new ForkTsCheckerNotifierWebpackPlugin({ title: "TypeScript", excludeWarnings: false }),
-        new ForkTsCheckerWebpackPlugin({
-            tslint: true,
-            checkSyntacticErrors: true,
-            formatter: formatterForLineAndColumnUrlClicking,
-            watch: ["./src"] // optional but improves performance (fewer stat calls)
-        }),
+        // new ForkTsCheckerNotifierWebpackPlugin({ title: "TypeScript", excludeWarnings: false }),
+        // new ForkTsCheckerWebpackPlugin({
+        //     tslint: true,
+        //     checkSyntacticErrors: true,
+        //     watch: ["./src"] // optional but improves performance (fewer stat calls)
+        // }),
         new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({
             inject: true,
@@ -72,11 +50,16 @@ module.exports = {
             favicon: 'public/favicon.ico'
         }),
         new CleanWebpackPlugin(['dist']),
-        new ExtractTextPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
+        new MiniCssExtractPlugin({ filename: "[name].[contenthash].css", allChunks: true }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
     ],
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+        },
+    },
     module: {
         rules: [
             {
@@ -89,25 +72,25 @@ module.exports = {
             },
             {
                 test: /\.(s?)css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {
-                            loader: "css-loader",
-                            query: {
-                                modules: true,
-                                localIdentName: "[name]__[local]___[hash:base64:5]",
-                                minimize: true,
-                            },
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader
+                    },
+                    {
+                        loader: "css-loader",
+                        query: {
+                            modules: true,
+                            localIdentName: "[name]__[local]___[hash:base64:5]",
+                            minimize: true,
                         },
-                        {
-                            loader: "resolve-url-loader" // resolves url for sass-loader
-                        },
-                        {
-                            loader: "sass-loader" // compiles Sass to CSS
-                        },
-                    ]
-                })
+                    },
+                    {
+                        loader: "resolve-url-loader" // resolves url for sass-loader
+                    },
+                    {
+                        loader: "sass-loader" // compiles Sass to CSS
+                    }
+                ]
             },
             {
                 test: /\.(png|jp(e*)g|svg)$/,  
