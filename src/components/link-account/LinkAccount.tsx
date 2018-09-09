@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { debounce } from "lodash";
 
-import { postAccount } from "@utils/requests";
+import { postAccount, postAccountVerification } from "@utils/requests";
 import { linkAccountAction } from "@ducks/actions";
 import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 import { afterErrorSetState } from "@utils/functions";
@@ -14,6 +14,8 @@ import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./LinkAccount.scss";
+import { AxiosResponse } from 'axios';
+import { AccountData } from '@middleware/types';
 
 export interface LinkAccountState {
     username: string;
@@ -62,14 +64,21 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             </div>
         );
     }
-    private onSubmit = debounce(async (username: string, password: string) => {
+    private onSubmit = debounce(async (username: string, password: string, code?: string) => {
         if (!username && !password) {
             return;
         }
 
         this.setState({ loading: true });
         try {
-            const { data } = await postAccount({ username, password });
+            let data: AccountData;
+
+            if (!!code) {
+                data = (await postAccountVerification({ username, password, code })).data;
+            } else {
+                data = (await postAccount({ username, password })).data;
+            }
+
             this.setState({
                 loading: false,
                 redirect: true,
