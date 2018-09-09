@@ -41,7 +41,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
         errorCode: undefined,
         progress: false,
     };
-    public componentWillMount() {
+    public componentDidMount() {
         window.addEventListener("keyup", this.onEnterKey);
     }
     public componentWillUnmount() {
@@ -110,10 +110,6 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
     }
     private onEnterKey = (event: KeyboardEvent) => {
         const keyPressed = getPressedKey(event);
-        /**
-         * If more key presses have to be handled
-         * then create universal keyHandler or use a lib
-         */
         if (keyPressed && isEnterKey(keyPressed)) {
             this.onSubmit();
         }
@@ -150,14 +146,15 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                 errorCode: undefined,
             });
         } catch (error) {
-            afterErrorSetState(error.response.status, () => {
+            const status = error.response && error.response.status;
+            afterErrorSetState(status, () => {
                 this.setState({
                     progress: false,
-                    errorCode: error.response.status,
+                    errorCode: status,
                 });
             });
             this.props.showToast(
-                getStatusCodeMessage(error.response.status),
+                getStatusCodeMessage(status),
                 ToastType.Error,
             );
         }

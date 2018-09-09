@@ -18,7 +18,7 @@ export type RequireAuthProps = RequireAuthStateProps & RouteComponentProps<{}> &
  */
 export function RequireAuth(module: Module) {
     class RequireAuthComponent extends React.Component<RequireAuthProps> {
-        public componentWillMount() {
+        public componentDidMount() {
             if(!this.props.isLogged) {
                 this.props.history.push("/login");
             }
@@ -35,11 +35,9 @@ export function RequireAuth(module: Module) {
         }
     }
 
-    const mapStateToProps = (state: any): RequireAuthStateProps => {
-        return {
-            isLogged: !!selectUser(state).email,
-        };
-    };
+    const mapStateToProps = (state: any): RequireAuthStateProps => ({
+        isLogged: !!selectUser(state).email,
+    });
 
     return connect<RequireAuthStateProps>(mapStateToProps)(RequireAuthComponent);
 }

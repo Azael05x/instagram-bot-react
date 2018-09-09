@@ -62,7 +62,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         returnReviewed: false,
         reviewingInProgress: false,
     };
-    public componentWillMount() {
+    public componentDidMount() {
         this.onLoadMore();
     }
     public componentDidUpdate(_nextProps: ActivitiesProps, nextState: ActivitiesState) {

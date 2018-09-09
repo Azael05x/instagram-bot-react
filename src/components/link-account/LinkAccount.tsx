@@ -7,6 +7,7 @@ import { postAccount, postAccountVerification } from "@utils/requests";
 import { linkAccountAction } from "@ducks/actions";
 import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 import { afterErrorSetState } from "@utils/functions";
+import { AccountData } from "@middleware/types";
 
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
@@ -14,8 +15,6 @@ import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./LinkAccount.scss";
-import { AxiosResponse } from 'axios';
-import { AccountData } from '@middleware/types';
 
 export interface LinkAccountState {
     username: string;
@@ -90,11 +89,14 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
                 );
             });
         } catch (error) {
-            afterErrorSetState(error.response.status, () => {
+            // TODO: Check if BE should handle
+            const status = error.response && error.response.status;
+
+            afterErrorSetState(status, () => {
                 this.setState({ loading: false });
             });
             this.props.showToast(
-                getStatusCodeMessage(error.response.status),
+                getStatusCodeMessage(status),
                 ToastType.Error,
             );
         }

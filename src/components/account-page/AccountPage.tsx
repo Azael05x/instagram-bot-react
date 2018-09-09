@@ -64,7 +64,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             reloginPassword: "",
         };
     }
-    public async componentWillMount() {
+    public async componentDidMount() {
         const {
             match,
             openPopup,

@@ -15,14 +15,14 @@ export class AsyncComponent extends React.PureComponent<AsyncComponentProps, Asy
         Component: null,
     };
 
-    async componentWillMount() {
+    public async componentDidMount() {
         if(!this.state.Component) {
             const Component = await this.props.moduleProvider();
             this.setState({ Component: Component.default });
         }
     }
 
-    render() {
+    public render() {
         const {
             moduleProvider,
             ...rest

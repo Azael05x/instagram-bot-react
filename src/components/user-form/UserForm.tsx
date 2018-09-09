@@ -113,15 +113,15 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
                 </div>
                 <div className={styles.formGroup}>
                     <label
-                        htmlFor={inputType}
+                        htmlFor={"code"}
                         className={`${ code && styles.hidden} ${styles.label} ${styles.italic}`}
                     >
-                        Verification code, if received
+                        Verification code
                     </label>
                     <input
-                        id={inputType}
+                        id={"code"}
                         className={styles.input}
-                        type={inputType}
+                        type={"number"}
                         onChange={this.onCodeChange}
                         value={code}
                         autoComplete="nope"
