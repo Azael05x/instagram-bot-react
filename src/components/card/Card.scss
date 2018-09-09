@@ -1,0 +1,75 @@
+@import "../../consts/consts.scss";
+@import "../../consts/mediaQueries.scss";
+
+@keyframes rotate {
+    0% {
+        transform: translate(0, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(0, -50%) rotate(360deg);
+    }
+}
+
+.cardContainer {
+    display: flex;
+    justify-content: center;
+}
+.card {
+    flex: 1;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 3rem;
+    margin: 1rem;
+    border-radius: 2px;
+    box-shadow: $dropShadow;
+    border: none;
+    transition: .2s;
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+    justify-content: flex-start;
+}
+.cardInfo {
+    opacity: .7;
+}
+ul.cardInfo {
+    text-align: left;
+    li {
+        margin: .5rem 0;
+    }
+}
+
+.cardHeader {
+    font-size: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.cardTitle {
+    margin: 0;
+    color: $darkText;
+    word-break: break-word;
+    font-weight: 100;
+    position: relative;
+    font-size: 2.1rem;
+}
+
+@media (max-width: $mqTabletWidth) {
+    .cardContainer {
+        flex-direction: column;
+    }
+    .card {
+        padding: 1rem;
+    }
+    .cardTitle {
+        font-size: 2rem;
+    }
+    .icon {
+        font-size: 2em;
+    }
+}
+@media(max-width: $mqTabletWidth) {
+
+}

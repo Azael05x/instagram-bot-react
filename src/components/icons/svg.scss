@@ -1,0 +1,26 @@
+@import "../../consts/consts.scss";
+@import "../../consts/mediaQueries.scss";
+
+.icon {
+    font-size: 3.5em;
+    fill: $dangerColor;
+    opacity: .8;
+}
+
+.cardIcon {
+    width: 0.9em;
+}
+
+.success {
+    fill: $successColor;
+}
+
+.warning {
+    fill: $warningColor;
+}
+
+@media (max-width: $mqTabletWidth) {
+    .icon {
+        font-size: 2em;
+    }
+}

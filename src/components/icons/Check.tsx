@@ -1,28 +1,21 @@
 // tslint:disable:max-line-length
 import * as React from "react";
-import { IconProps } from "./types";
 
-export class CheckIcon extends React.PureComponent<IconProps, {}> {
-    public static defaultProps = {
-        fill: "#2DCC70",
-        size: {
-            height: "1rem",
-            width: "1rem"
-        },
-    };
-    render() {
+import * as styles from "./svg.scss";
+
+export class CheckSVG extends React.PureComponent<React.SVGProps<SVGSVGElement>> {
+    public render() {
+        const { children, ...props } = this.props;
+
         return (
             <svg
-                version="1.0"
+                className={`${styles.icon} ${styles.cardIcon} ${styles.success}`}
+                aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
-                width={this.props.size.width}
-                height={this.props.size.height}
-                viewBox="0 0 160 90"
-                preserveAspectRatio="xMidYMid meet"
+                viewBox="0 0 512 512"
+                {...props}
             >
-                <g transform="translate(0.000000,113.000000) scale(0.100000,-0.100000)" fill={this.props.fill} stroke="none">
-                    <path d="M1029 665 l-463 -466 -228 228 c-125 125 -235 232 -245 236 -50 22 -105 -40 -83 -93 6 -14 134 -149 286 -300 l275 -275 56 60 c31 33 256 260 498 505 243 245 447 455 454 467 6 12 11 29 11 38 0 24 -46 65 -74 65 -19 0 -126 -102 -487 -465z" />
-                </g>
+                <path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/>
             </svg>
         );
     }

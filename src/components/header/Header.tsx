@@ -8,6 +8,8 @@ import { MOBILE_WIDTH } from "@consts";
 import { logout } from "@utils/requests";
 
 import { CaretIcon } from "../icons/Caret";
+import { MenuSVG } from "../icons/Menu";
+import { CaretMenuSVG } from "../icons/CaretMenu";
 
 import * as styles from "./Header.scss";
 
@@ -127,19 +129,15 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                             {/* Insert logo here  */}
                             gekotta.
                         </NavLink>
-                        <div className={styles.mobileNavigation}>
-                            <div
-                                className={`${styles.icon} ${!this.state.isMenuOpen && styles.active}`}
-                                onClick={this.onOpenMenu}
-                            >
-                                <i className="fas fa-bars" />
-                            </div>
-                            <div
-                                className={`${styles.icon} ${this.state.isMenuOpen && styles.active}`}
-                                onClick={this.onCloseMenu}
-                            >
-                                <i className="fas fa-chevron-left" />
-                            </div>
+                        <div
+                            className={styles.mobileNavigation}
+
+                        >
+                            {
+                                !this.state.isMenuOpen
+                                ? <MenuSVG onClick={this.onOpenMenu} />
+                                : <CaretMenuSVG onClick={this.onCloseMenu} />
+                            }
                         </div>
                     </div>
                     <div className={`${styles.navigation} ${this.state.isMenuOpen && styles.active}`}>

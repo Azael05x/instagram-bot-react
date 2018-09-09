@@ -148,9 +148,11 @@
     }
 
     .mobileNavigation {
-        display: block;
-        font-size: 1.5rem;
+        display: flex;
         cursor: pointer;
+        width: 1.5em;
+        align-items: center;
+        justify-content: center;
     }
 
     .isHeaderMinimized {

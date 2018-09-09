@@ -2,6 +2,8 @@ import * as React from "react";
 import { Divider, DividerTheme } from "../../divider/Divider";
 
 import * as styles from "../Landing.scss";
+import { CheckSVG } from "../../icons/Check";
+import { TimesSVG } from "../../icons/Times";
 
 export class WhatWeDoDont extends React.PureComponent {
     public render() {
@@ -18,7 +20,7 @@ export class WhatWeDoDont extends React.PureComponent {
 
             <div className={styles.cardContainer}>
                 <div className={styles.card}>
-                    <i className={`fas fa-check ${styles.icon} ${styles.success}`} />
+                    <CheckSVG />
                     <div className={styles.cardHeader}>
                         <h2 className={styles.cardTitle}>We Do</h2>
                     </div>
@@ -32,7 +34,7 @@ export class WhatWeDoDont extends React.PureComponent {
                     </ul>
                 </div>
                 <div className={styles.card}>
-                    <i className={`fas fa-times ${styles.icon} ${styles.danger}`} />
+                    <TimesSVG />
                     <div className={styles.cardHeader}>
                         <h2 className={styles.cardTitle}>We Don't</h2>
                     </div>

@@ -106,12 +106,6 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         const activityButtonClassname =
             `${styles.button} ${account.isActive ? styles.buttonStop : styles.buttonStart}`;
         const activityButtonLabel = account.isActive ? "Pause" : "Start";
-        // TODO: Fix icon swapping. FontAwesome 5 dynamic svg replacement of icons
-        // does not work - icons are not set dynamically
-        const activityButtonIcon = false && (account.isActive
-            ? <i className="fa fa-pause" aria-hidden="true" />
-            : <i className="fa fa-play" aria-hidden="true" />);
-
         const currentScreen = this.renderScreen();
 
         const selectOptions: SelectOption[] = [
@@ -151,7 +145,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                                 className={activityButtonClassname}
                                 onClick={this.onStatusChange}
                             >
-                                {activityButtonLabel} {activityButtonIcon}
+                                {activityButtonLabel}
                             </button>
                             <button className={`${styles.button} ${styles.buttonDelete}`} onClick={this.onDelete}>
                                 Delete <i className="far fa-trash-alt" />
