@@ -30,6 +30,9 @@ export function getAccountData(id: number): Promise<AxiosResponse<AccountData>> 
 export function postAccount(data: { username: string; password: string; }): Promise<AxiosResponse<AccountData>> {
     return axios.post(`${BASE_URL}${ACCOUNT_URL}`, data, createConfig());
 }
+export function postAccountVerification(data: { username: string; password: string; code: string; }): Promise<AxiosResponse<AccountData>> {
+    return axios.post(`${BASE_URL}${ACCOUNT_URL}/verification`, data, createConfig());
+}
 export function deleteAccount(id: number): Promise<AxiosResponse<void>> {
     return axios.delete(`${BASE_URL}${ACCOUNT_URL}/${id}`, createConfig());
 }

@@ -14,6 +14,7 @@ const onFormSubmitCb = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault
 export interface UserFormState {
     value: string;
     password: string;
+    code: string;
 }
 
 export enum InputType {
@@ -30,7 +31,7 @@ const labelTextMap = {
 };
 
 export interface UserFormProps {
-    onSubmit: (email: string, password: string) => void;
+    onSubmit: (email: string, password: string, code?: string) => void;
     actionInProgress: boolean;
     redirect: boolean;
     redirectEndpoint: string;
@@ -48,6 +49,7 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
     public state: UserFormState = {
         value: "",
         password: "",
+        code: "",
     };
     public render() {
         if (this.props.redirect) {
@@ -66,6 +68,7 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
         const {
             password,
             value,
+            code,
         } = this.state;
 
         return (
@@ -109,6 +112,25 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
                     />
                 </div>
                 <div className={styles.formGroup}>
+                    <label
+                        htmlFor={inputType}
+                        className={`${ code && styles.hidden} ${styles.label} ${styles.italic}`}
+                    >
+                        Verification code, if received
+                    </label>
+                    <input
+                        id={inputType}
+                        className={styles.input}
+                        type={inputType}
+                        onChange={this.onCodeChange}
+                        value={code}
+                        autoComplete="nope"
+                        autoCapitalize="nope"
+                        autoCorrect="nope"
+                        onKeyUp={this.onEnterKey}
+                    />
+                </div>
+                <div className={styles.formGroup}>
                     <div className={`${styles.spinner} ${!actionInProgress && styles.hidden}`}>
                         <i className="fas fa-spinner" />
                     </div>
@@ -132,6 +154,11 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
             password: event.currentTarget.value,
         });
     }
+    private onCodeChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
+        this.setState({
+            code: event.currentTarget.value,
+        });
+    }
     private onEnterKey = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
          const keyPressed = getPressedKey(event);
         /**
@@ -143,6 +170,6 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
         }
     }
     private onSubmit = () => {
-        this.props.onSubmit(this.state.value, this.state.password);
+        this.props.onSubmit(this.state.value, this.state.password, this.state.code);
     }
 }

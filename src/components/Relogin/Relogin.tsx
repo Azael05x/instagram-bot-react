@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
 
-import { relinkAccount } from "@utils/requests";
+import { relinkAccount, postAccountVerification } from "@utils/requests";
 import { closePopupAction } from "@ducks/actions";
 import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 import { StatusCode } from "@types";
@@ -29,6 +29,7 @@ export type ReloginProps = ReloginDispatchProps & ReloginOwnProps;
 
 export interface ReloginState {
     password: string;
+    code: string;
     errorCode: StatusCode;
     progress: boolean;
 }
@@ -36,6 +37,7 @@ export interface ReloginState {
 export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
     public state: ReloginState = {
         password: "",
+        code: "",
         errorCode: undefined,
         progress: false,
     };
@@ -77,6 +79,13 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                         autoFocus={true}
                         placeholder={`@${username} password`}
                     />
+                    <input
+                        type="text"
+                        className={`${styles.input} ${this.state.errorCode && styles.inputError}`}
+                        onChange={this.onCodeChange}
+                        autoFocus={false}
+                        placeholder={`Code if received`}
+                    />
                     <div className={`${styles.icon} ${!this.state.progress && styles.hidden}`}>
                         <i className="fas fa-spinner" />
                     </div>
@@ -91,6 +100,12 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
         this.setState({
             errorCode: undefined,
             password: event.currentTarget.value,
+        });
+    }
+    private onCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            errorCode: undefined,
+            code: event.currentTarget.value,
         });
     }
     private onEnterKey = (event: KeyboardEvent) => {
@@ -113,9 +128,17 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
         });
 
         try {
-            await relinkAccount(this.props.id, {
-                password: this.state.password,
-            });
+            if (this.state.code) {
+                await postAccountVerification({
+                    username: this.props.username,
+                    password: this.state.password,
+                    code: this.state.code,
+                });
+            } else {
+                await relinkAccount(this.props.id, {
+                    password: this.state.password,
+                });
+            }
 
             this.props.closePopup();
             this.props.showToast(
