@@ -27,6 +27,7 @@ export const setupInterceptors = (dispatch: Dispatch<InstaState>) => {
                     break;
                 }
                 case 409: {
+                    // TODO: Handle 409 error
                     console.log(error, error.response)
                     const {
                         statusText,
