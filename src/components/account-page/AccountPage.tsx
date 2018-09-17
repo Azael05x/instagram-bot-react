@@ -1,5 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import * as classnames from "classnames";
 import {
     RouteComponentProps,
     withRouter,
@@ -147,7 +148,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                             >
                                 {activityButtonLabel}
                             </button>
-                            <button className={`${styles.button} ${styles.buttonDelete}`} onClick={this.onDelete}>
+                            <button className={classnames(styles.button, styles.buttonDelete)} onClick={this.onDelete}>
                                 Delete <i className="far fa-trash-alt" />
                             </button>
                         </div>

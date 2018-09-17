@@ -22,7 +22,6 @@
     position: relative;
     overflow: hidden;
     flex-direction: column;
-    padding: 2rem;
 }
 .heroContainer {
     display: flex;
@@ -31,28 +30,37 @@
     align-items: center;
     color: $darkText;
     max-height: 1200px;
-    padding: 1rem 5rem;
+    padding: 0 5rem;
     max-width: 960px;
     left: 50%;
     position: relative;
     transform: translateX(-50%);
-    border-bottom: 1px solid $borderColorLight;
+}
+.ctaButtonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 .heroTitleContainer {
-    margin: .5rem;
+    margin: .5em;
     flex: 1;
-    text-align: left;
+    text-align: center;
 }
 .heroTitle {
-    font-size: 8.5rem;
-    font-size: calc(1rem + 10vw);
-    margin: 0;
+    font-size: calc(3.5em + 1vw);
+    margin: .5em;
+    text-transform: uppercase;
 }
 .heroSub {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     opacity: .7;
-    left: 11px;
     position: relative;
+
+    &.ctaSub {
+        font-size: .7em;
+        margin-top: .5em;
+    }
 }
 .heroImage {
     background :url("../../assets/hero.png");
@@ -268,8 +276,9 @@ ul.cardInfo {
     }
     .heroContainer {
         flex-direction: column;
-        padding: 1rem 0;
         max-height: 500px;
+        height: auto;
+        padding: 2em 1.2em;
     }
     .heroImage {
         position: absolute;
@@ -293,14 +302,14 @@ ul.cardInfo {
         font-size: 2em;
     }
     .heroSub {
-        left: 0;
+        font-size: .9em;
     }
-    .heroContainer {
-        height: auto;
-        padding: 2rem;
+    .heroTitle {
+        font-size: calc(1.5em + 1vw);
+        text-transform: uppercase;
     }
     .title {
-        font-size: 2rem;
+        font-size: 1.5rem;
         max-width: 100%;
     }
     .spinner {

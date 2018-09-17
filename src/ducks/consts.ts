@@ -6,3 +6,4 @@ export const ACCOUNT_INIT = "account/ACCOUNT_INIT";
 export const ACCOUNT_UPDATE = "account/ACCOUNT_UPDATE_STATUS";
 export const OPEN_POPUP = "popups/OPEN_POPUP";
 export const CLOSE_POPUP = "popups/CLOSE_POPUP";
+export const SET_CHALLENGE_URL = "popups/SET_CHALLENGE_URL";

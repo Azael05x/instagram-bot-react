@@ -1,8 +1,10 @@
 // Colors
+$lightShadowColor: rgba(142, 142, 142, 0.1);
 $darkOverlay: rgba(0, 0, 0, .6);
-$dropShadow: 0 0 .5rem rgba(0, 0, 0, 0.1);
-$dropShadowDark: 0 0 .5rem rgba(0, 0, 0, 0.5); // check if needed
-$dropShadowDarker: 0 .1rem .5rem rgba(0, 0, 0, 0.5); // compare with this
+$dropShadow: 0 0 .5em $lightShadowColor;
+$dropShadowHovered: 0 5px 1.5em $lightShadowColor;
+$dropShadowDark: 0 0 .5em rgba(0, 0, 0, 0.5); // check if needed
+$dropShadowDarker: 0 .1em .5em rgba(0, 0, 0, 0.5); // compare with this
 $dropShadowLight: 0 0 1px rgba(0,0,0,.3);
 $borderColorDark: rgba(29, 34, 71, .1);
 $borderColorLight: #e8e9ec;
@@ -16,16 +18,30 @@ $darkText: #395173;
 $transparentBgHoverColor: rgba(232, 233, 236, .4);
 $mainColor: #42beb6;
 $placeholderColor: rgba(29, 34, 71, 0.3);
+$lightOutline: rgba(154, 154, 154, 0.1);
 
 // Layers
 $zIndexSearchDropdown: 99;
 $zIndexHeader: 100;
 $zIndexMobileMenu: 10000;
 $zIndexHeaderTopBar: 10001;
-$zIndexToast: 90000;
+$zIndexPopupContainer: 90000;
+$zIndexToast: 90001;
 
 // Other
 $maxMenuItemCount: 5;
+
+//Sizes
+$headerHeight: 3em;
+
+// Desktop
+$headerVerticalPadding: 1em;
+$headerHorizontalPadding: 5em;
+$headerTotalHeight: $headerHeight + $headerVerticalPadding + $headerVerticalPadding;
+
+// Mobile
+$headerVerticalPaddingMobile: 0.2em;
+$headerTotalHeightMobile: $headerHeight + $headerVerticalPaddingMobile + $headerVerticalPaddingMobile;
 
 
 

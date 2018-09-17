@@ -1,6 +1,7 @@
 import * as React from "react";
 import { AxiosResponse, AxiosError } from "axios";
 import { connect } from "react-redux";
+import * as classnames from "classnames";
 
 import { getActivities , setReviewed} from "@utils/requests";
 import { CommentActivity, FollowActivity, LikeActivity } from "./types";
@@ -85,7 +86,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
 
         const reviewComponent = (
             <div className={styles.reviewedContainer}>
-                <div className={`${styles.icon} ${!reviewingInProgress && styles.hidden}`}>
+                <div className={classnames(styles.icon, { [styles.hidden]: reviewingInProgress })}>
                     <i className="fas fa-spinner" />
                 </div>
                 <Button

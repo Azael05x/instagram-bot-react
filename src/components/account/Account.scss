@@ -1,8 +1,9 @@
 @import "../../consts/mediaQueries.scss";
+@import "../../consts/consts.scss";
 
 .container {
-    border: 1px solid #e8e9ec;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid $lightOutline;
+    box-shadow: $dropShadow;
     background-color: #fff;
     color: #1d1d1d;
     cursor: pointer;
@@ -22,7 +23,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+        box-shadow: $dropShadowHovered;
         opacity: 0;
         transition: .2s;
     }
@@ -66,7 +67,7 @@
 }
 .buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center; /* center until setings button is disabled in Account.tsx */
     align-items: center;
     transform: translateZ(0);
     position: absolute;
@@ -75,17 +76,17 @@
     right: 2rem;
 }
 .active {
-    color: #2DCC70;
+    color: $successColor;
 }
 .inactive {
-    color: #E76B6B;
+    color: $dangerColor;
 }
 .settingsButton {
     border: 1px solid rgba(0, 0, 0, .1);
     border-radius: 5px;
     padding: 0.4rem 0.5rem;
     line-height: 1;
-    background-color: rgba(232, 233, 236, .4);
+    background-color: $transparentBgHoverColor;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: .2s;
     color: #1d1d1d;
@@ -95,26 +96,25 @@
     }
 }
 .button {
-    border: 1px solid #e8e9ec;
+    border: 1px solid $borderColorLight;
     padding: 0.4rem 1rem;
     border-radius: 100px;
     color: #fff; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: .2s;
     width: 3rem;
 }
 .startButton {
-    background-color: #2DCC70;
+    background-color: $successColor;
 }
 .startButton:hover {
-    background-color: #64D98A;
+    background-color: $successHoverColor;
 }
 .pauseButton {
     background-color: #fff;
     color: #000;
 
     &:hover {
-        background-color: rgba(232, 233, 236, .4);
+        background-color: $transparentBgHoverColor;
     }
 }
 

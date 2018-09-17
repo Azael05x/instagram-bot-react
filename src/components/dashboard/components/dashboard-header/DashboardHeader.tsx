@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import * as styles from "./DashboardHeader.scss";
 
 export class DashboardHeader extends React.PureComponent {
-    render() {
+    public render() {
         return (
             <div className={styles.header}>
                 <h2 className={styles.title}>Dashboard</h2>

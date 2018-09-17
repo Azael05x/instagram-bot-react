@@ -7,6 +7,7 @@ import {
     OPEN_POPUP,
     CLOSE_POPUP,
     USER_LOGOUT,
+    SET_CHALLENGE_URL,
 } from "./consts";
 import { initialState } from "./state";
 import {
@@ -18,6 +19,7 @@ import {
     OpenPopupAction,
     ClosePopupAction,
     LogoutAction,
+    SetChallengeUrl,
 } from "./actions";
 
 export type ReducerActions =
@@ -29,6 +31,7 @@ export type ReducerActions =
     | UpdateAccountAction
     | OpenPopupAction
     | ClosePopupAction
+    | SetChallengeUrl
 ;
 
 export function reducer(state = initialState, action: ReducerActions) {
@@ -85,6 +88,15 @@ export function reducer(state = initialState, action: ReducerActions) {
             return {
                 ...state,
                 popup: undefined,
+            };
+        }
+        case SET_CHALLENGE_URL: {
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    challenge_url: action.payload,
+                },
             };
         }
         default:

@@ -1,6 +1,9 @@
+@import "../../../../consts/mediaQueries.scss";
+
 .header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .button {
     border-radius: 100px;
@@ -17,24 +20,30 @@
     border: 1px solid #e8e9ec;
     color: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.button:hover {
-    color: #fff;
-    opacity: .8;
-    background-color: #E01931;
-}
-.title {
-    margin-top: 0;
+
+    &:hover {
+        color: #fff;
+        opacity: .8;
+        background-color: #E01931;
+    }
 }
 
-@media (max-width: 720px) {
+@media (min-width: $mqMobileWidth) {
+    .title {
+        margin: 0;
+    }
+}
+@media (max-width: $mqTabletWidth) {
     .button {
         padding: 0.7rem 1.5rem;
         font-size: 0.8rem;
     }
 }
-@media (max-width: 520px) {
+@media (max-width: $mqMobileWidth) {
     .header {
         flex-direction: column;
+    }
+    .title {
+        margin-top: 0;
     }
 }

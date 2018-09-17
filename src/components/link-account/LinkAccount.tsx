@@ -15,6 +15,7 @@ import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./LinkAccount.scss";
+import { selectUser } from "@ducks/selectors";
 
 export interface LinkAccountState {
     username: string;
@@ -103,13 +104,16 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
     }, 1000, { leading: true, trailing: false });
 }
 
+const mapStateToProps = (state: any): any => ({
+    user: selectUser(state),
+});
 const mapDispatchToProps: LinkAccountDispatchProps = {
     addAccount: linkAccountAction,
     showToast: showToastAction,
 };
 
-export const LinkAccountConnected = withRouter(connect<{}, LinkAccountDispatchProps>(
-    undefined,
+export const LinkAccountConnected = withRouter(connect<any, LinkAccountDispatchProps>(
+    mapStateToProps,
     mapDispatchToProps,
 )(LinkAccount));
 

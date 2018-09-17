@@ -10,12 +10,13 @@ import {
 import { selectUser } from "@ducks/selectors";
 import { Divider, DividerTheme } from "../divider/Divider";
 import { SignUpConnected } from "./components/SignUp";
-import { HeroConnected } from "./components/Hero";
+// import { HeroConnected } from "./components/Hero";
 import { WhatWeDoDont } from "./components/WhatWeDoDont";
 import { PlaySVG } from "../icons/Play";
 import { CogSVG } from "../icons/Cog";
 import { Card } from "../card/Card";
 import { LinkSVG } from "../icons/Link";
+import { HeroCenteredConnected } from "./components/HeroCentered";
 
 export interface LandingStateProps {
     hasUser: boolean;
@@ -27,7 +28,7 @@ export class Landing extends React.Component<LandingProps> {
     render() {
         return (
             <div className={styles.container}>
-                <HeroConnected />
+                <HeroCenteredConnected />
 
                 <div className={styles.sectionContainer}>
                     <h1 className={styles.title}>

@@ -9,9 +9,11 @@ import {
     parseDate,
     parseTime,
 } from "@utils/formatDate";
-import * as styles from "./Activity.css";
 import { revertAccountActivity } from "@utils/requests";
 import { AxiosResponse, AxiosError } from "axios";
+import * as classnames from "classnames";
+
+import * as styles from "./Activity.scss";
 
 const placeholderImg = require("../../../assets/placeholder.png");
 const userPlaceholderImg = require("../../../assets/user_placeholder.png");
@@ -63,7 +65,7 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
 
         return (
             <div className={styles.container}>
-                <div className={`${styles.sideBox} ${styles.time}`}>
+                <div className={classnames(styles.sideBox, styles.time)}>
                     <span>
                         {parseDate(createdAt)}
                     </span>
@@ -75,7 +77,11 @@ export class ActivityItem extends React.PureComponent<ActivityProps, ActivitySta
                     {this.renderActivity(activityItem)}
                 </div>
                 <div
-                    className={`${styles.sideBox} ${styles.button} ${this.state.revertInProgress ? styles.blink : ""}`}
+                    className={classnames(
+                        styles.sideBox,
+                        styles.button,
+                        { [styles.blink]: this.state.revertInProgress},
+                    )}
                     onClick={this.onRevert}
                 >
                     {!this.state.revertInProgress && "Revert"}

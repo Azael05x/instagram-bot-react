@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as styles from "./Badge.scss";
+import * as classnames from "classnames";
 
 export enum BadgeType {
     Danger = "danger",
@@ -18,7 +19,7 @@ export class Badge extends React.PureComponent<BadgeProps> {
 
     render() {
         return (
-            <span className={`${styles.badge} ${styles[this.props.type]}`}>
+            <span className={classnames(styles.badge, styles[this.props.type])}>
                 {this.props.label}
             </span>
         );

@@ -16,12 +16,29 @@ export const setupInterceptors = (dispatch: Dispatch<InstaState>) => {
     axios.interceptors.response.use(
         (response) => response,
         (error: AxiosError) => {
-            if (error.response.status === 401) {
-                dispatch(logoutActionCreator() as any); // FIXME: fix types
-                dispatch(showToastAction(
-                    error.response.statusText,
-                    ToastType.Error,
-                ));
+            switch(error.response.status) {
+                case 401: {
+                    dispatch(logoutActionCreator() as any); // FIXME: fix types
+                    dispatch(showToastAction(
+                        error.response.statusText,
+                        ToastType.Error,
+                    ));
+
+                    break;
+                }
+                case 409: {
+                    console.log(error, error.response)
+                    const {
+                        statusText,
+                        challengeUrl,
+                    } = error.response && error.response.data;
+
+                    dispatch(showToastAction(
+                        statusText,
+                        ToastType.Error,
+                    ));
+                    break;
+                }
             }
 
             return Promise.reject(error);

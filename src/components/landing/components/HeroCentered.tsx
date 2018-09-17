@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import * as classnames from "classnames";
 import { Path } from "@types";
 import { selectUser } from "@ducks/selectors";
 
@@ -29,22 +30,25 @@ export class Hero extends React.PureComponent<HeroProps, HeroState> {
             <div className={styles.heroContainer}>
                 <div className={styles.heroTitleContainer}>
                     <h1 className={styles.heroTitle}>
-                        Hello,
+                        Are you getting the most out of your Instagram?
                     </h1>
                     <small className={styles.heroSub}>
-                        would you like to boost <br />your Instagram account?
+                        Reach thousands of people in seconds rather than months
                     </small>
-                    <Divider />
                     {!this.props.hasUser && <>
-                        <Button
-                            label={"Yes, let's try it for free"}
-                            onClick={this.onFreeDemo}
-                            type={ButtonType.Danger}
-                        />
-                        <small>No credit card required</small>
+                        <Divider />
+                        <div className={styles.ctaButtonContainer}>
+                            <Button
+                                label={"Yes, let's try it for free"}
+                                onClick={this.onFreeDemo}
+                                type={ButtonType.Danger}
+                            />
+                            <small className={classnames(styles.heroSub, styles.ctaSub)}>
+                                No credit card required
+                            </small>
+                        </div>
                     </>}
                 </div>
-                <div className={styles.heroImage}></div>
             </div>
         );
     }
@@ -60,6 +64,6 @@ const mapStateToProps = (state: any): HeroProps => ({
     hasUser: !!selectUser(state).email,
 });
 
-export const HeroConnected = connect<HeroProps>(
+export const HeroCenteredConnected = connect<HeroProps>(
     mapStateToProps
 )(Hero);

@@ -8,6 +8,7 @@ import {
     OPEN_POPUP,
     CLOSE_POPUP,
     USER_LOGOUT,
+    SET_CHALLENGE_URL,
 } from "./consts";
 import { initAccountMiddlewareAction } from "../middleware/actions";
 import { AccountData } from "../middleware/types";
@@ -115,5 +116,16 @@ export interface ClosePopupAction {
 export function closePopupAction(): ClosePopupAction {
     return {
         type: CLOSE_POPUP,
+    };
+}
+
+export interface SetChallengeUrl {
+    type: typeof SET_CHALLENGE_URL;
+    payload: string;
+}
+export function setChallengeUrl(payload: string): SetChallengeUrl {
+    return {
+        type: SET_CHALLENGE_URL,
+        payload,
     };
 }

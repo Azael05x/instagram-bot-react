@@ -1,6 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import { Loading } from "../loading/Loading";
+import { windowScrollTo } from "@utils/scrollTo";
 
 export interface AsyncComponentOwnProps {
     moduleProvider: () => Promise<any>;
@@ -18,7 +19,7 @@ export class AsyncComponent extends React.PureComponent<AsyncComponentProps, Asy
     public async componentDidMount() {
         if(!this.state.Component) {
             const Component = await this.props.moduleProvider();
-            this.setState({ Component: Component.default });
+            this.setState({ Component: Component.default },  () => windowScrollTo());
         }
     }
 
