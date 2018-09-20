@@ -4,14 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "npm run tslint && webpack-dev-server --progress --color --config webpack/webpack.config.development.js --watch -d",
+    "start": "webpack-dev-server --progress --color --config webpack/webpack.config.development.js --watch -d",
     "docker": "webpack-dev-server  --progress --color --config webpack/webpack.config.development.js --host=0.0.0.0",
     "prebuild": "rimraf ./dist/*",
     "build": "NODE_ENV=production webpack --color --config webpack/webpack.config.production.js",
     "test:watch": "jest --watchAll",
     "test": "jest --ci --runInBand",
-    "deploy": "./deploy.sh",
-    "tslint": "tslint -c tslint.json -p tsconfig.json --force"
+    "deploy": "./deploy.sh"
   },
   "jest": {
     "globals": {

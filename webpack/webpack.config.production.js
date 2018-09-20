@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-// const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -26,11 +26,11 @@ module.exports = {
         chunkFilename: '[name].chunk.js'
     },
     plugins: [
-        // new ForkTsCheckerWebpackPlugin({
-        //     async: false,
-        //     memoryLimit: 4096,
-        //     checkSyntacticErrors: true
-        // }),
+        new ForkTsCheckerWebpackPlugin({
+            async: false,
+            memoryLimit: 4096,
+            checkSyntacticErrors: true
+        }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'staging')
         }),

@@ -28,10 +28,11 @@ export const setupInterceptors = (dispatch: Dispatch<InstaState>) => {
                 }
                 case 409: {
                     // TODO: Handle 409 error
-                    console.log(error, error.response)
+                    // tslint:disable-next-line:no-console
+                    console.log(error, error.response);
                     const {
                         statusText,
-                        challengeUrl,
+                        // challengeUrl,
                     } = error.response && error.response.data;
 
                     dispatch(showToastAction(

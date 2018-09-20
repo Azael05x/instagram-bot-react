@@ -5,8 +5,7 @@
     height: $headerHeight;
     align-items: center;
     justify-content: center;
-    background: white;
-    border-bottom: 1px solid rgba(29, 34, 71, 0.1);
+    background: transparent;
     padding: $headerVerticalPadding $headerHorizontalPadding;
     position: fixed;
     top: 0;
@@ -136,6 +135,8 @@
 .isHeaderMinimized {
     height: 1.5em;
     font-size: 0.9em;
+    background-color: #fff;
+    border-bottom: 1px solid rgba(29, 34, 71, 0.1);
 }
 
 @media (max-width: 768px) {

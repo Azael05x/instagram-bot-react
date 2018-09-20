@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
-// const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
-// const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const ForkTsCheckerNotifierWebpackPlugin = require("fork-ts-checker-notifier-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -37,12 +37,19 @@ module.exports = {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        // new ForkTsCheckerNotifierWebpackPlugin({ title: "TypeScript", excludeWarnings: false }),
-        // new ForkTsCheckerWebpackPlugin({
-        //     tslint: true,
-        //     checkSyntacticErrors: true,
-        //     watch: ["./src"] // optional but improves performance (fewer stat calls)
-        // }),
+        /**
+        * ForkTsCheckerWebpackPlugin has to come
+        * before ForkTsCheckerNotifierWebpackPlugin
+        *
+        * Otherwise compiler won't register the
+        * required hooks for the plugin
+        */
+        new ForkTsCheckerWebpackPlugin({
+            tslint: true,
+            checkSyntacticErrors: true,
+            watch: ["./src"] // optional but improves performance (fewer stat calls)
+        }),
+        new ForkTsCheckerNotifierWebpackPlugin({ title: "TypeScript", excludeWarnings: false }),
         new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({
             inject: true,
