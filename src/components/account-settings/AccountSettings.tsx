@@ -16,8 +16,6 @@ import {
     blacklistedHashtagsPlaceholder,
     blacklistedUsersBodyPlaceholder,
     blacklistedUsersPlaceholder,
-    favouriteUsersBodyPlaceholder,
-    favouriteUsersPlaceholder,
     videoCommentsBodyPlaceholder,
     videoCommentsPlaceholder,
     imageCommentsBodyPlaceholder,
@@ -96,16 +94,6 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 onSubmit={this.onFollowTagsChange}
                                 tags={settings.general.tags}
                                 onChange={this.onTagInput}
-                            />
-                        </div>
-                        <div className={styles.settingsArea}>
-                            <InputSelect
-                                placeholder={favouriteUsersPlaceholder}
-                                bodyPlaceholder={favouriteUsersBodyPlaceholder}
-                                icon={<i className="fa fa-user" aria-hidden="true" />}
-                                onSubmit={this.onUserTagsChange}
-                                tags={settings.general.users}
-                                onChange={this.onUserInput}
                             />
                         </div>
                         <div className={styles.settingsArea}>
@@ -199,14 +187,6 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             id: this.props.account.id,
             data: {
                 tags: value,
-            },
-        });
-    }
-    private onUserTagsChange = (value: string[]) => {
-        this.props.updateAccountGeneral({
-            id: this.props.account.id,
-            data: {
-                users: value,
             },
         });
     }
