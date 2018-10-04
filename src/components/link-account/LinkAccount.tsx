@@ -16,6 +16,8 @@ import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./LinkAccount.scss";
 import { selectUser } from "@ducks/selectors";
+import { InstaState } from "@types";
+import { User } from "@ducks/state";
 
 export interface LinkAccountState {
     username: string;
@@ -24,11 +26,15 @@ export interface LinkAccountState {
     redirect: boolean;
 }
 
+export interface LinkAccountStateProps {
+    user: User;
+    // isVerificationNeeded: boolean;
+}
 export interface LinkAccountDispatchProps {
     addAccount: typeof linkAccountAction;
     showToast: typeof showToastAction;
 }
-export type LinkAccountProps = LinkAccountDispatchProps & RouteComponentProps<{}>;
+export type LinkAccountProps = LinkAccountDispatchProps & LinkAccountStateProps & RouteComponentProps<{}>;
 
 export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountState> {
     public state = {
@@ -59,6 +65,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
                         onSubmit={this.onSubmit}
                         buttonLabel={"Link It"}
                         mainInputLabel={"@username"}
+                        hasVerification={true} // replace with stateProp
                     />
                 </div>
             </div>
@@ -104,15 +111,16 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
     }, 1000, { leading: true, trailing: false });
 }
 
-const mapStateToProps = (state: any): any => ({
+const mapStateToProps = (state: InstaState): LinkAccountStateProps => ({
     user: selectUser(state),
+    // isVerificationNeeded: selectIsVerificationNeeded(state),
 });
 const mapDispatchToProps: LinkAccountDispatchProps = {
     addAccount: linkAccountAction,
     showToast: showToastAction,
 };
 
-export const LinkAccountConnected = withRouter(connect<any, LinkAccountDispatchProps>(
+export const LinkAccountConnected = withRouter(connect<LinkAccountStateProps, LinkAccountDispatchProps>(
     mapStateToProps,
     mapDispatchToProps,
 )(LinkAccount));

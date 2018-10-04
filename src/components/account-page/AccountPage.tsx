@@ -51,7 +51,7 @@ export interface AccountPageDispatchProps {
 }
 export type AccountPageProps =
     & AccountPageDispatchProps
-    & RouteComponentProps<{ id: number }>
+    & RouteComponentProps<{ id: string }>
 ;
 
 export class AccountPage extends React.Component<AccountPageProps, AccountPageState> {
@@ -72,7 +72,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         } = this.props;
 
         try {
-            const response = await getAccountData(match.params.id);
+            const response = await getAccountData(+match.params.id);
 
             this.setState({ account: response.data }, () => {
                 if (this.state.account.hasInvalidSession) {

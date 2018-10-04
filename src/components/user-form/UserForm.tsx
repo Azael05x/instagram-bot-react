@@ -6,13 +6,14 @@ import { getPressedKey, isEnterKey } from "@utils/keyboardEvents";
 
 import { Info } from "./components/Info";
 import { InfoData } from "./components/type";
+import { FormGroup } from "./components/FormGroup";
 
 import * as styles from "./UserForm.scss";
 
 const onFormSubmitCb = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
 
 export interface UserFormState {
-    value: string;
+    mainValue: string;
     password: string;
     code: string;
 }
@@ -40,14 +41,16 @@ export interface UserFormProps {
     buttonType?: ButtonType;
     inputType?: InputType;
     infoData?: InfoData;
+    hasVerification?: boolean;
 }
 
 export class UserForm extends React.PureComponent<UserFormProps, UserFormState> {
     public static defaultProps = {
         inputType: InputType.Email,
+        hasVerification: false,
     };
     public state: UserFormState = {
-        value: "",
+        mainValue: "",
         password: "",
         code: "",
     };
@@ -63,73 +66,48 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
             infoData,
             inputType,
             mainInputLabel,
+            hasVerification,
         } = this.props;
 
         const {
             password,
-            value,
+            mainValue,
             code,
         } = this.state;
 
         return (
-            <form className={styles.formGroupContainer} onSubmit={onFormSubmitCb} noValidate={true}>
-                <div className={styles.formGroup}>
-                    <label
-                        htmlFor={inputType}
-                        className={`${ value && styles.hidden} ${styles.label}`}
-                    >
-                        {mainInputLabel || labelTextMap[inputType]}
-                    </label>
-                    <input
-                        id={inputType}
-                        className={styles.input}
-                        type={inputType}
-                        onChange={this.onEmailChange}
-                        value={value}
-                        autoComplete="nope"
-                        autoCapitalize="nope"
-                        autoCorrect="nope"
-                        onKeyUp={this.onEnterKey}
-                    />
-                </div>
-                <div className={styles.formGroup}>
-                    <label
-                        htmlFor="password"
-                        className={`${ password && styles.hidden} ${styles.label}`}
-                    >
-                        password
-                    </label>
-                    <input
-                        id="password"
-                        className={styles.input}
-                        type="password"
-                        onChange={this.onPasswordChange}
-                        value={password}
-                        autoComplete="nope"
-                        autoCapitalize="nope"
-                        autoCorrect="nope"
-                        onKeyUp={this.onEnterKey}
-                    />
-                </div>
-                <div className={styles.formGroup}>
-                    <label
-                        htmlFor={"code"}
-                        className={`${ code && styles.hidden} ${styles.label} ${styles.italic}`}
-                    >
-                        Verification code
-                    </label>
-                    <input
-                        id={"code"}
-                        className={styles.input}
-                        type={"number"}
-                        onChange={this.onCodeChange}
-                        value={code}
-                        autoComplete="nope"
-                        autoCapitalize="nope"
-                        autoCorrect="nope"
-                        onKeyUp={this.onEnterKey}
-                    />
-                </div>
+            <form
+                className={styles.formGroupContainer}
+                onSubmit={onFormSubmitCb}
+                noValidate={true}
+            >
+                <FormGroup
+                    htmlFor={inputType}
+                    onChange={this.onMainFieldChange}
+                    onKeyUp={this.onKeyUp}
+                    value={mainValue}
+                    label={mainInputLabel || labelTextMap[inputType]}
+                    type={inputType}
+                />
+                <FormGroup
+                    htmlFor={"password"}
+                    onChange={this.onPasswordChange}
+                    onKeyUp={this.onKeyUp}
+                    value={password}
+                    label={"password"}
+                    type={"password"}
+                />
+                {
+                    hasVerification && (
+                        <FormGroup
+                            htmlFor={"code"}
+                            onChange={this.onCodeChange}
+                            onKeyUp={this.onKeyUp}
+                            value={code}
+                            label={"verification code"}
+                        />
+                    )
+                }
                 <div className={styles.formGroup}>
                     <div className={`${styles.spinner} ${!actionInProgress && styles.hidden}`}>
                         <i className="fas fa-spinner" />
@@ -144,32 +122,32 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
             </form>
         );
     }
-    private onEmailChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
+    private onMainFieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            value: event.currentTarget.value,
+            mainValue: event.currentTarget.value,
         });
     }
-    private onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
+    private onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             password: event.currentTarget.value,
         });
     }
-    private onCodeChange = (event: React.ChangeEvent<HTMLInputElement>)  => {
+    private onCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             code: event.currentTarget.value,
         });
     }
-    private onEnterKey = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    private onKeyUp = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
          const keyPressed = getPressedKey(event);
         /**
          * If more key presses have to be handled
          * then create universal keyHandler or use a lib
          */
-        if (keyPressed && isEnterKey(keyPressed) && this.state.value && this.state.password) {
+        if (keyPressed && isEnterKey(keyPressed) && this.state.mainValue && this.state.password) {
             this.onSubmit();
         }
     }
     private onSubmit = () => {
-        this.props.onSubmit(this.state.value, this.state.password, this.state.code);
+        this.props.onSubmit(this.state.mainValue, this.state.password, this.state.code);
     }
 }
