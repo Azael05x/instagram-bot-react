@@ -41,26 +41,26 @@
     position: relative;
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid $darkText;
+    border-bottom: 1px solid lighten($darkText, 50%);
     border-radius: 0; // fix border rounding issues on mobile
     padding: 0;
-}
-.input:focus {
-    border-color: $dangerColor;
+
+    &:focus {
+        border-color: $dangerColor;
+    }
 }
 .label {
     position: absolute;
     top: 50%;
-    left: .5rem;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     font-size: 1.5rem;
     color: $placeholderColor;
     opacity: 1;
     transition: .2s;
+    white-space: nowrap;
 }
-.italic {
-    font-style: italic;
-}
+
 .spinner {
     opacity: 1;
     transition: .2s;
@@ -71,6 +71,7 @@
     font-size: 2rem;
     pointer-events: none;
 }
+
 .hidden {
     opacity: 0;
 }
