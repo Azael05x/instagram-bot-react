@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { debounce } from "lodash";
 
-import { postAccount, postAccountVerification } from "@utils/requests";
+import { postAccount } from "@utils/requests";
 import { linkAccountAction } from "@ducks/actions";
 import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 import { afterErrorSetState } from "@utils/functions";
@@ -78,13 +78,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
 
         this.setState({ loading: true });
         try {
-            let data: AccountData;
-
-            if (!!code) {
-                data = (await postAccountVerification({ username, password, code })).data;
-            } else {
-                data = (await postAccount({ username, password })).data;
-            }
+            const data = (await postAccount({ username, password })).data;
 
             this.setState({
                 loading: false,

@@ -125,7 +125,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
 
         try {
             if (this.state.code) {
-                await postAccountVerification({
+                await postAccountVerification(this.props.id, {
                     username: this.props.username,
                     password: this.state.password,
                     code: this.state.code,
