@@ -14,7 +14,7 @@
     white-space: nowrap;
 }
 .regular {
-    padding: 0.7em 2.3em;
+    padding: 0.5em 1.9em;
     font-size: 1.2em;
 }
 .small {
@@ -54,7 +54,7 @@
 
 @media (max-width: $mqMobileWidth) {
     .regular {
-        padding: 0.6em 1.5em;
+        padding: 0.5em 1.5em;
         font-size: 1em;
     }
 }

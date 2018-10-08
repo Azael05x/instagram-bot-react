@@ -8,7 +8,7 @@ $dropShadowDarker: 0 .1em .5em rgba(0, 0, 0, 0.5); // compare with this
 $dropShadowButtons: 0 0.1em 0.1em rgba(0, 0, 0, .2);
 $dropShadowLight: 0 0 1px rgba(0,0,0,.3);
 $borderColorDark: rgba(29, 34, 71, .1);
-$borderColorLight: #e8e9ec;
+$lightColor: #e8e9ec;
 $dangerColor: #ff5e57;
 $dangerHoverColor: #ff3f34;
 $successColor: #61d07f;
@@ -36,6 +36,8 @@ $maxMenuItemCount: 5;
 
 //Sizes
 $headerHeight: 3em;
+$headerHeightMinimized: 2.5em;
+
 
 // Desktop
 $headerVerticalPadding: 1em;
@@ -47,4 +49,32 @@ $headerVerticalPaddingMobile: 0.2em;
 $headerTotalHeightMobile: $headerHeight + $headerVerticalPaddingMobile + $headerVerticalPaddingMobile;
 
 
+// Keyframes
+// Spinning icon
 
+@keyframes rotateAndCenter {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+@keyframes rotateAndCenterY {
+    0% {
+        transform: translate(0, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(0, -50%) rotate(360deg);
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

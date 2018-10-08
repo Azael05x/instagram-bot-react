@@ -1,6 +1,5 @@
 // tslint:disable:max-line-length
 import * as React from "react";
-import * as classnames from "classnames";
 import * as styles from "./svg.scss";
 
 export class CaretMenuSVG extends React.PureComponent<React.SVGProps<SVGSVGElement>> {
@@ -10,7 +9,7 @@ export class CaretMenuSVG extends React.PureComponent<React.SVGProps<SVGSVGEleme
         return (
             <svg
                 style={{ height: "0.9em" }}
-                className={classnames(styles.icon, styles.cardIcon)}
+                className={styles.icon}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 320 512"

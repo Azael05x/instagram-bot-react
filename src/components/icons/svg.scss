@@ -2,13 +2,10 @@
 @import "../../consts/mediaQueries.scss";
 
 .icon {
-    font-size: 3.5em;
     fill: $dangerColor;
     opacity: .8;
-}
-
-.cardIcon {
-    width: 0.9em;
+    height: 100%;
+    display: block;
 }
 
 .success {
@@ -18,9 +15,7 @@
 .warning {
     fill: $warningColor;
 }
-
-@media (max-width: $mqTabletWidth) {
-    .icon {
-        font-size: 2em;
-    }
+.neutral {
+    fill: #000;
 }
+

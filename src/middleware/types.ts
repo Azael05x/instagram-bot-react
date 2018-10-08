@@ -22,9 +22,9 @@ export type Likes = CommentsLikesGeneral;
  * type index number
  */
 export enum ActivitySpeedType {
-    Slow = 1,
-    Medium = 2,
-    Fast = 3,
+    Slow,
+    Medium,
+    Fast,
 }
 /**
  * Follow time in mutes

@@ -14,6 +14,7 @@ import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./Activities.scss";
+import { SpinnerSVG } from "../icons/Spinner";
 
 export interface ActivitiesState {
     activities: (CommentActivity & FollowActivity & LikeActivity)[];
@@ -87,7 +88,7 @@ export class Activities extends React.PureComponent<ActivitiesProps, ActivitiesS
         const reviewComponent = (
             <div className={styles.reviewedContainer}>
                 <div className={classnames(styles.icon, { [styles.hidden]: reviewingInProgress })}>
-                    <i className="fas fa-spinner" />
+                    <SpinnerSVG />
                 </div>
                 <Button
                     onClick={this.markAsReviewed}

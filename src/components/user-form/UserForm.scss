@@ -54,7 +54,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.5rem;
+    font-size: 1.5em;
     color: $placeholderColor;
     opacity: 1;
     transition: .2s;
@@ -62,13 +62,11 @@
 }
 
 .spinner {
-    opacity: 1;
-    transition: .2s;
     position: absolute;
     top: 50%;
     animation: rotate 1s ease infinite;
-    left: 2rem;
-    font-size: 2rem;
+    left: 2em;
+    height: 2em;
     pointer-events: none;
 }
 

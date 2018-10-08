@@ -1,19 +1,21 @@
+@import "../../../consts/consts.scss";
+
 .tag {
     margin: .2rem;
-    border: 1px solid rgba(29, 34, 71, .2);
+    border: 1px solid $borderColorDark;
     padding: 0.15rem 0.6rem 0.15rem 0.8rem;
     border-radius: 2px;
-    background-color: #e8e9ec;
+    background-color: $lightColor;
     display: flex;
     align-items: center;
-    font-size: .9rem;
-    line-height: 1.5;
+    line-height: 1;
     color: #000;
     text-align: left;
+    height: 1em;
 }
 .closeIcon {
-    font-size: 80%;
-    margin-left: .6rem;
+    margin-left: .6em;
     cursor: pointer;
     opacity: .5;
+    height: 70%;
 }

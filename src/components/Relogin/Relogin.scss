@@ -19,7 +19,7 @@
     font-size: 1em;
     line-height: 1.5;
     align-self: normal;
-    border: 1px solid $borderColorLight;
+    border: 1px solid $lightColor;
     box-shadow: $dropShadow;
 }
 .input:focus {
@@ -66,22 +66,12 @@
     color: $warningColor;
 }
 
-@keyframes rotate {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
 .icon {
-    opacity: 1;
-    transition: .2s;
+    animation: rotateAndCenterY 1s ease infinite;
     position: absolute;
-    right: 0;
-    top: 25%;
-    animation: rotate 1s ease infinite;
-    font-size: 1.5rem;
+    left: 0;
+    top: 50%;
+    height: 75%;
 }
 .hidden {
     opacity: 0;

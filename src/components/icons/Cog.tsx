@@ -1,6 +1,5 @@
 // tslint:disable:max-line-length
 import * as React from "react";
-import * as classnames from "classnames";
 import * as styles from "./svg.scss";
 
 export class CogSVG extends React.PureComponent<React.SVGProps<SVGSVGElement>> {
@@ -9,7 +8,7 @@ export class CogSVG extends React.PureComponent<React.SVGProps<SVGSVGElement>> {
 
         return (
             <svg
-                className={classnames(styles.icon, styles.cardIcon)}
+                className={styles.icon}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 512"

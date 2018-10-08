@@ -5,7 +5,7 @@ import * as styles from "./Card.scss";
 export interface CardProps {
     iconComponent: JSX.Element;
     title: string;
-    info: string;
+    info?: string;
 }
 
 export class Card extends React.PureComponent<CardProps> {
@@ -18,14 +18,18 @@ export class Card extends React.PureComponent<CardProps> {
 
         return (
             <div className={styles.card}>
-            {iconComponent}
+            <div className={styles.iconContainer}>
+                {iconComponent}
+            </div>
              <div className={styles.cardHeader}>
                  <h2 className={styles.cardTitle}>{title}</h2>
              </div>
              <Divider theme={DividerTheme.Small} />
-             <p className={styles.cardInfo}>
-                 {info}
-             </p>
+             {info ? (
+                <p className={styles.cardInfo}>
+                    {info}
+                </p>
+             ) : this.props.children}
          </div>
         );
     }

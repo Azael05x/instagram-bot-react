@@ -1,4 +1,6 @@
 import * as React from "react";
+import { TagRemoveSVG } from "../../icons/TagRemove";
+
 import * as styles from "./Tag.scss";
 
 export interface TagProps {
@@ -14,8 +16,8 @@ export class Tag extends React.Component<TagProps> {
             <div className={styles.tag}>
                 {this.props.value}
                 {" "}
-                <div onClick={this.props.onRemove} >
-                    <i className={`${styles.closeIcon} fas fa-times`} />
+                <div onClick={this.props.onRemove} className={styles.closeIcon}>
+                    <TagRemoveSVG />
                 </div>
             </div>
         );

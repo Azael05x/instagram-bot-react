@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
-import * as classnames from "classnames";
 
 import { relinkAccount, postAccountVerification } from "@utils/requests";
 import { closePopupAction } from "@ducks/actions";
@@ -15,6 +14,7 @@ import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/type";
 import { FormGroup } from "../user-form/components/FormGroup";
 import { Button, ButtonType } from "../button/Button";
+import { SpinnerSVG } from "../icons/Spinner";
 
 import * as styles from "./Relogin.scss";
 
@@ -53,9 +53,11 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                 {this.renderForm()}
             </div>
             <div className={styles.buttonContainer}>
-                <div className={classnames(styles.icon, { [styles.hidden]: !this.state.progress })}>
-                    <i className="fas fa-spinner" />
-                </div>
+                {this.state.progress && (
+                    <div className={styles.icon}>
+                        <SpinnerSVG />
+                    </div>
+                )}
                 <Button
                     label={"Submit"}
                     onClick={this.onSubmit}
@@ -158,6 +160,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
             });
         } catch (error) {
             const status = error.response && error.response.status;
+
             afterErrorSetState(status, () => {
                 this.setState({
                     progress: false,
@@ -165,7 +168,8 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                 });
             });
             this.props.showToast(
-                getStatusCodeMessage(status),
+                // TODO: Handle error messages properly on the backend
+                error.response.data || getStatusCodeMessage(status),
                 ToastType.Error,
             );
         }

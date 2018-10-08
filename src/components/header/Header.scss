@@ -157,11 +157,11 @@
     }
 
     .isHeaderMinimized {
-        height: 2.5em;
+        height: $headerHeightMinimized;
     }
 
     .container {
-        padding: .2em 0;
+        padding: $headerVerticalPaddingMobile 0;
         width: 100%;
     }
 

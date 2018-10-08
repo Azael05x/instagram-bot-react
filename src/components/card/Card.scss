@@ -19,8 +19,8 @@
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    padding: 2rem 3rem;
-    margin: 1rem;
+    padding: 2em 3em;
+    margin: 1em;
     border-radius: 2px;
     box-shadow: $dropShadow;
     border: none;
@@ -36,12 +36,15 @@
 ul.cardInfo {
     text-align: left;
     li {
-        margin: .5rem 0;
+        margin: .5em 0;
     }
 }
 
+.iconContainer {
+    height: 2.5em;
+}
+
 .cardHeader {
-    font-size: 2rem;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -53,7 +56,7 @@ ul.cardInfo {
     word-break: break-word;
     font-weight: 100;
     position: relative;
-    font-size: 2.1rem;
+    font-size: 2.1em;
 }
 
 @media (max-width: $mqTabletWidth) {
@@ -61,10 +64,10 @@ ul.cardInfo {
         flex-direction: column;
     }
     .card {
-        padding: 1rem;
+        padding: 1em;
     }
     .cardTitle {
-        font-size: 2rem;
+        font-size: 2em;
     }
     .icon {
         font-size: 2em;

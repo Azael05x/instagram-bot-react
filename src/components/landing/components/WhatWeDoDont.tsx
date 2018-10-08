@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Divider, DividerTheme } from "../../divider/Divider";
 
-import * as styles from "../Landing.scss";
+import { Divider, DividerTheme } from "../../divider/Divider";
 import { CheckSVG } from "../../icons/Check";
 import { TimesSVG } from "../../icons/Times";
+import { Card } from "../../card/Card";
+
+import * as styles from "../Landing.scss";
 
 export class WhatWeDoDont extends React.PureComponent {
     public render() {
@@ -19,12 +21,10 @@ export class WhatWeDoDont extends React.PureComponent {
             </div>
 
             <div className={styles.cardContainer}>
-                <div className={styles.card}>
-                    <CheckSVG />
-                    <div className={styles.cardHeader}>
-                        <h2 className={styles.cardTitle}>We Do</h2>
-                    </div>
-                    <Divider theme={DividerTheme.Small} />
+                <Card
+                    iconComponent={<CheckSVG />}
+                    title={"We Do"}
+                >
                     <ul className={styles.cardInfo}>
                         <li>Expose your account to thousands real potential followers</li>
                         <li>Allow to follow any hashtags and users</li>
@@ -32,19 +32,17 @@ export class WhatWeDoDont extends React.PureComponent {
                         <li>Allow to unfollow recently followed users</li>
                         <li>Provide statistics to see each accounts growth dynamics</li>
                     </ul>
-                </div>
-                <div className={styles.card}>
-                    <TimesSVG />
-                    <div className={styles.cardHeader}>
-                        <h2 className={styles.cardTitle}>We Don't</h2>
-                    </div>
-                    <Divider theme={DividerTheme.Small} />
+                </Card>
+                <Card
+                    iconComponent={<TimesSVG />}
+                    title={"We Don't"}
+                >
                     <ul className={styles.cardInfo}>
                         <li>Add fake followers</li>
                         <li>Add fake likes</li>
                         <li>Add fake comments</li>
                     </ul>
-                </div>
+                </Card>
             </div>
         </>;
     }

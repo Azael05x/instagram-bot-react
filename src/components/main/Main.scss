@@ -6,7 +6,7 @@
     flex-direction: column;
     flex: 1;    
     text-align: center;
-    min-height: 100vh;
+    min-height: calc(100vh - #{$headerTotalHeight});
     /* height of the header + paddings */
     padding-top: $headerTotalHeight;
 }
@@ -24,6 +24,7 @@
         padding: 1rem;
     }
     .container {
+        min-height: calc(100vh - #{$headerTotalHeightMobile});
         padding-top: $headerTotalHeightMobile;
     }
 }

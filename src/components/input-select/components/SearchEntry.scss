@@ -9,10 +9,10 @@
     transition: .2s;
     position: relative;
     &:hover {
-        background-color: $borderColorLight;
+        background-color: $lightColor;
     }
     &:not(:last-child) {
-        border-bottom: 1px solid $borderColorLight;
+        border-bottom: 1px solid $lightColor;
     }
 }
 .name {

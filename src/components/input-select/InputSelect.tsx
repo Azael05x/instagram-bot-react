@@ -23,6 +23,7 @@ import {
 import * as styles from "./InputSelect.scss";
 import { SearchDropdown } from "./components/SearchDropdown";
 import { getPressedKey, isEnterKey } from "@utils/keyboardEvents";
+import { SpinnerSVG } from "../icons/Spinner";
 
 export enum InputType {
     TextField,
@@ -146,18 +147,17 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
                 {icon}
             </div>
         );
-        const loadingSpinnerIcon = (
-            <div className={`${styles.spinner} ${loading && styles.active}`}>
-                <i className="fas fa-spinner" />
-            </div>
-        );
 
         return (
             <div className={styles.container}>
                 <div className={styles.inputWrapper}>
                     {iconComponent}
                     {inputComponent}
-                    {loadingSpinnerIcon}
+                    {loading && (
+                        <div className={styles.spinnerContainer}>
+                            <SpinnerSVG />
+                        </div>
+                    )}
                 </div>
                 <Divider theme={DividerTheme.Small} />
                 <div className={styles.tagField}>

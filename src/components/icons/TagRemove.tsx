@@ -1,14 +1,16 @@
 // tslint:disable:max-line-length
 import * as React from "react";
+import * as classnames from "classnames";
 import * as styles from "./svg.scss";
 
-export class LinkSVG extends React.PureComponent<React.SVGProps<SVGSVGElement>> {
+export class TagRemoveSVG extends React.PureComponent<React.SVGProps<SVGSVGElement>> {
     public render() {
         const { children, ...props } = this.props;
 
         return (
             <svg
-                className={styles.icon}
+                style={{ transform: "rotate(45deg)"}}
+                className={classnames(styles.icon, styles.neutral)}
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"

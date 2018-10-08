@@ -9,6 +9,7 @@ import { InfoData } from "./components/type";
 import { FormGroup } from "./components/FormGroup";
 
 import * as styles from "./UserForm.scss";
+import { SpinnerSVG } from "../icons/Spinner";
 
 const onFormSubmitCb = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
 
@@ -92,9 +93,11 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
                     type={"password"}
                 />
                 <div className={styles.formGroup}>
-                    <div className={`${styles.spinner} ${!actionInProgress && styles.hidden}`}>
-                        <i className="fas fa-spinner" />
-                    </div>
+                    {actionInProgress && (
+                        <div className={styles.spinner}>
+                            <SpinnerSVG />
+                        </div>
+                    )}
                     <Button
                         label={buttonLabel}
                         onClick={this.onSubmit}

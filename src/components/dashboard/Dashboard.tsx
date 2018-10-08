@@ -2,13 +2,14 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router";
 
+import { selectAccounts } from "@ducks/selectors";
+import { setAccountStatusMiddlewareAction } from "@middleware/actions";
+import { AccountData } from "@middleware/types";
+
 import { DashboardHeader } from "./components/dashboard-header/DashboardHeader";
 import { Divider } from "../divider/Divider";
 import { EmptyList } from "../empty-list/EmptyList";
 import { AccountItem } from "../account/Account";
-import { selectAccounts } from "@ducks/selectors";
-import { setAccountStatusMiddlewareAction } from "@middleware/actions";
-import { AccountData } from "@middleware/types";
 
 import * as styles from "./Dashboard.scss";
 
@@ -56,7 +57,7 @@ const mapDispatchToProps = {
     onStatusChange: setAccountStatusMiddlewareAction,
 };
 
-export const DashboardConnected = withRouter(connect<DashboardStateProps, {}>(
+export const DashboardConnected = withRouter(connect<DashboardStateProps>(
     mapStateToProps,
     mapDispatchToProps,
 )(Dashboard));
