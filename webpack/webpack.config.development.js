@@ -120,6 +120,7 @@ module.exports = {
     devServer: {
         hot: true,
         historyApiFallback: true,
-        stats: "errors-only"
+        stats: "errors-only",
+        contentBase: 'src'
     }
 };

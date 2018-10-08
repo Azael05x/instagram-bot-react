@@ -5,17 +5,20 @@ $dropShadow: 0 0 .5em $lightShadowColor;
 $dropShadowHovered: 0 5px 1.5em $lightShadowColor;
 $dropShadowDark: 0 0 .5em rgba(0, 0, 0, 0.5); // check if needed
 $dropShadowDarker: 0 .1em .5em rgba(0, 0, 0, 0.5); // compare with this
+$dropShadowButtons: 0 0.1em 0.1em rgba(0, 0, 0, .2);
 $dropShadowLight: 0 0 1px rgba(0,0,0,.3);
 $borderColorDark: rgba(29, 34, 71, .1);
 $borderColorLight: #e8e9ec;
 $dangerColor: #ff5e57;
 $dangerHoverColor: #ff3f34;
-$successColor: #2DCC70;
+$successColor: #61d07f;
+// $successColor: #2DCC70;
 $successHoverColor: #64d98a;
 $warningColor: rgba(243, 156, 18,1.0);
 $warningHoverColor: rgba(243, 156, 18,.7);
-$darkText: #395173;
-$transparentBgHoverColor: rgba(232, 233, 236, .4);
+$darkColor: #395173;
+$neutralColor: rgba(232, 233, 236, .4);
+$neutralHoverColor: #fff;
 $mainColor: #42beb6;
 $placeholderColor: rgba(29, 34, 71, 0.3);
 $lightOutline: rgba(154, 154, 154, 0.1);

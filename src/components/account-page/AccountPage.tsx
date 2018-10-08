@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import * as classnames from "classnames";
 import {
     RouteComponentProps,
     withRouter,
@@ -13,19 +12,20 @@ import {
 } from "@middleware/actions";
 import { AccountData } from "@middleware/types";
 import { getAccountData } from "@utils/requests";
-import { openPopupAction } from "@ducks/actions";
+import { openPopupAction, closePopupAction } from "@ducks/actions";
 import { Path } from "@types";
 import { afterErrorSetState } from "@utils/functions";
 
-import { Divider } from "../divider/Divider";
+import { Divider, DividerTheme } from "../divider/Divider";
 import { AccountSettingsConnected } from "../account-settings/AccountSettings";
 import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
 import { ActivitiesConnected } from "../activities/Activities";
-import { createReloginPopup } from "../popup/factory/PopupFactory";
+import { createReloginPopup, createDeletePopup } from "../popup/factory/PopupFactory";
 import { ReloginConnected } from "../relogin/Relogin";
 
 import * as styles from "./AccountPage.scss";
+import { ButtonType, Button, ButtonSize } from "../button/Button";
 
 export enum ScreenDataRole {
     Settings = "settings",
@@ -48,6 +48,7 @@ export interface AccountPageDispatchProps {
     onDelete: typeof unlinkAccountMiddlewareAction;
     onStatusChange: typeof setAccountStatusMiddlewareAction;
     openPopup: typeof openPopupAction;
+    closePopup: typeof closePopupAction;
 }
 export type AccountPageProps =
     & AccountPageDispatchProps
@@ -81,6 +82,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                             <ReloginConnected
                                 username={this.state.account.username}
                                 id={this.state.account.id}
+                                isVerificationNeeded={!!this.state.account.verificationUrl}
                             />
                         ),
                     }));
@@ -104,9 +106,8 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
             return null;
         }
 
-        const activityButtonClassname =
-            `${styles.button} ${account.isActive ? styles.buttonStop : styles.buttonStart}`;
         const activityButtonLabel = account.isActive ? "Pause" : "Start";
+        const activityButtonType = account.isActive ? ButtonType.Neutral : ButtonType.Main;
         const currentScreen = this.renderScreen();
 
         const selectOptions: SelectOption[] = [
@@ -142,30 +143,47 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                             currentOption={currentOption}
                         />
                         <div className={styles.buttons}>
-                            <button
-                                className={activityButtonClassname}
+                            <Button
+                                label={activityButtonLabel}
                                 onClick={this.onStatusChange}
-                            >
-                                {activityButtonLabel}
-                            </button>
-                            <button className={classnames(styles.button, styles.buttonDelete)} onClick={this.onDelete}>
-                                Delete <i className="far fa-trash-alt" />
-                            </button>
+                                type={activityButtonType}
+                                size={ButtonSize.Small}
+                            />
                         </div>
                     </div>
                     <Divider />
                     <div className={styles.body}>
                         {currentScreen.component}
                     </div>
+                    <Divider theme={DividerTheme.SmallBigMargin} />
                 </div>
+                <span className={styles.deleteLink} onClick={this.onDelete}>
+                    I want to delete this account
+                </span>
             </div>
         );
     }
     private onDelete = () => {
-        this.props.onDelete(+this.props.match.params.id);
-        this.setState({
-            redirect: true,
-        });
+        this.props.openPopup(createDeletePopup({
+            buttons: [
+                {
+                    type: ButtonType.Danger,
+                    callback: () => {
+                        this.props.onDelete(+this.props.match.params.id);
+                        this.props.closePopup();
+                        this.setState({
+                            redirect: true,
+                        });
+                    },
+                    title: "Delete",
+                },
+                {
+                    type: ButtonType.Neutral,
+                    callback: this.props.closePopup,
+                    title: "Cancel",
+                }
+            ]
+        }));
     }
     private onStatusChange = () => {
         this.setState(
@@ -214,6 +232,7 @@ const mapDispatchToProps: AccountPageDispatchProps = {
     onDelete: unlinkAccountMiddlewareAction,
     onStatusChange: setAccountStatusMiddlewareAction,
     openPopup: openPopupAction,
+    closePopup: closePopupAction,
 };
 
 export const AccountPageConnected = withRouter(connect<{}, AccountPageDispatchProps>(

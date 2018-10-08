@@ -6,7 +6,7 @@
     color: #fff;
     text-transform: capitalize;
     font-family: "Quicksand";
-    box-shadow: 1px 2px 0.5rem rgba(0,0,0,.4);
+    box-shadow: $dropShadowButtons;
     border: none;
     cursor: pointer;
     outline: none;
@@ -14,36 +14,47 @@
     white-space: nowrap;
 }
 .regular {
-    padding: 0.7rem 2.3rem;
-    font-size: 1.2rem;
+    padding: 0.7em 2.3em;
+    font-size: 1.2em;
 }
 .small {
     padding: .4em 1em;
-    font-size: 1rem;
+    font-size: 1em;
 }
 
 .danger {
     background-color: $dangerColor;
+
     &:hover {
         background-color: $dangerHoverColor;
     }
 }
 .warning {
     background-color: $warningColor;
+
     &:hover {
         background-color: $warningHoverColor;
     }
 }
 .main {
     background-color: $successColor;
+
     &:hover {
         background-color: $successHoverColor;
+    }
+}
+.neutral {
+    background-color: $neutralColor;
+    color: $darkColor;
+
+    &:hover {
+        background-color: $neutralHoverColor;
     }
 }
 
 @media (max-width: $mqMobileWidth) {
     .regular {
-        padding: 0.8rem 1.5rem;
-        font-size: 1rem;
+        padding: 0.6em 1.5em;
+        font-size: 1em;
     }
 }

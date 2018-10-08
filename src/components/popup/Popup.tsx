@@ -5,6 +5,7 @@ import { selectPopup } from "@ducks/selectors";
 
 import { PopupData, PopupButton } from "./factory/PopupData";
 import { Divider, DividerTheme } from "../divider/Divider";
+import { Button } from "../button/Button";
 
 import * as styles from "./Popup.scss";
 
@@ -15,6 +16,7 @@ export type PopupProps = PopupStateProps;
 
 export class Popup extends React.PureComponent<PopupProps> {
     render() {
+        // TODO: Fix animation of popup
         // if (!this.props.popup) {
         //     return null;
         // }
@@ -26,8 +28,8 @@ export class Popup extends React.PureComponent<PopupProps> {
                 <div className={styles.overlay} />
                 <div className={styles.content}>
                     <div className={styles.contentHeader}>
-                        {popup && popup.title}
-                        <Divider theme={DividerTheme.Small} />
+                        <h3 className={styles.title}>{popup && popup.title}</h3>
+                        <Divider theme={DividerTheme.SmallBigMargin} />
                     </div>
                     <div className={styles.contentBody}>
                         {popup && popup.content()}
@@ -44,16 +46,13 @@ export class Popup extends React.PureComponent<PopupProps> {
     private renderButtons = (buttons: PopupButton[]) => {
         return buttons.map((button, i) => {
             return (
-                <button
+                <Button
                     key={i}
-                    data-role={button.id}
                     onClick={button.callback}
-                    className={`${styles.button} ${styles[button.id]}`}
-                >
-                    {button.icon}
-                    {button.icon && " "}
-                    {button.title}
-                </button>
+                    label={button.title}
+                    type={button.type}
+                    size={button.size}
+                />
             );
         });
     }

@@ -18,3 +18,9 @@ export const imageCommentsBodyPlaceholder = "No comments yet. We will not commen
 
 export const videoCommentsPlaceholder = "Enter a list of comments that you want to leave for the liked videos. These will be used only for posts with videos.";
 export const videoCommentsBodyPlaceholder = "No comments yet. We will not comment with anything else than your specified comments here.";
+
+/**
+ * Popup texts
+ */
+export const successfulRelogin = "You have succesfully re-logged in!";
+export const successfulLink = (username: string) => `Successfully linked ${username}'s account`;

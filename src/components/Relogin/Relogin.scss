@@ -1,6 +1,11 @@
 @import "../../consts/consts.scss";
 
-// Duplicate  rules
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .formGroup {
     flex-direction: column;
     display: flex;
@@ -26,9 +31,9 @@
 }
 .buttonContainer {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     margin-top: 2rem;
+    position: relative;
 }
 .button {
     flex-basis: 20%;
@@ -51,19 +56,22 @@
 }
 .cancel {
     background-color: #fff;
-    color: $darkText;
+    color: $darkColor;
 }
 .cancel:hover {
-    background-color: $transparentBgHoverColor;
+    background-color: $neutralColor;
 }
 
+.accentedText {
+    color: $warningColor;
+}
 
 @keyframes rotate {
     0% {
-        transform: translate(150%, -50%) rotate(0deg);
+        transform: rotate(0deg);
     }
     100% {
-        transform: translate(150%, -50%) rotate(360deg);
+        transform: rotate(360deg);
     }
 }
 .icon {
@@ -71,7 +79,7 @@
     transition: .2s;
     position: absolute;
     right: 0;
-    top: 50%;
+    top: 25%;
     animation: rotate 1s ease infinite;
     font-size: 1.5rem;
 }

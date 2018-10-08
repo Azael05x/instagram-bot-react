@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --progress --color --config webpack/webpack.config.development.js --watch -d",
+    "start": "webpack-dev-server --progress --color --config webpack/webpack.config.development.js --watch -d --inline",
     "docker": "webpack-dev-server  --progress --color --config webpack/webpack.config.development.js --host=0.0.0.0",
     "prebuild": "rimraf ./dist/*",
     "build": "NODE_ENV=production webpack --color --config webpack/webpack.config.production.js",

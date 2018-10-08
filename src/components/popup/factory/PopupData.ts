@@ -1,20 +1,18 @@
 import * as React from "react";
+import { ButtonType, ButtonSize } from "../../button/Button";
 
 export enum PopupId {
     Relogin = "RELOG_IN",
+    DeleteAccount = "DELETE_ACCOUNT",
 }
-export enum PopupButtonType {
-    Yes = "yes",
-    No = "no",
-    Submit = "submit",
-    Cancel = "cancel",
-}
+
 export interface PopupButton {
-    id: PopupButtonType;
+    type: ButtonType;
     icon?: JSX.Element;
     title: string;
     callback: (argument?: any) => void;
     disabled?: boolean;
+    size?: ButtonSize;
 }
 
 export enum PopupType {

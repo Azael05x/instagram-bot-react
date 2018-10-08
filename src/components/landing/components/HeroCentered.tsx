@@ -40,7 +40,7 @@ export class Hero extends React.PureComponent<HeroProps, HeroState> {
                         <div className={styles.ctaButtonContainer}>
                             <Button
                                 label={"Yes, let's try it for free"}
-                                onClick={this.onFreeDemo}
+                                onClick={this.onClick}
                                 type={ButtonType.Danger}
                             />
                             <small className={classnames(styles.heroSub, styles.ctaSub)}>
@@ -52,7 +52,7 @@ export class Hero extends React.PureComponent<HeroProps, HeroState> {
             </div>
         );
     }
-    private onFreeDemo = () => {
+    private onClick = () => {
         // Redirect to sign up page
         this.setState({
             redirect: true,

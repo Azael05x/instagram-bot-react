@@ -7,13 +7,15 @@ export interface FormGroupProps {
     label: string;
     value: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    onKeyUp: (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) =>void;
+    onKeyUp: (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     type?: string;
+    autoFocus?: boolean;
 }
 
 export class FormGroup extends React.PureComponent<FormGroupProps> {
     public static defaultProps = {
         type: "text",
+        autoFocus: false,
     };
 
     public render() {
@@ -24,6 +26,7 @@ export class FormGroup extends React.PureComponent<FormGroupProps> {
             onChange,
             onKeyUp,
             type,
+            autoFocus,
         } = this.props;
 
         return (
@@ -44,6 +47,7 @@ export class FormGroup extends React.PureComponent<FormGroupProps> {
                     autoCapitalize="nope"
                     autoCorrect="nope"
                     onKeyUp={onKeyUp}
+                    autoFocus={autoFocus}
                 />
             </div>
         );

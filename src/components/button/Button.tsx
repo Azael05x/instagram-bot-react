@@ -5,6 +5,7 @@ export enum ButtonType {
     Main = "main",
     Danger = "danger",
     Warning = "warning",
+    Neutral = "neutral",
 }
 export enum ButtonSize {
     Regular = "regular",

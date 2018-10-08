@@ -41,12 +41,12 @@
     position: relative;
     background-color: transparent;
     border: none;
-    border-bottom: 1px solid lighten($darkText, 50%);
+    border-bottom: 1px solid lighten($darkColor, 50%);
     border-radius: 0; // fix border rounding issues on mobile
     padding: 0;
 
     &:focus {
-        border-color: $dangerColor;
+        border-color: $successColor;
     }
 }
 .label {

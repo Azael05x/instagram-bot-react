@@ -70,4 +70,6 @@ export interface AccountData {
     updatedAt: string;
     username: string;
     hasInvalidSession: boolean;
+    verificationChoice: string | null;
+    verificationUrl: string | null;
 }

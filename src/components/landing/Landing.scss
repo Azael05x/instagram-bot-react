@@ -28,7 +28,7 @@
     height: calc(100vh - 8rem);
     justify-content: center;
     align-items: center;
-    color: $darkText;
+    color: $darkColor;
     max-height: 1200px;
     padding: 0 5rem;
     max-width: 960px;
@@ -96,7 +96,7 @@
 }
 
 .title {
-    color: $darkText;
+    color: $darkColor;
     font-size: 2rem;
     margin-bottom: 1rem;
 }
@@ -161,7 +161,7 @@ ul.cardInfo {
 }
 .cardTitle {
     margin: 0;
-    color: $darkText;
+    color: $darkColor;
     word-break: break-word;
     font-weight: 100;
     position: relative;
@@ -228,7 +228,7 @@ ul.cardInfo {
     transition: .2s;
     position: relative;
     background-color: transparent;
-    border-bottom: 1px solid $darkText;
+    border-bottom: 1px solid $darkColor;
     padding: 0;
 }
 .input:focus {

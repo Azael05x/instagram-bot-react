@@ -5,6 +5,7 @@ import * as classnames from "classnames";
 
 import * as styles from "./Account.scss";
 import { AccountHeader } from "./components/AccountHeader";
+import { Button, ButtonSize, ButtonType } from "../button/Button";
 
 export interface AccountItemState {
     redirect: boolean;
@@ -35,15 +36,12 @@ export class AccountItem extends React.PureComponent<AccountItemProps> {
                     isAccountActive={this.isAccountActive}
                 />
                 <div className={styles.buttons}>
-                    <div
-                        className={classnames(
-                            styles.button,
-                            this.isAccountActive ? styles.pauseButton : styles.startButton
-                        )}
+                    <Button
+                        label={this.isAccountActive ? "Pause" : "Start"}
                         onClick={this.onStatusChange}
-                    >
-                        {this.isAccountActive ? "Pause" : "Start"}
-                    </div>
+                        size={ButtonSize.Small}
+                        type={this.isAccountActive ? ButtonType.Neutral : ButtonType.Main}
+                    />
                     {settingsComponent}
                 </div>
             </div>

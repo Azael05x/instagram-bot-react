@@ -1,25 +1,29 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { debounce } from "lodash";
+import * as classnames from "classnames";
 
 import { relinkAccount, postAccountVerification } from "@utils/requests";
 import { closePopupAction } from "@ducks/actions";
 import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 import { StatusCode } from "@types";
 import { isEnterKey, getPressedKey } from "@utils/keyboardEvents";
+import { afterErrorSetState } from "@utils/functions";
+import { successfulRelogin } from "@texts";
 
-import { PopupButton, PopupButtonType } from "../popup/factory/PopupData";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/type";
+import { FormGroup } from "../user-form/components/FormGroup";
+import { Button, ButtonType } from "../button/Button";
 
 import * as styles from "./Relogin.scss";
-import { afterErrorSetState } from "@utils/functions";
 
 const SUBMIT_TIMEOUT = 500;
 
 export interface ReloginOwnProps {
     username: string;
     id: number;
+    isVerificationNeeded: boolean;
 }
 export interface ReloginDispatchProps {
     closePopup: typeof closePopupAction;
@@ -41,61 +45,68 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
         errorCode: undefined,
         progress: false,
     };
-    public componentDidMount() {
-        window.addEventListener("keyup", this.onEnterKey);
-    }
-    public componentWillUnmount() {
-        window.removeEventListener("keyup", this.onEnterKey);
-    }
+
     public render() {
-        const {
-            username,
-        } = this.props;
-
-        const buttons: PopupButton[] =  [
-            {
-                id: PopupButtonType.Submit,
-                title: "Submit",
-                callback: this.onSubmit,
-            },
-            {
-                id: PopupButtonType.Cancel,
-                title: "Later",
-                callback: this.props.closePopup,
-            },
-        ];
-
         return <>
             <div className={styles.container}>
-                <div style={{ marginBottom: ".5rem" }}>
-                    Oh no, this account has been logged out&nbsp;by&nbsp;Instagram. <br />
-                    Please enter this accounts instagram&nbsp;password&nbsp;below
-                </div>
-                <div className={styles.formGroup}>
-                    <input
-                        type="password"
-                        className={`${styles.input} ${this.state.errorCode && styles.inputError}`}
-                        onChange={this.onPasswordChange}
-                        autoFocus={true}
-                        placeholder={`@${username} password`}
-                    />
-                    <input
-                        type="text"
-                        className={`${styles.input} ${this.state.errorCode && styles.inputError}`}
-                        onChange={this.onCodeChange}
-                        autoFocus={false}
-                        placeholder={`Code if received`}
-                    />
-                    <div className={`${styles.icon} ${!this.state.progress && styles.hidden}`}>
-                        <i className="fas fa-spinner" />
-                    </div>
-                </div>
+                {this.renderTitle()}
+                {this.renderForm()}
             </div>
             <div className={styles.buttonContainer}>
-                {this.renderButtons(buttons)}
+                <div className={classnames(styles.icon, { [styles.hidden]: !this.state.progress })}>
+                    <i className="fas fa-spinner" />
+                </div>
+                <Button
+                    label={"Submit"}
+                    onClick={this.onSubmit}
+                    type={ButtonType.Main}
+                />
+                <Button
+                    label={"Later"}
+                    onClick={this.props.closePopup}
+                    type={ButtonType.Neutral}
+                />
             </div>
         </>;
     }
+
+    private renderTitle = () => {
+        return (
+            <div style={{ marginBottom: ".5rem" }}>
+                {
+                    this.props.isVerificationNeeded
+                    ? "Please input the verification code you received in your email"
+                    : <>
+                        Please enter&nbsp;
+                        <span className={styles.accentedText}>@{this.props.username} Instagram password</span>
+                        &nbsp;to&nbsp;continue
+                    </>
+                }
+            </div>
+        );
+    }
+    private renderForm = () => {
+        const {
+            isVerificationNeeded,
+        } = this.props;
+        const {
+            code,
+            password,
+        } = this.state;
+
+        return (
+            <FormGroup
+                htmlFor={isVerificationNeeded ?  "code" : "password"}
+                label={isVerificationNeeded ? "Verification Code" : "Password"}
+                autoFocus={true}
+                value={isVerificationNeeded ? code : password}
+                type={isVerificationNeeded ? "text" : "password"}
+                onChange={isVerificationNeeded ? this.onCodeChange : this.onPasswordChange}
+                onKeyUp={this.onKeyUp}
+            />
+        );
+    }
+
     private onPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             errorCode: undefined,
@@ -108,14 +119,14 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
             code: event.currentTarget.value,
         });
     }
-    private onEnterKey = (event: KeyboardEvent) => {
+    private onKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
         const keyPressed = getPressedKey(event);
         if (keyPressed && isEnterKey(keyPressed)) {
             this.onSubmit();
         }
     }
     private onSubmit = debounce(async () => {
-        if (!this.state.password) {
+        if (!this.state.password && !this.state.code) {
             return;
         }
 
@@ -138,7 +149,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
 
             this.props.closePopup();
             this.props.showToast(
-                "You have succesfully re-logged in!",
+                successfulRelogin,
                 ToastType.Success,
             );
             this.setState({
@@ -159,27 +170,6 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
             );
         }
     }, SUBMIT_TIMEOUT, { trailing: false, leading: true});
-    private renderButtons = (buttons: PopupButton[]) => {
-        /**
-         * @deprecated
-         * replace with Button component
-         * add disabled style to button component
-         */
-        return buttons.map((button, i) => {
-            return (
-                <button
-                    key={i}
-                    data-role={button.id}
-                    onClick={button.callback}
-                    className={`${styles.button} ${styles[button.id]}`}
-                >
-                    {button.icon}
-                    {button.icon && " "}
-                    {button.title}
-                </button>
-            );
-        });
-    }
 }
 
 const mapDispatchToProps: ReloginDispatchProps = {

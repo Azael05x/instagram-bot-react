@@ -38,24 +38,13 @@
     font-weight: 100;
     white-space: nowrap;
 }
-.buttonStop {
-    background-color: rgba(232, 233, 236, .4);
-    color: #1D2247;    
-}
-.buttonStop:hover {
-    background-color: #fff;
-}
-.buttonStart {
-    background-color: #2DCC70;
-}
-.buttonStart:hover {
-    background-color: #64D98A;
-}
-.buttonDelete {
-    background-color: #E76B6B;
-}
-.buttonDelete:hover {
-    background-color: #E01931;
+
+.deleteLink {
+    cursor: pointer;
+
+    &:hover {
+        text-decoration: underline;
+    }
 }
 
 .ellipsis {

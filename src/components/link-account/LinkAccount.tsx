@@ -7,7 +7,10 @@ import { postAccount } from "@utils/requests";
 import { linkAccountAction } from "@ducks/actions";
 import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 import { afterErrorSetState } from "@utils/functions";
-import { AccountData } from "@middleware/types";
+import { selectUser } from "@ducks/selectors";
+import { InstaState } from "@types";
+import { successfulLink } from "@texts";
+import { User } from "@ducks/state";
 
 import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
@@ -15,9 +18,6 @@ import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/type";
 
 import * as styles from "./LinkAccount.scss";
-import { selectUser } from "@ducks/selectors";
-import { InstaState } from "@types";
-import { User } from "@ducks/state";
 
 export interface LinkAccountState {
     username: string;
@@ -28,7 +28,6 @@ export interface LinkAccountState {
 
 export interface LinkAccountStateProps {
     user: User;
-    // isVerificationNeeded: boolean;
 }
 export interface LinkAccountDispatchProps {
     addAccount: typeof linkAccountAction;
@@ -65,13 +64,12 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
                         onSubmit={this.onSubmit}
                         buttonLabel={"Link It"}
                         mainInputLabel={"@username"}
-                        hasVerification={true} // replace with stateProp
                     />
                 </div>
             </div>
         );
     }
-    private onSubmit = debounce(async (username: string, password: string, code?: string) => {
+    private onSubmit = debounce(async (username: string, password: string) => {
         if (!username && !password) {
             return;
         }
@@ -86,28 +84,27 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             }, () => {
                 this.props.addAccount(data);
                 this.props.showToast(
-                    `Successfully linked ${username}'s account`,
+                    successfulLink(username),
                     ToastType.Success,
                 );
             });
         } catch (error) {
-            // TODO: Check if BE should handle
             const status = error.response && error.response.status;
 
             afterErrorSetState(status, () => {
                 this.setState({ loading: false });
+
+                this.props.showToast(
+                    getStatusCodeMessage(status),
+                    ToastType.Error,
+                );
             });
-            this.props.showToast(
-                getStatusCodeMessage(status),
-                ToastType.Error,
-            );
         }
     }, 1000, { leading: true, trailing: false });
 }
 
 const mapStateToProps = (state: InstaState): LinkAccountStateProps => ({
     user: selectUser(state),
-    // isVerificationNeeded: selectIsVerificationNeeded(state),
 });
 const mapDispatchToProps: LinkAccountDispatchProps = {
     addAccount: linkAccountAction,

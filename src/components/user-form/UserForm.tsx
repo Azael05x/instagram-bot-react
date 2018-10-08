@@ -15,7 +15,6 @@ const onFormSubmitCb = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault
 export interface UserFormState {
     mainValue: string;
     password: string;
-    code: string;
 }
 
 export enum InputType {
@@ -41,18 +40,15 @@ export interface UserFormProps {
     buttonType?: ButtonType;
     inputType?: InputType;
     infoData?: InfoData;
-    hasVerification?: boolean;
 }
 
 export class UserForm extends React.PureComponent<UserFormProps, UserFormState> {
     public static defaultProps = {
         inputType: InputType.Email,
-        hasVerification: false,
     };
     public state: UserFormState = {
         mainValue: "",
         password: "",
-        code: "",
     };
     public render() {
         if (this.props.redirect) {
@@ -66,13 +62,11 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
             infoData,
             inputType,
             mainInputLabel,
-            hasVerification,
         } = this.props;
 
         const {
             password,
             mainValue,
-            code,
         } = this.state;
 
         return (
@@ -97,17 +91,6 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
                     label={"password"}
                     type={"password"}
                 />
-                {
-                    hasVerification && (
-                        <FormGroup
-                            htmlFor={"code"}
-                            onChange={this.onCodeChange}
-                            onKeyUp={this.onKeyUp}
-                            value={code}
-                            label={"verification code"}
-                        />
-                    )
-                }
                 <div className={styles.formGroup}>
                     <div className={`${styles.spinner} ${!actionInProgress && styles.hidden}`}>
                         <i className="fas fa-spinner" />
@@ -132,11 +115,6 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
             password: event.currentTarget.value,
         });
     }
-    private onCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({
-            code: event.currentTarget.value,
-        });
-    }
     private onKeyUp = (event: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
          const keyPressed = getPressedKey(event);
         /**
@@ -148,6 +126,6 @@ export class UserForm extends React.PureComponent<UserFormProps, UserFormState> 
         }
     }
     private onSubmit = () => {
-        this.props.onSubmit(this.state.mainValue, this.state.password, this.state.code);
+        this.props.onSubmit(this.state.mainValue, this.state.password);
     }
 }

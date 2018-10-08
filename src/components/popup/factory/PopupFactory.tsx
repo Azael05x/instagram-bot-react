@@ -1,6 +1,3 @@
-import * as React from "react";
-import * as styles from "../Popup.scss";
-
 import {
     PopupData,
     PopupType,
@@ -17,8 +14,15 @@ export interface PopupProps {
 export function createReloginPopup(props: PopupProps) {
     return new PopupData(PopupType.Info)
         .addId(PopupId.Relogin)
-        .addButtons(props.buttons)
-        .addTitle(props.title ? props.title : <h3 className={styles.title}>Please Re-Log In</h3>)
+        .addTitle("You've been logged out by Instagram")
         .addContent(() => props.content)
+    ;
+}
+export function createDeletePopup(props: PopupProps) {
+    return new PopupData(PopupType.Info)
+        .addId(PopupId.DeleteAccount)
+        .addButtons(props.buttons)
+        .addTitle("You're about to delete this account")
+        .addContent(() => "Do you want to remove this account from the dashboard? You can link it again later")
     ;
 }

@@ -1,4 +1,5 @@
 @import "../../consts/consts.scss";
+@import "../../consts/mediaQueries.scss";
 
 .container {
     position: absolute;
@@ -37,18 +38,17 @@
 .content {
     border: 1px solid white;
     border-radius: 5px;
-    height: 100%;
+    // height: 100%;
     width: 50%;
     max-width: 500px;
     max-height: 300px;
     display: flex;
     flex-direction: column;
     align-self: center;
-    justify-content: space-around;
     background-color: white;
     z-index: 99999;
     box-shadow: $dropShadowLight;
-    padding: 1rem;
+    padding: 1.5em;
 }
 .contentHeader {
     display: flex;
@@ -58,24 +58,24 @@
 }
 .contentBody {
     display: flex;
-    align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0 3rem;
+    padding: 0 3em;
 }
 .buttonContainer {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    margin-top: 1.5em;
 }
 .button {
     flex-basis: 20%;
     border-radius: 100px;
     border: 1px solid $borderColorDark;
-    padding: .5rem 1.5rem;
-    font-size: 1.2rem;
+    padding: .5em 1.5em;
+    font-size: 1.2em;
     color: #fff;
-    margin: 0 .5rem;
+    margin: 0 .5em;
     font-weight: 100;
     cursor: pointer;
     transition: .2s;
@@ -88,13 +88,16 @@
 }
 .cancel {
     background-color: #fff;
-    color: $darkText;
+    color: $darkColor;
 }
 .cancel:hover {
-    background-color: $transparentBgHoverColor;
+    background-color: $neutralColor;
 }
 
-@media (max-width: 520px) {
+@media (max-width: $mqTabletWidth) {
+    .contentBody {
+        padding: 0 1rem;
+    }
     .content {
         width: 80%;
     }
