@@ -73,16 +73,20 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
     }
 
     private renderTitle = () => {
+        const instagramPasswordtitle = this.props.username
+            ? (
+                <>
+                    Please enter&nbsp;
+                    <span className={styles.accentedText}>@{this.props.username} Instagram password</span>
+                    &nbsp;to&nbsp;continue
+                </>
+            ) : "Please enter this accounts Instagram password";
         return (
             <div style={{ marginBottom: ".5rem" }}>
                 {
                     this.props.isVerificationNeeded
                     ? "Please input the verification code you received in your email"
-                    : <>
-                        Please enter&nbsp;
-                        <span className={styles.accentedText}>@{this.props.username} Instagram password</span>
-                        &nbsp;to&nbsp;continue
-                    </>
+                    : instagramPasswordtitle
                 }
             </div>
         );
@@ -137,10 +141,8 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
         });
 
         try {
-            if (this.state.code) {
+            if (this.props.isVerificationNeeded && this.state.code) {
                 await postAccountVerification(this.props.id, {
-                    username: this.props.username,
-                    password: this.state.password,
                     code: this.state.code,
                 });
             } else {
