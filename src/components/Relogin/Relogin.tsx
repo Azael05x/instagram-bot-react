@@ -162,6 +162,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
             });
         } catch (error) {
             const status = error.response && error.response.status;
+            const message = error.response && error.response.data;
 
             afterErrorSetState(status, () => {
                 this.setState({
@@ -170,8 +171,7 @@ export class Relogin extends React.PureComponent<ReloginProps, ReloginState> {
                 });
             });
             this.props.showToast(
-                // TODO: Handle error messages properly on the backend
-                error.response.data || getStatusCodeMessage(status),
+                message || getStatusCodeMessage(status),
                 ToastType.Error,
             );
         }

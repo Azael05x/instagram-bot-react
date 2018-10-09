@@ -129,10 +129,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                             {/* Insert logo here  */}
                             gekotta.
                         </NavLink>
-                        <div
-                            className={styles.mobileNavigation}
-
-                        >
+                        <div className={styles.mobileNavigation}>
                             {
                                 !this.state.isMenuOpen
                                 ? <MenuSVG onClick={this.onOpenMenu} />

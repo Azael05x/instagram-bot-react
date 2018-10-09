@@ -9,7 +9,6 @@ import {
 import { loginActionCreator } from "@ducks/actions";
 import { login } from "@utils/requests";
 import { StatusCode, Path } from "@types";
-import { getStatusCodeMessage } from "@utils/getStatusCodeMessage";
 import { afterErrorSetState } from "@utils/functions";
 
 import { UserForm } from "../user-form/UserForm";
@@ -116,8 +115,9 @@ export class Login extends React.Component<LoginProps, LoginState> {
             afterErrorSetState(error.response.status, () => {
                 this.setState({ loading: false });
             });
+
             this.props.showToast(
-                getStatusCodeMessage(error.response.status),
+                error.response.data,
                 ToastType.Error,
             );
         }

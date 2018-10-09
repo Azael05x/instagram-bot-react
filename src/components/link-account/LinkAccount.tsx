@@ -90,12 +90,13 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
             });
         } catch (error) {
             const status = error.response && error.response.status;
+            const message = error.response && error.response.data;
 
             afterErrorSetState(status, () => {
                 this.setState({ loading: false });
 
                 this.props.showToast(
-                    getStatusCodeMessage(status),
+                    message || getStatusCodeMessage(status),
                     ToastType.Error,
                 );
             });
