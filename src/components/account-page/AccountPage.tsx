@@ -23,9 +23,9 @@ import { Username } from "./components/Username";
 import { ActivitiesConnected } from "../activities/Activities";
 import { createReloginPopup, createDeletePopup } from "../popup/factory/PopupFactory";
 import { ReloginConnected } from "../relogin/Relogin";
+import { ButtonType, Button, ButtonSize } from "../button/Button";
 
 import * as styles from "./AccountPage.scss";
-import { ButtonType, Button, ButtonSize } from "../button/Button";
 
 export enum ScreenDataRole {
     Settings = "settings",

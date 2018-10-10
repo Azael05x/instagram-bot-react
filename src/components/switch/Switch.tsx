@@ -1,5 +1,6 @@
 import * as React from "react";
-import * as styles from "./Switch.css";
+import * as styles from "./Switch.scss";
+import * as classnames from "classnames";
 
 export interface SwitchState {
     isActive: boolean;
@@ -9,16 +10,14 @@ export interface SwitchProps {
     onToggle?: (value: boolean) => void;
 }
 export class Switch extends React.PureComponent<SwitchProps, SwitchState> {
-    public constructor(props: SwitchProps) {
-        super(props);
+    state: SwitchState = {
+        isActive: !!this.props.value,
+    };
 
-        this.state = {
-            isActive: !!props.value,
-        };
-    }
     public render() {
-        const containerClassname = `${styles.container} ${this.state.isActive && styles.active}`;
-        const sliderClassname = `${styles.slider} ${this.state.isActive && styles.active}`;
+        const containerClassname = classnames(styles.container, {[styles.active]: this.state.isActive});
+        const sliderClassname = classnames(styles.slider, {[styles.active]: this.state.isActive});
+
         return (
             <div className={containerClassname}>
                 <div className={sliderClassname} onClick={this.onToggle} />

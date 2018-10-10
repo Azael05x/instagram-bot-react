@@ -1,0 +1,38 @@
+@import "../../consts/consts.scss";
+
+.container {
+    margin-left: .5em;
+    border: 1px solid $borderColorDark;
+    width: 3em;
+    height: 1.5em;
+    border-radius: 100px;
+    background-color: #ffffff;
+    position: relative;
+    transition: .2s;
+}
+.container.active {
+    background-color: $successColor;
+}
+.slider {
+    border-radius: 100px;
+    width: calc(1.5em - 2px);
+    border: 1px solid $neutralColor;
+    position: absolute;
+    left: calc(100% - 1.5em);
+    background-color: #fff;
+    transition: .2s;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    box-shadow: $dropShadowLight;
+    transform: translateX(-100%);
+    cursor: pointer;
+
+    &:hover {
+        background-color: #fafafa;
+    }
+
+    &.active {
+        transform: translateX(0);
+    }
+}
