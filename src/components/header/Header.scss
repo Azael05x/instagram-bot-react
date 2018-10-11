@@ -18,6 +18,7 @@
         box-shadow: $dropShadowLight;
         opacity: 0;
         transition: .2s;
+        pointer-events: none;
         @include coverContainerAbsolute();
     }
     
