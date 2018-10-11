@@ -12,6 +12,14 @@
     width: calc(100% - 10em);
     z-index: 100;
     transition: .2s;
+
+    &::before {
+        content: "";
+        box-shadow: $dropShadowLight;
+        opacity: 0;
+        transition: .2s;
+        @include coverContainerAbsolute();
+    }
     
     &.active {
         border-bottom-color: transparent;
@@ -136,7 +144,11 @@
     height: 1.5em;
     font-size: 0.9em;
     background-color: #fff;
-    border-bottom: 1px solid rgba(29, 34, 71, 0.1);
+
+    &::before {
+        opacity: 1;
+    }
+
 }
 
 @media (max-width: 768px) {

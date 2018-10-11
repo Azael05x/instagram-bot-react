@@ -81,3 +81,12 @@ $headerTotalHeightMobile: $headerHeight + $headerVerticalPaddingMobile + $header
         transform: rotate(360deg);
     }
 }
+
+// mixins
+@mixin coverContainerAbsolute() {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
