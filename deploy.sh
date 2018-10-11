@@ -13,8 +13,8 @@ fi
 # Install latest packages
 yarn
 
-# Build the project for STAGING
-yarn build
+# Build the project for production
+yarn build --production
 
 # Define local server
 nginx_conf="./deploy/react.conf"
