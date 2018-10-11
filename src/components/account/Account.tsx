@@ -1,11 +1,9 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
 import { AccountData } from "@middleware/types";
-import * as classnames from "classnames";
-
-import * as styles from "./Account.scss";
 import { AccountHeader } from "./components/AccountHeader";
 import { Button, ButtonSize, ButtonType } from "../button/Button";
+
+import * as styles from "./Account.scss";
 
 export interface AccountItemState {
     redirect: boolean;
@@ -20,15 +18,6 @@ export class AccountItem extends React.PureComponent<AccountItemProps> {
     public render() {
         const { account } = this.props;
 
-        /**
-         * Disabled until further design changes
-         */
-        const settingsComponent = false && (
-            <Link className={styles.settingsButton} to={`/accounts/${account.id}`}>
-                <i className={classnames("fa fa-cog", styles.icon)} aria-hidden="true" />
-            </Link>
-        );
-
         return (
             <div className={styles.container}>
                 <AccountHeader
@@ -42,7 +31,6 @@ export class AccountItem extends React.PureComponent<AccountItemProps> {
                         size={ButtonSize.Small}
                         type={this.isAccountActive ? ButtonType.Neutral : ButtonType.Main}
                     />
-                    {settingsComponent}
                 </div>
             </div>
         );

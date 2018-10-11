@@ -22,6 +22,9 @@ import { searchTags, searchUsers } from "@utils/requests";
 import { InputSelect } from "../input-select/InputSelect";
 
 import * as styles from "./AccountSettings.scss";
+import { UserTimesSVG } from "../icons/UserTimes";
+import { BanSVG } from "../icons/Ban";
+import { TagsSVG } from "../icons/Tags";
 
 export interface AccountSettingsOwnProps {
     account: AccountData;
@@ -54,7 +57,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                             <InputSelect
                                 placeholder={hashtagsPlaceholder}
                                 bodyPlaceholder={hashtagsBodyPlaceholder}
-                                icon={<i className="fa fa-tags" aria-hidden="true" />}
+                                icon={<TagsSVG fill={"#000"} />}
                                 onSubmit={this.onFollowTagsChange}
                                 tags={settings.general.tags}
                                 onChange={this.onTagInput}
@@ -64,7 +67,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                             <InputSelect
                                 placeholder={blacklistedHashtagsPlaceholder}
                                 bodyPlaceholder={blacklistedHashtagsBodyPlaceholder}
-                                icon={<i className="fa fa-ban" aria-hidden="true"></i>}
+                                icon={<BanSVG fill={"#000"} />}
                                 onSubmit={this.onBlacklistedFollowTagsChange}
                                 tags={settings.general.blacklistedTags}
                                 onChange={this.onTagInput}
@@ -74,7 +77,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                             <InputSelect
                                 placeholder={blacklistedUsersPlaceholder}
                                 bodyPlaceholder={blacklistedUsersBodyPlaceholder}
-                                icon={<i className="fa fa-user-times" aria-hidden="true"></i>}
+                                icon={<UserTimesSVG fill={"#000"} />}
                                 onSubmit={this.onBlacklistedUserTagsChange}
                                 tags={settings.general.blacklistedUsers}
                                 onChange={this.onUserInput}

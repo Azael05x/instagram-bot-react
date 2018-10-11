@@ -144,7 +144,9 @@ export class InputSelect extends React.Component<InputSelectProps, InputSelectSt
          */
         const iconComponent = icon && (
             <div className={styles.iconContainer}>
-                {icon}
+                <div className={styles.icon}>
+                    {icon}
+                </div>
             </div>
         );
 

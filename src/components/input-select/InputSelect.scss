@@ -11,18 +11,17 @@
     outline: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    font-size: 1em;
     line-height: 1.5;
     margin-bottom: 1rem;
     display: flex;
     position: relative;
+    height: 2.5em;
 }
 .input {
     border: none;
     outline: none;
     padding: .5em 1em;
     border-radius: 0 5px 5px 0;
-    font-size: 1em;
     line-height: 1.5;
     flex: 1;
     // important To prevent text-area dragging effect rewriting width
@@ -35,14 +34,17 @@
 }
 .iconContainer {
     border: 1px solid $lightColor;
-    padding: 0 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 5px 0 0 5px;
     border-right: none;
-    background-color: #e8e9ec;
-    color: #000;
+    background-color: $lightColor;
+    flex-basis: 3em;
+}
+.icon {
+    height: 45%;
+    padding: 0 1em;
 }
 .spinnerContainer {
     position: absolute;
