@@ -1,7 +1,8 @@
 import * as React from "react";
+import * as classnames from "classnames";
+import { SearchTagItem, SearchUserItem } from "@types";
 import { isUserSearch } from "../utils";
 import { SearchEntry } from "./SearchEntry";
-import { SearchTagItem, SearchUserItem } from "@types";
 
 import * as styles from "./SearchDropdown.scss";
 
@@ -27,10 +28,10 @@ export class SearchDropdown extends React.PureComponent<SearchDropdownProps> {
 
         return (
             <div
-                className={`
-                    ${styles.searchDropdown}
-                    ${isDropdownOpen && !isLoading && styles.active}
-                `}
+                className={classnames(
+                    styles.searchDropdown,
+                    {[styles.active]: isDropdownOpen && !isLoading}
+                )}
                 data-id={dropDownId}
             >
                 {this.getResultComponent()}
