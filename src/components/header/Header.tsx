@@ -1,6 +1,11 @@
 import * as React from "react";
-import { NavLink, withRouter, RouteComponentProps } from "react-router-dom";
+import {
+    NavLink,
+    withRouter,
+    RouteComponentProps,
+} from "react-router-dom";
 import { connect } from "react-redux";
+import * as classnames from "classnames";
 
 import { selectUser } from "@ducks/selectors";
 import { User } from "@ducks/state";
@@ -56,7 +61,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                 this.state.isMobile
                     ? <>
                         <NavLink
-                            className={`${styles.link} ${styles.parentLink}`}
+                            className={classnames(styles.link, styles.parentLink)}
                             to={"/profile"}
                             exact
                             about="Profile"
@@ -73,7 +78,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                         </div>
                     </>
                     : (
-                        <div className={`${styles.link} ${styles.parentLink}`}>
+                        <div className={classnames(styles.link, styles.parentLink)}>
                             <span className={styles.welcomeText}>Welcome, {email}</span>
                             <span className={styles.caret}>
                                 <CaretIcon />
@@ -112,11 +117,13 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
             );
 
         return (
-            <div className={`
-                ${styles.container}
-                ${this.state.isMenuOpen && styles.active}
-                ${isHeaderMinimized && styles.isHeaderMinimized}
-            `}>
+            <div className={classnames(
+                styles.container,
+                {
+                    [styles.active]: this.state.isMenuOpen,
+                    [styles.isHeaderMinimized]: isHeaderMinimized,
+                },
+            )}>
                 <div className={styles.innerContainer}>
                     <div className={styles.headerTop}>
                         <NavLink
@@ -137,7 +144,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                             }
                         </div>
                     </div>
-                    <div className={`${styles.navigation} ${this.state.isMenuOpen && styles.active}`}>
+                    <div className={classnames(styles.navigation, {[styles.active]: this.state.isMenuOpen})}>
                         <NavLink
                             className={styles.link}
                             to={"/"}

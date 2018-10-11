@@ -17,6 +17,12 @@ import { CogSVG } from "../icons/Cog";
 import { Card } from "../card/Card";
 import { LinkSVG } from "../icons/Link";
 import { HeroCenteredConnected } from "./components/HeroCentered";
+import { FluidTitle } from "../fluid-title/FluidTitle";
+
+const SignUpTitleChildren = () => <>
+    Not sure?<br />
+    Try us for <span className={styles.accent}>free</span>!
+</>;
 
 export interface LandingStateProps {
     hasUser: boolean;
@@ -61,10 +67,7 @@ export class Landing extends React.Component<LandingProps> {
 
                 {!this.props.hasUser && (
                     <div className={styles.sectionContainer}>
-                        <h1 className={styles.title}>
-                            Not sure?<br />
-                            Try us for <span className={styles.accent}>free</span>!
-                        </h1>
+                        <FluidTitle title={<SignUpTitleChildren />} />
                         <Divider theme={DividerTheme.Small} />
                         <SignUpConnected />
                     </div>

@@ -1,0 +1,13 @@
+@import "../../consts/mediaQueries.scss";
+@import "../../consts/consts.scss";
+
+.title {
+    font-size: 9vw;
+    color: $darkColor;
+}
+
+@media (min-width: $mqTabletWidth) {
+    .title {
+        font-size: $sectionTitleFontSize;
+    }
+}

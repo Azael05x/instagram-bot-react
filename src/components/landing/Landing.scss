@@ -11,8 +11,8 @@
 }
 
 .sectionContainer {
-    padding: 2rem;
-    margin-bottom: 2rem;
+    padding: 2em;
+    margin-bottom: 2em;
     align-items: center;
     display: flex;
     flex-direction: column;
@@ -25,12 +25,12 @@
 }
 .heroContainer {
     display: flex;
-    height: calc(100vh - 8rem);
+    height: calc(100vh - 8em);
     justify-content: center;
     align-items: center;
     color: $darkColor;
     max-height: 1200px;
-    padding: 0 5rem;
+    padding: 0 5em;
     max-width: 960px;
     left: 50%;
     position: relative;
@@ -53,7 +53,7 @@
     text-transform: uppercase;
 }
 .heroSub {
-    font-size: 1.2rem;
+    font-size: 1.2em;
     opacity: .7;
     position: relative;
 
@@ -68,41 +68,18 @@
     background-size: contain;
     flex: 1;
     height: 400px;
-    margin: .5rem;
+    margin: .5em;
     background-repeat: no-repeat;
-}
-.heroButton {
-    border-radius: 100px;
-    padding: 0.9rem 2.5rem;
-    font-size: 1.2rem;
-    background-color: #ff5e57;
-    color: white;
-    text-transform: capitalize;
-    font-family: "Quicksand";
-    box-shadow: 1px 2px 0.5rem rgba(0,0,0,.4);
-    border: none;
-    cursor: pointer;
-}
-.shape {
-    background-color: #61d07f;
-    width: 100vh;
-    height: 100vh;
-    left: 0;
-    display: flex;
-    transform: translate(-30%, -0%) rotate(40deg);
-    border-radius: 50px;
-    position: absolute;
-    top: 0;
 }
 
 .title {
     color: $darkColor;
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 2em;
+    margin-bottom: 1em;
 }
 .cta {
     color: inherit;
-    font-size: calc(1rem + 3vw);
+    font-size: calc(1em + 3vw);
 }
 
 .cardContainer {
@@ -114,8 +91,8 @@
     max-width: 300px;
     display: flex;
     flex-direction: column;
-    padding: 2rem 3rem;
-    margin: 1rem;
+    padding: 2em 3em;
+    margin: 1em;
     border-radius: 2px;
     box-shadow: $dropShadow;
     border: none;
@@ -131,143 +108,23 @@
 ul.cardInfo {
     text-align: left;
     li {
-        margin: .5rem 0;
+        margin: .5em 0;
     }
-}
-
-.infoContainer {
-    position: absolute;
-    top: -100%;
-    right: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    bottom: 0;
-    color: #fff;
-    font-size: 2rem;
-    align-items: center;
-    transition: .2s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: $darkOverlay;
-}
-.cardHeader {
-    font-size: 2rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.cardTitle {
-    margin: 0;
-    color: $darkColor;
-    word-break: break-word;
-    font-weight: 100;
-    position: relative;
-    font-size: 2.1rem;
-}
-.icon {
-    font-size: 4em;
-    color: $dangerColor;
-    opacity: .8;
-}
-
-.howToStart {
-    display: flex;
-    flex-direction: column;
 }
 
 .accent {
     color: $dangerColor;
 }
 
-.success {
-    color: $successColor;
-}
-.danger {
-    color: $dangerColor;
-}
-.prosCons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.prosConsList {
-    text-align: left;
-    margin: 1rem 0;
-}
-// Form
-.formGroupContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-self: normal;
-}
-.formGroup {
-    position: relative;
-    height: 3rem;
-    width: 20rem;
-    max-width: 80%;
-    margin: .5rem 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.formGroup:last-child {
-    margin-top: 2rem;
-}
-.input {
-    border: none;
-    font-size: 1.5rem;
-    font-weight: 100;
-    outline: none;
-    height: 100%;
-    width: 100%;
-    text-align: center;
-    transition: .2s;
-    position: relative;
-    background-color: transparent;
-    border-bottom: 1px solid $darkColor;
-    padding: 0;
-}
-.input:focus {
-    border-color: $dangerColor;
-}
-.label {
-    position: absolute;
-    top: 50%;
-    left: .5rem;
-    transform: translateY(-50%);
-    font-size: 1.5rem;
-    color: $placeholderColor;
-    opacity: 1;
-    transition: .2s;
-}
-.spinner {
-    opacity: 1;
-    transition: .2s;
-    position: absolute;
-    top: 50%;
-    animation: rotate 1s ease infinite;
-    left: 2rem;
-    font-size: 2rem;
-    pointer-events: none;
-}
-.hidden {
-    opacity: 0;
-}
-
-
 @media (min-width: $mqFullHDWidth) {
     .heroTitle {
-        font-size: 8.5rem;
+        font-size: 8.5em;
     }
     .title {
-        font-size: 3rem;
+        font-size: 3em;
     }
     .cta {
-        font-size: 4.5rem;
+        font-size: 4.5em;
     }
 }
 @media (max-width: $mqTabletWidth) {
@@ -287,16 +144,10 @@ ul.cardInfo {
         opacity: 0.2;
     }
     .sectionContainer {
-        padding: 2rem .5rem;
+        padding: 2em .5em;
     }
     .cardContainer {
         flex-direction: column;
-    }
-    .card {
-        padding: 1rem;
-    }
-    .cardTitle {
-        font-size: 2rem;
     }
     .icon {
         font-size: 2em;
@@ -309,15 +160,12 @@ ul.cardInfo {
         text-transform: uppercase;
     }
     .title {
-        font-size: 1.5rem;
+        font-size: 1.5em;
         max-width: 100%;
-    }
-    .spinner {
-        top: auto;
     }
 }
 @media(max-width: $mqTabletWidth) and (orientation: landscape) {
     .title {
-        font-size: 2rem;
+        font-size: 2em;
     }
 }

@@ -15,6 +15,7 @@ import { UserForm } from "../user-form/UserForm";
 import { ButtonType } from "../button/Button";
 import { showToastAction } from "../toast/ducks/actions";
 import { ToastType } from "../toast/ducks/type";
+import { FluidTitle } from "../fluid-title/FluidTitle";
 
 import * as styles from "./Login.scss";
 
@@ -47,31 +48,16 @@ const infoData = {
 };
 
 export class Login extends React.Component<LoginProps, LoginState> {
-    private titleFontSize: string = document.body.clientWidth < 900
-        ? "calc(100vw / 10)"
-        : "5em";
     public state: LoginState = {
         errorCode: undefined,
         redirect: false,
         loading: false,
     };
-    public componentDidMount() {
-        window.addEventListener("resize", this.onResize);
-    }
-    public componentWillUnmount() {
-        window.removeEventListener("resize", this.onResize);
-    }
-    private onResize = () => {
-        const oldFontSize = this.titleFontSize;
-        this.titleFontSize = document.body.clientWidth < 900 ? "calc(100vw / 10)" : "5em";
-        if (oldFontSize !== this.titleFontSize) {
-            this.forceUpdate();
-        }
-    }
+
     public render() {
         return (
             <div className={styles.container}>
-                <h1 style={{ fontSize: this.titleFontSize}} className={styles.title}>Welcome</h1>
+                <FluidTitle title={"Welcome"} />
                 <UserForm
                     actionInProgress={this.state.loading}
                     buttonType={ButtonType.Main}
