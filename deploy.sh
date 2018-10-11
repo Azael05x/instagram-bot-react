@@ -14,7 +14,7 @@ fi
 yarn
 
 # Build the project for production
-yarn build --production
+yarn build --production --release
 
 # Define local server
 nginx_conf="./deploy/react.conf"
