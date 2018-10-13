@@ -29,13 +29,13 @@ $yScale: 1;
 }
 
 .rocket1 {
-    @include common(rocket1, 1.5s, ease-in, 50%, 100px);
+    @include common(rocket1, 3.8s, ease-in, 50%, 100px);
 }
 .rocket2 {
-    @include common(rocket1, 2s, cubic-bezier(0.19, 1, 0.22, 1), 75%, 300px);
+    @include common(rocket1, 3.5s, cubic-bezier(0.19, 1, 0.22, 1), 75%, 300px);
 }
 .rocket3 {
-    @include common(rocket1, 1.5s, cubic-bezier(.81,.16,.94,.2), 25%, 200px);
+    @include common(rocket1, 3s, cubic-bezier(.81,.16,.94,.2), 25%, 200px);
 }
 
 
