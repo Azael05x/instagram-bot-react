@@ -24,6 +24,7 @@ import { ActivitiesConnected } from "../activities/Activities";
 import { createReloginPopup, createDeletePopup } from "../popup/factory/PopupFactory";
 import { ReloginConnected } from "../relogin/Relogin";
 import { ButtonType, Button, ButtonSize } from "../button/Button";
+import { Statistics } from "../statistics/Statistics";
 
 import * as styles from "./AccountPage.scss";
 
@@ -217,7 +218,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
                 label: "Settings",
             },
             [ScreenDataRole.Statistics]: {
-                component: <div />,
+                component: <Statistics />,
                 label: "Statistics",
             },
             [ScreenDataRole.ActivityReview]: {

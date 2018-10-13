@@ -27,7 +27,7 @@ export class EmptyList extends React.PureComponent<EmptyListProps> {
         return (
             <div className={styles.container}>
                 <div className={styles.icon}>
-                    <InstagramSVG />
+                    <InstagramSVG fill={"#e7e7e7"} />
                 </div>
                 Looks like you're about to link your Instagram account! 😍<br />
                 To do so, just press on the Link Instagram account button in the upper-right corner.
