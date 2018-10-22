@@ -24,7 +24,6 @@ export interface LinkAccountState {
     password: string;
     loading: boolean;
     redirect: boolean;
-    accountId: number | undefined;
 }
 
 export interface LinkAccountStateProps {
@@ -37,12 +36,12 @@ export interface LinkAccountDispatchProps {
 export type LinkAccountProps = LinkAccountDispatchProps & LinkAccountStateProps & RouteComponentProps<{}>;
 
 export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountState> {
+    private accountId: number | undefined;
     public state: LinkAccountState = {
         username: "",
         password: "",
         loading: false,
         redirect: false,
-        accountId: undefined,
     };
     public shouldComponentUpdate(nextProps: LinkAccountProps, nextState: LinkAccountState) {
         return false
@@ -62,7 +61,7 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
                         actionInProgress={this.state.loading}
                         buttonType={ButtonType.Main}
                         redirect={this.state.redirect}
-                        redirectEndpoint={`/accounts/${this.state.accountId}`}
+                        redirectEndpoint={`/accounts/${this.accountId}`}
                         onSubmit={this.onSubmit}
                         buttonLabel={"Link It"}
                         mainInputLabel={"@username"}
@@ -80,10 +79,11 @@ export class LinkAccount extends React.Component<LinkAccountProps, LinkAccountSt
         try {
             const data = (await postAccount({ username, password })).data;
 
+            this.accountId = data.id;
+
             this.setState({
                 loading: false,
                 redirect: true,
-                accountId: data.id,
             }, () => {
                 this.props.addAccount(data);
                 this.props.showToast(

@@ -17,16 +17,19 @@ import { Path } from "@types";
 import { afterErrorSetState } from "@utils/functions";
 
 import { Divider, DividerTheme } from "../divider/Divider";
-import { AccountSettingsConnected } from "../account-settings/AccountSettings";
 import { Select, SelectOption } from "../select/Select";
 import { Username } from "./components/Username";
-import { ActivitiesConnected } from "../activities/Activities";
 import { createReloginPopup, createDeletePopup } from "../popup/factory/PopupFactory";
 import { ReloginConnected } from "../relogin/Relogin";
 import { ButtonType, Button, ButtonSize } from "../button/Button";
-import { Statistics } from "../statistics/Statistics";
+import { LineChart } from "../statistics/components/LineChart";
+import { AccountSettingsConnected } from "../account-settings/AccountSettings";
 
 import * as styles from "./AccountPage.scss";
+
+// const LazyAccountSettings = () => import(/* webpackChunkName: "noMatch" */"../account-settings/AccountSettings");
+// const LazyStatistics = () => import(/* webpackChunkName: "noMatch" */"../statistics/components/LineChart");
+// const LazyActivities = () => import(/* webpackChunkName: "noMatch" */"../activities/Activities");
 
 export enum ScreenDataRole {
     Settings = "settings",
@@ -56,17 +59,29 @@ export type AccountPageProps =
     & RouteComponentProps<{ id: string }>
 ;
 
-export class AccountPage extends React.Component<AccountPageProps, AccountPageState> {
-    public constructor(props: AccountPageProps) {
-        super(props);
+const selectOptions: SelectOption[] = [
+    {
+        dataRole: ScreenDataRole.Settings,
+        label: "Settings",
+    },
+    {
+        dataRole: ScreenDataRole.Statistics,
+        label: "Statistics",
+    },
+    // {
+    //     dataRole: ScreenDataRole.ActivityReview,
+    //     label: "Activity Review",
+    // },
+];
 
-        this.state = {
-            account: {} as AccountData,
-            activeScreen: ScreenDataRole.Settings,
-            redirect: false,
-            reloginPassword: "",
-        };
-    }
+export class AccountPage extends React.Component<AccountPageProps, AccountPageState> {
+    public state: AccountPageState = {
+        account: {} as AccountData,
+        activeScreen: ScreenDataRole.Statistics,
+        redirect: false,
+        reloginPassword: "",
+    };
+
     public async componentDidMount() {
         const {
             match,
@@ -110,21 +125,6 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         const activityButtonLabel = account.isActive ? "Pause" : "Start";
         const activityButtonType = account.isActive ? ButtonType.Neutral : ButtonType.Main;
         const currentScreen = this.renderScreen();
-
-        const selectOptions: SelectOption[] = [
-            {
-                dataRole: ScreenDataRole.Settings,
-                label: "Settings",
-            },
-            // {
-            //     dataRole: ScreenDataRole.Statistics,
-            //     label: "Statistics",
-            // },
-            // {
-            //     dataRole: ScreenDataRole.ActivityReview,
-            //     label: "Activity Review",
-            // },
-        ];
 
         let currentOption: SelectOption;
         for (const option of selectOptions) {
@@ -212,20 +212,32 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
     }
     // TODO: Possibly move to a util function. Make map function component agnostic
     private renderScreen = (): Screen => {
-        return {
-            [ScreenDataRole.Settings]: {
-                component: <AccountSettingsConnected account={this.state.account} />,
-                label: "Settings",
-            },
-            [ScreenDataRole.Statistics]: {
-                component: <Statistics />,
-                label: "Statistics",
-            },
-            [ScreenDataRole.ActivityReview]: {
-                component: <ActivitiesConnected accountId={this.state.account.id} />,
-                label: "Activity Review",
-            },
-        }[this.state.activeScreen];
+        switch(this.state.activeScreen) {
+            case ScreenDataRole.Statistics: {
+                return {
+                    component: <LineChart />,
+                    // component: <AsyncComponent moduleProvider={LazyStatistics} />,
+                    label: "Statistics",
+                };
+            }
+            // case ScreenDataRole.ActivityReview: {
+            //     return {
+            //         component: <AsyncComponent moduleProvider={LazyActivities} props={{
+            //             id: this.state.account.id,
+            //         }}/>,
+            //         label: "Activity Review",
+            //     };
+            // }
+            default: {
+                return {
+                    // component: <AsyncComponent moduleProvider={LazyAccountSettings} props={{
+                    //     account: this.state.account,
+                    // }} />,
+                    component: <AccountSettingsConnected account={this.state.account} />,
+                    label: "Settings",
+                };
+            }
+        }
     }
 }
 

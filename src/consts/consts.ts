@@ -19,6 +19,7 @@ export const AUTH_BASE = "/auth/login";
 export const REGISTER_BASE = "/auth/register";
 export const LOGOUT = "/auth/logout";
 export const ACCOUNT_URL = "/instagrams";
+export const STATISTICS = "/statistics";
 export const ACTIVITY_URL = "/settings/activity";
 export const GENERAL_URL = "/settings/general";
 export const COMMENT_URL = "/settings/comment"; // min max comments
