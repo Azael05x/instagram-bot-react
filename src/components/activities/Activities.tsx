@@ -205,3 +205,5 @@ export const ActivitiesConnected = connect<{}, ActivitiesDispatchProps>(
     undefined,
     mapDispatchToProps,
 )(Activities);
+
+export default ActivitiesConnected;

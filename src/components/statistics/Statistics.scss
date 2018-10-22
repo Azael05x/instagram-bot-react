@@ -1,0 +1,41 @@
+@import "../../consts/consts.scss";
+
+.container {
+    position: relative;
+}
+
+.focusCircle {
+    fill: $successColor;
+    pointer-events: none;
+    r: 8;
+}
+.svg {
+    border: 1px solid #e7e7e7;
+}
+
+.breakPoint {
+    pointer-events: none;
+    fill: $lightColor;
+}
+.line {
+    stroke: $lightColor;
+    stroke-width: 1.5;
+    fill: none;
+    pointer-events: none;
+}
+
+.overlayContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.chart {
+    max-width: 80%;
+    width: 800px;
+    margin: 0 auto;
+}

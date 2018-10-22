@@ -123,3 +123,16 @@ export interface BasicCredentials {
 }
 
 export type Module = () => Promise<any>;
+
+export interface DailyStatsRaw {
+    mediaLiked: number;
+    statsAt: string;
+    hashtagsCycled: number;
+    userFollowers: number;
+}
+export interface DailyStats {
+    mediaLiked: number;
+    statsAt: Date;
+    hashtagsCycled: number;
+    userFollowers: number;
+}

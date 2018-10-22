@@ -43,7 +43,7 @@ export type AccountSettingsProps =
 
 export class AccountSettings extends React.Component<AccountSettingsProps> {
     public render() {
-        if (!this.props.account.id) {
+        if (!this.props.account || !this.props.account.id) {
             return null;
         }
 
@@ -132,3 +132,5 @@ export const AccountSettingsConnected = withRouter(connect<{}, AccountSettingsDi
     undefined,
     mapDispatchToProps,
 )(AccountSettings));
+
+export default AccountSettingsConnected;

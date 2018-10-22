@@ -15,6 +15,8 @@ const main = [
     "webpack/hot/only-dev-server",
     "core-js",
     "whatwg-fetch",
+    "react-plotly.js",
+    "plotly.js",
     "./src/index.tsx"
 ];
 const vendor = shared.makeVendorEntry({ mainModules: main, modulesToExclude: ["semantic-ui-css"] })

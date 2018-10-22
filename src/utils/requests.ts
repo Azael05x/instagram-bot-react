@@ -11,13 +11,19 @@ import {
     ACTIVITY_REVERT,
     ACTIVITY_REVIEWED,
     REGISTER_URL,
+    STATISTICS,
     LINK,
     LOGOUT,
     LOGIN_URL,
     FOLLOW_URL,
 } from "@consts";
 import { AccountData } from "@middleware/types";
-import { SearchTagItem, SearchUserItem, BasicCredentials } from "@types";
+import {
+    SearchTagItem,
+    SearchUserItem,
+    BasicCredentials,
+    DailyStatsRaw,
+} from "@types";
 
 import { createConfig } from "./config";
 
@@ -137,4 +143,8 @@ export function login(data: BasicCredentials) {
         data,
         createConfig()
     );
+}
+
+export function getStatistics(id: number): Promise<AxiosResponse<DailyStatsRaw[]>> {
+    return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}${STATISTICS}`, createConfig());
 }
