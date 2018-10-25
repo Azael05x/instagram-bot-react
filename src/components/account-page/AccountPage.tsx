@@ -215,7 +215,7 @@ export class AccountPage extends React.Component<AccountPageProps, AccountPageSt
         switch(this.state.activeScreen) {
             case ScreenDataRole.Statistics: {
                 return {
-                    component: <LineChart />,
+                    component: <LineChart accountId={this.state.account.id} />,
                     // component: <AsyncComponent moduleProvider={LazyStatistics} />,
                     label: "Statistics",
                 };

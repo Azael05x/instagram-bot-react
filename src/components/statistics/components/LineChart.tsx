@@ -7,14 +7,17 @@ import { PlotData } from "plotly.js";
 import * as styles from "../Statistics.scss";
 
 export interface LineChartState { plotData: Partial<PlotData>[]; }
+export interface LineChartProps {
+    accountId: number;
+}
 
-export class LineChart extends React.PureComponent<{}, LineChartState> {
+export class LineChart extends React.PureComponent<LineChartProps, LineChartState> {
     public state: LineChartState = {
         plotData: [],
     };
 
     public async componentDidMount() {
-        const data = (await getStatistics(32)).data;
+        const data = (await getStatistics(this.props.accountId)).data;
 
         const plotData: Partial<PlotData>[] = [
             {
