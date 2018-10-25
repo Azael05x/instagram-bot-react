@@ -1,12 +1,16 @@
 import * as React from "react";
 import { getStatistics } from "@utils/requests";
 
-import Plot from "react-plotly.js";
-import { PlotData } from "plotly.js";
+/**
+ * TODO: Add proper typings
+ */
+import Plotly from "plotly.js-basic-dist";
+import createPlotlyComponent from "react-plotly.js/factory";
+const Plot = createPlotlyComponent(Plotly);
 
 import * as styles from "../Statistics.scss";
 
-export interface LineChartState { plotData: Partial<PlotData>[]; }
+export interface LineChartState { plotData: Partial<any>[]; }
 export interface LineChartProps {
     accountId: number;
 }
@@ -19,7 +23,7 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
     public async componentDidMount() {
         const data = (await getStatistics(this.props.accountId)).data;
 
-        const plotData: Partial<PlotData>[] = [
+        const plotData: Partial<any>[] = [
             {
                 x: data.map(d => d.statsAt),
                 y: data.map(d => d.mediaLiked),

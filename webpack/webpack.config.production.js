@@ -9,8 +9,7 @@ const shared = require('./shared');
 const main = [
     'core-js',
     'whatwg-fetch',
-    "react-plotly.js",
-    "plotly.js",
+    "plotly.js-basic-dist",
     './src/index.tsx'
 ];
 const vendor = shared.makeVendorEntry({ mainModules: main, modulesToExclude: ['semantic-ui-css'] })
