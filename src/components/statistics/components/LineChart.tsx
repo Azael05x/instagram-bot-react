@@ -20,7 +20,6 @@ export type ChartType = keyof Pick<DailyStats, "mediaLiked" | "userFollowers">;
 export interface LineChartState {
     plotData: Partial<PlotData>[];
     chartType: ChartType;
-    PlotComponent: React.ComponentClass<any>;
 }
 export interface LineChartProps {
     accountId: number;
@@ -30,26 +29,25 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
     public state: LineChartState = {
         plotData: [],
         chartType: "mediaLiked",
-        PlotComponent: null,
     };
+    private PlotComponent: React.ComponentClass<any> = getPlotly();
     private data: DailyStatsRaw[];
 
     public async componentDidMount() {
         this.data = (await getStatistics(this.props.accountId)).data;
 
         this.setState({
-            plotData: this.getPlotData(this.state.chartType),
-            PlotComponent: getPlotly(),
+            plotData: [
+                {
+                    x: this.data.map(d => d.statsAt),
+                    mode: "lines+markers",
+                    y: this.data.map(d => d[this.state.chartType]),
+                },
+            ],
         });
     }
 
     public render() {
-        const Plot = this.state.PlotComponent;
-
-        if (!Plot) {
-            return null;
-        }
-
         let currentOption: SelectOption<ChartType>;
         for (const option of selectOptions) {
             if (this.state.chartType === option.dataRole) {
@@ -65,7 +63,7 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
                     currentOption={currentOption}
                     theme={SelectTheme.Small}
                 />
-                <Plot
+                <this.PlotComponent
                     className={styles.chart}
                     data={this.state.plotData}
                     useResizeHandler={true}
@@ -76,11 +74,11 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
                     layout={{
                         autosize: true,
                         showlegend: false,
-                        dragmode: "turntable",
                         xaxis: { ...axisLayout },
                         yaxis: { ...axisLayout },
                         margin: chartMargins,
                         hoverlabel: hoverLabel,
+                        hoverdistance: -1,
                     }}
                 />
             </div>
@@ -91,20 +89,13 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
         const chosenData = event.currentTarget.getAttribute("data-role") as ChartType;
         if (this.state.chartType !== chosenData) {
             this.setState({
-                plotData: this.getPlotData(chosenData),
+                plotData: [{
+                    ...this.state.plotData[0],
+                    y: this.data.map(d => d[chosenData]),
+                }],
                 chartType: chosenData,
             });
         }
-    }
-
-    private getPlotData = (chartType: ChartType): Partial<PlotData>[] => {
-        return [
-            {
-                x: this.data.map(d => d.statsAt),
-                y: this.data.map(d => d[chartType]),
-                mode: "lines+markers",
-            },
-        ];
     }
 }
 
