@@ -4,10 +4,10 @@
     justify-self: start;
 }
 .username {
-    font-size: 1.6rem;
-    margin-right: .5rem;
+    font-size: 1.6em;
+    margin-right: .5em;
     white-space: nowrap;
-    max-width: 10rem;
+    max-width: 10em;
     text-overflow: ellipsis;
     overflow: hidden;
 }
@@ -15,5 +15,8 @@
 @media (max-width: 800px) {
     .usernameContainer {
         justify-self: center;
+    }
+    .username {
+        font-size: 1.2em,
     }
 }

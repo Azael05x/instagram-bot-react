@@ -37,9 +37,9 @@ export const axisLayout = {
 };
 
 export const chartMargins = {
-    l: 30,
+    l: 50,
     r: 20,
-    t: 100
+    t: 50
 };
 
 export const hoverLabel = {

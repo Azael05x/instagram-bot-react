@@ -1,3 +1,5 @@
+@import "../../consts/mediaQueries";
+
 .navigationOptionsContainer {
     display: flex;
     flex-direction: column;
@@ -30,8 +32,8 @@
     border: 1px solid #e8e9ec;
     outline: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin: 0 .5rem;
-    padding: 1rem 3rem;
+    margin: 0 .5em;
+    padding: 1em 3em;
     position: relative;
     display: flex;
     align-items: center;
@@ -48,11 +50,17 @@
 
 /* Themes */
 .regular {
-    margin: 0 .5rem;
-    padding: 1rem 3rem;
+    margin: 0 .5em;
+    padding: 1em 3em;
 }
 .small {
-    margin: 0 .5rem;
-    padding: .5rem 0rem;
-    font-size: .9rem;
+    margin: 0 .5em;
+    padding: .5em 0em;
+    font-size: .9em;
+}
+@media (max-width: $mqTabletWidth) {
+    .regular {
+        padding: 0.6em 1em;
+
+    }
 }
