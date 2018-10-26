@@ -16,8 +16,8 @@ export enum SelectTheme {
     Regular = "regular",
     Small = "small",
 }
-export interface SelectOption {
-    dataRole: string;
+export interface SelectOption<T = string> {
+    dataRole: T;
     label: string;
 }
 export interface SelectProps {

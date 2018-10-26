@@ -1,16 +1,27 @@
 import * as React from "react";
 import { getStatistics } from "@utils/requests";
+import { PlotData } from "plotly.js";
+import { DailyStats, DailyStatsRaw } from "@types";
+import { Select, SelectOption, SelectTheme } from "src/components/select/Select";
+import { selectOptions, axisLayout, chartMargins, hoverLabel } from "../utils";
 
-/**
- * TODO: Add proper typings
- */
-import Plotly from "plotly.js-basic-dist";
-import createPlotlyComponent from "react-plotly.js/factory";
-const Plot = createPlotlyComponent(Plotly);
+const getPlotly = () => {
+    /**
+     * TODO: Add proper typings
+     */
+    const createPlotlyComponent =
+        (require("react-plotly.js/factory")) as (arg: any) => React.ComponentClass<any>;
+    return createPlotlyComponent(require("plotly.js-basic-dist"));
+};
 
 import * as styles from "../Statistics.scss";
 
-export interface LineChartState { plotData: Partial<any>[]; }
+export type ChartType = keyof Pick<DailyStats, "mediaLiked" | "userFollowers">;
+export interface LineChartState {
+    plotData: Partial<PlotData>[];
+    chartType: ChartType;
+    PlotComponent: React.ComponentClass<any>;
+}
 export interface LineChartProps {
     accountId: number;
 }
@@ -18,29 +29,44 @@ export interface LineChartProps {
 export class LineChart extends React.PureComponent<LineChartProps, LineChartState> {
     public state: LineChartState = {
         plotData: [],
+        chartType: "mediaLiked",
+        PlotComponent: null,
     };
+    private data: DailyStatsRaw[];
 
     public async componentDidMount() {
-        const data = (await getStatistics(this.props.accountId)).data;
-
-        const plotData: Partial<any>[] = [
-            {
-                x: data.map(d => d.statsAt),
-                y: data.map(d => d.mediaLiked),
-                mode: "lines",
-            },
-        ];
+        this.data = (await getStatistics(this.props.accountId)).data;
 
         this.setState({
-            plotData,
+            plotData: this.getPlotData(this.state.chartType),
+            PlotComponent: getPlotly(),
         });
     }
 
     public render() {
+        const Plot = this.state.PlotComponent;
+
+        if (!Plot) {
+            return null;
+        }
+
+        let currentOption: SelectOption<ChartType>;
+        for (const option of selectOptions) {
+            if (this.state.chartType === option.dataRole) {
+                currentOption = option;
+            }
+        }
+
         return (
-            <div className={styles.chart}>
+            <div className={styles.container}>
+                <Select
+                    onSelectOption={this.setChartType}
+                    selectOptions={selectOptions}
+                    currentOption={currentOption}
+                    theme={SelectTheme.Small}
+                />
                 <Plot
-                    style={{ width: "100%", height: "100%", }}
+                    className={styles.chart}
                     data={this.state.plotData}
                     useResizeHandler={true}
                     config={{
@@ -48,51 +74,37 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
                         displaylogo: false,
                     }}
                     layout={{
-                        title: "Media Likes per day",
                         autosize: true,
                         showlegend: false,
                         dragmode: "turntable",
-                        xaxis: {
-                            showline: true,
-                            showgrid: false,
-                            showticklabels: true,
-                            linecolor: "rgb(204,204,204)",
-                            linewidth: 2,
-                            ticks: "outside",
-                            tickcolor: "rgb(204,204,204)",
-                            tickwidth: 2,
-                            ticklen: 5,
-                            tickfont: {
-                                family: "Arial",
-                                size: 12,
-                                color: "rgb(82, 82, 82)"
-                            }
-                        },
-                        yaxis: {
-                            showgrid: false,
-                            showline: true,
-                            showticklabels: true,
-                            linecolor: "rgb(204,204,204)",
-                            linewidth: 2,
-                            ticks: "outside",
-                            tickcolor: "rgb(204,204,204)",
-                            tickwidth: 2,
-                            ticklen: 5,
-                            tickfont: {
-                                family: "Arial",
-                                size: 12,
-                                color: "rgb(82, 82, 82)"
-                            }
-                        },
-                        margin: {
-                            l: 100,
-                            r: 20,
-                            t: 100
-                        },
+                        xaxis: { ...axisLayout },
+                        yaxis: { ...axisLayout },
+                        margin: chartMargins,
+                        hoverlabel: hoverLabel,
                     }}
                 />
             </div>
         );
+    }
+
+    private setChartType = (event: React.MouseEvent<HTMLElement>) => {
+        const chosenData = event.currentTarget.getAttribute("data-role") as ChartType;
+        if (this.state.chartType !== chosenData) {
+            this.setState({
+                plotData: this.getPlotData(chosenData),
+                chartType: chosenData,
+            });
+        }
+    }
+
+    private getPlotData = (chartType: ChartType): Partial<PlotData>[] => {
+        return [
+            {
+                x: this.data.map(d => d.statsAt),
+                y: this.data.map(d => d[chartType]),
+                mode: "lines+markers",
+            },
+        ];
     }
 }
 

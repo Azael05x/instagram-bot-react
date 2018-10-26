@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
     background-color: #fff;
-    width: 10rem;
+    min-width: 10em;
     justify-content: center;
     border-radius: 2px;
 
@@ -50,11 +50,9 @@
 .regular {
     margin: 0 .5rem;
     padding: 1rem 3rem;
-    width: 10rem;
 }
 .small {
     margin: 0 .5rem;
-    padding: .5rem 1.5rem;
-    width: 5rem;
+    padding: .5rem 0rem;
     font-size: .9rem;
 }
