@@ -77,7 +77,7 @@ const selectOptions: SelectOption[] = [
 export class AccountPage extends React.Component<AccountPageProps, AccountPageState> {
     public state: AccountPageState = {
         account: {} as AccountData,
-        activeScreen: ScreenDataRole.Statistics,
+        activeScreen: ScreenDataRole.Settings,
         redirect: false,
         reloginPassword: "",
     };
