@@ -1,7 +1,26 @@
 import { SelectOption } from "../select/Select";
 import { ChartType } from "./components/LineChart";
+import { StatisticsPeriod } from "./types";
 
-export const selectOptions: SelectOption<ChartType>[] = [
+export const selectChartPeriodOptions: SelectOption<StatisticsPeriod>[] = [
+    {
+        dataRole: StatisticsPeriod.All,
+        label: "All",
+    },
+    {
+        dataRole: StatisticsPeriod.Year,
+        label: "Year",
+    },
+    {
+        dataRole: StatisticsPeriod.Month,
+        label: "Month",
+    },
+    {
+        dataRole: StatisticsPeriod.Week,
+        label: "Week",
+    },
+];
+export const selectChartTypeOptions: SelectOption<ChartType>[] = [
     {
         dataRole: "mediaLiked",
         label: "Media Liked",

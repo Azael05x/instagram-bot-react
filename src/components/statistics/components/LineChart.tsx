@@ -1,9 +1,17 @@
 import * as React from "react";
-import { getStatistics } from "@utils/requests";
 import { PlotData } from "plotly.js";
+import { getStatistics } from "@utils/requests";
 import { DailyStats, DailyStatsRaw } from "@types";
-import { Select, SelectOption, SelectTheme } from "src/components/select/Select";
-import { selectOptions, axisLayout, chartMargins, hoverLabel } from "../utils";
+
+import { Select, SelectOption, SelectTheme } from "../../select/Select";
+import {
+    axisLayout,
+    chartMargins,
+    hoverLabel,
+    selectChartPeriodOptions,
+    selectChartTypeOptions,
+} from "../utils";
+import { StatisticsPeriod } from "../types";
 
 const getPlotly = () => {
     /**
@@ -20,6 +28,7 @@ export type ChartType = keyof Pick<DailyStats, "mediaLiked" | "userFollowers">;
 export interface LineChartState {
     plotData: Partial<PlotData>[];
     chartType: ChartType;
+    chartPeriod: StatisticsPeriod;
 }
 export interface LineChartProps {
     accountId: number;
@@ -29,6 +38,7 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
     public state: LineChartState = {
         plotData: [],
         chartType: "mediaLiked",
+        chartPeriod: StatisticsPeriod.Month,
     };
     private PlotComponent: React.ComponentClass<any> = getPlotly();
     private data: DailyStatsRaw[];
@@ -48,21 +58,37 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
     }
 
     public render() {
-        let currentOption: SelectOption<ChartType>;
-        for (const option of selectOptions) {
+        let currentChartTypeOption: SelectOption<ChartType>;
+        for (const option of selectChartTypeOptions) {
             if (this.state.chartType === option.dataRole) {
-                currentOption = option;
+                currentChartTypeOption = option;
+            }
+        }
+
+        let currentChartPeriodOption: SelectOption<StatisticsPeriod>;
+        for (const option of selectChartPeriodOptions) {
+            if (this.state.chartPeriod === option.dataRole) {
+                currentChartPeriodOption = option;
             }
         }
 
         return (
             <div className={styles.container}>
-                <Select
-                    onSelectOption={this.setChartType}
-                    selectOptions={selectOptions}
-                    currentOption={currentOption}
-                    theme={SelectTheme.Small}
-                />
+                <div className={styles.settings}>
+                    <Select
+                        onSelectOption={this.setChartType}
+                        selectOptions={selectChartTypeOptions}
+                        currentOption={currentChartTypeOption}
+                        theme={SelectTheme.Small}
+                    />
+                    <Select
+                        onSelectOption={this.setChartPeriod}
+                        selectOptions={selectChartPeriodOptions}
+                        currentOption={currentChartPeriodOption}
+                        theme={SelectTheme.Small}
+                    />
+                </div>
+
                 <this.PlotComponent
                     className={styles.chart}
                     data={this.state.plotData}
@@ -94,6 +120,25 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
                     y: this.data.map(d => d[chosenData]),
                 }],
                 chartType: chosenData,
+            });
+        }
+    }
+
+    private setChartPeriod = async (event: React.MouseEvent<HTMLElement>) => {
+        const chosenData = event.currentTarget.getAttribute("data-role") as StatisticsPeriod;
+
+        if (this.state.chartPeriod !== chosenData) {
+            this.data = (await getStatistics(this.props.accountId, chosenData)).data;
+
+            this.setState({
+                plotData: [
+                    {
+                        x: this.data.map(d => d.statsAt),
+                        mode: "lines+markers",
+                        y: this.data.map(d => d[this.state.chartType]),
+                    },
+                ],
+                chartPeriod: chosenData,
             });
         }
     }

@@ -26,6 +26,7 @@ import {
 } from "@types";
 
 import { createConfig } from "./config";
+import { StatisticsPeriod } from "src/components/statistics/types";
 
 export function getInitAccountData(): Promise<AxiosResponse<AccountData[]>> {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}`, createConfig());
@@ -145,6 +146,6 @@ export function login(data: BasicCredentials) {
     );
 }
 
-export function getStatistics(id: number): Promise<AxiosResponse<DailyStatsRaw[]>> {
-    return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}${STATISTICS}`, createConfig());
+export function getStatistics(id: number, period: StatisticsPeriod = StatisticsPeriod.Month): Promise<AxiosResponse<DailyStatsRaw[]>> {
+    return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}${STATISTICS}?period=${period}`, createConfig());
 }
