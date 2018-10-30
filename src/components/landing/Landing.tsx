@@ -65,6 +65,16 @@ export class Landing extends React.Component<LandingProps> {
                     <WhatWeDoDont />
                 </div>
 
+                <div className={styles.sectionContainer}>
+                    <h1 className={styles.title}>
+                        Why <span className={styles.accent}>choose us</span>?
+                    </h1>
+                    <Divider theme={DividerTheme.Small} />
+                    <div>
+                        Pay as you go
+                    </div>
+                </div>
+
                 {!this.props.hasUser && (
                     <div className={styles.sectionContainer}>
                         <FluidTitle title={<SignUpTitleChildren />} />

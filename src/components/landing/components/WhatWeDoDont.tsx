@@ -11,21 +11,15 @@ export class WhatWeDoDont extends React.PureComponent {
     public render() {
         return <>
             <h1 className={styles.title}>
-                So... fake likes, fake followers?
+                What do we do?
             </h1>
             <Divider theme={DividerTheme.Small} />
-
-            <div>
-                <h2 className={styles.accent} style={{marginBottom: 0}}>Absolutely not.</h2>
-                <small>and here's 2 pretty boxes to elaborate</small>
-            </div>
-
             <div className={styles.cardContainer}>
                 <Card
                     iconComponent={<CheckSVG />}
                     title={"We Do"}
                 >
-                    <ul className={styles.cardInfo}>
+                    <ul>
                         <li>Expose your account to thousands real potential followers</li>
                         <li>Allow to follow any hashtags and users</li>
                         <li>Use your custom comments for posts</li>
@@ -37,7 +31,7 @@ export class WhatWeDoDont extends React.PureComponent {
                     iconComponent={<TimesSVG />}
                     title={"We Don't"}
                 >
-                    <ul className={styles.cardInfo}>
+                    <ul>
                         <li>Add fake followers</li>
                         <li>Add fake likes</li>
                         <li>Add fake comments</li>

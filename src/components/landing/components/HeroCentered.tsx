@@ -5,7 +5,6 @@ import * as classnames from "classnames";
 import { Path } from "@types";
 import { selectUser } from "@ducks/selectors";
 
-import { Divider } from "../../divider/Divider";
 import { Button, ButtonType } from "../../button/Button";
 
 import * as styles from "../Landing.scss";
@@ -36,7 +35,6 @@ export class Hero extends React.PureComponent<HeroProps, HeroState> {
                         Reach thousands of people in seconds rather than months
                     </small>
                     {!this.props.hasUser && <>
-                        <Divider />
                         <div className={styles.ctaButtonContainer}>
                             <Button
                                 label={"Yes, let's try it for free"}

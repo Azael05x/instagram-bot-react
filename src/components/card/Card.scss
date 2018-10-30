@@ -30,13 +30,17 @@
     align-items: center;
     justify-content: flex-start;
 }
+
 .cardInfo {
     opacity: .7;
-}
-ul.cardInfo {
-    text-align: left;
-    li {
-        margin: .5em 0;
+    line-height: 1.3;
+
+    ul {
+        text-align: left;
+    
+        li {
+            margin: .5em 0;
+        }
     }
 }
 
@@ -49,6 +53,7 @@ ul.cardInfo {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: .6em;
 }
 .cardTitle {
     margin: 0;

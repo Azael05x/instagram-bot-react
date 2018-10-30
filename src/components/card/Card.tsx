@@ -25,18 +25,14 @@ export class Card extends React.PureComponent<CardProps> {
                  <h2 className={styles.cardTitle}>{title}</h2>
              </div>
              <Divider theme={DividerTheme.Small} />
-             {info ? (
-                <p className={styles.cardInfo}>
-                    {info}
-                </p>
-             ) : this.props.children}
+             <div className={styles.cardInfo}>
+                {info ? (
+                    <p>
+                        {info}
+                    </p>
+                ) : this.props.children}
+             </div>
          </div>
         );
     }
 }
-
-// width: 6.9em;
-//     right: 30%;
-//     top: 50%;
-//     transform: translateY(-50%);
-// }
