@@ -86,22 +86,6 @@
     display: flex;
     justify-content: center;
 }
-.card {
-    flex: 1;
-    max-width: 300px;
-    display: flex;
-    flex-direction: column;
-    padding: 2em 3em;
-    margin: 1em;
-    border-radius: 2px;
-    box-shadow: $dropShadow;
-    border: none;
-    transition: .2s;
-    position: relative;
-    overflow: hidden;
-    align-items: center;
-    justify-content: flex-start;
-}
 
 .accent {
     color: $dangerColor;

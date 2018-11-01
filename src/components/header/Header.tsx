@@ -51,6 +51,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
         const {
             user: {
                 email,
+                // balance,
             }
         } = this.props;
 

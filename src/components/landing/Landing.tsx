@@ -18,6 +18,7 @@ import { Card } from "../card/Card";
 import { LinkSVG } from "../icons/Link";
 import { HeroCenteredConnected } from "./components/HeroCentered";
 import { FluidTitle } from "../fluid-title/FluidTitle";
+import { Pricing } from "../pricing/Pricing";
 
 const SignUpTitleChildren = () => <>
     Not sure?<br />
@@ -70,9 +71,7 @@ export class Landing extends React.Component<LandingProps> {
                         Why <span className={styles.accent}>choose us</span>?
                     </h1>
                     <Divider theme={DividerTheme.Small} />
-                    <div>
-                        Pay as you go
-                    </div>
+                    <Pricing />
                 </div>
 
                 {!this.props.hasUser && (

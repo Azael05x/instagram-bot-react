@@ -136,3 +136,10 @@ export interface DailyStats {
     hashtagsCycled: number;
     userFollowers: number;
 }
+
+export interface PricingData {
+    comment: number;
+    like: number;
+    unfollow: number;
+    follow: number;
+}

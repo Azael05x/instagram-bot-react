@@ -3,7 +3,7 @@ import { Divider, DividerTheme } from "../divider/Divider";
 import * as styles from "./Card.scss";
 
 export interface CardProps {
-    iconComponent: JSX.Element;
+    iconComponent?: JSX.Element;
     title: string;
     info?: string;
 }
@@ -18,9 +18,11 @@ export class Card extends React.PureComponent<CardProps> {
 
         return (
             <div className={styles.card}>
-            <div className={styles.iconContainer}>
-                {iconComponent}
-            </div>
+            {iconComponent && (
+                <div className={styles.iconContainer}>
+                    {iconComponent}
+                </div>
+            )}
              <div className={styles.cardHeader}>
                  <h2 className={styles.cardTitle}>{title}</h2>
              </div>

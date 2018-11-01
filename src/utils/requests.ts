@@ -16,6 +16,8 @@ import {
     LOGOUT,
     LOGIN_URL,
     FOLLOW_URL,
+    USER_BALANCE,
+    PRICING,
 } from "@consts";
 import { AccountData } from "@middleware/types";
 import {
@@ -23,6 +25,7 @@ import {
     SearchUserItem,
     BasicCredentials,
     DailyStatsRaw,
+    PricingData,
 } from "@types";
 
 import { createConfig } from "./config";
@@ -148,4 +151,12 @@ export function login(data: BasicCredentials) {
 
 export function getStatistics(id: number, period: StatisticsPeriod = StatisticsPeriod.Month): Promise<AxiosResponse<DailyStatsRaw[]>> {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}${STATISTICS}?period=${period}`, createConfig());
+}
+
+export function getBalance(): Promise<AxiosResponse<string>> {
+    return axios.get(`${BASE_URL}${USER_BALANCE}`, createConfig());
+}
+
+export function getPricing(): Promise<AxiosResponse<PricingData>> {
+    return axios.get(`${BASE_URL}${PRICING}`, createConfig());
 }

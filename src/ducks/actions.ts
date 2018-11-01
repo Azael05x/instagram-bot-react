@@ -31,6 +31,7 @@ export function initAccountAction(payload: AccountData[]): InitAccountAction {
 
 export interface UserLoginPayload {
     email: string;
+    // balance: string;
 }
 export interface LoginAction {
     type: typeof USER_LOGIN;

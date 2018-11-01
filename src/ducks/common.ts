@@ -41,6 +41,7 @@ export function reducer(state = initialState, action: ReducerActions) {
                 ...state,
                 user: {
                     email: action.payload.email,
+                    // balance: action.payload.balance,
                 }
             };
         }
