@@ -3,6 +3,8 @@ import { EURO_HTML } from "@currencies";
 import { getBalance } from "@utils/requests";
 
 import * as styles from "./Balance.scss";
+import { Link } from "react-router-dom";
+import { Path } from "@types";
 
 export interface BalanceState {
     balance: string;
@@ -23,10 +25,10 @@ export class Balance extends React.PureComponent<{}, BalanceState> {
 
     public render() {
         return (
-            <span className={styles.container}>
+            <Link to={Path.Profile} className={styles.container}>
                 <span dangerouslySetInnerHTML={{__html: EURO_HTML}} />
                 {this.state.balance}
-            </span>
+            </Link>
         );
     }
 }

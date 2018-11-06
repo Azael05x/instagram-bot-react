@@ -180,8 +180,8 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                             FAQ
                         </NavLink>
                         {userComponent}
-                        <Balance />
                     </div>
+                    <Balance />
                 </div>
             </div>
         );
