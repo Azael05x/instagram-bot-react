@@ -43,6 +43,7 @@
       "@texts": ["src/texts/texts"],
       "@types": ["src/types"],
       "@consts": ["src/consts/consts.ts"],
+      "@currencies": ["src/consts/currencies.ts"],
       "@middleware/*": ["src/middleware/*"]
     }
   }

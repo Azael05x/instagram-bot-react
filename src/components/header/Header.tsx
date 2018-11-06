@@ -15,6 +15,7 @@ import { logout } from "@utils/requests";
 import { CaretIcon } from "../icons/Caret";
 import { MenuSVG } from "../icons/Menu";
 import { CaretMenuSVG } from "../icons/CaretMenu";
+import { Balance } from "../balance/Balance";
 
 import * as styles from "./Header.scss";
 
@@ -179,6 +180,7 @@ export class Header extends React.PureComponent<HeaderProps, HeaderState> {
                             FAQ
                         </NavLink>
                         {userComponent}
+                        <Balance />
                     </div>
                 </div>
             </div>

@@ -37,6 +37,7 @@
 
 .navigation {
     display: flex;
+    position: relative;
 }
 
 .link {
@@ -60,7 +61,7 @@
         transform: scale(0) translate3d(-50%, 0, 0);
         transform-origin: left center;
         left: 50%;
-        bottom: .4rem;
+        bottom: .4em;
         right: 0;
         transition: .2s;
         background-color: #E01931;
@@ -87,7 +88,7 @@
 }
 
 .dropdown {
-    padding: 0 .5rem;
+    padding: 0 .5em;
     position: absolute;
     top: 0;
     left: 0;
@@ -127,7 +128,7 @@
 
 .icon {
     display: none;
-    font-size: 1.5rem;
+    font-size: 1.5em;
 
     &.active {
         display: block;
@@ -138,12 +139,11 @@
     text-decoration: none;
     color: initial;
     font-weight: bold;
-    font-size: 1.7rem;
+    font-size: 1.5em;
 }
 
 .isHeaderMinimized {
-    height: 1.5em;
-    font-size: 0.9em;
+    height: 1.3em;
     background-color: #fff;
 
     &::before {
@@ -186,12 +186,12 @@
         flex-direction: column;
         position: fixed;
         background-color: white;
-        top: 2.5rem;
+        top: 2em;
         right: 100%;
         width: 100%;
         bottom: 0;
         align-items: center;
-        padding: 2rem 0 1rem 0;
+        padding: 2em 0 1em 0;
         z-index: $zIndexMobileMenu;
         transition: .4s;
 
@@ -202,10 +202,10 @@
             transition-timing-function: cubic-bezier(0.6, -0.28, 0.735, 0.045);
             opacity: 0;
             transform: translateX(-100%);
-            font-size: 1.4rem;
+            font-size: 1.4em;
 
             &::after {
-                bottom: 1rem;
+                bottom: 1em;
             }
         }
 
@@ -227,7 +227,7 @@
 }
 
 .welcomeText {
-    max-width: 12rem;
+    max-width: 12em;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

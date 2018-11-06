@@ -35,11 +35,11 @@ export const selectChartTypeOptions: SelectOption<ChartType>[] = [
 const fontFormat = {
     family: "Montserrat",
     size: 12,
-    color: "#395173"
+    color: "#395173", // $darkColor
 };
 
 export const tickFormat = {
-    tickcolor: "#e8e9ec",
+    tickcolor: "#e8e9ec", // $lightColor
     tickwidth: 2,
     ticklen: 5,
     ticks: "outside",
@@ -50,7 +50,7 @@ export const axisLayout = {
     showgrid: false,
     showline: true,
     showticklabels: true,
-    linecolor: "#e8e9ec",
+    linecolor: "#e8e9ec", // $lightColor
     linewidth: 2,
     fixedrange: true,
     ...tickFormat,
@@ -67,7 +67,8 @@ export const hoverLabel: Partial<Label> = {
         ...fontFormat,
         color: "white",
     },
-    bgcolor: "#42beb6"
+    bgcolor: "#42beb6", // $mainColor
+    bordercolor: "#395173" // $darkColor
 };
 
 export const markerAndLineConfig: Partial<PlotData> = {
@@ -79,6 +80,6 @@ export const markerAndLineConfig: Partial<PlotData> = {
         }
     },
     line: {
-        color: "#42beb6",
+        color: "#42beb6", // $mainColor
     },
 };

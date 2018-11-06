@@ -1,0 +1,24 @@
+@import "../../consts/consts.scss";
+
+.container {
+    border-radius: 100px;
+    border: 1px solid $successColor;
+    padding: 0.6em 0.8em;
+    color: $darkerColor;
+    font-size: 11px;
+    height: .7em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate3d(40%,-25%, 0);
+    cursor: pointer;
+    transition: transform .2s;
+    box-shadow: $dropShadowDarker;
+
+    &:hover {
+        transform: translate3d(40%,-10%, 0);
+    }
+}

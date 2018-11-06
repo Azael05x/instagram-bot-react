@@ -3,7 +3,6 @@ import { PopupData } from "../components/popup/factory/PopupData";
 
 export interface User {
     email: string;
-    // balance: string;
     challenge_url: string | undefined;
 }
 export interface CommonState {
@@ -15,7 +14,6 @@ export interface CommonState {
 export const initialState: CommonState = {
     user: {
         email: localStorage.getItem("email"),
-        // balance: "0",
         challenge_url: undefined,
     },
     accounts: [],
