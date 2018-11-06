@@ -10,6 +10,7 @@ import {
     hoverLabel,
     selectChartPeriodOptions,
     selectChartTypeOptions,
+    markerAndLineConfig,
 } from "../utils";
 import { StatisticsPeriod } from "../types";
 
@@ -49,6 +50,7 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
         this.setState({
             plotData: [
                 {
+                    ...markerAndLineConfig,
                     x: this.data.map(d => d.statsAt),
                     mode: "lines+markers",
                     y: this.data.map(d => d[this.state.chartType]),
@@ -133,6 +135,7 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
             this.setState({
                 plotData: [
                     {
+                        ...this.state.plotData[0],
                         x: this.data.map(d => d.statsAt),
                         mode: "lines+markers",
                         y: this.data.map(d => d[this.state.chartType]),

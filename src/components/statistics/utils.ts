@@ -1,6 +1,7 @@
 import { SelectOption } from "../select/Select";
 import { ChartType } from "./components/LineChart";
 import { StatisticsPeriod } from "./types";
+import { Label, PlotData } from "plotly.js";
 
 export const selectChartPeriodOptions: SelectOption<StatisticsPeriod>[] = [
     {
@@ -61,9 +62,23 @@ export const chartMargins = {
     t: 50
 };
 
-export const hoverLabel = {
+export const hoverLabel: Partial<Label> = {
     font: {
         ...fontFormat,
         color: "white",
+    },
+    bgcolor: "#42beb6"
+};
+
+export const markerAndLineConfig: Partial<PlotData> = {
+    marker: {
+        size: 7,
+        color: "#fff",
+        line: {
+            width: 2
+        }
+    },
+    line: {
+        color: "#42beb6",
     },
 };
