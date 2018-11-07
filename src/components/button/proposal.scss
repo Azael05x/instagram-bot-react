@@ -1,0 +1,68 @@
+@import "../../consts/consts.scss";
+@import "../../consts/mediaQueries.scss";
+
+.button {
+    color: #fff;
+    text-transform: capitalize;
+    font-family: "Quicksand";
+    box-shadow: $dropShadowButtons;
+    cursor: pointer;
+    outline: none;
+    transition: .2s;
+    white-space: nowrap;
+    background-color: transparent;
+
+    // border: none;
+    // border-radius: 100px;
+    border-radius: 2px;
+    border: 0.1em solid transparent;
+
+    &:hover {
+        transform: translateY(8%);
+    }
+}
+.regular {
+    padding: 0.5em 1.9em;
+    font-size: 1.2em;
+}
+.small {
+    padding: 0.4em 2em;
+    font-size: 1.1em;
+}
+
+.danger {
+    background-color: $dangerColor;
+
+    &:hover {
+        background-color: $dangerHoverColor;
+    }
+}
+.warning {
+    background-color: $warningColor;
+
+    &:hover {
+        background-color: $warningHoverColor;
+    }
+}
+.main {
+    background-color: $successColor;
+
+    &:hover {
+        background-color: $successHoverColor;
+    }
+}
+.neutral {
+    background-color: $neutralColor;
+    color: $darkColor;
+
+    &:hover {
+        background-color: $neutralHoverColor;
+    }
+}
+
+@media (max-width: $mqMobileWidth) {
+    .regular {
+        padding: 0.5em 1.5em;
+        font-size: 1em;
+    }
+}
