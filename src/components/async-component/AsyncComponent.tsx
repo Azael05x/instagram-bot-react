@@ -17,19 +17,39 @@ export class AsyncComponent extends React.PureComponent<AsyncComponentProps, Asy
         Component: null,
     };
 
-    public async componentDidMount() {
+    /**
+     * Used to avoid setState on an unmounted
+     * component. React had this in prev versions
+     * but deprecated.
+     *
+     * Should not be used for timeouts and such,
+     * however, Promises are different e.g. they
+     * can't be cancelled.
+     */
+    private _isMounted = false;
+
+    public componentDidMount() {
+        this._isMounted = true;
+
         if(!this.state.Component) {
             this.replaceModule();
         }
     }
 
-    public async componentDidUpdate() {
+    public componentDidUpdate() {
         this.replaceModule();
     }
 
     private replaceModule = async () => {
         const Component = await this.props.moduleProvider();
-        this.setState({ Component: Component.default },  () => windowScrollTo());
+
+        if (this._isMounted) {
+            this.setState({ Component: Component.default },  () => windowScrollTo());
+        }
+    }
+
+    public componentWillUnmount() {
+        this._isMounted = false;
     }
 
     public render() {

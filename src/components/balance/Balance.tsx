@@ -1,12 +1,13 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { EURO_HTML } from "@currencies";
 import { getBalance } from "@utils/requests";
+import { Path, InstaState } from "@types";
+import { selectUser } from "@ducks/selectors";
+import axios, { CancelTokenSource } from "axios";
 
 import * as styles from "./Balance.scss";
-import { Link } from "react-router-dom";
-import { Path, InstaState } from "@types";
-import { connect } from "react-redux";
-import { selectUser } from "@ducks/selectors";
 
 export interface BalanceState {
     balance: string;
@@ -18,15 +19,26 @@ export class Balance extends React.PureComponent<BalanceStateProps, BalanceState
     public state: BalanceState = {
         balance: "0"
     };
+    /**
+     * Used to stop set state if component is unmounted
+     */
+    private cancellationTokenSource: CancelTokenSource;
 
-    public async componentDidMount() {
+    public componentDidMount() {
         this.props.isLogged && this.setBalance();
     }
 
-    public componentDidUpdate(_: BalanceStateProps, prevState: BalanceState) {
-        if (prevState.balance !== this.state.balance) {
+    public componentDidUpdate(prevProps: BalanceStateProps, prevState: BalanceState) {
+        if (
+            prevProps.isLogged !== this.props.isLogged
+            || prevState.balance !== this.state.balance
+        ) {
             this.setBalance();
         }
+    }
+
+    public componentWillUnmount() {
+        this.cancellationTokenSource && this.cancellationTokenSource.cancel();
     }
 
     public render() {
@@ -43,11 +55,28 @@ export class Balance extends React.PureComponent<BalanceStateProps, BalanceState
     }
 
     private setBalance = async () => {
-        const balance = (+(await getBalance()).data).toFixed(2);
+        this.cancellationTokenSource = axios.CancelToken.source();
 
-        this.setState({
-            balance,
-        });
+        try {
+            const balance = (+(await getBalance({
+                cancelToken: this.cancellationTokenSource.token,
+            })).data).toFixed(2);
+
+            this.setState({
+                balance,
+            });
+        } catch (error) {
+            /**
+             * If the error is not an axios
+             * Promise "cancellation", then
+             * handle it
+             */
+            if (!axios.isCancel(error)) {
+                throw new Error(error);
+            }
+        } finally {
+            this.cancellationTokenSource = null;
+        }
     }
 }
 

@@ -23,7 +23,7 @@ export const setupInterceptors = (dispatch: Dispatch<InstaState>) => {
     axios.interceptors.response.use(
         (response) => response,
         async (error: AxiosError) => {
-            switch(error.response.status) {
+            switch(error && error.response && error.response.status) {
                 case 401: {
                     dispatch(logoutActionCreator() as any); // FIXME: fix types
                     dispatch(showToastAction(

@@ -1,6 +1,6 @@
 // tslint:disable:max-line-length
 
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosResponse, AxiosRequestConfig } from "axios";
 import {
     BASE_URL,
     ACCOUNT_URL,
@@ -153,8 +153,8 @@ export function getStatistics(id: number, period: StatisticsPeriod = StatisticsP
     return axios.get(`${BASE_URL}${ACCOUNT_URL}/${id}${STATISTICS}?period=${period}`, createConfig());
 }
 
-export function getBalance(): Promise<AxiosResponse<string>> {
-    return axios.get(`${BASE_URL}${USER_BALANCE}`, createConfig());
+export function getBalance(options: AxiosRequestConfig = {}): Promise<AxiosResponse<string>> {
+    return axios.get(`${BASE_URL}${USER_BALANCE}`, createConfig(options));
 }
 
 export function getPricing(): Promise<AxiosResponse<PricingData>> {
