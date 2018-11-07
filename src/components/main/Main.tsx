@@ -37,37 +37,37 @@ export class MainComponent extends React.PureComponent<MainProps> {
                             component={RouteEnhancer(LazyLanding)}
                         />
                         <div className={styles.extraSpace}>
-                        <Route
-                            exact
-                            path={Path.Faq}
-                            component={RouteEnhancer(LazyFaq)}
-                        />
+                            <Route
+                                exact
+                                path={Path.Faq}
+                                component={RouteEnhancer(LazyFaq)}
+                            />
 
-                        <Route
-                            path={Path.Profile}
-                            component={RouteEnhancer(LazyUser, true)}
-                        />
-                        <Route
-                            path={Path.LinkAccount}
-                            component={RouteEnhancer(LazyLinkAccount, true)}
-                        />
-                        <Route
-                            exact
-                            path={Path.Dashboard}
-                            component={RouteEnhancer(LazyDashboard, true)}
-                        />
-                        <Route
-                            path={Path.AccountsID}
-                            component={RouteEnhancer(LazyAccountPage, true)}
-                        />
-                        <Route
-                            path={Path.Login}
-                            component={RouteEnhancer(LazyLogin)}
-                        />
-                        <Route
-                            path={Path.Register}
-                            component={RouteEnhancer(LazyRegister)}
-                        />
+                            <Route
+                                path={Path.Profile}
+                                component={RouteEnhancer(LazyUser, true)}
+                            />
+                            <Route
+                                path={Path.LinkAccount}
+                                component={RouteEnhancer(LazyLinkAccount, true)}
+                            />
+                            <Route
+                                exact
+                                path={Path.Dashboard}
+                                component={RouteEnhancer(LazyDashboard, true)}
+                            />
+                            <Route
+                                path={Path.AccountsID}
+                                component={RouteEnhancer(LazyAccountPage, true)}
+                            />
+                            <Route
+                                path={Path.Login}
+                                component={RouteEnhancer(LazyLogin)}
+                            />
+                            <Route
+                                path={Path.Register}
+                                component={RouteEnhancer(LazyRegister)}
+                            />
                         </div>
 
                         <Route

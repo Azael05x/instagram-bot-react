@@ -23,8 +23,10 @@ export class Balance extends React.PureComponent<BalanceStateProps, BalanceState
         this.props.isLogged && this.setBalance();
     }
 
-    public componentDidUpdate() {
-        this.props.isLogged && this.setBalance();
+    public componentDidUpdate(_: BalanceStateProps, prevState: BalanceState) {
+        if (prevState.balance !== this.state.balance) {
+            this.setBalance();
+        }
     }
 
     public render() {
