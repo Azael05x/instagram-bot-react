@@ -137,9 +137,9 @@ export interface DailyStats {
     userFollowers: number;
 }
 
-export interface PricingData {
-    comment: number;
-    like: number;
-    unfollow: number;
-    follow: number;
+export interface PricingData<T = number> {
+    comment: T;
+    like: T;
+    unfollow: T;
+    follow: T;
 }

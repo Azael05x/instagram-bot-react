@@ -6,16 +6,16 @@ import { Card } from "../card/Card";
 import * as styles from "./Pricing.scss";
 import { adjustPrice } from "./utils";
 
-export type PricingState = PricingData & {
+export type PricingState = PricingData<string> & {
     multiplier: number;
 };
 
 export class Pricing extends React.PureComponent<{}, PricingState> {
     public state: PricingState = {
-        comment: 0,
-        follow: 0,
-        like: 0,
-        unfollow: 0,
+        comment: "0",
+        follow: "0",
+        like: "0",
+        unfollow: "0",
         multiplier: 100,
     };
 
