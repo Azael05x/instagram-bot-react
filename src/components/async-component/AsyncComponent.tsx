@@ -24,7 +24,7 @@ export class AsyncComponent extends React.PureComponent<AsyncComponentProps, Asy
      *
      * Should not be used for timeouts and such,
      * however, Promises are different e.g. they
-     * can't be cancelled.
+     * can't be cancelled like timeouts can
      */
     private _isMounted = false;
 

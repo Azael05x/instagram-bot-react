@@ -1,3 +1,5 @@
+import { round } from "@utils/numbers";
+
 export const adjustPrice = (price: number, multiplier: number, decimals = 4) => {
-    return +(price * multiplier).toFixed(decimals);
+    return round(price * multiplier, decimals);
 };

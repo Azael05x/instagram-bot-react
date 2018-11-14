@@ -8,16 +8,17 @@ import { selectUser } from "@ducks/selectors";
 import axios, { CancelTokenSource } from "axios";
 
 import * as styles from "./Balance.scss";
+import { round } from "@utils/numbers";
 
 export interface BalanceState {
-    balance: string;
+    balance: number;
 }
 export interface BalanceStateProps {
     isLogged: boolean;
 }
 export class Balance extends React.PureComponent<BalanceStateProps, BalanceState> {
     public state: BalanceState = {
-        balance: "0"
+        balance: 0,
     };
     /**
      * Used to stop set state if component is unmounted
@@ -58,12 +59,12 @@ export class Balance extends React.PureComponent<BalanceStateProps, BalanceState
         this.cancellationTokenSource = axios.CancelToken.source();
 
         try {
-            const balance = (+(await getBalance({
+            const rawBalance = (+(await getBalance({
                 cancelToken: this.cancellationTokenSource.token,
-            })).data).toFixed(2);
+            })).data);
 
             this.setState({
-                balance,
+                balance: round(rawBalance, 2),
             });
         } catch (error) {
             /**
