@@ -11,14 +11,14 @@ import * as styles from "./Balance.scss";
 import { round } from "@utils/numbers";
 
 export interface BalanceState {
-    balance: number;
+    balance: string;
 }
 export interface BalanceStateProps {
     isLogged: boolean;
 }
 export class Balance extends React.PureComponent<BalanceStateProps, BalanceState> {
     public state: BalanceState = {
-        balance: 0,
+        balance: "0",
     };
     /**
      * Used to stop set state if component is unmounted
