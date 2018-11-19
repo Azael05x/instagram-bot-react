@@ -14,6 +14,7 @@ if (process.env.NODE_ENV === Environment.Development) {
 }
 
 export const BASE_URL = baseUrl;
+export const GRAPHQL_URL = BASE_URL + "/graphql";
 
 export const AUTH_BASE = "/auth/login";
 export const REGISTER_BASE = "/auth/register";

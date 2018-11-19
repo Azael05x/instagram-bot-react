@@ -4,12 +4,19 @@ import { Provider, Store } from "react-redux";
 import { HashRouter } from "react-router-dom";
 import { applyMiddleware, combineReducers, createStore } from "redux";
 import thunk from "redux-thunk";
+import { ApolloProvider } from "react-apollo";
+import {
+    HttpLink,
+    InMemoryCache,
+    ApolloClient,
+} from "apollo-boost";
 
 import { reducer as commonReducer } from "@ducks/common";
 import { selectUser } from "@ducks/selectors";
 import { accountMiddleware } from "@middleware/accounts";
 import { initAccountMiddlewareAction } from "@middleware/actions";
 import { InstaState } from "@types";
+import { GRAPHQL_URL } from "@consts";
 
 import { Main } from "./components/main/Main";
 import { toastReducer } from "./components/toast/ducks/reducer";
@@ -39,11 +46,18 @@ if (selectUser(store.getState()).email) {
     store.dispatch(initAccountMiddlewareAction());
 }
 
+const client = new ApolloClient({
+  link: new HttpLink({ uri: GRAPHQL_URL }),
+  cache: new InMemoryCache(),
+});
+
 ReactDOM.render(
     (
         <Provider store={store}>
             <HashRouter>
-                <Main />
+                <ApolloProvider client={client}>
+                    <Main />
+                </ApolloProvider>
             </HashRouter>
         </Provider>
     ),

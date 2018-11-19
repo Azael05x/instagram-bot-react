@@ -101,10 +101,10 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jp(e*)g|svg)$/,  
+                test: /\.(png|jp(e*)g|svg)$/,
                 use: [{
                     loader: "url-loader",
-                    options: { 
+                    options: {
                         limit: 8000, // Convert images < 8kb to base64 strings
                         name: "images/[hash]-[name].[ext]"
                     }
@@ -113,7 +113,7 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js"],
+        extensions: [".tsx", ".ts", ".mjs", ".js"],
         plugins: [
             new TsconfigPathsPlugin({ configFile: "./tsconfig.json" })
         ]
