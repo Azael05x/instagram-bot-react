@@ -14,15 +14,12 @@ import {
     hashtagsBodyPlaceholder,
     blacklistedHashtagsBodyPlaceholder,
     blacklistedHashtagsPlaceholder,
-    blacklistedUsersBodyPlaceholder,
-    blacklistedUsersPlaceholder,
 } from "@texts";
-import { searchTags, searchUsers } from "@utils/requests";
+import { searchTags } from "@utils/requests";
 
 import { InputSelect } from "../input-select/InputSelect";
 
 import * as styles from "./AccountSettings.scss";
-import { UserTimesSVG } from "../icons/UserTimes";
 import { BanSVG } from "../icons/Ban";
 import { TagsSVG } from "../icons/Tags";
 
@@ -73,16 +70,6 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 onChange={this.onTagInput}
                             />
                         </div>
-                        <div className={styles.settingsArea}>
-                            <InputSelect
-                                placeholder={blacklistedUsersPlaceholder}
-                                bodyPlaceholder={blacklistedUsersBodyPlaceholder}
-                                icon={<UserTimesSVG fill={"#000"} />}
-                                onSubmit={this.onBlacklistedUserTagsChange}
-                                tags={settings.general.blacklistedUsers}
-                                onChange={this.onUserInput}
-                            />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -104,20 +91,9 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             },
         });
     }
-    private onBlacklistedUserTagsChange = (value: string[]) => {
-        this.props.updateAccountGeneral({
-            id: this.props.account.id,
-            data: {
-                blacklistedUsers: value,
-            },
-        });
-    }
 
     private onTagInput = (value: string) => {
         return searchTags(this.props.account.id, value);
-    }
-    private onUserInput = (value: string) => {
-        return searchUsers(this.props.account.id, value);
     }
 }
 
