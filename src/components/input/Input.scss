@@ -1,0 +1,29 @@
+@import "../../consts/consts.scss";
+@import "../../consts/mediaQueries.scss";
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 0.5em;
+    align-items: center;
+
+    @media (max-width: $mqTabletWidth) {
+        grid-template-columns: 1fr;
+    }
+}
+.input {
+    border: 1px solid rgba(29, 34, 71, .2);
+    outline: none;
+    box-shadow: 0 2px 4px rgba(233, 196, 196, 0.1);
+    border-radius: 5px;
+    line-height: 1.5;
+    display: flex;
+    position: relative;
+    padding: .5em 1em;
+    font-size: 1em;
+    transition: border-color .2s;
+
+    &:focus {
+        border-color: $successColor;
+    }
+}

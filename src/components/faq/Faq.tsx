@@ -5,6 +5,7 @@ import {
 import { Divider, DividerTheme } from "../divider/Divider";
 
 import * as styles from "./Faq.scss";
+import { PageTitle } from "../page-title/PageTitle";
 
 export interface FaqOwnProps {
     hasUser: boolean;
@@ -15,8 +16,7 @@ export class Faq extends React.PureComponent<FaqProps> {
     public render() {
         return (
             <div className={styles.container}>
-                <h1 className={styles.title}>FAQ</h1>
-                <Divider theme={DividerTheme.Small} />
+                <PageTitle title={"FAQ"} />
                 <div className={styles.itemContainer}>
                     <div className={styles.item}>
                         <h3 className={styles.title}>How many new followers will I have?</h3>

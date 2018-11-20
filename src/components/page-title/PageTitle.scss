@@ -1,0 +1,11 @@
+@import "../../consts/consts.scss";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    color: $darkColor;
+    align-items: center;
+}
+.title {
+    margin: 0;
+}

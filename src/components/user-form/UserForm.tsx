@@ -1,15 +1,16 @@
 import * as React from "react";
 import { Redirect } from "react-router-dom";
 
-import { Button, ButtonType } from "../button/Button";
 import { getPressedKey, isEnterKey } from "@utils/keyboardEvents";
 
+import { Button, ButtonType } from "../button/Button";
 import { Info } from "./components/Info";
 import { InfoData } from "./components/type";
 import { FormGroup } from "./components/FormGroup";
+import { SpinnerSVG } from "../icons/Spinner";
+import { InputType, labelTextMap } from "../input/utils";
 
 import * as styles from "./UserForm.scss";
-import { SpinnerSVG } from "../icons/Spinner";
 
 const onFormSubmitCb = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
 
@@ -17,19 +18,6 @@ export interface UserFormState {
     mainValue: string;
     password: string;
 }
-
-export enum InputType {
-    Email = "email",
-    Text = "text",
-    Number = "number",
-    Telephone = "tel",
-}
-const labelTextMap = {
-    [InputType.Email]: "email",
-    [InputType.Text]: "text",
-    [InputType.Number]: "number",
-    [InputType.Telephone]: "telephone",
-};
 
 export interface UserFormProps {
     onSubmit: (email: string, password: string, code?: string) => void;

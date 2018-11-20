@@ -1,0 +1,30 @@
+@import "../../consts/consts.scss";
+@import "../../consts/mediaQueries.scss";
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1em;
+    margin: 0.5em 0;
+    width: 100%;
+
+    @media (max-width: $mqTabletWidth) {
+        grid-template-columns: 1fr;
+    }
+}
+.section {
+    display: grid;
+    flex-direction: column;
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 1em;
+    text-align: left;
+    border-radius: 5px;
+    box-shadow: $dropShadow;
+    padding: 2em;
+    margin: 1em 0;
+}
+
+.oldPassword {
+    margin-bottom: .5em;
+}
+

@@ -18,6 +18,7 @@ export const BASE_URL = baseUrl;
 export const AUTH_BASE = "/auth/login";
 export const REGISTER_BASE = "/auth/register";
 export const LOGOUT = "/auth/logout";
+export const CHANGE_PASSWORD = "/auth/change/pass";
 export const ACCOUNT_URL = "/instagrams";
 export const USER_URL = "/user";
 export const USER_BALANCE = "/user/balance";

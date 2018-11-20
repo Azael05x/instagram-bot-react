@@ -12,6 +12,8 @@ import { getAccountData } from "@utils/requests";
 import { getAccountIdFromParams } from "@utils/location";
 
 const VERIFICATION_REDIRECT_FAILED_CODE = 406;
+const UNAUTHORIZED_CODE = 401;
+const LOGIN_ERROR_CODE = 418;
 
 export const setupInterceptors = (dispatch: Dispatch<InstaState>) => {
     /**
@@ -24,10 +26,18 @@ export const setupInterceptors = (dispatch: Dispatch<InstaState>) => {
         (response) => response,
         async (error: AxiosError) => {
             switch(error && error.response && error.response.status) {
-                case 401: {
+                case UNAUTHORIZED_CODE: {
                     dispatch(logoutActionCreator() as any); // FIXME: fix types
                     dispatch(showToastAction(
                         error.response.statusText,
+                        ToastType.Error,
+                    ));
+
+                    break;
+                }
+                case LOGIN_ERROR_CODE: {
+                    dispatch(showToastAction(
+                        error.response.data || error.response.statusText,
                         ToastType.Error,
                     ));
 
