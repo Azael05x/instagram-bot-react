@@ -1,5 +1,6 @@
 import * as React from "react";
-import { postChangePassword } from "@utils/requests";
+import { connect } from "react-redux";
+import { postChangePassword, postChangePasswordViaLink } from "@utils/requests";
 
 import { Input } from "../../input/Input";
 import { Button, ButtonType, ButtonSize } from "../../button/Button";
@@ -9,9 +10,13 @@ import { ToastType } from "../../toast/ducks/type";
 
 import * as styles from "../User.scss";
 
-export interface ChangePasswordProps {
-    afterOperationCallback: typeof showToastAction;
+export interface ChangePasswordDispatchProps {
+    showToast: typeof showToastAction;
 }
+export interface ChangePasswordOwnProps {
+    isChangeViaEmail?: boolean;
+}
+export type ChangePasswordProps = ChangePasswordDispatchProps & ChangePasswordOwnProps;
 export interface ChangePasswordState {
     oldPassword: string;
     newPassword: string;
@@ -30,15 +35,15 @@ export class ChangePassword extends React.Component<ChangePasswordProps, ChangeP
             <div className={styles.sectionWrapper}>
                 <h3>Change password</h3>
                 <div className={styles.section}>
-                    <div className={styles.oldPassword}>
-                        <Input
-                            placeholder={"Accounts old password"}
-                            onSubmit={this.onSubmit}
-                            label={"Old password"}
-                            type={InputType.Password}
-                            onChange={this.onChangeOldPassword}
-                        />
-                    </div>
+                {!this.props.isChangeViaEmail && (
+                    <Input
+                        placeholder={"Accounts old password"}
+                        onSubmit={this.onSubmit}
+                        label={"Old password"}
+                        type={InputType.Password}
+                        onChange={this.onChangeOldPassword}
+                    />
+                )}
                     <Input
                         placeholder={"Accounts new password"}
                         onSubmit={this.onSubmit}
@@ -80,28 +85,43 @@ export class ChangePassword extends React.Component<ChangePasswordProps, ChangeP
             newPasswordConfirm,
         } = this.state;
 
-        if (oldPassword === newPassword) {
-            this.props.afterOperationCallback(
-                "Password didn't change",
-                ToastType.Error,
-            );
-            return;
-        }
         if (newPassword !== newPasswordConfirm) {
-            this.props.afterOperationCallback(
+            this.props.showToast(
                 "New passwords don't match",
                 ToastType.Error,
             );
             return;
         }
 
-        await postChangePassword({
-            newPassword,
-            oldPassword,
-        });
-        this.props.afterOperationCallback(
+        if (this.props.isChangeViaEmail) {
+            await postChangePasswordViaLink({ newPassword });
+        } else {
+            if (oldPassword === newPassword) {
+                this.props.showToast(
+                    "Password didn't change",
+                    ToastType.Error,
+                );
+                return;
+            }
+
+            await postChangePassword({
+                newPassword,
+                oldPassword,
+            });
+        }
+
+        this.props.showToast(
             "Successfully changed user password",
             ToastType.Success,
         );
     }
 }
+
+const mapDispatchToProps: ChangePasswordDispatchProps = {
+    showToast: showToastAction,
+};
+
+export const ChangePasswordConnected = connect<{}, ChangePasswordDispatchProps>(
+    null,
+    mapDispatchToProps,
+)(ChangePassword);

@@ -19,6 +19,7 @@ import {
     USER_BALANCE,
     PRICING,
     CHANGE_PASSWORD,
+    CHANGE_PASSWORD_LINK,
 } from "@consts";
 import { AccountData } from "@middleware/types";
 import {
@@ -31,6 +32,7 @@ import {
 
 import { createConfig } from "./config";
 import { StatisticsPeriod } from "src/components/statistics/types";
+import { getPasswordActivationToken } from "./getPasswordActivationToken";
 
 export function getInitAccountData(): Promise<AxiosResponse<AccountData[]>> {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}`, createConfig());
@@ -48,6 +50,16 @@ export function postChangePassword(
     }
 ): Promise<AxiosResponse<AccountData>> {
     return axios.post(`${BASE_URL}${CHANGE_PASSWORD}`, data, createConfig());
+}
+export function postChangePasswordViaLink(data: { newPassword: string; }): Promise<AxiosResponse<AccountData>> {
+    return axios.post(
+        `${BASE_URL}${CHANGE_PASSWORD_LINK}`,
+        {
+            ...data,
+            passwordActivationToken: getPasswordActivationToken(),
+        },
+        createConfig(),
+    );
 }
 export function postAccountVerification(id: number, data: { code: string; }): Promise<AxiosResponse<AccountData>> {
     return axios.post(`${BASE_URL}${ACCOUNT_URL}/${id}/verificate`, data, createConfig());

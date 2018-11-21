@@ -1,11 +1,14 @@
 import * as React from "react";
-import { Switch, Route, withRouter, RouteComponentProps } from "react-router-dom";
+import { Switch, Route, RouteComponentProps } from "react-router-dom";
 import { Path } from "@types";
 
 import { HeaderConnected } from "../header/Header";
 import { Footer } from "../footer/Footer";
 import { PopupConnected } from "../popup/Popup";
 import { ToastConnected } from "../toast/Toast";
+import { RouteEnhancer } from "./RouteEnhancer";
+
+import * as styles from "./Main.scss";
 
 // Lazily imported chunks in closures
 const LazyDashboard = () => import(/* webpackChunkName: "dashboard" */"../dashboard/Dashboard");
@@ -18,12 +21,8 @@ const LazyLogin = () => import(/* webpackChunkName: "login" */"../login/Login");
 const LazyLinkAccount = () => import(/* webpackChunkName: "linkAccount" */"../link-account/LinkAccount");
 const LazyNoMatch = () => import(/* webpackChunkName: "noMatch" */"../no-match/NoMatch");
 
-import * as styles from "./Main.scss";
-import { RouteEnhancer } from "./RouteEnhancer";
-
 export type MainProps = RouteComponentProps<{}>;
-
-export class MainComponent extends React.PureComponent<MainProps> {
+export class MainRouterComponents extends React.PureComponent<MainProps> {
     public render() {
         return (
             <div className={styles.container}>
@@ -82,5 +81,3 @@ export class MainComponent extends React.PureComponent<MainProps> {
         );
     }
 }
-
-export const Main = withRouter(MainComponent);

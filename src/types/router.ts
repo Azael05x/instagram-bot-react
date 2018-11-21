@@ -16,5 +16,6 @@ export enum Path {
     Dashboard = "/accounts",
     AccountsID = "/accounts/:id",
     Register = "/register",
+    PasswordChangeLink = "/link/password",
     Wildcard = "*",
 }

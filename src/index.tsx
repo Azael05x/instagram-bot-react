@@ -11,7 +11,7 @@ import { accountMiddleware } from "@middleware/accounts";
 import { initAccountMiddlewareAction } from "@middleware/actions";
 import { InstaState } from "@types";
 
-import { Main } from "./components/main/Main";
+import { RootRouter } from "./components/root-router/RootRouter";
 import { toastReducer } from "./components/toast/ducks/reducer";
 import { setupInterceptors } from "./components/require-auth/networkService";
 
@@ -43,7 +43,7 @@ ReactDOM.render(
     (
         <Provider store={store}>
             <HashRouter>
-                <Main />
+                <RootRouter />
             </HashRouter>
         </Provider>
     ),
