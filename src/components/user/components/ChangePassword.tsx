@@ -1,12 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router";
 import { postChangePassword, postChangePasswordViaLink } from "@utils/requests";
+import { Path } from "@types";
 
-import { Input } from "../../input/Input";
 import { Button, ButtonType, ButtonSize } from "../../button/Button";
 import { InputType } from "../../input/utils";
 import { showToastAction } from "../../toast/ducks/actions";
 import { ToastType } from "../../toast/ducks/type";
+import { Input } from "../../input/Input";
 
 import * as styles from "../User.scss";
 
@@ -21,16 +23,22 @@ export interface ChangePasswordState {
     oldPassword: string;
     newPassword: string;
     newPasswordConfirm: string;
+    redirect: boolean;
 }
 
 export class ChangePassword extends React.Component<ChangePasswordProps, ChangePasswordState> {
-    public static state: ChangePasswordState = {
+    public state: ChangePasswordState = {
         oldPassword: "",
         newPassword: "",
         newPasswordConfirm: "",
+        redirect: false,
     };
 
     public render() {
+        if (this.state.redirect) {
+            return <Redirect to={Path.Login} />;
+        }
+
         return (
             <div className={styles.sectionWrapper}>
                 <h3>Change password</h3>
@@ -110,6 +118,7 @@ export class ChangePassword extends React.Component<ChangePasswordProps, ChangeP
             });
         }
 
+        this.setState({ redirect: true });
         this.props.showToast(
             "Successfully changed user password",
             ToastType.Success,
