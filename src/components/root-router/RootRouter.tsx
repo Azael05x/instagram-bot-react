@@ -3,6 +3,8 @@ import { Switch, Route, withRouter, RouteComponentProps } from "react-router-dom
 import { Path } from "@types";
 import { RouteEnhancer } from "../main-router/RouteEnhancer";
 import { MainRouterComponents } from "../main-router/MainRouter";
+import { ToastConnected } from "../toast/Toast";
+import { PopupConnected } from "../popup/Popup";
 
 // Lazily imported chunks in closures
 const LazyPasswordChangeLink = () => import(/* webpackChunkName: "register" */"../password-change/PasswordChange");
@@ -10,7 +12,9 @@ const LazyPasswordChangeLink = () => import(/* webpackChunkName: "register" */".
 export type RootRouterProps = RouteComponentProps<{}>;
 export class RootRouterComponent extends React.PureComponent<RootRouterProps> {
     public render() {
-        return (
+        return <>
+            <ToastConnected />
+            <PopupConnected />
             <Switch>
                 <Route
                     path={Path.PasswordChangeLink}
@@ -21,7 +25,7 @@ export class RootRouterComponent extends React.PureComponent<RootRouterProps> {
                     component={MainRouterComponents}
                 />
             </Switch>
-        );
+        </>
     }
 }
 

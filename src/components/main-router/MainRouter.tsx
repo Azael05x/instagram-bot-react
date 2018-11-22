@@ -4,8 +4,6 @@ import { Path } from "@types";
 
 import { HeaderConnected } from "../header/Header";
 import { Footer } from "../footer/Footer";
-import { PopupConnected } from "../popup/Popup";
-import { ToastConnected } from "../toast/Toast";
 import { RouteEnhancer } from "./RouteEnhancer";
 
 import * as styles from "./Main.scss";
@@ -26,7 +24,6 @@ export class MainRouterComponents extends React.PureComponent<MainProps> {
     public render() {
         return (
             <div className={styles.container}>
-                <ToastConnected />
                 <HeaderConnected />
                 <div className={styles.bodyContainer}>
                     <Switch>
@@ -75,7 +72,6 @@ export class MainRouterComponents extends React.PureComponent<MainProps> {
                         />
                     </Switch>
                 </div>
-                <PopupConnected />
                 <Footer />
             </div>
         );
