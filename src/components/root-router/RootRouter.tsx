@@ -25,7 +25,7 @@ export class RootRouterComponent extends React.PureComponent<RootRouterProps> {
                     component={MainRouterComponents}
                 />
             </Switch>
-        </>
+        </>;
     }
 }
 
