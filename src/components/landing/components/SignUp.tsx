@@ -14,11 +14,11 @@ const SUBMIT_TIMEOUT = 500;
 /**
  * Used to pass into <Info />  component.
  */
-const infoData = {
+const infoData = [{
     infoPathTo: Path.Login,
     infoText: "Already have an account?",
     linkLabel: "Log in here!",
-};
+}];
 
 export interface SignUpState {
     email: string;

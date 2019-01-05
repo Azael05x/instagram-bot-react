@@ -41,11 +41,18 @@ export enum FormInput {
 /**
  * Used to pass into <Info />  component.
  */
-const infoData = {
-    infoPathTo: Path.Register,
-    infoText: "Don't have an account?",
-    linkLabel: "Sign up here!",
-};
+const infoData = [
+    {
+        infoPathTo: Path.Register,
+        infoText: "Don't have an account?",
+        linkLabel: "Sign up here!",
+    },
+    {
+        infoPathTo: Path.ResetPassword,
+        infoText: "Forgot password",
+        linkLabel: "Renew here!",
+    },
+];
 
 export class Login extends React.Component<LoginProps, LoginState> {
     public state: LoginState = {

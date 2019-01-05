@@ -1,8 +1,19 @@
+/**
+ * The full settings page.
+ *
+ * Not needed for beta.
+ * Keeping to avoid writing the same over again
+ */
+
 import * as React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { AccountData } from "@middleware/types";
+import {
+    AccountData,
+    // ActivitySpeedType,
+    FollowTimeType,
+} from "@middleware/types";
 import {
     updateAccountActivitiesMiddlewareAction,
     updateAccountGeneralMiddlewareAction,
@@ -14,19 +25,24 @@ import {
     hashtagsBodyPlaceholder,
     blacklistedHashtagsBodyPlaceholder,
     blacklistedHashtagsPlaceholder,
-    videoCommentsPlaceholder,
-    imageCommentsPlaceholder,
-    imageCommentsBodyPlaceholder,
+    blacklistedUsersBodyPlaceholder,
+    blacklistedUsersPlaceholder,
     videoCommentsBodyPlaceholder,
+    videoCommentsPlaceholder,
+    imageCommentsBodyPlaceholder,
+    imageCommentsPlaceholder,
 } from "@texts";
-import { searchTags } from "@utils/requests";
+import { searchTags, searchUsers } from "@utils/requests";
 
-import { InputSelect, InputType } from "../input-select/InputSelect";
-import { BanSVG } from "../icons/Ban";
-import { TagsSVG } from "../icons/Tags";
+import { Divider, DividerTheme } from "../divider/Divider";
+// import { ActivitySpeed } from "./components/activity-speed/ActivitySpeed";
 import { General } from "./components/general/General";
+import { InputSelect, InputType } from "../input-select/InputSelect";
+import { FollowTime } from "./components/follow-time/FollowTime";
 
 import * as styles from "./AccountSettings.scss";
+import { TagsSVG } from "../icons/Tags";
+import { BanSVG } from "../icons/Ban";
 
 export interface AccountSettingsOwnProps {
     account: AccountData;
@@ -45,7 +61,7 @@ export type AccountSettingsProps =
 
 export class AccountSettings extends React.Component<AccountSettingsProps> {
     public render() {
-        if (!this.props.account || !this.props.account.id) {
+        if (!this.props.account.id) {
             return null;
         }
 
@@ -55,6 +71,20 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                 <div className={styles.section}>
                     <h2>General Activity</h2>
                     <div className={styles.settingsArea}>
+                        {/* <div className={styles.settingsAreaRow}>
+                            <ActivitySpeed
+                                speed={settings.activities.speed}
+                                onChange={this.onSpeedChange}
+                            />
+                        </div>
+                        <Divider theme={DividerTheme.Small} /> */}
+                        <div className={styles.settingsAreaRow}>
+                            <FollowTime
+                                time={settings.follows.unfollowAfterMinutes}
+                                onChange={this.onFollowTimeChange}
+                            />
+                        </div>
+                        <Divider theme={DividerTheme.Small} />
                         <div className={styles.settingsAreaRow}>
                             <General
                                 values={settings.activities}
@@ -67,7 +97,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                     </div>
                 </div>
                 <div className={styles.section}>
-                    <h2>#Hashtags</h2>
+                    <h2>#Hashtags & @Users</h2>
                     <div className={styles.tagsArea}>
                         <div className={styles.settingsArea}>
                             <InputSelect
@@ -89,6 +119,16 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 onChange={this.onTagInput}
                             />
                         </div>
+                        <div className={styles.settingsArea}>
+                            <InputSelect
+                                placeholder={blacklistedUsersPlaceholder}
+                                bodyPlaceholder={blacklistedUsersBodyPlaceholder}
+                                icon={<i className="fa fa-user-times" aria-hidden="true"></i>}
+                                onSubmit={this.onBlacklistedUserTagsChange}
+                                tags={settings.general.blacklistedUsers}
+                                onChange={this.onUserInput}
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className={styles.section}>
@@ -102,7 +142,7 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 onSubmit={this.onImageCommentsChange}
                                 tags={settings.comments.imageComments}
                                 type={InputType.TextField}
-                                />
+                            />
                         </div>
                         <div className={styles.settingsArea}>
                             <InputSelect
@@ -112,14 +152,13 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
                                 onSubmit={this.onVideoCommentsChange}
                                 tags={settings.comments.videoComments}
                                 type={InputType.TextField}
-                                />
+                            />
                         </div>
                     </div>
                 </div>
             </div>
         );
     }
-
     private onLikesToggle = (value: boolean) => {
         this.props.updateAccountActivities({
             id: this.props.account.id,
@@ -144,6 +183,18 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             data: { enabledComments: value },
         });
     }
+    // private onSpeedChange = (value: ActivitySpeedType) => {
+    //     this.props.updateAccountActivities({
+    //         id: this.props.account.id,
+    //         data: { speed: value },
+    //     });
+    // }
+    private onFollowTimeChange = (value: FollowTimeType) => {
+        this.props.updateAccountFollows({
+            id: this.props.account.id,
+            data: { unfollowAfterMinutes: value },
+        });
+    }
     private onFollowTagsChange = (value: string[]) => {
         this.props.updateAccountGeneral({
             id: this.props.account.id,
@@ -157,6 +208,14 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
             id: this.props.account.id,
             data: {
                 blacklistedTags: value,
+            },
+        });
+    }
+    private onBlacklistedUserTagsChange = (value: string[]) => {
+        this.props.updateAccountGeneral({
+            id: this.props.account.id,
+            data: {
+                blacklistedUsers: value,
             },
         });
     }
@@ -179,6 +238,9 @@ export class AccountSettings extends React.Component<AccountSettingsProps> {
     private onTagInput = (value: string) => {
         return searchTags(this.props.account.id, value);
     }
+    private onUserInput = (value: string) => {
+        return searchUsers(this.props.account.id, value);
+    }
 }
 
 const mapDispatchToProps: AccountSettingsDispatchProps = {
@@ -192,5 +254,3 @@ export const AccountSettingsConnected = withRouter(connect<{}, AccountSettingsDi
     undefined,
     mapDispatchToProps,
 )(AccountSettings));
-
-export default AccountSettingsConnected;

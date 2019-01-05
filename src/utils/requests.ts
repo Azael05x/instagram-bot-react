@@ -20,6 +20,8 @@ import {
     PRICING,
     CHANGE_PASSWORD,
     CHANGE_PASSWORD_LINK,
+    RESET_PASSWORD,
+    RESET_PASSWORD_LINK,
 } from "@consts";
 import { AccountData } from "@middleware/types";
 import {
@@ -34,6 +36,11 @@ import { createConfig } from "./config";
 import { StatisticsPeriod } from "src/components/statistics/types";
 import { getPasswordActivationToken } from "./getPasswordActivationToken";
 
+export interface PasswordChange {
+    oldPassword: string;
+    newPassword: string;
+}
+
 export function getInitAccountData(): Promise<AxiosResponse<AccountData[]>> {
     return axios.get(`${BASE_URL}${ACCOUNT_URL}`, createConfig());
 }
@@ -43,15 +50,10 @@ export function getAccountData(id: number): Promise<AxiosResponse<AccountData>> 
 export function postAccount(data: { username: string; password: string; }): Promise<AxiosResponse<AccountData>> {
     return axios.post(`${BASE_URL}${ACCOUNT_URL}`, data, createConfig());
 }
-export function postChangePassword(
-    data: {
-        oldPassword: string;
-        newPassword: string;
-    }
-): Promise<AxiosResponse<AccountData>> {
+export function postChangePassword(data: PasswordChange): Promise<AxiosResponse<AccountData>> {
     return axios.post(`${BASE_URL}${CHANGE_PASSWORD}`, data, createConfig());
 }
-export function postChangePasswordViaLink(data: { newPassword: string; }): Promise<AxiosResponse<AccountData>> {
+export function postChangePasswordViaLink(data: Pick<PasswordChange, "newPassword">): Promise<AxiosResponse<AccountData>> {
     return axios.post(
         `${BASE_URL}${CHANGE_PASSWORD_LINK}`,
         {
@@ -180,4 +182,22 @@ export function getBalance(options: AxiosRequestConfig = {}): Promise<AxiosRespo
 
 export function getPricing(): Promise<AxiosResponse<PricingData>> {
     return axios.get(`${BASE_URL}${PRICING}`, createConfig());
+}
+
+export function postResetPassword(email: string): Promise<AxiosResponse<AccountData>> {
+    return axios.post(
+        `${BASE_URL}${RESET_PASSWORD}`,
+        { email },
+        createConfig(),
+    );
+}
+export function postResetPasswordViaLink(data: Pick<PasswordChange, "newPassword">): Promise<AxiosResponse<AccountData>> {
+    return axios.post(
+        `${BASE_URL}${RESET_PASSWORD_LINK}`,
+        {
+            ...data,
+            passwordActivationToken: getPasswordActivationToken(),
+        },
+        createConfig(),
+    );
 }

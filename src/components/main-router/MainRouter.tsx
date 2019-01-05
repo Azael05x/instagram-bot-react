@@ -18,6 +18,7 @@ const LazyUser = () => import(/* webpackChunkName: "user" */"../user/User");
 const LazyLogin = () => import(/* webpackChunkName: "login" */"../login/Login");
 const LazyLinkAccount = () => import(/* webpackChunkName: "linkAccount" */"../link-account/LinkAccount");
 const LazyNoMatch = () => import(/* webpackChunkName: "noMatch" */"../no-match/NoMatch");
+const LazyForgotPassword = () => import(/* webpackChunkName: "noMatch" */"../forgot-password/ForgotPassword");
 
 export type MainProps = RouteComponentProps<{}>;
 export class MainRouterComponents extends React.PureComponent<MainProps> {
@@ -63,6 +64,10 @@ export class MainRouterComponents extends React.PureComponent<MainProps> {
                             <Route
                                 path={Path.Register}
                                 component={RouteEnhancer(LazyRegister)}
+                            />
+                            <Route
+                                path={Path.ResetPassword}
+                                component={RouteEnhancer(LazyForgotPassword)}
                             />
                         </div>
 

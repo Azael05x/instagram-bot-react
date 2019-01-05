@@ -1,19 +1,19 @@
 import * as React from "react";
-import { postChangePasswordViaLink } from "@utils/requests";
+import { postResetPasswordViaLink } from "@utils/requests";
 import { ChangePasswordConnected } from "../user/components/ChangePassword";
-import * as styles from "./PasswordChange.scss";
+import * as styles from "./ResetPassword.scss";
 
-export class PasswordChange extends React.PureComponent {
+export class ResetPassword extends React.PureComponent {
     public render() {
         return (
             <div className={styles.container}>
                 <ChangePasswordConnected
                     isChangeViaEmail={true}
-                    callback={postChangePasswordViaLink}
+                    callback={postResetPasswordViaLink}
                 />
             </div>
         );
     }
 }
 
-export default PasswordChange;
+export default ResetPassword;

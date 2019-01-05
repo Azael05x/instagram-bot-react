@@ -17,5 +17,7 @@ export enum Path {
     AccountsID = "/accounts/:id",
     Register = "/register",
     PasswordChangeLink = "/link/password",
+    PasswordResetLink = "/link/password/reset",
+    ResetPassword = "/password/reset",
     Wildcard = "*",
 }

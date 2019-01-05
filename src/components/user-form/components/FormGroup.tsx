@@ -1,3 +1,5 @@
+// tslint:disable:max-line-length
+
 import * as React from "react";
 import * as styles from "../UserForm.scss";
 import * as classNames from "classnames";
@@ -41,6 +43,7 @@ export class FormGroup extends React.PureComponent<FormGroupProps> {
                     id={htmlFor}
                     className={styles.input}
                     type={type}
+                    required
                     onChange={onChange}
                     value={value}
                     autoComplete="nope"

@@ -1,9 +1,10 @@
 import * as React from "react";
+import { isMobile } from "@utils/deviceSupport";
+import { noop } from "@utils/functions";
+import classnames from "classnames";
 
 import { CaretIcon } from "../icons/Caret";
 import { Option } from "./components/Option";
-import { isMobile } from "@utils/deviceSupport";
-import { noop } from "@utils/functions";
 
 import * as styles from "./Select.scss";
 
@@ -41,20 +42,20 @@ export class Select extends React.PureComponent<SelectProps, SelectState> {
         currentOption: this.props.currentOption.label || this.props.selectOptions[0].label,
         isOpen: false,
     };
-    private isMobile = isMobile();
+    private get isMobile() { return isMobile(); }
     public render() {
         return (
             <div
-                onClick={this.onClick}
+                onTouchEnd={this.onClick}
                 onMouseOver={!this.isMobile ? this.openOptionsList : noop}
                 onMouseOut={!this.isMobile ? this.closeOptionsList : noop}
-                className={`${styles.navigation} ${styles[this.props.theme]}`}
+                className={classnames(styles.navigation, styles[this.props.theme])}
             >
                {this.state.currentOption}
-                <span className={`${styles.caret} ${ this.state.isOpen && styles.active }`}>
+                <span className={classnames(styles.caret, { [styles.active]: this.state.isOpen })}>
                     <CaretIcon />
                 </span>
-                <div className={`${styles.navigationOptionsContainer} ${ this.state.isOpen && styles.active }`}>
+                <div className={classnames(styles.navigationOptionsContainer, { [styles.active]: this.state.isOpen })}>
                     {this.renderOptions()}
                 </div>
             </div>

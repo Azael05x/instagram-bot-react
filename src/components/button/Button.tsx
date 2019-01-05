@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as styles from "./Button.scss";
+import classnames from "classnames";
 
 export enum ButtonType {
     Main = "main",
@@ -14,6 +15,7 @@ export enum ButtonSize {
 export interface ButtonPropsDefaultProps {
     type: ButtonType;
     size: ButtonSize;
+    disabled: boolean;
 }
 export interface ButtonProps extends Partial<ButtonPropsDefaultProps> {
     label: string;
@@ -24,6 +26,7 @@ export class Button extends React.PureComponent<ButtonProps> {
     public static defaultProps: ButtonPropsDefaultProps = {
         type: ButtonType.Main,
         size: ButtonSize.Regular,
+        disabled: false,
     };
 
     render() {
@@ -32,15 +35,22 @@ export class Button extends React.PureComponent<ButtonProps> {
             onClick,
             type,
             size,
+            disabled,
         } = this.props;
 
-        const className = `${styles.button} ${styles[type]} ${styles[size]}`;
+        const className = classnames(
+            styles.button,
+            styles[type],
+            styles[size],
+            { [styles.disabled]: disabled }
+        );
 
         return (
             <button
                 className={className}
                 onClick={onClick}
                 data-role="button"
+                disabled={disabled}
             >
                 {label}
             </button>

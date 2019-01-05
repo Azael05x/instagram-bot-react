@@ -1,5 +1,6 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router-dom";
+import { postChangePassword } from "@utils/requests";
 
 import { ChangePasswordConnected } from "./components/ChangePassword";
 import { PageTitle } from "../page-title/PageTitle";
@@ -13,7 +14,7 @@ export class User extends React.Component<UserProps> {
         return <>
             <PageTitle title={"Profile"} />
             <div className={styles.container}>
-                <ChangePasswordConnected />
+                <ChangePasswordConnected callback={postChangePassword} />
             </div>
         </>;
     }

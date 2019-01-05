@@ -1,8 +1,10 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { postChangePassword, postChangePasswordViaLink } from "@utils/requests";
+import { postChangePassword } from "@utils/requests";
 import { Path } from "@types";
+import { AxiosResponse } from "axios";
+import { AccountData } from "@middleware/types";
 
 import { Button, ButtonType, ButtonSize } from "../../button/Button";
 import { InputType } from "../../input/utils";
@@ -17,6 +19,7 @@ export interface ChangePasswordDispatchProps {
 }
 export interface ChangePasswordOwnProps {
     isChangeViaEmail?: boolean;
+    callback: (data: { newPassword: string; }) => Promise<AxiosResponse<AccountData>>;
 }
 export type ChangePasswordProps = ChangePasswordDispatchProps & ChangePasswordOwnProps;
 export interface ChangePasswordState {
@@ -92,20 +95,25 @@ export class ChangePassword extends React.Component<ChangePasswordProps, ChangeP
             newPassword,
             newPasswordConfirm,
         } = this.state;
+        const {
+            callback,
+            isChangeViaEmail,
+            showToast,
+        } = this.props;
 
         if (newPassword !== newPasswordConfirm) {
-            this.props.showToast(
+            showToast(
                 "New passwords don't match",
                 ToastType.Error,
             );
             return;
         }
 
-        if (this.props.isChangeViaEmail) {
-            await postChangePasswordViaLink({ newPassword });
+        if (isChangeViaEmail) {
+            await callback({ newPassword });
         } else {
             if (oldPassword === newPassword) {
-                this.props.showToast(
+                showToast(
                     "Password didn't change",
                     ToastType.Error,
                 );
@@ -119,7 +127,7 @@ export class ChangePassword extends React.Component<ChangePasswordProps, ChangeP
         }
 
         this.setState({ redirect: true });
-        this.props.showToast(
+        showToast(
             "Successfully changed user password",
             ToastType.Success,
         );

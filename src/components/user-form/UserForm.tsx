@@ -28,7 +28,7 @@ export interface UserFormProps {
     mainInputLabel?: string;
     buttonType?: ButtonType;
     inputType?: InputType;
-    infoData?: InfoData;
+    infoData?: InfoData[];
 }
 
 export class UserForm extends React.PureComponent<UserFormProps, UserFormState> {

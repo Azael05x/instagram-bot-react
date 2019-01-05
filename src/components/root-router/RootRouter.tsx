@@ -8,6 +8,7 @@ import { PopupConnected } from "../popup/Popup";
 
 // Lazily imported chunks in closures
 const LazyPasswordChangeLink = () => import(/* webpackChunkName: "register" */"../password-change/PasswordChange");
+const LazyPasswordResetLink = () => import(/* webpackChunkName: "register" */"../reset-password/ResetPassword");
 
 export type RootRouterProps = RouteComponentProps<{}>;
 export class RootRouterComponent extends React.PureComponent<RootRouterProps> {
@@ -17,8 +18,14 @@ export class RootRouterComponent extends React.PureComponent<RootRouterProps> {
             <PopupConnected />
             <Switch>
                 <Route
+                    exact
                     path={Path.PasswordChangeLink}
                     component={RouteEnhancer(LazyPasswordChangeLink)}
+                />
+                <Route
+                    exact
+                    path={Path.PasswordResetLink}
+                    component={RouteEnhancer(LazyPasswordResetLink)}
                 />
                 <Route
                     path={Path.Wildcard}
