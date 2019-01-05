@@ -2,7 +2,6 @@ import * as React from "react";
 import * as styles from "./ForgotPassword.scss";
 import { Divider, DividerTheme } from "../divider/Divider";
 import { getPressedKey, isEnterKey } from "@utils/keyboardEvents";
-import { SpinnerSVG } from "../icons/Spinner";
 import { FormGroup } from "../user-form/components/FormGroup";
 import { Button, ButtonSize } from "../button/Button";
 import { postResetPassword } from "@utils/requests";
