@@ -13,6 +13,7 @@ import {
     markerAndLineConfig,
 } from "../utils";
 import { StatisticsPeriod } from "../types";
+import { NoDataOverlay } from "./NoDataOverlay";
 
 const getPlotly = () => {
     /**
@@ -98,9 +99,8 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
                 </div>
 
                 <div className={styles.chartContainer}>
-                    {!this.data.length
-                        && <div className={styles.noDataChartOverlay}>No data at the moment.<br/> Come back later!</div>
-                    }
+                    {!this.data.length && <NoDataOverlay />}
+
                     <this.PlotComponent
                         className={styles.chart}
                         data={this.state.plotData}
