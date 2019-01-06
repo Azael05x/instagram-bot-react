@@ -36,7 +36,8 @@ const store: Store<InstaState> = createStore(
             thunk,
             accountMiddleware,
         ),
-        (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+        // Adapt to prod
+        // (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
     )
 );
 

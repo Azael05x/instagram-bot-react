@@ -106,8 +106,5 @@
     "lodash": "^4.17.5",
     "plotly.js-basic-dist": "^1.43.1",
     "whatwg-fetch": "^3.0.0"
-  },
-  "peerDependencies": {
-    "fork-ts-checker-webpack-plugin": "^1.0.0"
   }
 }
