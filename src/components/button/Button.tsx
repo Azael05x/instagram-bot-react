@@ -50,7 +50,6 @@ export class Button extends React.PureComponent<ButtonProps> {
                 className={className}
                 onClick={onClick}
                 data-role="button"
-                disabled={disabled}
             >
                 {label}
             </button>

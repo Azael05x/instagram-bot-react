@@ -101,10 +101,10 @@ export class ForgotPassword extends React.PureComponent<ForgotPasswordProps> {
                     "A password reset link with instructions has been sent to your email",
                     ToastType.Success,
                 );
-
             } catch (error) {
+                const { response } = error;
                 this.props.showToast(
-                    "Please check if the email is correct",
+                    (response && response.data) || "Please check if the email is correct",
                     ToastType.Error,
                 );
             } finally {

@@ -28,7 +28,7 @@ export const setupInterceptors = (dispatch: Dispatch<any>) => {
                 case UNAUTHORIZED_CODE: {
                     dispatch(logoutActionCreator() as any); // FIXME: fix types
                     dispatch(showToastAction(
-                        error.response.statusText,
+                        error.response.data,
                         ToastType.Error,
                     ));
 
