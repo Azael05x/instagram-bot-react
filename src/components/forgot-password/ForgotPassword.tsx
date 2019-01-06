@@ -15,6 +15,8 @@ export interface ForgotPasswordDispatchProps {
     showToast: typeof showToastAction;
 }
 
+// TODO: Duplicate code
+const onFormSubmitCb = (e: React.FormEvent<HTMLFormElement>) => e.preventDefault();
 export type ForgotPasswordProps = ForgotPasswordDispatchProps & RouteComponentProps<{}>;
 
 export class ForgotPassword extends React.PureComponent<ForgotPasswordProps> {
@@ -40,8 +42,7 @@ export class ForgotPassword extends React.PureComponent<ForgotPasswordProps> {
                     </small>
                     <form
                         className={styles.formGroupContainer}
-                        onSubmit={this.onSubmit}
-                        noValidate={true}
+                        onSubmit={onFormSubmitCb}
                     >
                         <FormGroup
                             htmlFor={"email"}
