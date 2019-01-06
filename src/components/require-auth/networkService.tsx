@@ -2,7 +2,6 @@ import * as React from "react";
 import axios, { AxiosError } from "axios";
 import { Dispatch } from "redux";
 import { logoutActionCreator, openPopupAction } from "@ducks/actions";
-import { InstaState } from "@types";
 
 import { ToastType } from "../toast/ducks/type";
 import { showToastAction } from "../toast/ducks/actions";
@@ -15,7 +14,7 @@ const VERIFICATION_REDIRECT_FAILED_CODE = 406;
 const UNAUTHORIZED_CODE = 401;
 const LOGIN_ERROR_CODE = 418;
 
-export const setupInterceptors = (dispatch: Dispatch<InstaState>) => {
+export const setupInterceptors = (dispatch: Dispatch<any>) => {
     /**
      * Intercepts axios requests
      * If 401 status code is returned

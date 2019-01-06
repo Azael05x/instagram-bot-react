@@ -1,4 +1,4 @@
-import { initialState } from "./state";
+import { initialState, ToastState } from "./state";
 import {
     ShowToastAction,
     HideToastAction,
@@ -11,7 +11,10 @@ export type ReducerActions =
     | HideToastAction
 ;
 
-export function toastReducer(state = initialState, action: ReducerActions) {
+export function toastReducer(
+    state = initialState,
+    action: ReducerActions,
+): ToastState {
     switch(action.type) {
         case SHOW_TOAST: {
             return {

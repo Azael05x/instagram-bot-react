@@ -2,7 +2,7 @@ import { Action, Dispatch } from "redux";
 
 export type __FIX_ME_TS4023 = Dispatch<any>;
 
-export type ThunkAction<R, S, E = undefined> = (dispatch: Dispatch<S>, getState: () => S, extraArgument?: E) => R;
+export type ThunkAction<R, S, E = undefined> = (dispatch: Dispatch<any>, getState: () => S, extraArgument?: E) => R;
 export type Thunk<S = any> = ThunkAction<void, S, any>;
 
 export interface ThunkDispatch<S> {

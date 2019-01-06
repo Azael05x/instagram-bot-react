@@ -1,8 +1,14 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import { Provider, Store } from "react-redux";
+import { Provider } from "react-redux";
 import { HashRouter } from "react-router-dom";
-import { applyMiddleware, combineReducers, createStore } from "redux";
+import {
+    applyMiddleware,
+    combineReducers,
+    createStore,
+    ReducersMapObject,
+    Store,
+} from "redux";
 import thunk from "redux-thunk";
 
 import { reducer as commonReducer } from "@ducks/common";
@@ -15,10 +21,12 @@ import { RootRouter } from "./components/root-router/RootRouter";
 import { toastReducer } from "./components/toast/ducks/reducer";
 import { setupInterceptors } from "./components/require-auth/networkService";
 
-const reducers = combineReducers<InstaState>({
+const reducersMapObject: ReducersMapObject<InstaState> = {
     common: commonReducer,
     toast: toastReducer,
-});
+};
+
+const reducers = combineReducers<InstaState>(reducersMapObject);
 
 const store: Store<InstaState> = createStore(
     reducers,

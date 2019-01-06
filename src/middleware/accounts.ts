@@ -1,6 +1,7 @@
 import {
     Middleware,
     MiddlewareAPI,
+    Dispatch,
 } from "redux";
 import {
     linkAccountAction,
@@ -59,7 +60,7 @@ export type AccountMiddlewareAction =
     | SetAccountStatusMiddlewareAction
 ;
 
-export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<S>) => (next: any) => {
+export const accountMiddleware = (<S>({ dispatch }: MiddlewareAPI<Dispatch<any>, S>) => (next: any) => {
     return async (action: AccountMiddlewareAction) => {
 
         switch (action.type) {

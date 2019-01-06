@@ -9,7 +9,7 @@ import {
     USER_LOGOUT,
     SET_CHALLENGE_URL,
 } from "./consts";
-import { initialState } from "./state";
+import { initialState, CommonState } from "./state";
 import {
     InitAccountAction,
     LoginAction,
@@ -21,6 +21,7 @@ import {
     LogoutAction,
     SetChallengeUrl,
 } from "./actions";
+import { AccountData } from "@middleware/types";
 
 export type ReducerActions =
     | LoginAction
@@ -34,7 +35,10 @@ export type ReducerActions =
     | SetChallengeUrl
 ;
 
-export function reducer(state = initialState, action: ReducerActions) {
+export function reducer(
+    state = initialState,
+    action: ReducerActions,
+): CommonState {
     switch (action.type) {
         case USER_LOGIN: {
             return {
@@ -48,7 +52,7 @@ export function reducer(state = initialState, action: ReducerActions) {
         case USER_LOGOUT: {
             return {
                 ...state,
-                user: {},
+                user: { email: "" },
             };
         }
         case ACCOUNT_INIT: {
@@ -72,7 +76,7 @@ export function reducer(state = initialState, action: ReducerActions) {
                     return action.payload.data;
                 }
                 return account;
-            });
+            }) as AccountData[];
 
             return {
                 ...state,

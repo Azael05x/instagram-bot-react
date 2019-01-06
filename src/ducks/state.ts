@@ -3,7 +3,7 @@ import { PopupData } from "../components/popup/factory/PopupData";
 
 export interface User {
     email: string;
-    challenge_url: string | undefined;
+    challenge_url?: string;
 }
 export interface CommonState {
     user: User;
