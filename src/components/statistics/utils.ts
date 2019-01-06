@@ -30,6 +30,14 @@ export const selectChartTypeOptions: SelectOption<ChartType>[] = [
         dataRole: "userFollowers",
         label: "Followers",
     },
+    {
+        dataRole: "mediaCommented",
+        label: "Media Commented",
+    },
+    {
+        dataRole: "usersFollowed",
+        label: "Users followed",
+    },
 ];
 
 const fontFormat = {

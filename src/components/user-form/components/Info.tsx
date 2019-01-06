@@ -11,8 +11,8 @@ export type InfoProps = {
 export class Info extends React.PureComponent<InfoProps> {
     private renderInfoElements = () => {
         const { infoData } = this.props;
-        return infoData.map(data => (
-            <small>
+        return infoData.map((data, i) => (
+            <small key={data.linkLabel + i}>
                 {data.infoText}
                 {" "}
                 <Link to={data.infoPathTo} className={styles.link}>{data.linkLabel}</Link>

@@ -8,6 +8,7 @@ import {
     createStore,
     ReducersMapObject,
     Store,
+    compose,
 } from "redux";
 import thunk from "redux-thunk";
 
@@ -30,11 +31,13 @@ const reducers = combineReducers<InstaState>(reducersMapObject);
 
 const store: Store<InstaState> = createStore(
     reducers,
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
-    applyMiddleware(
-        thunk,
-        accountMiddleware,
-    ),
+    compose(
+        applyMiddleware(
+            thunk,
+            accountMiddleware,
+        ),
+        (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+    )
 );
 
 /**

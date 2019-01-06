@@ -135,6 +135,8 @@ export interface DailyStats {
     statsAt: Date;
     hashtagsCycled: number;
     userFollowers: number;
+    mediaCommented: number;
+    usersFollowed: number;
 }
 
 export interface PricingData<T = number> {

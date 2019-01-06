@@ -18,7 +18,7 @@
     &.active {
         opacity: 1;
         top: 100%;
-        pointer-events: all;    
+        pointer-events: all;
     }
 }
 .caret {
@@ -55,7 +55,7 @@
 }
 .small {
     margin: 0 .5em;
-    padding: .5em 0em;
+    padding: .5em;
     font-size: .9em;
 }
 @media (max-width: $mqTabletWidth) {

@@ -24,22 +24,22 @@ export class General extends React.PureComponent<GeneralProps> {
         } = this.props;
         return (
             <>
-                    <div className={styles.setting}>
-                        <span>Enable Likes</span>
-                        <Switch value={values.enabledLikes} onToggle={onLikesToggle} />
-                    </div>
-                    <div className={styles.setting}>
-                        <span>Enable Comments</span>
-                        <Switch value={values.enabledComments} onToggle={onCommentsToggle} />
-                    </div>
-                    <div className={styles.setting}>
-                        <span>Enable Unfollows</span>
-                        <Switch value={values.enabledUnfollows} onToggle={onUnfollowsToggle} />
-                    </div>
-                    <div className={styles.setting}>
-                        <span>Enable Follows</span>
-                        <Switch value={values.enabledFollows} onToggle={onFollowsToggle} />
-                    </div>
+                <div className={styles.setting}>
+                    <span>Enable Likes</span>
+                    <Switch value={values.enabledLikes} onToggle={onLikesToggle} />
+                </div>
+                <div className={styles.setting}>
+                    <span>Enable Comments</span>
+                    <Switch value={values.enabledComments} onToggle={onCommentsToggle} />
+                </div>
+                <div className={styles.setting}>
+                    <span>Enable Follows</span>
+                    <Switch value={values.enabledFollows} onToggle={onFollowsToggle} />
+                </div>
+                <div className={styles.setting}>
+                    <span>Enable Unfollows</span>
+                    <Switch value={values.enabledUnfollows} onToggle={onUnfollowsToggle} />
+                </div>
             </>
         );
     }

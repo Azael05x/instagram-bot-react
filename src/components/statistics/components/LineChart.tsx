@@ -25,7 +25,13 @@ const getPlotly = () => {
 
 import * as styles from "../Statistics.scss";
 
-export type ChartType = keyof Pick<DailyStats, "mediaLiked" | "userFollowers">;
+export type ChartType = keyof Pick<
+    DailyStats,
+    | "mediaLiked"
+    | "userFollowers"
+    | "mediaCommented"
+    | "usersFollowed"
+>;
 export interface LineChartState {
     plotData: Partial<PlotData>[];
     chartType: ChartType;
@@ -42,7 +48,7 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
         chartPeriod: StatisticsPeriod.Month,
     };
     private PlotComponent: React.ComponentClass<any> = getPlotly();
-    private data: DailyStatsRaw[];
+    private data: DailyStatsRaw[] = [];
 
     public async componentDidMount() {
         this.data = (await getStatistics(this.props.accountId)).data;
@@ -91,24 +97,29 @@ export class LineChart extends React.PureComponent<LineChartProps, LineChartStat
                     />
                 </div>
 
-                <this.PlotComponent
-                    className={styles.chart}
-                    data={this.state.plotData}
-                    useResizeHandler={true}
-                    config={{
-                        displayModeBar: false,
-                        displaylogo: false,
-                    }}
-                    layout={{
-                        autosize: true,
-                        showlegend: false,
-                        xaxis: { ...axisLayout },
-                        yaxis: { ...axisLayout },
-                        margin: chartMargins,
-                        hoverlabel: hoverLabel,
-                        hoverdistance: -1,
-                    }}
-                />
+                <div className={styles.chartContainer}>
+                    {!this.data.length
+                        && <div className={styles.noDataChartOverlay}>No data at the moment.<br/> Come back later!</div>
+                    }
+                    <this.PlotComponent
+                        className={styles.chart}
+                        data={this.state.plotData}
+                        useResizeHandler={true}
+                        config={{
+                            displayModeBar: false,
+                            displaylogo: false,
+                        }}
+                        layout={{
+                            autosize: true,
+                            showlegend: false,
+                            xaxis: { ...axisLayout },
+                            yaxis: { ...axisLayout },
+                            margin: chartMargins,
+                            hoverlabel: hoverLabel,
+                            hoverdistance: -1,
+                        }}
+                    />
+                </div>
             </div>
         );
     }
