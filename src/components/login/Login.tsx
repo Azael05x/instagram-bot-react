@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 import {
     RouteComponentProps,
     withRouter,

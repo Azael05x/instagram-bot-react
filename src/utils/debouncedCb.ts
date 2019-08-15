@@ -1,7 +1,8 @@
-import { debounce, DebounceSettings } from "lodash";
+import debounce from "lodash.debounce";
+import { DebounceSettings } from "lodash";
 
 const DEFAULT_TIMEOUT = 500;
-const DEFAULT_DEBOUNCE_SETTINGS: DebounceSettings = { trailing: false, leading: true};
+const DEFAULT_DEBOUNCE_SETTINGS = { trailing: false, leading: true};
 
 export interface DebounceFuncArgs {
     cb: () => void;

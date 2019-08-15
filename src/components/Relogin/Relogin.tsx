@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 
 import { relinkAccount, postAccountVerification } from "@utils/requests";
 import { closePopupAction } from "@ducks/actions";

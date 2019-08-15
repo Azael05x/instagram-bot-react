@@ -1,6 +1,6 @@
 import * as React from "react";
 import { AxiosResponse } from "axios";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 
 import { Tag } from "./components/Tag";
 import { cleanTags, cleanTextArea } from "@utils/cleanTag";

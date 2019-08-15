@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 
 import { postAccount } from "@utils/requests";
 import { linkAccountAction } from "@ducks/actions";

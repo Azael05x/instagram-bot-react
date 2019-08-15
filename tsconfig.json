@@ -9,7 +9,7 @@
       "node_modules/@types",
       "src/@types"
     ],
-    "allowSyntheticDefaultImports": false,
+    "allowSyntheticDefaultImports": true,
     "target": "es5",
     "downlevelIteration": true,
     "importHelpers": true,
