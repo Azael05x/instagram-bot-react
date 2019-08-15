@@ -20,8 +20,9 @@ const getPlotly = () => {
      * TODO: Add proper typings
      */
     const createPlotlyComponent =
-        (require("react-plotly.js/factory")) as (arg: any) => React.ComponentClass<any>;
-    return createPlotlyComponent(require("plotly.js-basic-dist"));
+        (require("react-plotly.js/factory")) as any;
+
+    return createPlotlyComponent.default(require("plotly.js-basic-dist"));
 };
 
 import * as styles from "../Statistics.scss";
